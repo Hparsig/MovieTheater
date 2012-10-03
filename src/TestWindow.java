@@ -41,10 +41,6 @@ public class TestWindow {
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(119, 113, 46, 14);
-		panel.add(lblNewLabel);
-		
 		final JButton btnJumpOcean = new JButton("hop i havet");
 		btnJumpOcean.addMouseListener(new MouseAdapter() {
 			@Override
