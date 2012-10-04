@@ -34,6 +34,6 @@ public class HallController {
 		hallChoosen.addHallBooking(timeStart, timeEnd);
 		return
 	}
-// test
+// test og mere test
 }
 
