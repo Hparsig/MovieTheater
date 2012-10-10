@@ -1,3 +1,5 @@
+package movieTheater.main;
+
 import java.util.ArrayList;
 import java.util.Date;
 

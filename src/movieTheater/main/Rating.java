@@ -1,3 +1,5 @@
+package movieTheater.main;
+
 /**
  * 
  * @author Henrik

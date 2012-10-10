@@ -1,3 +1,5 @@
+package movieTheater.main;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -28,11 +30,6 @@ public class HallController {
 		ArrayList<Hall> availableHalls = new ArrayList<Hall>();
 		// løbe igennem arrayet af halls og se om der er ledige sluts. 
 		return availableHalls;
-	}
-	public HallBooking getHall(Hall hallChoosen, Date timeStart, Date timeEnd)
-	{
-		hallChoosen.addHallBooking(timeStart, timeEnd);
-		return
 	}
 // test og mere test
 }

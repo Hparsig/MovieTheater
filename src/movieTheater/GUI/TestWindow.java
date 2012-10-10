@@ -1,3 +1,5 @@
+package movieTheater.GUI;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,6 +15,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.AbstractListModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+
+import movieTheater.main.CinemaController;
 
 
 public class TestWindow {

@@ -1,4 +1,8 @@
+package movieTheater.main;
+
 import java.awt.EventQueue;
+
+import movieTheater.GUI.TestWindow;
 
 
 public class Main {
@@ -10,7 +14,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try 
-				{
+				{  
 					testWindow.frame.setVisible(true);
 				} 
 				catch (Exception e) 

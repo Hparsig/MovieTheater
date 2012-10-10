@@ -1,3 +1,5 @@
+package movieTheater.GUI;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -9,6 +11,8 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFormattedTextField;
+
+import movieTheater.main.FilmController;
 
 public class SearchMovie {
 
