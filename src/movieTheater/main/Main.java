@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import movieTheater.GUI.TestWindow;
 
+//Test til Mads
 
 public class Main {
 
