@@ -11,16 +11,15 @@ import java.util.Date;
 
 public class Film {
 
-	private String movieName;
-	private String instructedBy;
+	private String title;
+	private Director director;
 	private int length;
 	private String genre;
 	private Date releaseDate;
 	private Date timeEnd;
-	private String originalName;
-	private boolean isDoubleLength;
+	private String originalTitle;
 	private boolean is3D;
-	private ArrayList<String> cast;
+	private ArrayList<Actor> cast;
 	private ArrayList<Rating> ratings;
 
 	/**
@@ -36,18 +35,17 @@ public class Film {
 	 * @param ratings ArrayList<Rating>
 	 */
 
-	public Film(String movieName, String instructedBy, int length, String genre, Date releaseDate, Date timeEnd,
-			String originalName, boolean isDoubleLength, boolean is3D, ArrayList<String> cast, 
+	public Film(String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
+			String originalName, boolean is3D, ArrayList<Actor> cast, 
 			ArrayList<Rating> ratings)
 	{
-		this.movieName = movieName;
-		this.instructedBy = instructedBy;
+		this.title = movieName;
+		this.director = directedBy;
 		this.length = length;
 		this.genre = genre;
 		this.releaseDate = releaseDate;
 		this.timeEnd = timeEnd;
-		this.originalName = originalName;
-		this.isDoubleLength = isDoubleLength;
+		this.originalTitle = originalName;
 		this.is3D = is3D;
 		this.cast = cast;
 		this.ratings = ratings;
@@ -57,11 +55,11 @@ public class Film {
 	 */
 	public String getMovieName()
 	{
-		return movieName;
+		return title;
 	}
-	public String getInstructedBy()
+	public Director getInstructedBy()
 	{
-		return instructedBy;
+		return director;
 	}
 	/**
 	 * @return int length, the length of the movie. 
@@ -84,17 +82,13 @@ public class Film {
 	}
 	public String getOriginalName()
 	{
-		return originalName;
-	}
-	public boolean getIsDoubleLength()
-	{
-		return isDoubleLength;
+		return originalTitle;
 	}
 	public boolean getIsIn3D()
 	{
 		return is3D;
 	}
-	public ArrayList<String> getCast()
+	public ArrayList<Actor> getCast()
 	{
 		return cast;
 	}

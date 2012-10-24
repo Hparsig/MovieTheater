@@ -10,7 +10,12 @@ public class Rating {
 	private int stars;
 	private String review;
 	private int userID;
-
+/**
+ * 
+ * @param stars
+ * @param review
+ * @param userID
+ */
 	public Rating(int stars, String review, int userID)
 	{
 		this.stars = stars;

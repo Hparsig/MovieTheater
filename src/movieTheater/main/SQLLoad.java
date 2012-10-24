@@ -103,7 +103,7 @@ public class SQLLoad {
 		{
 			while (resultSet.next())
 			{
-				int filmID = resultSet.getInt("filmID");
+				int filmID = resultSet.getInt("movieID");
 				String title = resultSet.getString("title"); 		  
 				int length = resultSet.getInt("length");
 				int genreID = resultSet.getInt("genreID");
@@ -285,6 +285,7 @@ public class SQLLoad {
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			System.out.println("fejl i load"); //boundary TODO fix
 		}
 	}
