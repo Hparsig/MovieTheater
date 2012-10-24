@@ -10,10 +10,10 @@ public class SQLLoad {
 	private static final String queryMovies = "SELECT * FROM Movies where genreID =";
 	private static final String queryMoviesByTitle = "SELECT * FROM Movies where title =";
 	private static final String queryCast = "SELECT * FROM Casts where movieID =";
-	private static final String queryDirector = "SELECT * FORM Director where directID =";
-	private static final String queryActors = "SELECT * from Actors where actorID =";
-	private static final String queryRatings = "SELECT * from Reviews where filmID =";
-	private static final String queryGenre = "SELECT * from Genres where genreID=";
+	private static final String queryDirector = "SELECT * FROM Director where directID =";
+	private static final String queryActors = "SELECT * FROM Actors where actorID =";
+	private static final String queryRatings = "SELECT * FROM Reviews where filmID =";
+	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
 	private static final String forName = "com.mysql.jdbc.Driver";
 	private static final String connectionPath = "jdbc:mysql://localhost/MovieTheater";
 	Statement statement ;
@@ -36,10 +36,10 @@ public class SQLLoad {
 	 * @throws SQLException
 	 */
 	public ArrayList<Film> LoadMovie(int genreID) throws SQLException {
-//
-//		ArrayList<Actor> cast = new ArrayList<Actor>();
-//		ArrayList<Rating> ratings = new ArrayList<Rating>();
-//		boolean isThreeDim = false;
+		//
+		//		ArrayList<Actor> cast = new ArrayList<Actor>();
+		//		ArrayList<Rating> ratings = new ArrayList<Rating>();
+		//		boolean isThreeDim = false;
 		ResultSet resultSet = null;
 		openConnection();
 
@@ -50,7 +50,7 @@ public class SQLLoad {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load"); //boundary TODO fix
+			System.out.println("fejl i load movie by genre"); //boundary TODO fix
 		}
 		finally
 		{
@@ -66,27 +66,27 @@ public class SQLLoad {
 	 */
 	public ArrayList<Film> LoadMovie(String title) throws SQLException {
 		//
-//				ArrayList<Actor> cast = new ArrayList<Actor>();
-//				ArrayList<Rating> ratings = new ArrayList<Rating>();
-//				boolean isThreeDim = false;
-				ResultSet resultSet = null;
-				openConnection();
+		//				ArrayList<Actor> cast = new ArrayList<Actor>();
+		//				ArrayList<Rating> ratings = new ArrayList<Rating>();
+		//				boolean isThreeDim = false;
+		ResultSet resultSet = null;
+		openConnection();
 
-				try
-				{
-					resultSet = statement.executeQuery((queryMoviesByTitle+title));
-					setMovie(resultSet);			
-				}
-				catch (Exception e)
-				{
-					System.out.println("fejl i load"); //boundary TODO fix
-				}
-				finally
-				{
-					closeConnection();
-				}
-				return dataFilmArray;
-			}
+		try
+		{
+			resultSet = statement.executeQuery((queryMoviesByTitle+title));
+			setMovie(resultSet);			
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i load movie by title"); //boundary TODO fix
+		}
+		finally
+		{
+			closeConnection();
+		}
+		return dataFilmArray;
+	}
 
 	/**
 	 * 
@@ -103,19 +103,19 @@ public class SQLLoad {
 		{
 			while (resultSet.next())
 			{
-				int filmID = resultSet.getInt("movieID");
+				int movieID = resultSet.getInt("movieID");
 				String title = resultSet.getString("title"); 		  
 				int length = resultSet.getInt("length");
 				int genreID = resultSet.getInt("genreID");
-				int directID = resultSet.getInt("DirectID");	
+				int directID = resultSet.getInt("directID");	
 				int threeDim = resultSet.getInt("threeDim");		
 				String orgTitel = resultSet.getString("orgTitel"); 	
 				Date premier = resultSet.getDate("premier");
 				Date endDay = resultSet.getDate("endDay");
 
 				Director director = LoadDirector(directID);
-				cast = LoadCast(filmID);
-				ratings = LoadRatings(filmID);
+				cast = LoadCast(movieID);
+				ratings = LoadRatings(movieID);
 				String genre = LoadGenre(genreID);
 
 				if(threeDim == 1)
@@ -128,7 +128,7 @@ public class SQLLoad {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load"); //boundary TODO fix
+			System.out.println("fejl i set movie"); //boundary TODO fix
 		}
 		return dataFilmArray;	
 	}
@@ -142,7 +142,7 @@ public class SQLLoad {
 	{
 		Director director = null;
 		ResultSet resultSet = null;
-		openConnection();
+		//openConnection();
 
 		try
 		{
@@ -157,11 +157,11 @@ public class SQLLoad {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load"); //boundary TODO fix
+			System.out.println("fejl i load director"); //boundary TODO fix
 		}
 		finally
 		{
-			closeConnection();
+			//closeConnection();
 		}
 
 		return director;
@@ -176,21 +176,21 @@ public class SQLLoad {
 	{
 		String genre = "";
 		ResultSet resultSet = null;
-		openConnection();
+		//openConnection();
 
 		try
 		{
 			resultSet = statement.executeQuery((queryGenre+genreID));
 
-			genre = resultSet.getString("genreID");
+			genre = resultSet.getString("genre");
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load"); //boundary TODO fix
+			System.out.println("fejl i load genre"); //boundary TODO fix
 		}
 		finally
 		{
-			closeConnection();
+			//closeConnection();
 		}
 		return genre;
 	}
@@ -203,7 +203,7 @@ public class SQLLoad {
 	public ArrayList<Rating> LoadRatings(int filmID) throws SQLException {
 		ArrayList<Rating> ratings = new ArrayList<Rating>();
 		ResultSet resultSet = null;
-		openConnection();
+		//openConnection();
 
 		try
 		{
@@ -220,11 +220,11 @@ public class SQLLoad {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load"); //boundary TODO fix
+			System.out.println("fejl i load ratings"); //boundary TODO fix
 		}
 		finally
 		{
-			closeConnection();
+			//closeConnection();
 		}
 		return ratings;
 	}
@@ -238,7 +238,7 @@ public class SQLLoad {
 		ArrayList<Integer> actorIDs = new ArrayList<Integer>();
 		ArrayList<Actor> cast = new ArrayList<Actor>();
 		ResultSet resultSet = null;
-		openConnection();
+		//openConnection();
 
 		try
 		{
@@ -263,11 +263,11 @@ public class SQLLoad {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load"); //boundary TODO fix
+			System.out.println("fejl i load cast"); //boundary TODO fix
 		}
 		finally
 		{
-			closeConnection();
+			//closeConnection();
 		}
 		return cast;
 	}
@@ -286,7 +286,7 @@ public class SQLLoad {
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("fejl i load"); //boundary TODO fix
+			System.out.println("fejl i openConnection"); //boundary TODO fix
 		}
 	}
 	//*********************************************************************************************
@@ -301,7 +301,7 @@ public class SQLLoad {
 		}
 		catch (SQLException e)
 		{
-			System.out.println("fejl i load");//TODO håndter catch
+			System.out.println("fejl i closeConnection");//TODO håndter catch
 		}
 	}
 
