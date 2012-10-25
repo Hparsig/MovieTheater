@@ -1,9 +1,14 @@
-package movieTheater.main;
+package movieTheater.SQL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.sql.*;
 
-public class SQLLoad {
+import movieTheater.main.Actor;
+import movieTheater.main.Director;
+import movieTheater.main.Film;
+import movieTheater.main.Rating;
+
+public class SQLMovieLoad extends SQL{
 	//Henrik Parsig
 
 	private ArrayList<Film> dataFilmArray;
@@ -14,15 +19,13 @@ public class SQLLoad {
 	private static final String queryActors = "SELECT * FROM Actors where actorID =";
 	private static final String queryRatings = "SELECT * FROM Reviews where filmID =";
 	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
-	private static final String forName = "com.mysql.jdbc.Driver";
-	private static final String connectionPath = "jdbc:mysql://localhost/MovieTheater";
-	Statement statement ;
-	Connection connection;
+
+
 
 	//********************
 	// Konstruktør
 	//********************
-	public SQLLoad()
+	public SQLMovieLoad()
 	{
 		dataFilmArray = new ArrayList<Film>();
 		statement = null;
@@ -270,39 +273,6 @@ public class SQLLoad {
 			//closeConnection();
 		}
 		return cast;
-	}
-	//*********************************************************************************************
-	// Metode der bruges af de ovenstående metoder, til at åbne en forbindelse til databasen.
-	//*********************************************************************************************
-	private void openConnection()
-	{
-		try
-		{
-			Class.forName(forName);
-			connection = DriverManager.getConnection(
-					connectionPath, "root","");
-			statement = connection.createStatement();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.out.println("fejl i openConnection"); //boundary TODO fix
-		}
-	}
-	//*********************************************************************************************
-	// Metode der bruges af de ovenstående metoder, til at lukke forbindelsen til databasen. 
-	//*********************************************************************************************
-	private void closeConnection()
-	{
-		try
-		{
-			statement.close();
-			connection.close();
-		}
-		catch (SQLException e)
-		{
-			System.out.println("fejl i closeConnection");//TODO håndter catch
-		}
 	}
 
 }
