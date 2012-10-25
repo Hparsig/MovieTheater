@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
+//lort
 public class MainWindow extends JFrame {
 
 	private JPanel contentPane;
