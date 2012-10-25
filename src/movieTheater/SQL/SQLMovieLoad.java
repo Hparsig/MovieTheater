@@ -7,7 +7,11 @@ import movieTheater.main.Actor;
 import movieTheater.main.Director;
 import movieTheater.main.Film;
 import movieTheater.main.Rating;
-
+/**
+ * 
+ * @author Henrik
+ *
+ */
 public class SQLMovieLoad extends SQL{
 	//Henrik Parsig
 
