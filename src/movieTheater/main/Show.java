@@ -3,12 +3,12 @@ package movieTheater.main;
 
 public class Show {
 
-	private Film film;
+	private Movie movie;
 	private HallBooking hall;
 	
-	public Show(Film film, HallBooking hall)
+	public Show(Movie film, HallBooking hall)
 	{
-		this.film = film;
+		this.movie = film;
 		this.hall = hall;
 	}
 	

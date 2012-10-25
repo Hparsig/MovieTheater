@@ -11,7 +11,7 @@ public class Main {
 
 	public static void main(String[] args)
 	{
-		ArrayList<Film> movies = null;
+		ArrayList<Movie> movies = null;
 		
 		SQLLoad load = new SQLLoad();
 		try
@@ -23,7 +23,7 @@ public class Main {
 			System.out.println("fejl");
 		}
 		
-		for(Film currentFilm : movies)
+		for(Movie currentFilm : movies)
 		{
 			System.out.println(currentFilm.getMovieName());
 		}

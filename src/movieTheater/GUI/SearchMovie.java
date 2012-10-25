@@ -12,7 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFormattedTextField;
 
-import movieTheater.main.FilmController;
+import movieTheater.main.MovieController;
 
 public class SearchMovie {
 
@@ -24,12 +24,12 @@ public class SearchMovie {
 	private JLabel lblSlutdato;
 	private JButton btnStartSgning;
 	private JButton btnFortryd;
-	private FilmController filmController;
+	private MovieController filmController;
 
 	/**
 	 * Create the application.
 	 */
-	public SearchMovie(FilmController filmController) {
+	public SearchMovie(MovieController filmController) {
 		this.filmController = filmController;
 		initialize();
 	}

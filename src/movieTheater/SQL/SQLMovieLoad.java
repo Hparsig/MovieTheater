@@ -5,7 +5,7 @@ import java.sql.*;
 
 import movieTheater.main.Actor;
 import movieTheater.main.Director;
-import movieTheater.main.Film;
+import movieTheater.main.Movie;
 import movieTheater.main.Rating;
 /**
  * 
@@ -15,7 +15,7 @@ import movieTheater.main.Rating;
 public class SQLMovieLoad extends SQL{
 	//Henrik Parsig
 
-	private ArrayList<Film> dataFilmArray;
+	private ArrayList<Movie> dataFilmArray;
 	private static final String queryMovies = "SELECT * FROM Movies where genreID =";
 	private static final String queryMoviesByTitle = "SELECT * FROM Movies where title =";
 	private static final String queryCast = "SELECT * FROM Casts where movieID =";
@@ -31,7 +31,7 @@ public class SQLMovieLoad extends SQL{
 	//********************
 	public SQLMovieLoad()
 	{
-		dataFilmArray = new ArrayList<Film>();
+		dataFilmArray = new ArrayList<Movie>();
 		statement = null;
 		connection = null;
 	}
@@ -42,7 +42,7 @@ public class SQLMovieLoad extends SQL{
 	 * @return ArrayList<Film> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Film> LoadMovie(int genreID) throws SQLException {
+	public ArrayList<Movie> LoadMovie(int genreID) throws SQLException {
 		//
 		//		ArrayList<Actor> cast = new ArrayList<Actor>();
 		//		ArrayList<Rating> ratings = new ArrayList<Rating>();
@@ -71,7 +71,7 @@ public class SQLMovieLoad extends SQL{
 	 * @return ArrayList<Film> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Film> LoadMovie(String title) throws SQLException {
+	public ArrayList<Movie> LoadMovie(String title) throws SQLException {
 		//
 		//				ArrayList<Actor> cast = new ArrayList<Actor>();
 		//				ArrayList<Rating> ratings = new ArrayList<Rating>();
@@ -100,7 +100,7 @@ public class SQLMovieLoad extends SQL{
 	 * @param resultSet
 	 * @return ArrayList<Film> dataFilmArray
 	 */
-	public ArrayList<Film> setMovie(ResultSet resultSet)
+	public ArrayList<Movie> setMovie(ResultSet resultSet)
 	{
 		ArrayList<Actor> cast = new ArrayList<Actor>();
 		ArrayList<Rating> ratings = new ArrayList<Rating>();
@@ -130,7 +130,7 @@ public class SQLMovieLoad extends SQL{
 					isThreeDim = true;
 				}
 
-				dataFilmArray.add(new Film(title, director, length, genre, premier, endDay, orgTitel, isThreeDim, cast, ratings));
+				dataFilmArray.add(new Movie(title, director, length, genre, premier, endDay, orgTitel, isThreeDim, cast, ratings));
 			}
 		}
 		catch (Exception e)

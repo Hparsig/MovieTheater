@@ -9,7 +9,7 @@ import java.util.Date;
  *
  */
 
-public class Film {
+public class Movie {
 
 	private String title;
 	private Director director;
@@ -35,7 +35,7 @@ public class Film {
 	 * @param ratings ArrayList<Rating>
 	 */
 
-	public Film(String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
+	public Movie(String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
 			String originalName, boolean is3D, ArrayList<Actor> cast, 
 			ArrayList<Rating> ratings)
 	{
