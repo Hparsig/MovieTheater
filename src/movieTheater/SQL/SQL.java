@@ -8,6 +8,7 @@ public abstract class SQL {
 	private static final String connectionPath = "jdbc:mysql://localhost/MovieTheater";
 	Statement statement ;
 	Connection connection;
+	PreparedStatement preparedStatement;
 	//*********************************************************************************************
 	// Metode der bruges af de ovenstående metoder, til at åbne en forbindelse til databasen.
 	//*********************************************************************************************
@@ -35,6 +36,7 @@ public abstract class SQL {
 		{
 			statement.close();
 			connection.close();
+			preparedStatement.close();
 		}
 		catch (SQLException e)
 		{
