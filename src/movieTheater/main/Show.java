@@ -1,17 +1,45 @@
 package movieTheater.main;
 
-import movieTheater.Movie.Movie;
-
 
 public class Show {
 
-	private Movie movie;
 	private HallBooking hall;
+	private int showID;
+	private String timeS;
+	private String timeE;
+	private int movieID;
+	private int hallNo;
 	
-	public Show(Movie film, HallBooking hall)
+	
+	public Show(int showID, int hallNo, String timeS, String timeE, int movieID)
 	{
-		this.movie = film;
 		this.hall = hall;
+		this.showID = showID;
+		this.hallNo = hallNo;
+		this.timeS = timeS;
+		this.timeE = timeE;
+		this.movieID = movieID;
+		
+	}
+	
+	public int getShowID(){
+		return showID;
+	}
+	
+	public String getTimeS(){
+		return timeS;
+	}
+	
+	public String getTimeE(){
+		return timeE;
+	}
+	
+	public int getHallno(){
+		return hallNo;
+	}
+	
+	public int getMovieID(){
+		return movieID;
 	}
 	
 	//public  getAvailableSeats
