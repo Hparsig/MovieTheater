@@ -1,5 +1,7 @@
 package movieTheater.main;
 
+import movieTheater.Movie.Movie;
+
 
 public class Show {
 

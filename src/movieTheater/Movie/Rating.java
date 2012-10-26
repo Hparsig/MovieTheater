@@ -1,4 +1,4 @@
-package movieTheater.main;
+package movieTheater.Movie;
 
 /**
  * 

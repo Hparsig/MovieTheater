@@ -3,6 +3,8 @@ package movieTheater.main;
 import java.util.ArrayList;
 import java.util.Date;
 
+import movieTheater.Movie.Movie;
+
 
 public class CinemaController {
 
