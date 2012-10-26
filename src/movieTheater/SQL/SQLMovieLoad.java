@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.sql.*;
 
-import movieTheater.main.Actor;
-import movieTheater.main.Director;
-import movieTheater.main.Movie;
-import movieTheater.main.Rating;
+import movieTheater.Movie.Actor;
+import movieTheater.Movie.Director;
+import movieTheater.Movie.Movie;
+import movieTheater.Movie.Rating;
 /**
  * 
  * @author Henrik
