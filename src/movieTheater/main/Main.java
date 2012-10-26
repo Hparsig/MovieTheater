@@ -3,7 +3,9 @@ package movieTheater.main;
 import java.awt.EventQueue;
 import java.util.ArrayList;
 
-import movieTheater.GUI.TestWindow;
+//import movieTheater.GUI.TestWindow;
+import movieTheater.Movie.Movie;
+import movieTheater.SQL.SQLMovieLoad;
 
 //Test til Mads
 
@@ -13,7 +15,7 @@ public class Main {
 	{
 		ArrayList<Movie> movies = null;
 		
-		SQLLoad load = new SQLLoad();
+		SQLMovieLoad load = new SQLMovieLoad();
 		try
 		{
 		movies = load.LoadMovie(1);
