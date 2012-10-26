@@ -1,7 +1,7 @@
 package movieTheater.main;
 
 public class Employee {
-	private int employeeNr;
+	private int employeeNo;
 	private String firstName;
 	private String lastName;
 	private int tlf;
@@ -12,9 +12,9 @@ public class Employee {
 	private String username;
 	private String password;
 
-	public Employee(int employeeNr,String firstName, String LastName, int tlf, int titel, String road, int nr, int postNr, String username, String password)
+	public Employee(int employeeNo,String firstName, String LastName, int tlf, int titel, String road, int nr, int postNr, String username, String password)
 	{
-		this.employeeNr = employeeNr;
+		this.employeeNo = employeeNo;
 		this.firstName = firstName;
 		this.lastName = LastName;
 		this.tlf = tlf;
@@ -24,6 +24,10 @@ public class Employee {
 		this.postNr = postNr;
 		this.username = username;
 		this.password = password;
+	}
+	
+	public int getEmployeeNo(){
+		return employeeNo;
 	}
 		
 	public String getFirstName()
