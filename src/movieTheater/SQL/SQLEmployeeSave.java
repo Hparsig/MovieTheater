@@ -42,7 +42,7 @@ public class SQLEmployeeSave extends SQL {
        }
        finally
        {  
-    	   closeConnection();      
+    	   closeConnectionSave();      
        } 
        return rows;
 	}  

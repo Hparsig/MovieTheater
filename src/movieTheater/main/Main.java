@@ -6,29 +6,18 @@ import java.util.ArrayList;
 //import movieTheater.GUI.TestWindow;
 import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLMovieLoad;
-
-//Test til Mads
+import movieTheater.Test.testSQLMovie;
 
 public class Main {
 
 	public static void main(String[] args)
 	{
-		ArrayList<Movie> movies = null;
+		testSQLMovie test = new testSQLMovie();
+	
+		test.runTest();
+
+	
 		
-		SQLMovieLoad load = new SQLMovieLoad();
-		try
-		{
-		movies = load.LoadMovie(1);
-		}
-		catch (Exception e)
-		{
-			System.out.println("fejl");
-		}
-		
-		for(Movie currentFilm : movies)
-		{
-			System.out.println(currentFilm.getMovieName());
-		}
 		
 //		CinemaController cinemaController = new CinemaController();
 //		final TestWindow testWindow = new TestWindow(cinemaController);

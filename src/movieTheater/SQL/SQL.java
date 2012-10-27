@@ -30,7 +30,19 @@ public abstract class SQL {
 	//*********************************************************************************************
 	// Metode der bruges af de ovenstående metoder, til at lukke forbindelsen til databasen. 
 	//*********************************************************************************************
-	protected void closeConnection()
+	protected void closeConnectionLoad()
+	{
+		try
+		{
+			statement.close();
+			connection.close();
+		}
+		catch (SQLException e)
+		{
+			System.out.println("fejl i closeConnection");//TODO håndter catch
+		}
+	}
+	protected void closeConnectionSave()
 	{
 		try
 		{
@@ -43,5 +55,4 @@ public abstract class SQL {
 			System.out.println("fejl i closeConnection");//TODO håndter catch
 		}
 	}
-
 }

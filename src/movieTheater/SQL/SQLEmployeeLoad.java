@@ -78,7 +78,7 @@ public class SQLEmployeeLoad extends SQL{
 		}
 		finally
 		{
-			closeConnection();
+			closeConnectionLoad();
 		}
 		return employeeArray;
 	}
@@ -108,7 +108,7 @@ public class SQLEmployeeLoad extends SQL{
 		}
 		finally
 		{
-			closeConnection();
+			closeConnectionLoad();
 		}
 		return employeeArray;
 	}

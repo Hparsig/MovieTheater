@@ -39,7 +39,7 @@ public class SQLUserSave extends SQL {
        }
        finally
        {  
-    	   closeConnection();      
+    	   closeConnectionSave();      
        } 
        return rows;
 	}  

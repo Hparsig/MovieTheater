@@ -18,18 +18,18 @@ public class SQLMovieLoad extends SQL{
 	private ArrayList<Movie> dataFilmArray;
 	private static final String queryMovies = "SELECT * FROM Movies where genreID =";
 	private static final String queryMoviesByTitle = "SELECT * FROM Movies where title =";
+	private static final String queryActor = "SELECT * FROM Actors";
 	private static final String queryCast = "SELECT * FROM Casts where movieID =";
-	private static final String queryDirector = "SELECT * FROM Directors where directID =";
+	private static final String queryDirectorByID = "SELECT * FROM Directors where directID =";
+	private static final String queryDirector = "SELECT * FROM Directors";
+	private static final String queryDirectorBylName = "SELECT * FROM Directors where lName LIKE ";
 	private static final String queryActors = "SELECT * FROM Actors where actorID =";
 	private static final String queryRatings = "SELECT * FROM Reviews where filmID =";
 	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
 
-
-
-	//********************
-	// Konstruktør
-	//********************
-	public SQLMovieLoad()
+/**
+ * 	public SQLMovieLoad()
+ */
 	{
 		dataFilmArray = new ArrayList<Movie>();
 		statement = null;
@@ -61,7 +61,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		finally
 		{
-			closeConnection();
+			closeConnectionLoad();
 		}
 		return dataFilmArray;
 	}
@@ -90,7 +90,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		finally
 		{
-			closeConnection();
+			closeConnectionLoad();
 		}
 		return dataFilmArray;
 	}
@@ -111,7 +111,7 @@ public class SQLMovieLoad extends SQL{
 			while (resultSet.next())
 			{
 				isThreeDim = false;
-				
+
 				int movieID = resultSet.getInt("movieID");
 				String title = resultSet.getString("title"); 		  
 				int length = resultSet.getInt("length");
@@ -152,11 +152,11 @@ public class SQLMovieLoad extends SQL{
 	{
 		Director director = null;
 		ResultSet resultSet = null;
-		//openConnection();
+		openConnection();
 
 		try
 		{
-			resultSet = statement.executeQuery(queryDirector+directID);
+			resultSet = statement.executeQuery(queryDirectorByID+directID);
 
 			while(resultSet.next())
 			{
@@ -173,7 +173,74 @@ public class SQLMovieLoad extends SQL{
 			e.printStackTrace();
 			System.out.println("fejl i load director"); //boundary TODO fix
 		}
+		finally
+		{
+			closeConnectionLoad();
+		}
 		return director;
+	}
+	public ArrayList<Director> LoadDirector() throws SQLException
+	{
+		ArrayList<Director> directors = new ArrayList<Director>();
+		ResultSet resultSet = null;
+		openConnection();
+
+		try
+		{
+			resultSet = statement.executeQuery(queryDirector);
+
+			while(resultSet.next())
+			{
+				String dirFirstName = resultSet.getString("fName") ;
+				String dirLastName = resultSet.getString("lName");
+				int dirGender = resultSet.getInt("gender");
+				String dirDescription = resultSet.getString("descript");
+
+				directors.add(new Director(dirFirstName, dirLastName, dirGender, dirDescription));
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("fejl i load director"); //boundary TODO fix
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return directors;
+	}
+
+	public ArrayList<Director> LoadDirector(String lName) throws SQLException
+	{
+		ArrayList<Director> directors = new ArrayList<Director>();
+		ResultSet resultSet = null;
+		openConnection();
+
+		try
+		{
+			resultSet = statement.executeQuery(queryDirectorBylName+lName);
+
+			while(resultSet.next())
+			{
+				String dirFirstName = resultSet.getString("fName") ;
+				String dirLastName = resultSet.getString("lName");
+				int dirGender = resultSet.getInt("gender");
+				String dirDescription = resultSet.getString("descript");
+
+				directors.add(new Director(dirFirstName, dirLastName, dirGender, dirDescription));
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("fejl i load director via lName"); //boundary TODO fix
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return directors;
 	}
 	/**
 	 * 
@@ -185,19 +252,24 @@ public class SQLMovieLoad extends SQL{
 	{
 		String genre = "";
 		ResultSet resultSet = null;
-		
+
 		try
 		{
+			openConnection();
 			resultSet = statement.executeQuery((queryGenre+genreID));
-			
+
 			while(resultSet.next())
 			{
-			genre = resultSet.getString("genre");
+				genre = resultSet.getString("genre");
 			}
 		}
 		catch (Exception e)
 		{
 			System.out.println("fejl i load genre"); //boundary TODO fix
+		}
+		finally
+		{
+			closeConnectionLoad();
 		}
 		return genre;
 	}
@@ -213,6 +285,7 @@ public class SQLMovieLoad extends SQL{
 
 		try
 		{
+			openConnection();
 			resultSet = statement.executeQuery(queryRatings+filmID);
 
 			while (resultSet.next())
@@ -228,6 +301,10 @@ public class SQLMovieLoad extends SQL{
 		{
 			System.out.println("fejl i load ratings"); //boundary TODO fix
 		}
+		finally
+		{
+			closeConnectionLoad();
+		}
 		return ratings;
 	}
 	/**
@@ -236,13 +313,45 @@ public class SQLMovieLoad extends SQL{
 	 * @return ArrayList<Actor> cast
 	 * @throws SQLException
 	 */
-	public ArrayList<Actor> LoadCast(int filmID) throws SQLException {
+	public ArrayList<Actor> LoadActors() throws SQLException
+	{
+		ArrayList<Actor> actors = new ArrayList<Actor>();
+		ResultSet resultSet = null;
+		openConnection();
+
+		try
+		{
+			resultSet = statement.executeQuery(queryActor);					
+			while (resultSet.next())
+			{
+				String firstName = resultSet.getString("fName");
+				String lastName = resultSet.getString("lName");
+				int gender = resultSet.getInt("gender");
+				String description = resultSet.getString("descript");
+
+				actors.add(new Actor(firstName, lastName, gender, description));
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return actors;
+
+	}
+	public ArrayList<Actor> LoadCast(int filmID) throws SQLException 
+	{
 		ArrayList<Integer> actorIDs = new ArrayList<Integer>();
 		ArrayList<Actor> cast = new ArrayList<Actor>();
 		ResultSet resultSet = null;
 
 		try
 		{
+			openConnection();
 			resultSet = statement.executeQuery(queryCast+filmID);					
 			while (resultSet.next())
 			{
@@ -268,6 +377,10 @@ public class SQLMovieLoad extends SQL{
 		catch (Exception e)
 		{
 			System.out.println("fejl i load cast"); //boundary TODO fix
+		}
+		finally
+		{
+			closeConnectionLoad();
 		}
 		return cast;
 	}

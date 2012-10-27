@@ -30,7 +30,7 @@ public class SQLShowSave extends SQL {
 		}catch (Exception e){
 		 	   System.out.println("fejl i save af forestilling"); //boundary TODO fix
 		}finally{
-			closeConnection();
+			closeConnectionSave();
 		}
 		return rows;
 	}

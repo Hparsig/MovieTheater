@@ -58,7 +58,7 @@ public class SQLShowLoad extends SQL{
 			System.out.println("fejl i load forestilling via movieID");
 		} 
 		finally{
-			closeConnection();
+			closeConnectionLoad();
 		}
 		
 		
@@ -76,7 +76,7 @@ public class SQLShowLoad extends SQL{
 			System.out.println("fejl i load forestilling via showID");
 		} 
 		finally{
-			closeConnection();
+			closeConnectionLoad();
 		}
 		
 		
@@ -94,7 +94,7 @@ public class SQLShowLoad extends SQL{
 			System.out.println("fejl i load forestilling via hallNo");
 		} 
 		finally{
-			closeConnection();
+			closeConnectionLoad();
 		}
 		
 		
