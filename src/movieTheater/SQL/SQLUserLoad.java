@@ -1,7 +1,7 @@
 package movieTheater.SQL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.sql.*;
+
 import movieTheater.main.Employee;
 
 public class SQLUserLoad extends SQL{

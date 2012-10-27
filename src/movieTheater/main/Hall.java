@@ -34,7 +34,7 @@ public class Hall {
 				seats.get(currentRow).add(new Seat(i));
 			}
 		}
-		HallBookings.add(new HallBooking(seats, timeStart, timeEnd));	
+		HallBookings.add(new HallBooking(hallNo, seats, timeStart, timeEnd));	
 	}
 	public int getHallNo()
 	{

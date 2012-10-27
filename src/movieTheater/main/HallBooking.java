@@ -6,17 +6,23 @@ import java.util.Date;
 
 public class HallBooking {
 
+	private int hallNo;
 	private ArrayList<ArrayList<Seat>> seatBooking;
 	private Date timeStart;
 	private Date timeEnd;
 	
-	public HallBooking(ArrayList<ArrayList<Seat>> seatBooking, Date timeStart, Date timeEnd)
+	public HallBooking(int hallNo, ArrayList<ArrayList<Seat>> seatBooking, Date timeStart, Date timeEnd)
 	{
+		this.hallNo = hallNo;
 		this.seatBooking = seatBooking;
 		this.timeStart = timeStart;
 		this.timeEnd = timeEnd;
 	}
 	
+	public int getHalleNo()
+	{
+		return hallNo;
+	}
 	public Date getTimeStart()
 	{
 		return timeStart;

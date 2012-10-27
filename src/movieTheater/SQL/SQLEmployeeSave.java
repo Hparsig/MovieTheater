@@ -1,9 +1,6 @@
 package movieTheater.SQL;
-
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import movieTheater.main.Employee;
 
 public class SQLEmployeeSave extends SQL {
 	private static final String createEmployee = "insert into employees(fName, lName, titelID, road, houseNo, postCode, phone, pW, username) values(?,?,?,?,?,?,?,?,?)";

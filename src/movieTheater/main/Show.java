@@ -3,17 +3,15 @@ package movieTheater.main;
 
 public class Show {
 
-	private HallBooking hall;
 	private int showID;
 	private String timeS;
 	private String timeE;
 	private int movieID;
 	private int hallNo;
-	
+	//FIXME bør ændres til at holde et HallBooking og et Film-objekt. 
 	
 	public Show(int showID, int hallNo, String timeS, String timeE, int movieID)
 	{
-		this.hall = hall;
 		this.showID = showID;
 		this.hallNo = hallNo;
 		this.timeS = timeS;

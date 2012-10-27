@@ -97,7 +97,8 @@ public class testSQLMovie {
 		for(Movie currentFilm : movies)
 		{
 			System.out.println("\n" + currentFilm.getMovieName() + " " + currentFilm.getLength() + " " 
-					+ currentFilm.getInstructedBy().getFirstName() + " " + currentFilm.getInstructedBy().getLastName());
+					+ currentFilm.getInstructedBy().getFirstName() + " " + currentFilm.getInstructedBy().getLastName() + " " +
+					currentFilm.getReleaseDate());
 
 			for(Actor currentActor: currentFilm.getCast())
 			{
@@ -109,7 +110,6 @@ public class testSQLMovie {
 			{
 				System.out.println(currentRating.getStars() + " " + currentRating.getReview());
 			}
-		}
-		
+		}	
 	}
 }
