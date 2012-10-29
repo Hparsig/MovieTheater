@@ -23,13 +23,13 @@ public class TestSQLEmployee {
 	public void runTest()
 	{
 
-		testEmployeeLoad();
+		for(int i = 0; i < employees.size(); i++)
+			testEmployeeLoad(i);
 		for(int i = 0; i < 10; i++)
 			testEmployeeSave();
 	}
-	public void testEmployeeLoad()
+	public void testEmployeeLoad(int i)
 	{
-		for(int i = 0; i < employees.size(); i++){
 			try
 			{
 				employees = employeeLoad.LoadEmployee(i);	
@@ -44,8 +44,6 @@ public class TestSQLEmployee {
 			{
 				e.printStackTrace();
 			}
-		}
-
 	}
 
 	public void testEmployeeSave()

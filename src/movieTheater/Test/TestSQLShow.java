@@ -9,38 +9,35 @@ import movieTheater.Movie.Rating;
 import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLMovieLoad;
 import movieTheater.main.Employee;
+import movieTheater.main.Show;
 
 public class TestSQLShow{
 
-	SQLEmployeeLoad employeeLoad;
-	Employee employee;
-	ArrayList<Employee> employees;
+	SQLEmployeeLoad showLoad;
+	Show show;
+	ArrayList<Show> shows;
 //	Director director;
 //	ArrayList<Director> directors;
 
 	public TestSQLShow()
 	{
-		employeeLoad = new SQLEmployeeLoad();
+		showLoad = new SQLEmployeeLoad();
 	}
 
 	public void runTest()
 	{
+		testShowLoad();
 		
-		testEmployeeLoad();
 		
-		
-//		testDirectorLoad();
-//		testDirectorLoad(1);
-//		testMovieLoad(1);
 	}
-	public void testEmployeeLoad()
+	public void testShowLoad()
 	{
-		for(int i = 0; i < employees.size(); i++){
+		for(int i = 0; i < shows.size(); i++){
 			try
 			{
-				employees = employeeLoad.LoadEmployee(i);	
+				shows = showLoad.LoadEmployee(i);	
 
-				for(Employee currentEmployee: employees)
+				for(Employee currentEmployee: shows)
 				{
 					System.out.println(currentEmployee.getFirstName() + " " + currentEmployee.getLastName() + " " + currentEmployee.getRoad() + 
 							" " + currentEmployee.getPostNr() + " " + currentEmployee.getCity() + " " + currentEmployee.getPassword());	
