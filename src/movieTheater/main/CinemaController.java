@@ -1,34 +1,18 @@
 package movieTheater.main;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import movieTheater.Movie.Movie;
-
-
 public class CinemaController {
 
-
-	private ArrayList<Show> shows;
 	private final MovieController movieController;
 	private final HallController hallController;
+	private final ShowController showController;
 	
 	public CinemaController()
-	{
-		shows = new ArrayList<Show>();
+	{	
+		showController = new ShowController();
 		movieController = new MovieController();
 		hallController = new HallController();
+		showController = new ShowController(movieController,hallControler);
 	}
-	public void setShow(Date timeStart, Date timeEnd)
-	{
-		int choise = 0;
-		//GUI brugerinput omkring tid start og slut
-		ArrayList<Movie> availableFilms = movieController.getAvailableMovies(timeStart, timeEnd);
-		// choise = GUI brugervalg
-		Movie filmChoosen = availableFilms.get(choise);
-		ArrayList<Hall> availableHalls = hallController.getAvailableHalls(movieLength, timeStart, timeEnd);
-		//choise = GUI brugervalg
-		Hall hallChoosen = availableHalls.get(choise);
-		shows.add(new Show(movieChoosen, hallChoosen));
-	}
+
+
 }

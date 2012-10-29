@@ -1,8 +1,7 @@
 package movieTheater.Movie;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
-
 /**
  * 
  * @author Henrik
@@ -10,13 +9,13 @@ import java.util.Date;
  */
 
 public class Movie {
-
+	private int movieID;
 	private String title;
 	private Director director;
 	private int length;
 	private String genre;
-	private Date releaseDate;
-	private Date timeEnd;
+	private Timestamp releaseDate;
+	private Timestamp timeEnd;
 	private String originalTitle;
 	private boolean is3D;
 	private ArrayList<Actor> cast;
@@ -35,10 +34,26 @@ public class Movie {
 	 * @param ratings ArrayList<Rating>
 	 */
 
-	public Movie(String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
+	public Movie(String movieName, Director directedBy, int length, String genre, Timestamp releaseDate, Timestamp timeEnd,
 			String originalName, boolean is3D, ArrayList<Actor> cast, 
 			ArrayList<Rating> ratings)
 	{
+		this.title = movieName;
+		this.director = directedBy;
+		this.length = length;
+		this.genre = genre;
+		this.releaseDate = releaseDate;
+		this.timeEnd = timeEnd;
+		this.originalTitle = originalName;
+		this.is3D = is3D;
+		this.cast = cast;
+		this.ratings = ratings;
+	}
+	public Movie(int movieID,String movieName, Director directedBy, int length, String genre, Timestamp releaseDate, Timestamp timeEnd,
+			String originalName, boolean is3D, ArrayList<Actor> cast, 
+			ArrayList<Rating> ratings)
+	{
+		this.movieID = movieID;
 		this.title = movieName;
 		this.director = directedBy;
 		this.length = length;
@@ -72,11 +87,11 @@ public class Movie {
 	{
 		return genre;
 	}
-	public Date getReleaseDate()
+	public Timestamp getReleaseDate()
 	{
 		return releaseDate;
 	}
-	public Date getTimeEnd()
+	public Timestamp getTimeEnd()
 	{
 		return timeEnd;
 	}

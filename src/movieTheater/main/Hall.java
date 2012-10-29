@@ -8,7 +8,8 @@ public class Hall {
 
 	private int hallNo;
 	private int[] seatsPrRow;
-	private ArrayList<HallBooking> HallBookings; 
+	private ArrayList<HallBooking> hallBookings; 
+	private ArrayList<ArrayList<Seat>> seats;
 	
 	public Hall(int hallNo, int[] seatsPrRow)
 	{
@@ -23,7 +24,7 @@ public class Hall {
 	 */
 	public void addHallBooking(Date timeStart, Date timeEnd)
 	{
-		ArrayList<ArrayList<Seat>> seats = new ArrayList<ArrayList<Seat>>();	
+		seats = new ArrayList<ArrayList<Seat>>();	
 		
 		for(int currentRow: seatsPrRow)							//iterates over one row at the time
 		{
@@ -34,10 +35,18 @@ public class Hall {
 				seats.get(currentRow).add(new Seat(i));
 			}
 		}
-		HallBookings.add(new HallBooking(hallNo, seats, timeStart, timeEnd));	
+		hallBookings.add(new HallBooking(hallNo, seats, timeStart, timeEnd));	
 	}
 	public int getHallNo()
 	{
 		return hallNo;
 	}
+	public ArrayList<ArrayList<Seat>> getSeats()
+	{
+		return seats;
+	}
+	public ArrayList<HallBooking> getBookings(){
+		return hallBookings;
+	}
+	
 }

@@ -1,46 +1,29 @@
 package movieTheater.main;
-
+import movieTheater.Movie.Movie;
 
 public class Show {
 
-	private int showID;
-	private String timeS;
-	private String timeE;
-	private int movieID;
-	private int hallNo;
-	//FIXME bør ændres til at holde et HallBooking og et Film-objekt. 
 	
-	public Show(int showID, int hallNo, String timeS, String timeE, int movieID)
+	private HallBooking hallBooking;
+	private Movie movie;
+	private int showID;
+	
+	public Show(int showID, Movie movie, HallBooking hallBooking)
 	{
 		this.showID = showID;
-		this.hallNo = hallNo;
-		this.timeS = timeS;
-		this.timeE = timeE;
-		this.movieID = movieID;
-		
+		this.movie = movie;
+		this.hallBooking = hallBooking;
 	}
 	
 	public int getShowID(){
 		return showID;
 	}
 	
-	public String getTimeS(){
-		return timeS;
+	public Movie getMovie(){
+		return movie;
 	}
 	
-	public String getTimeE(){
-		return timeE;
+	public HallBooking getHallBooking(){
+		return hallBooking;
 	}
-	
-	public int getHallno(){
-		return hallNo;
-	}
-	
-	public int getMovieID(){
-		return movieID;
-	}
-	
-	//public  getAvailableSeats
-	
-	//public getAvailableSeats(int seatsTogether)
 }
