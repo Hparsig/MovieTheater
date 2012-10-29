@@ -36,7 +36,7 @@ public class testSQLMovie {
 
 			for(Actor currentActor: actors)
 			{
-				System.out.println(currentActor.getFirstName() + " " + currentActor.getLastName() + " " + currentActor.getGender() + 
+				System.out.println(currentActor.getFName() + " " + currentActor.getLName() + " " + currentActor.getGender() + 
 						" " + currentActor.getDescription());	
 			}
 		}
@@ -54,7 +54,7 @@ public class testSQLMovie {
 
 			for(Director currentDirector: directors)
 			{
-				System.out.println(currentDirector.getFirstName() + " " + currentDirector.getLastName() + " " + currentDirector.getGender() +
+				System.out.println(currentDirector.getFName() + " " + currentDirector.getLName() + " " + currentDirector.getGender() +
 						" " + currentDirector.getDescription());
 			}
 		}
@@ -70,7 +70,7 @@ public class testSQLMovie {
 		{
 			director = movieLoad.LoadDirector(directID);
 
-			System.out.println(director.getFirstName() + " " + director.getLastName() + " " + director.getGender() +
+			System.out.println(director.getFName() + " " + director.getLName() + " " + director.getGender() +
 					" " + director.getDescription());
 		}
 		catch (Exception e)
@@ -97,12 +97,12 @@ public class testSQLMovie {
 		for(Movie currentFilm : movies)
 		{
 			System.out.println("\n" + currentFilm.getMovieName() + " " + currentFilm.getLength() + " " 
-					+ currentFilm.getInstructedBy().getFirstName() + " " + currentFilm.getInstructedBy().getLastName() + " " +
+					+ currentFilm.getInstructedBy().getFName() + " " + currentFilm.getInstructedBy().getLName() + " " +
 					currentFilm.getReleaseDate());
 
 			for(Actor currentActor: currentFilm.getCast())
 			{
-				System.out.println(currentActor.getFirstName() + " " + currentActor.getLastName());
+				System.out.println(currentActor.getFName() + " " + currentActor.getLName());
 			}
 			System.out.println();
 			

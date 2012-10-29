@@ -36,7 +36,7 @@ public class TestSQLEmployee {
 
 			for(Employee currentEmployee: employees)
 			{
-				System.out.println(currentEmployee.getFirstName() + " " + currentEmployee.getLastName() + " " + currentEmployee.getRoad() + 
+				System.out.println(currentEmployee.getFName() + " " + currentEmployee.getLName() + " " + currentEmployee.getRoad() + 
 						" " + currentEmployee.getPostNr() + " " + currentEmployee.getCity() + " " + currentEmployee.getPassword());	
 			}
 		}
