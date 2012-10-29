@@ -2,7 +2,7 @@ package movieTheater.SQL;
 import java.util.ArrayList;
 import java.sql.*;
 
-import movieTheater.main.Employee;
+import movieTheater.Persons.Employee;
 
 public class SQLUserLoad extends SQL{
 	private ArrayList<Employee> employeeArray;	

@@ -1,6 +1,8 @@
 package movieTheater.SQL;
 import java.sql.SQLException;
-import movieTheater.main.Employee;
+
+import movieTheater.Persons.Employee;
+import movieTheater.Persons.Manager;
 
 
 public class SQLEmployeeSave extends SQL {
@@ -11,7 +13,7 @@ public class SQLEmployeeSave extends SQL {
 	private static final String changeRoad = "UPDATE employees SET road='";
 	private static final String changeNumber = ",houseNo=";
 	private static final String changePostcode = ",postCode=";
-	
+
 	/**
 	 * Constructor
 	 */
@@ -20,7 +22,7 @@ public class SQLEmployeeSave extends SQL {
 		statement = null;
 		connection = null;
 	}
-	
+
 	/**
 	 * @author Jesper
 	 * Create one employe
@@ -32,35 +34,41 @@ public class SQLEmployeeSave extends SQL {
 	{
 		openConnection();
 		preparedStatement = connection.prepareStatement(createEmployee); 
-       int rows=0;
-       try
-       {
-    	   preparedStatement.setString(1,employee.getFirstName());				
-	   preparedStatement.setString(2,employee.getLastName());
-	   preparedStatement.setInt(3, employee.getTitel());
-	   preparedStatement.setString(4, employee.getRoad());
-	   preparedStatement.setInt(5, employee.getNr());  
-	   preparedStatement.setInt(6, employee.getPostNr());
-	   preparedStatement.setInt(7,employee.getTlf());
-	   preparedStatement.setString(8, employee.getPassword());
-	   preparedStatement.setString(9, employee.getUsername());
-	      
-	   rows = preparedStatement.executeUpdate();                     
-        
-       }
-       catch (Exception e)
-       {
-    	   System.out.println("fejl i save af medarbejder"); //boundary TODO fix
-       }
-       finally
-       {  
+		int rows=0;
+		try
+		{
+			int titleID = 2;
+			
+			if (employee instanceof Manager)
+			{
+				titleID = 1; 
+			}
+			preparedStatement.setString(1,employee.getfName());				
+			preparedStatement.setString(2,employee.getlName());
+			preparedStatement.setInt(3, titleID);
+			preparedStatement.setString(4, employee.getRoad());
+			preparedStatement.setString(5, employee.getHouseNo());  
+			preparedStatement.setInt(6, employee.getPostCode());
+			preparedStatement.setInt(7,employee.getPhone());
+			preparedStatement.setString(8, employee.getPW());
+			preparedStatement.setString(9, employee.getUserName());
 
-    	   closeConnectionSave(); 
-    	   preparedStatement.close();
-       } 
-       return rows;
+			rows = preparedStatement.executeUpdate();                     
+
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i save af medarbejder"); //boundary TODO fix
+		}
+		finally
+		{  
+
+			closeConnectionSave(); 
+			preparedStatement.close();
+		} 
+		return rows;
 	}  
-	
+
 	/**
 	 * @author Jesper
 	 * change password for one employee
@@ -74,20 +82,20 @@ public class SQLEmployeeSave extends SQL {
 		int rows = 0;
 		try 
 		{                     
-			 rows = statement.executeUpdate(changePW+newPassword+"'"+compareID+employeeID);      
-		                 
-       }
-       catch (Exception e)
-       {
-    	   System.out.println("fejl i ændring af password"); //boundary TODO fix
-    	   e.printStackTrace();
-       }
-       finally
-       {  
-    	   closeConnectionSave(); 
-    	   
-       } 
-       return rows;
+			rows = statement.executeUpdate(changePW+newPassword+"'"+compareID+employeeID);      
+
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i ændring af password"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{  
+			closeConnectionSave(); 
+
+		} 
+		return rows;
 	}  
 	/**
 	 * @author Jesper
@@ -102,20 +110,20 @@ public class SQLEmployeeSave extends SQL {
 		int rows = 0;
 		try 
 		{                     
-			 rows = statement.executeUpdate(changeUsername+newUsername+"'"+compareID+employeeID);      
-		                 
-       }
-       catch (Exception e)
-       {
-    	   System.out.println("fejl i ændring af username"); //boundary TODO fix
-    	   e.printStackTrace();
-       }
-       finally
-       {  
-    	   closeConnectionSave(); 
-    	   
-       } 
-       return rows;
+			rows = statement.executeUpdate(changeUsername+newUsername+"'"+compareID+employeeID);      
+
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i ændring af username"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{  
+			closeConnectionSave(); 
+
+		} 
+		return rows;
 	}
 	/**
 	 * @author Jesper
@@ -130,20 +138,20 @@ public class SQLEmployeeSave extends SQL {
 		int rows = 0;
 		try 
 		{                     
-			 rows = statement.executeUpdate(changeRoad+road+"'"+changeNumber+number+changePostcode+postcode+compareID+employeeID);      
-		                 
-       }
-       catch (Exception e)
-       {
-    	   System.out.println("fejl i ændring af adresse"); //boundary TODO fix
-    	   e.printStackTrace();
-       }
-       finally
-       {   
+			rows = statement.executeUpdate(changeRoad+road+"'"+changeNumber+number+changePostcode+postcode+compareID+employeeID);      
 
-    	   closeConnectionSave();      
-       } 
-       return rows;
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i ændring af adresse"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{   
+
+			closeConnectionSave();      
+		} 
+		return rows;
 	}  
 
 }

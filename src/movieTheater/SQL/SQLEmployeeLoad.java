@@ -2,7 +2,9 @@ package movieTheater.SQL;
 import java.util.ArrayList; 
 import java.sql.*;
 
-import movieTheater.main.Employee;
+import movieTheater.Persons.Employee;
+import movieTheater.Persons.Manager;
+import movieTheater.Persons.SalesPerson;
 
 public class SQLEmployeeLoad extends SQL{
 	private ArrayList<Employee> employeeArray;	
@@ -34,20 +36,28 @@ public class SQLEmployeeLoad extends SQL{
 		{
 			while (resultSet.next())
 			{
-				int employeeNr = resultSet.getInt("empNo");
-				String firstName = resultSet.getString("fName");
-				String lastName = resultSet.getString("lName");
-				int tlf = resultSet.getInt("phone");
-				String password = resultSet.getString("pW");
+				int employeeNo = resultSet.getInt("empNo");
+				String fName = resultSet.getString("fName");
+				String lName = resultSet.getString("lName");
+				int phone = resultSet.getInt("phone");
+				String pW = resultSet.getString("pW");
 				int titel = resultSet.getInt("titelID");
 				String road = resultSet.getString("road");
-				int nr = resultSet.getInt("houseNo");
-				int postNr = resultSet.getInt("postCode");
-				String username = resultSet.getString("username");
+				String houseNo = resultSet.getString("houseNo");
+				int postCode = resultSet.getInt("postCode");
+				String userName = resultSet.getString("username");
 				String city = resultSet.getString("city");
 				
-							
-				employeeArray.add(new Employee(employeeNr, firstName, lastName,tlf,titel,road,nr,postNr,username,password,city));
+				if (titel == 1)
+				{
+				employeeArray.add(new Manager(fName, lName, phone, road, houseNo, postCode, city, userName, 
+						pW, employeeNo));
+				}
+				else
+				{
+					employeeArray.add(new SalesPerson(fName, lName, phone, road, houseNo, postCode, city, userName, 
+							pW, employeeNo));
+				}
 			}
 		}
 		catch (Exception e)

@@ -1,6 +1,8 @@
 package movieTheater.main;
 
 import java.util.ArrayList;
+
+import movieTheater.Persons.Employee;
 import movieTheater.SQL.SQLEmployeeSave;
 
 public class EmployeeController {
