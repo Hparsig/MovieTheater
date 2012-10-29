@@ -79,6 +79,6 @@ public abstract class Person {
 		return pW;
 	}
 	public void setPW(String pW) {
-		pW = pW;
+		this.pW = pW;
 	}	
 }

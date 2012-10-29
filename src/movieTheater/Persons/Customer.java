@@ -1,10 +1,10 @@
 package movieTheater.Persons;
 
-public class Costumer extends Person 
+public class Customer extends Person 
 {
 	private int costumerNo;
 	
-	public Costumer(String fName, String lName, int phone, String road, String houseNo, int postCode, String city, String userName, 
+	public Customer(String fName, String lName, int phone, String road, String houseNo, int postCode, String city, String userName, 
 			String PW, int costumerNo)
 	{
 		super(fName, lName, phone, road, houseNo, postCode, city, userName, PW);

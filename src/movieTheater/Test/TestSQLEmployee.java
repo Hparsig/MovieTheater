@@ -4,15 +4,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import movieTheater.Persons.Employee;
+import movieTheater.Persons.Manager;
 import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLEmployeeSave;
-import movieTheater.main.Employee;
 
 public class TestSQLEmployee {
 
 	SQLEmployeeLoad employeeLoad;
 	SQLEmployeeSave employeeSave;
-	Employee employee;
+	Manager employee;
 	ArrayList<Employee> employees;
 
 	public TestSQLEmployee()
@@ -36,8 +37,10 @@ public class TestSQLEmployee {
 
 			for(Employee currentEmployee: employees)
 			{
-				System.out.println(currentEmployee.getFName() + " " + currentEmployee.getLName() + " " + currentEmployee.getRoad() + 
-						" " + currentEmployee.getPostNr() + " " + currentEmployee.getCity() + " " + currentEmployee.getPassword());	
+				System.out.println(currentEmployee.getCity() + " " + currentEmployee.getEmployeeNo() + " " + currentEmployee.getfName() + 
+						" " + currentEmployee.getHouseNo() + " " + currentEmployee.getlName() + " " + currentEmployee.getPhone() + 
+						" " + currentEmployee.getPostCode() + " " + currentEmployee.getPW() + " " + currentEmployee.getRoad() + " " +
+						currentEmployee.getUserName());	
 			}
 		}
 		catch (Exception e)
