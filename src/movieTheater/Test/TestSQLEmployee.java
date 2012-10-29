@@ -30,29 +30,29 @@ public class TestSQLEmployee {
 	}
 	public void testEmployeeLoad(int i)
 	{
-			try
-			{
-				employees = employeeLoad.LoadEmployee(i);	
+		try
+		{
+			employees = employeeLoad.LoadEmployee(i);	
 
-				for(Employee currentEmployee: employees)
-				{
-					System.out.println(currentEmployee.getFirstName() + " " + currentEmployee.getLastName() + " " + currentEmployee.getRoad() + 
-							" " + currentEmployee.getPostNr() + " " + currentEmployee.getCity() + " " + currentEmployee.getPassword());	
-				}
-			}
-			catch (Exception e)
+			for(Employee currentEmployee: employees)
 			{
-				e.printStackTrace();
+				System.out.println(currentEmployee.getFirstName() + " " + currentEmployee.getLastName() + " " + currentEmployee.getRoad() + 
+						" " + currentEmployee.getPostNr() + " " + currentEmployee.getCity() + " " + currentEmployee.getPassword());	
 			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void testEmployeeSave()
 	{
-			try {
-				employeeSave.createEmployee(new Employee(0, Generator(8, true), Generator(8, true), 0, 0, Generator(8, true), 0, 0, Generator(8, true), Generator(8, true), Generator(8, true)));
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+		try {
+			employeeSave.createEmployee(new Employee(0, Generator(8, true), Generator(8, true), 0, 0, Generator(8, true), 0, 0, Generator(8, true), Generator(8, true), Generator(8, true)));
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	// String/int generator til brugerdata. Ascii == true til strings, og ascii == false til int. Huske at parse! 

@@ -1,119 +1,76 @@
 package movieTheater.Test;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
-import movieTheater.Movie.Actor;
-import movieTheater.Movie.Director;
-import movieTheater.Movie.Movie;
-import movieTheater.Movie.Rating;
-import movieTheater.SQL.SQLEmployeeLoad;
-import movieTheater.SQL.SQLMovieLoad;
-import movieTheater.main.Employee;
+import movieTheater.SQL.SQLShowLoad;
+import movieTheater.SQL.SQLShowSave;
 import movieTheater.main.Show;
 
 public class TestSQLShow{
 
-	SQLEmployeeLoad showLoad;
+	SQLShowLoad showLoad;
 	Show show;
 	ArrayList<Show> shows;
-//	Director director;
-//	ArrayList<Director> directors;
+	SQLShowSave showSave;
 
 	public TestSQLShow()
 	{
-		showLoad = new SQLEmployeeLoad();
+		showLoad = new SQLShowLoad();
 	}
 
 	public void runTest()
 	{
-		testShowLoad();
-		
-		
-	}
-	public void testShowLoad()
-	{
-		for(int i = 0; i < shows.size(); i++){
-			try
-			{
-				shows = showLoad.LoadEmployee(i);	
+		for(int i = 0; i < shows.size(); i++)
+			testShowLoad(i);
+		for(int i = 0; i < 10; i++)
+			testShowSave(i);
 
-				for(Employee currentEmployee: shows)
-				{
-					System.out.println(currentEmployee.getFirstName() + " " + currentEmployee.getLastName() + " " + currentEmployee.getRoad() + 
-							" " + currentEmployee.getPostNr() + " " + currentEmployee.getCity() + " " + currentEmployee.getPassword());	
-				}
-			}
-			catch (Exception e)
+
+	}
+	public void testShowLoad(int i)
+	{
+		try
+		{
+			shows = showLoad.loadShow(i);	
+
+			for(Show currentShow: shows)
 			{
-				e.printStackTrace();
+				System.out.println(currentShow.getHallno() + " " + currentShow.getMovieID() + " " + currentShow.getShowID() + 
+						" " + currentShow.getTimeE() + " " + currentShow.getTimeS());	
 			}
 		}
-
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
-//	public void testDirectorLoad()
-//	{
-//		try
-//		{
-//			directors = employeeLoad.LoadDirector();
-//
-//			for(Director currentDirector: directors)
-//			{
-//				System.out.println(currentDirector.getFirstName() + " " + currentDirector.getLastName() + " " + currentDirector.getGender() +
-//						" " + currentDirector.getDescription());
-//			}
-//		}
-//		catch (Exception e)
-//		{
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	public void testDirectorLoad(int directID)
-//	{
-//		try
-//		{
-//			director = employeeLoad.LoadDirector(directID);
-//
-//			System.out.println(director.getFirstName() + " " + director.getLastName() + " " + director.getGender() +
-//					" " + director.getDescription());
-//		}
-//		catch (Exception e)
-//		{
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	public void testMovieLoad(int genreID)
-//	{
-//		ArrayList<Movie> movies = null;
-//
-//		SQLMovieLoad load = new SQLMovieLoad();
-//		try
-//		{
-//			movies = load.LoadMovie(genreID);
-//		}
-//		catch (Exception e)
-//		{
-//			e.printStackTrace();
-//			System.out.println("fejl");
-//		}
-//
-//		for(Movie currentFilm : movies)
-//		{
-//			System.out.println("\n" + currentFilm.getMovieName() + " " + currentFilm.getLength() + " " 
-//					+ currentFilm.getInstructedBy().getFirstName() + " " + currentFilm.getInstructedBy().getLastName() + " " +
-//					currentFilm.getReleaseDate());
-//
-//			for(Actor currentActor: currentFilm.getCast())
-//			{
-//				System.out.println(currentActor.getFirstName() + " " + currentActor.getLastName());
-//			}
-//			System.out.println();
-//
-//			for(Rating currentRating: currentFilm.getRatings())
-//			{
-//				System.out.println(currentRating.getStars() + " " + currentRating.getReview());
-//			}
-//		}	
-//	}
+	
+	public void testShowSave(int i)
+	{
+		try {
+			showSave.createShow(i, Integer.parseInt(Generator(1, false)), Generator(6, false), Generator(6, false), 0);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	// String/int generator til brugerdata. Ascii == true til strings, og ascii == false til int. Huske at parse! 
+	protected static String Generator(int length, boolean ascii){
+		String available = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";; 
+		String pass = "";
+		int size;
+		if(ascii)
+			size = 62;
+		else
+			size = 10;			//Integer.parseInt(Generator(1, false))
+
+		Random r = new Random();
+		for(int i = 0; i < length; i++){
+			int temp = r.nextInt(size);
+			pass = pass + available.substring(temp, temp+1);			
+		}
+		return pass;
+	}
 }

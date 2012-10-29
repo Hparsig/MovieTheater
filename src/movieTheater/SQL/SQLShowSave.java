@@ -28,7 +28,7 @@ public class SQLShowSave extends SQL {
 			
 			rows = preparedStatement.executeUpdate();         
 		}catch (Exception e){
-		 	   System.out.println("fejl i save af forestilling"); //boundary TODO fix
+		 	   e.printStackTrace(); //boundary TODO fix
 		}finally{
 			closeConnectionSave();
 		}
