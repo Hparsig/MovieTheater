@@ -1,8 +1,8 @@
 package movieTheater.main;
 
 import java.util.ArrayList;
-
 import movieTheater.SQL.SQLEmployeeSave;
+
 public class EmployeeController {
 
 	private ArrayList<Employee> employees;
@@ -16,10 +16,11 @@ public class EmployeeController {
 	
 	public void createUser(String fNavn, String eNavn, int tlf, String password, int rolle, String vej, int nr, int postNr, String brugernavn)
 	{
-		try
+		employee = new Employee(fNavn, eNavn, tlf, rolle, vej, nr, postNr, brugernavn,password);
+		try		
 		{
-		
-			saveEmployee.createEmployee(fNavn, eNavn, tlf, password, rolle, vej, nr, postNr, brugernavn);
+	
+			saveEmployee.createEmployee(employee);
 		}
 		catch(Exception e)
 		{

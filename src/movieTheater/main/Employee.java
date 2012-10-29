@@ -11,8 +11,9 @@ public class Employee {
 	private int postNr;
 	private String username;
 	private String password;
+	private String city;
 
-	public Employee(int employeeNo,String firstName, String LastName, int tlf, int titel, String road, int nr, int postNr, String username, String password)
+	public Employee(int employeeNr,String firstName, String LastName, int tlf, int titel, String road, int nr, int postNr, String username, String password, String city)
 	{
 		this.employeeNo = employeeNo;
 		this.firstName = firstName;
@@ -24,11 +25,22 @@ public class Employee {
 		this.postNr = postNr;
 		this.username = username;
 		this.password = password;
+		this.city = city;
 	}
 	
-	public int getEmployeeNo(){
-		return employeeNo;
+	public Employee(String firstName, String LastName, int tlf, int titel, String road, int nr, int postNr, String username, String password)
+	{
+		this.firstName = firstName;
+		this.lastName = LastName;
+		this.tlf = tlf;
+		this.titel = titel;
+		this.road = road;
+		this.nr = nr;
+		this.postNr = postNr;
+		this.username = username;
+		this.password = password;
 	}
+	
 		
 	public String getFirstName()
 	{
@@ -62,6 +74,9 @@ public class Employee {
 	}
 	public String getPassword(){
 		return password;
+	}
+	public String getCity(){
+		return city;
 	}
 	
 
