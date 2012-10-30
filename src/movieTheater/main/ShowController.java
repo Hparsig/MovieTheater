@@ -1,6 +1,7 @@
 package movieTheater.main;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
@@ -20,25 +21,43 @@ public class ShowController {
 		this.movieController = movieController;
 		this.hallController = hallController;
 		shows = new ArrayList<Show>();
+		sqlShowLoad = new SQLShowLoad();
 	}
 	
-	public ArrayList<Show> getShows(String Titel, Date date)
+	public ArrayList<Show> getShows(String titel, Date date)
 	{
-		
+		try
+		{
+			shows = sqlShowLoad.loadShowsByDateAndTitle(date, titel);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return shows;
+	}
+	public ArrayList<Show> getShows()
+	{
+		try
+		{
+		sqlShowLoad.loadAllShows();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return shows;
 	}
 	
-	public void setShow(Date timeStart, Date timeEnd)
+	public void setShow(Timestamp timeStart, Timestamp timeEnd)
 	{
 		int choise = 0;
 		//GUI brugerinput omkring tid start og slut
 		ArrayList<Movie> availableFilms = movieController.getAvailableMovies(timeStart, timeEnd);
 		// choise = GUI brugervalg
-		int movieID = availableFilms.get(choise).getID();
-		ArrayList<Hall> availableHalls = hallController.getAvailableHalls(movieLength, timeStart, timeEnd);
+		//int movieID = availableFilms.get(choise).getID();
+		//ArrayList<Hall> availableHalls = hallController.getAvailableHalls(movieLength, timeStart, timeEnd);
 		//choise = GUI brugervalg
-		int hallNo = availableHalls.get(choise).getHallNo();
-		sqlShowSave.createShow(hallNo,timeStart,timeEnd,movieID);
+		//int hallNo = availableHalls.get(choise).getHallNo();
+		//sqlShowSave.createShow(hallNo,timeStart,timeEnd,movieID);
 	}
 	
 	

@@ -11,12 +11,12 @@ import movieTheater.Movie.Director;
 import movieTheater.Movie.Movie;
 import movieTheater.Movie.Rating;
 import movieTheater.Movie.Cast;
-import movieTheater.main.Hall;
 import movieTheater.main.HallBooking;
 import movieTheater.main.Seat;
 import movieTheater.main.Show;
 
 public class SQLShowLoad extends SQL{
+	
 	
 	private ArrayList<Show> showArray;
 	private static final String queryAllShows = "SELECT * from Shows";
@@ -27,9 +27,11 @@ public class SQLShowLoad extends SQL{
 	private static final String queryDirectorByID = "SELECT * FROM Directors where directID =";
 	private static final String queryRatings = "SELECT * FROM Reviews where filmID =";
 	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
-	private static final String queryCast = "SELECT * FROM Casts where movieID =";
-	private static final String queryActors = "SELECT * FROM Actors where actorID =";
+	private static final String queryCast = "SELECT c.*, a.* FROM casts c, actors a WHERE c.movieID =";
+	private static final String queryCastTwo = " AND c.actorID = a.actorID";
 	private static final String queryBooking = "SELECT * FROM SeatBookings WHERE showID=";
+	private static final String queryLoadShowByDate = "SELECT s.*,m.title FROM shows s, movies m  WHERE DATE(s.timeS) = '";
+	private static final String queryLoadShowsByTitle = "AND s.movieID = m.movieID AND m.title LIKE '%";
 	private Movie movie;
 		
 	public SQLShowLoad(){
@@ -38,6 +40,11 @@ public class SQLShowLoad extends SQL{
 		connection = null;
 	
 	}
+	/**
+	 * @author Jesper
+	 * @param ResultSet resultSet
+	 * @return ArrayList<Show> 
+	 */
 	public ArrayList<Show> setShow(ResultSet resultSet)
 	{
 		
@@ -47,6 +54,7 @@ public class SQLShowLoad extends SQL{
 			{
 				int showID = resultSet.getInt("showID");
 				int hallNo = resultSet.getInt("hallNo");
+				
 				Timestamp timeS = resultSet.getTimestamp("timeS");
 				Timestamp timeE = resultSet.getTimestamp("timeE");
 				int movieID = resultSet.getInt("movieID");
@@ -54,6 +62,7 @@ public class SQLShowLoad extends SQL{
 				loadMovie(movieID);
 				HallBooking hallBooking = loadBooking(showID,hallNo,timeS, timeE);
 				showArray.add(new Show(showID, movie,hallBooking));
+				
 			}
 		}
 		catch (Exception e)
@@ -64,6 +73,7 @@ public class SQLShowLoad extends SQL{
 	}
 	
 	public ArrayList<Show> loadShow(int movieID){
+		openConnection();
 		ResultSet resultSet = null;
 		
 		try {
@@ -82,6 +92,7 @@ public class SQLShowLoad extends SQL{
 	}
 	
 	public ArrayList<Show> loadShowFromID(int showID) throws SQLException{
+		openConnection();
 		ResultSet resultSet = null;
 		
 		try {
@@ -98,6 +109,7 @@ public class SQLShowLoad extends SQL{
 	}
 	
 	public ArrayList<Show> loadShowFromHallNo(int hallNo) throws SQLException{
+		openConnection();
 		ResultSet resultSet = null;
 		
 		try {
@@ -116,12 +128,35 @@ public class SQLShowLoad extends SQL{
 	
 	public ArrayList<Show> loadAllShows() throws SQLException{
 		ResultSet resultSet = null;
-		
+		openConnection();
 		try {
 			resultSet = statement.executeQuery(queryAllShows);
 			setShow(resultSet);
 		} catch (SQLException e) {
 			System.out.println("fejl i load af alle forestilling");
+		} 
+		finally{
+			closeConnectionLoad();
+		}
+		return showArray;
+	}
+	
+	/**
+	 * @author Jesper
+	 * @param String title, Date date
+	 * @return ArrayList<Show> 
+	 * @throws SQLException
+	 */
+	public ArrayList<Show> loadShowsByDateAndTitle(Date date, String title) throws SQLException{
+		ResultSet resultSet = null;
+		openConnection();
+		
+		try {
+			resultSet = statement.executeQuery(queryLoadShowByDate+date+"' "+queryLoadShowsByTitle+"%'");
+			setShow(resultSet);
+		} catch (SQLException e) {
+			System.out.println("fejl i load af forestilling efter dato og titel");
+			e.printStackTrace();
 		} 
 		finally{
 			closeConnectionLoad();
@@ -313,36 +348,32 @@ public class SQLShowLoad extends SQL{
 	
 	public ArrayList<Cast> LoadCast(int filmID) throws SQLException 
 	{
-		ArrayList<Actor> actors = new ArrayList<Actor>();
+		openConnection();
 		ArrayList<Cast> cast = new ArrayList<Cast>();
 		ResultSet resultSet = null;
 
 		try
 		{
-			openConnection();
-			resultSet = statement.executeQuery(queryCast+filmID);					
+			resultSet = statement.executeQuery(queryCast+filmID+queryCastTwo);
+			
 		
 			while (resultSet.next())
 			{
 				int movieID = resultSet.getInt("movieID");
 				int actorID = resultSet.getInt("actorID");
 				String rolename = resultSet.getString("roleName");
-			
-				ResultSet resultSet2 = statement.executeQuery(queryActors+actorID);
-				while(resultSet2.next())
-				{
-					String firstName = resultSet.getString("fName");
-					String lastName = resultSet.getString("lName");
-					int gender = resultSet.getInt("gender");
-					String description = resultSet.getString("descript");
-					cast.add(new Cast(movieID,new Actor(firstName, lastName, gender, description) ,rolename));
-				}	
-		
-			}
+				
+				String firstName = resultSet.getString("fName");
+				String lastName = resultSet.getString("lName");
+				int gender = resultSet.getInt("gender");
+				String description = resultSet.getString("descript");
+				cast.add(new Cast(movieID,new Actor(firstName, lastName, gender, description,actorID) ,rolename));
+			}	
 		}
 		catch (Exception e)
 		{
 			System.out.println("fejl i load cast"); //boundary TODO fix
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -356,17 +387,22 @@ public class SQLShowLoad extends SQL{
 	public HallBooking loadBooking(int showID,int hallNo, Timestamp sTime, Timestamp eTime){
 		
 		ResultSet resultSet = null;
-		HallBooking hallBooking = null;
+		HallBooking hallBooking=null;
 		openConnection();
 		ArrayList<ArrayList<Seat>> seats = new ArrayList<ArrayList<Seat>>();
 		
 		try
 		{
 			resultSet = statement.executeQuery((queryBooking+showID));
-			int seatNr = resultSet.getInt("seat");
-			int rowID = resultSet.getInt("rowID");
+			while (resultSet.next())
+			{
+				
+				int seatNr = resultSet.getInt("seat");
+				int rowID = resultSet.getInt("rowID");
 			
-			seats.get(rowID).get(seatNr).setReservation();
+				//seats.get(rowID).get(seatNr).setReservation(); Ordne dette TODO fix
+			}
+			hallBooking = new HallBooking(hallNo,seats,sTime,eTime);
 						
 		}
 		catch (Exception e)
@@ -378,7 +414,7 @@ public class SQLShowLoad extends SQL{
 		{
 			closeConnectionLoad();
 		}
-		hallBooking = new HallBooking(hallNo,seats,sTime,eTime);
+		
 		return hallBooking;
 		
 	}
