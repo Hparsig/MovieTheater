@@ -17,16 +17,15 @@ public class SQLMovieLoad extends SQL{
 
 	private ArrayList<Movie> dataFilmArray;
 	private static final String queryMovies = "SELECT * FROM Movies where genreID =";
-	private static final String queryMoviesByTitle = "SELECT * FROM Movies where title =";
+	private static final String queryMoviesByTitle = "SELECT * FROM Movies where title like '";
 	private static final String queryActor = "SELECT * FROM Actors";
-	private static final String queryCast = "SELECT * FROM Casts where movieID =";
 	private static final String queryDirectorByID = "SELECT * FROM Directors where directID =";
 	private static final String queryDirector = "SELECT * FROM Directors";
-	private static final String queryDirectorBylName = "SELECT * FROM Directors where lName LIKE ";
-	private static final String queryActors = "SELECT * FROM Actors where actorID =";
+	private static final String queryDirectorBylName = "SELECT * FROM Directors where lName LIKE '";
 	private static final String queryRatings = "SELECT * FROM Reviews where filmID =";
 	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
-
+	private static final String queryCast = "SELECT c.*, a.* FROM casts c, actors a WHERE c.movieID =";
+	private static final String queryCastTwo = " AND c.actorID = a.actorID";
 /**
  * 	public SQLMovieLoad()
  */
@@ -81,7 +80,7 @@ public class SQLMovieLoad extends SQL{
 
 		try
 		{
-			resultSet = statement.executeQuery((queryMoviesByTitle+title));
+			resultSet = statement.executeQuery((queryMoviesByTitle+title+"'"));
 			setMovie(resultSet);			
 		}
 		catch (Exception e)
@@ -219,7 +218,7 @@ public class SQLMovieLoad extends SQL{
 
 		try
 		{
-			resultSet = statement.executeQuery(queryDirectorBylName+lName);
+			resultSet = statement.executeQuery(queryDirectorBylName+lName+"'");
 
 			while(resultSet.next())
 			{
@@ -345,37 +344,32 @@ public class SQLMovieLoad extends SQL{
 	}
 	public ArrayList<Cast> LoadCast(int filmID) throws SQLException 
 	{
-		ArrayList<Actor> actors = new ArrayList<Actor>();
+		openConnection();
 		ArrayList<Cast> cast = new ArrayList<Cast>();
 		ResultSet resultSet = null;
 
 		try
 		{
-			openConnection();
+			resultSet = statement.executeQuery(queryCast+filmID+queryCastTwo);
 			
-			resultSet = statement.executeQuery(queryCast+filmID);					
-			
+		
 			while (resultSet.next())
 			{
 				int movieID = resultSet.getInt("movieID");
 				int actorID = resultSet.getInt("actorID");
 				String rolename = resultSet.getString("roleName");
 				
-				ResultSet resultSet2 = statement.executeQuery(queryActors+actorID);
-				while(resultSet2.next())
-				{
-					String firstName = resultSet.getString("fName");
-					String lastName = resultSet.getString("lName");
-					int gender = resultSet.getInt("gender");
-					String description = resultSet.getString("descript");
-					cast.add(new Cast(movieID,new Actor(firstName, lastName, gender, description) ,rolename));
-				}
-				
-			}
+				String firstName = resultSet.getString("fName");
+				String lastName = resultSet.getString("lName");
+				int gender = resultSet.getInt("gender");
+				String description = resultSet.getString("descript");
+				cast.add(new Cast(movieID,new Actor(firstName, lastName, gender, description,actorID) ,rolename));
+			}	
 		}
 		catch (Exception e)
 		{
 			System.out.println("fejl i load cast"); //boundary TODO fix
+			e.printStackTrace();
 		}
 		finally
 		{
