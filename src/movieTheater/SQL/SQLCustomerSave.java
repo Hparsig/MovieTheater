@@ -3,8 +3,10 @@ package movieTheater.SQL;
 
 import java.sql.SQLException;
 
+import movieTheater.Persons.Customer;
+
 public class SQLCustomerSave extends SQL {
-	private static final String createCustomer = "insert into Customers(custNo, fName, lname, street, houseNo, postCode, phone, username, password) values(?,?,?,?,?,?,?,?,?)";
+	private static final String createCustomer = "insert into Costumers(fName, lName, road, houseNo, postCode, phone, username, pW) values(?,?,?,?,?,?,?,?)";
 	
 	public SQLCustomerSave()
 	{
@@ -13,21 +15,21 @@ public class SQLCustomerSave extends SQL {
 	}
 	
    
-	public int createCustomer(String fname, String lname, String street, int houseNo, int postCode, String phone, String username, String password) throws SQLException 
+	public int createCustomer(Customer customer) throws SQLException 
 	{
 		openConnection();
 		preparedStatement = connection.prepareStatement(createCustomer); // create statement object
        int rows=0;
        try
        {
-	   	   preparedStatement.setString(1, fname);
-	   	   preparedStatement.setString(2, lname);
-	   	   preparedStatement.setString(3, street);
-	   	   preparedStatement.setInt(4, houseNo);  
-	   	   preparedStatement.setInt(5, postCode);
-	   	   preparedStatement.setString(6, phone);
-	   	   preparedStatement.setString(7, username);
-	   	   preparedStatement.setString(8, password);
+	   	   preparedStatement.setString(1, customer.getfName());
+	   	   preparedStatement.setString(2, customer.getlName());
+	   	   preparedStatement.setString(3, customer.getRoad());
+	   	   preparedStatement.setString(4, customer.getHouseNo());  
+	   	   preparedStatement.setInt(5, customer.getPostCode());
+	   	   preparedStatement.setInt(6, customer.getPhone());
+	   	   preparedStatement.setString(7, customer.getUserName());
+	   	   preparedStatement.setString(8,customer.getPW());
 	      
 	   	   rows = preparedStatement.executeUpdate();                     
         
@@ -35,10 +37,11 @@ public class SQLCustomerSave extends SQL {
        catch (Exception e)
        {
     	   System.out.println("An error occured while saving user information"); //boundary TODO fix
+    	   e.printStackTrace();
        }
        finally
        {  
-    	   closeConnection();      
+    	   closeConnectionSave();      
        } 
        return rows;
 	}  
