@@ -1,8 +1,7 @@
 package movieTheater.main;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
-
 
 public class Hall {
 
@@ -22,7 +21,7 @@ public class Hall {
 	 * @param timeStart - Date 
 	 * @param timeEnd - Date 
 	 */
-	public void addHallBooking(Date timeStart, Date timeEnd)
+	public void addHallBooking(Timestamp timeStart, Timestamp timeEnd)
 	{
 		seats = new ArrayList<ArrayList<Seat>>();	
 		
@@ -37,6 +36,7 @@ public class Hall {
 		}
 		hallBookings.add(new HallBooking(hallNo, seats, timeStart, timeEnd));	
 	}
+	
 	public int getHallNo()
 	{
 		return hallNo;

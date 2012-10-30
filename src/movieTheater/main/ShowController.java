@@ -23,7 +23,12 @@ public class ShowController {
 		shows = new ArrayList<Show>();
 		sqlShowLoad = new SQLShowLoad();
 	}
-	
+	/**
+	 * @author Jesper
+	 * @param String titel - titel of the movie
+	 * @param Date date - date of the show
+	 * @return ArrayList<Show>  
+	 */
 	public ArrayList<Show> getShows(String titel, Date date)
 	{
 		try

@@ -8,10 +8,9 @@ public class CinemaController {
 	
 	public CinemaController()
 	{	
-		showController = new ShowController();
 		movieController = new MovieController();
 		hallController = new HallController();
-		showController = new ShowController(movieController,hallControler);
+		showController = new ShowController(movieController,hallController);
 	}
 
 
