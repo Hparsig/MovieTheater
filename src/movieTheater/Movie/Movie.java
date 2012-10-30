@@ -1,6 +1,6 @@
 package movieTheater.Movie;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 /**
  * 
@@ -14,8 +14,8 @@ public class Movie {
 	private Director director;
 	private int length;
 	private String genre;
-	private Timestamp releaseDate;
-	private Timestamp timeEnd;
+	private Date releaseDate;
+	private Date timeEnd;
 	private String originalTitle;
 	private boolean is3D;
 	private ArrayList<Actor> cast;
@@ -34,7 +34,7 @@ public class Movie {
 	 * @param ratings ArrayList<Rating>
 	 */
 
-	public Movie(String movieName, Director directedBy, int length, String genre, Timestamp releaseDate, Timestamp timeEnd,
+	public Movie(String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
 			String originalName, boolean is3D, ArrayList<Actor> cast, 
 			ArrayList<Rating> ratings)
 	{
@@ -49,7 +49,7 @@ public class Movie {
 		this.cast = cast;
 		this.ratings = ratings;
 	}
-	public Movie(int movieID,String movieName, Director directedBy, int length, String genre, Timestamp releaseDate, Timestamp timeEnd,
+	public Movie(int movieID,String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
 			String originalName, boolean is3D, ArrayList<Actor> cast, 
 			ArrayList<Rating> ratings)
 	{
@@ -87,11 +87,11 @@ public class Movie {
 	{
 		return genre;
 	}
-	public Timestamp getReleaseDate()
+	public Date getReleaseDate()
 	{
 		return releaseDate;
 	}
-	public Timestamp getTimeEnd()
+	public Date getTimeEnd()
 	{
 		return timeEnd;
 	}

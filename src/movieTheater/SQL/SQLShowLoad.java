@@ -1,9 +1,10 @@
 package movieTheater.SQL;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 import movieTheater.Movie.Actor;
 import movieTheater.Movie.Director;
@@ -193,8 +194,8 @@ public class SQLShowLoad extends SQL{
 				{
 					isThreeDim = true;
 				}
-
-				movie = new Movie(title, director, length, genre, premier, endDay, orgTitel, isThreeDim, cast, ratings);
+				
+				movie = new Movie(movieID,title, director, length, genre, premier, endDay, orgTitel, isThreeDim, cast, ratings);
 			}
 		}
 		catch (Exception e)
