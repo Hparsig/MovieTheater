@@ -16,10 +16,16 @@ public class EmployeeController {
 		saveEmployee = new SQLEmployeeSave();
 	}
 	
-	public void createSalesPerson(String fName, String eName, int phone, String road, String houseNo, int postCode, String city, String userName, String pW)
+	public void createEmployee(String fName, String eName, int phone, String pW, int titelID, String road, String houseNo, int postcode,String city, String username)
 	{
-		
-		employee = new SalesPerson(fName, eName, phone, road, houseNo, postCode, city, userName, pW);
+		if(titelID==1)
+		{
+			employee = new Manager(fName, eName, phone, road, houseNo, postcode, city, username, pW);
+		}
+		else
+		{
+		employee = new SalesPerson(fName, eName, phone, road, houseNo, postcode, city, username, pW);
+		}
 		try		
 		{
 	

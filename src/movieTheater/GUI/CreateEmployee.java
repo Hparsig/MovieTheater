@@ -7,32 +7,49 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JMenuBar;
 import movieTheater.main.EmployeeController;
+import movieTheater.main.City;
+import movieTheater.SQL.SQLLoadPostCode;
+import movieTheater.SQL.SQLLoadTitel;
+import movieTheater.main.Titel;
+
 
 
 public class CreateEmployee extends JFrame {
 	private EmployeeController emploeyyController;
+	private ArrayList<City> postcodeArray;
+	private ArrayList<Titel> titelArray;
+	private SQLLoadPostCode loadPostcode;
+	private SQLLoadTitel loadTitel;
+	private ComboBoxPostcode city;
+	private ComboBoxTitels titel;
 	private JPanel contentPane;
 	private JTextField tlf;
 	private JTextField vej;
 	private JTextField efternavn;
-	private JTextField postnr;
 	private JTextField fornavn;
 	private JTextField nr;
 	private JTextField brugernavn;
 	private JTextField password;
-	private JTextField rolle;
+	private JComboBox citys;
+	private JComboBox titels;
 	
 	private String name;
 	private String lastname;
-	
-	private String road;
-	
-	private String userName;
+	private int phone;
 	private String pWord;
+	private int titelID;
+	private String road;
+	private String houseNr;
+	private int postcode;
+	private String cityChoosen;
+	private String username;
+	
 
 	/**
 	 * Launch the application.
@@ -54,6 +71,11 @@ public class CreateEmployee extends JFrame {
 	 * Create the frame.
 	 */
 	public CreateEmployee() {
+		loadTitel = new SQLLoadTitel();
+		loadPostcode = new SQLLoadPostCode();
+		city = new ComboBoxPostcode(loadPostcode);
+		titel  = new ComboBoxTitels(loadTitel);
+		
 		emploeyyController = new EmployeeController();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -72,22 +94,26 @@ public class CreateEmployee extends JFrame {
 				
 				name = fornavn.getText();
 				lastname = efternavn.getText();
+				
 				String phoneN = tlf.getText();
-				int phone = Integer.parseInt(phoneN);
-				String rolle1 = rolle.getText();
-				int title = Integer.parseInt(rolle1);
-				
-				String postN = postnr.getText();
-				int postNr = Integer.parseInt(postN);
-				
+				phone = Integer.parseInt(phoneN);
+								
 				road = vej.getText();
-				String roadN = nr.getText();
-				int number = Integer.parseInt(roadN);
+				houseNr = nr.getText();
 
-				userName = brugernavn.getText();
+				username = brugernavn.getText();
 				pWord = password.getText();
 				
-				emploeyyController.createUser(name, lastname, phone, pWord, title, road, number, postNr, userName);
+				int titelChoose = titels.getSelectedIndex();
+				titelArray = loadTitel.getTitels();
+				titelID = titelArray.get(titelChoose).getTitelID();
+				
+				int cityChoose = citys.getSelectedIndex();
+				postcodeArray = loadPostcode.getCitys();
+				postcode = postcodeArray.get(cityChoose).getPostcode();
+				cityChoosen = postcodeArray.get(cityChoose).getCity();
+				
+				emploeyyController.createEmployee(name, lastname, phone, pWord, titelID, road, houseNr, postcode, cityChoosen, username);
 				
 				
 			}
@@ -142,11 +168,6 @@ public class CreateEmployee extends JFrame {
 		efternavn.setBounds(91, 42, 116, 22);
 		panel.add(efternavn);
 		
-		postnr = new JTextField();
-		postnr.setColumns(10);
-		postnr.setBounds(91, 109, 116, 22);
-		panel.add(postnr);
-		
 		fornavn = new JTextField();
 		fornavn.setColumns(10);
 		fornavn.setBounds(91, 7, 116, 22);
@@ -171,10 +192,14 @@ public class CreateEmployee extends JFrame {
 		lblRolle.setBounds(12, 203, 56, 16);
 		panel.add(lblRolle);
 		
-		rolle = new JTextField();
-		rolle.setColumns(10);
-		rolle.setBounds(91, 200, 116, 22);
-		panel.add(rolle);
+		
+		citys = city.set();
+		citys.setBounds(90, 106, 117, 22);
+		panel.add(citys);
+		
+		titels = titel.set(); 
+		titels.setBounds(91, 200, 116, 22);
+		panel.add(titels);
 
 	
 	}
