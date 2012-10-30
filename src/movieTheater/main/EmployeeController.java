@@ -2,7 +2,7 @@ package movieTheater.main;
 
 import java.util.ArrayList;
 
-import movieTheater.Persons.Employee;
+import movieTheater.Persons.*;
 import movieTheater.SQL.SQLEmployeeSave;
 
 public class EmployeeController {
@@ -16,9 +16,10 @@ public class EmployeeController {
 		saveEmployee = new SQLEmployeeSave();
 	}
 	
-	public void createUser(String fNavn, String eNavn, int tlf, String password, int rolle, String vej, int nr, int postNr, String brugernavn)
+	public void createSalesPerson(String fName, String eName, int phone, String road, String houseNo, int postCode, String city, String userName, String pW)
 	{
-		employee = new Employee(fNavn, eNavn, tlf, rolle, vej, nr, postNr, brugernavn,password);
+		
+		employee = new SalesPerson(fName, eName, phone, road, houseNo, postCode, city, userName, pW);
 		try		
 		{
 	

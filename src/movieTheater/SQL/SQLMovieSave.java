@@ -1,6 +1,7 @@
 package movieTheater.SQL;
 import java.sql.*;
 
+import movieTheater.Movie.Director;
 import movieTheater.Movie.Movie;
 import movieTheater.Persons.Manager;
 
@@ -14,6 +15,9 @@ public class SQLMovieSave extends SQL{
 
 	private static final String createMovie = "INSERT INTO movies(title,length,genreID,directID,threeDim,orgTitel,premier,endDay) values(?,?,?,?,?,?,?,?)";
 	private static final String findGenreID = "SELECT genreID FROM genres WHERE genre='";
+	private static final String createCastList = "INSERT INTO casts(movieID,actorID,roleName) values(?,?,?)";
+	private static final String getMovieID = "SELECT movieID FROM movies WHERE orgTitel LIKE '";
+		
 	public SQLMovieSave()
 	{
 		
@@ -30,7 +34,7 @@ public class SQLMovieSave extends SQL{
 	 * @throws SQLException 
 	 */
 	
-	public int saveMovie(Movie movie, int genreID){
+	public int saveMovie(Movie movie){
 		openConnection();
 		
 		int rows=0;
@@ -41,8 +45,11 @@ public class SQLMovieSave extends SQL{
 			
 			preparedStatement.setString(1, movie.getMovieName());				
 			preparedStatement.setInt(2,movie.getLength());
+			
+			int genreID = getGenreID(movie);
 			preparedStatement.setInt(3, genreID);
-			preparedStatement.setInt(4,genreID);
+			
+			preparedStatement.setInt(4,movie.getInstructedBy().getDirectorID());
 			
 			boolean threedim = movie.getIsIn3D();
 			int tdim = 0;
@@ -52,8 +59,8 @@ public class SQLMovieSave extends SQL{
 		
 			preparedStatement.setInt(5, tdim);
 			preparedStatement.setString(6,movie.getOriginalName());
-			preparedStatement.setTimestamp(7, movie.getReleaseDate());
-			preparedStatement.setTimestamp(8, movie.getTimeEnd());
+			preparedStatement.setDate(7, movie.getReleaseDate());
+			preparedStatement.setDate(8, movie.getTimeEnd());
 			
 
 			rows = preparedStatement.executeUpdate();                     
@@ -69,6 +76,7 @@ public class SQLMovieSave extends SQL{
 
 			closeConnectionSave(); 
 		} 
+		saveCastList(movie);
 		return rows;
 	}
 	
@@ -98,6 +106,47 @@ public class SQLMovieSave extends SQL{
 		return genreID;
 		
 	}
+	
+	public void saveCastList(Movie movie){
+		ResultSet resultSet = null;
+		preparedStatement = null;
+		openConnection();
+		int movieID=0;
+		String title = movie.getOriginalName();
+
+		try
+		{
+			resultSet = statement.executeQuery(getMovieID+title+"'");
+
+			while(resultSet.next())
+			{
+				movieID = resultSet.getInt("movieID");
+			}
+			for (int i=0; i < movie.getCast().size();i++)
+			{
+				
+				int actorID = movie.getCast().get(i).getActor().getActorID();
+				String roleName = movie.getCast().get(i).getRolename();
+				preparedStatement = connection.prepareStatement(createCastList); 
+				
+				preparedStatement.setInt(1,movieID);				
+				preparedStatement.setInt(2,actorID);
+				preparedStatement.setString(3, roleName);
+				preparedStatement.executeUpdate();
+
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i save cast list"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+	}
+	
 	
 
 	

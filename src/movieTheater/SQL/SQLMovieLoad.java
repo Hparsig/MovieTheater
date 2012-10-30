@@ -1,12 +1,12 @@
 package movieTheater.SQL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.sql.*;
 
 import movieTheater.Movie.Actor;
 import movieTheater.Movie.Director;
 import movieTheater.Movie.Movie;
 import movieTheater.Movie.Rating;
+import movieTheater.Movie.Cast;
 /**
  * 
  * @author Henrik
@@ -102,7 +102,7 @@ public class SQLMovieLoad extends SQL{
 	 */
 	public ArrayList<Movie> setMovie(ResultSet resultSet)
 	{
-		ArrayList<Actor> cast = new ArrayList<Actor>();
+		ArrayList<Cast> cast = new ArrayList<Cast>();
 		ArrayList<Rating> ratings = new ArrayList<Rating>();
 		boolean isThreeDim = false;
 
@@ -343,35 +343,34 @@ public class SQLMovieLoad extends SQL{
 		return actors;
 
 	}
-	public ArrayList<Actor> LoadCast(int filmID) throws SQLException 
+	public ArrayList<Cast> LoadCast(int filmID) throws SQLException 
 	{
-		ArrayList<Integer> actorIDs = new ArrayList<Integer>();
-		ArrayList<Actor> cast = new ArrayList<Actor>();
+		ArrayList<Actor> actors = new ArrayList<Actor>();
+		ArrayList<Cast> cast = new ArrayList<Cast>();
 		ResultSet resultSet = null;
 
 		try
 		{
 			openConnection();
+			
 			resultSet = statement.executeQuery(queryCast+filmID);					
+			
 			while (resultSet.next())
 			{
-				Integer actorID = resultSet.getInt("actorID");
-				actorIDs.add(actorID);
-			}
-
-			for(int i=0; i<actorIDs.size(); i++ )
-			{
-				resultSet = statement.executeQuery(queryActors+actorIDs.get(i));
-
-				while(resultSet.next())
+				int movieID = resultSet.getInt("movieID");
+				int actorID = resultSet.getInt("actorID");
+				String rolename = resultSet.getString("roleName");
+				
+				ResultSet resultSet2 = statement.executeQuery(queryActors+actorID);
+				while(resultSet2.next())
 				{
 					String firstName = resultSet.getString("fName");
 					String lastName = resultSet.getString("lName");
 					int gender = resultSet.getInt("gender");
 					String description = resultSet.getString("descript");
-
-					cast.add(new Actor(firstName, lastName, gender, description));
+					cast.add(new Cast(movieID,new Actor(firstName, lastName, gender, description) ,rolename));
 				}
+				
 			}
 		}
 		catch (Exception e)
