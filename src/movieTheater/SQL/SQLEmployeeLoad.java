@@ -12,7 +12,7 @@ public class SQLEmployeeLoad extends SQL{
 	private static final String queryEmployeeByFirstName = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE fName LIKE '%";
 	private static final String queryEmployeeByUsername = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE username LIKE '%";
 	private static final String comparePostcode = " AND emp.postCode = post.postCode";
-	private static final String employeeLogin = "SELECT * FROM employees WHERE pW = ? AND username = ?";
+	
 
 	/**
 	 * constructor
@@ -150,40 +150,6 @@ public class SQLEmployeeLoad extends SQL{
 			closeConnectionLoad();
 		}
 		return employeeArray;
-	}
-	
-	/**
-	 * @author Jesper
-	 * login check of employee
-	 * @param String username, String Password
-	 * @return Employee
-	 * @throws SQLException
-	 */
-	public Employee checkEmployee(String username, String password) throws SQLException {
-		openConnection();
-		preparedStatement = connection.prepareStatement(employeeLogin); 
-		ResultSet resultSet = null;
-		
-		try
-		{
-			preparedStatement.setString(1, password);
-		    preparedStatement.setString(2, username);
-		      
-		    resultSet = preparedStatement.executeQuery();
-		    setEmployee(resultSet);
-		}
-		catch (Exception e)
-		{
-			System.out.println("fejl i login af medarbejder"); //boundary TODO fix
-			e.printStackTrace();
-		}
-		finally
-		{
-			closeConnectionLoad();
-			preparedStatement.close();
-		}
-		return employeeArray.get(0);
-	}
-
+	}	
 
 }

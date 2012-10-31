@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import movieTheater.main.EmployeeController;
 import movieTheater.main.City;
@@ -91,31 +92,34 @@ public class CreateEmployee extends JFrame {
 		JButton btnNewButton = new JButton("Create user");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try
+				{
+					name = fornavn.getText();
+					lastname = efternavn.getText();
 				
-				name = fornavn.getText();
-				lastname = efternavn.getText();
-				
-				String phoneN = tlf.getText();
-				phone = Integer.parseInt(phoneN);
+					String phoneN = tlf.getText();
+					phone = Integer.parseInt(phoneN);
 								
-				road = vej.getText();
-				houseNr = nr.getText();
+					road = vej.getText();
+					houseNr = nr.getText();
 
-				username = brugernavn.getText();
-				pWord = password.getText();
+					username = brugernavn.getText();
+					pWord = password.getText();
 				
-				int titelChoose = titels.getSelectedIndex();
-				titelArray = loadTitel.getTitels();
-				titelID = titelArray.get(titelChoose).getTitelID();
+					int titelChoose = titels.getSelectedIndex();
+					titelArray = loadTitel.getTitels();
+					titelID = titelArray.get(titelChoose).getTitelID();
 				
-				int cityChoose = citys.getSelectedIndex();
-				postcodeArray = loadPostcode.getCitys();
-				postcode = postcodeArray.get(cityChoose).getPostcode();
-				cityChoosen = postcodeArray.get(cityChoose).getCity();
+					int cityChoose = citys.getSelectedIndex();
+					postcodeArray = loadPostcode.getCitys();
+					postcode = postcodeArray.get(cityChoose).getPostcode();
+					cityChoosen = postcodeArray.get(cityChoose).getCity();
 				
-				emploeyyController.createEmployee(name, lastname, phone, pWord, titelID, road, houseNr, postcode, cityChoosen, username);
-				
-				
+					emploeyyController.createEmployee(name, lastname, phone, pWord, titelID, road, houseNr, postcode, cityChoosen, username);
+				}catch(Exception e)
+				{
+					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
+				}
 			}
 		});
 		btnNewButton.setBounds(297, 209, 113, 25);
