@@ -7,16 +7,18 @@ import java.util.ArrayList;
 //import movieTheater.GUI.TestWindow;
 import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLMovieLoad;
-import movieTheater.Test.testSQLMovie;
+import movieTheater.Test.*;
 
 public class Main {
 
 	public static void main(String[] args)
 	{
-		testSQLMovie test = new testSQLMovie();
-	
-		test.runTest();
+		//testSQLMovie test = new testSQLMovie();
+		//test.runTest();
 		
+		SQLShowLoadTest test = new SQLShowLoadTest();
+		Date dato = new Date(2012-1900,9,26);
+		test.test("Skyfall",dato);
 //		MovieController movieController = new MovieController();
 //		HallController hallController = new HallController();
 //		ShowController showC = new ShowController(movieController,hallController);

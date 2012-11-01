@@ -35,19 +35,9 @@ public class Movie {
 	 */
 
 	public Movie(String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
-			String originalName, boolean is3D, Cast cast, 
-			ArrayList<Rating> ratings)
+			String originalName, boolean is3D, Cast cast)
 	{
-		this.title = movieName;
-		this.director = directedBy;
-		this.length = length;
-		this.genre = genre;
-		this.releaseDate = releaseDate;
-		this.timeEnd = timeEnd;
-		this.originalTitle = originalName;
-		this.is3D = is3D;
-		this.cast = cast;
-		this.ratings = ratings;
+		this(0, movieName, directedBy, length, genre, releaseDate, timeEnd, originalName, is3D, cast, null); //Kalder 2. konstruktør
 	}
 	public Movie(int movieID,String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
 			String originalName, boolean is3D, Cast cast, 

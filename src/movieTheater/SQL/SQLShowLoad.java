@@ -70,6 +70,7 @@ public class SQLShowLoad extends SQL{
 		catch (Exception e)
 		{
 			System.out.println("fejl i set show"); //boundary TODO fix
+			e.printStackTrace();
 		}
 		return showArray;	
 	}
@@ -393,6 +394,7 @@ public class SQLShowLoad extends SQL{
 		HallBooking hallBooking=null;
 		openConnection();
 		ArrayList<ArrayList<Seat>> seats = new ArrayList<ArrayList<Seat>>();
+		ArrayList<Seat> seatsOnRow = new ArrayList<Seat>();
 		int[] seatsPrRow;
 		
 		if(hallNo==1)
@@ -406,14 +408,17 @@ public class SQLShowLoad extends SQL{
 		else
 			seatsPrRow = HallData.seatsPrRowHall3;
 		
-		for(int currentRow: seatsPrRow)							//iterates over one row at the time
+		
+		for(int i = 0; i < seatsPrRow.length; i++)						//iterates over one row at the time
 		{
-			int noSeatsCurrentRow = seatsPrRow[currentRow];
-			
-			for(int i = 0; i < noSeatsCurrentRow; i++)			//adds seats according to the seatsPrRow-array. 
+			int noSeatsCurrentRow = seatsPrRow[i];
+			seatsOnRow.clear();
+			for(int j = 0; j < noSeatsCurrentRow; j++)			//adds seats according to the seatsPrRow-array. 
 			{
-				seats.get(currentRow).add(new Seat(i));
+				seatsOnRow.add(new Seat(j));
 			}
+			seats.add(seatsOnRow);
+			
 		}
 		try
 		{

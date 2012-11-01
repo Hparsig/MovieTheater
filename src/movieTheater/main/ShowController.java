@@ -3,6 +3,9 @@ package movieTheater.main;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 import movieTheater.Movie.Movie;
@@ -30,6 +33,24 @@ public class ShowController {
 		try
 		{
 			shows = sqlShowLoad.loadShowsByDateAndTitle(date, titel);
+			HashMap<Integer,Integer> av = shows.get(0).getHallBooking().getAvailableSeats();
+			
+			Map map = av;
+			Iterator entries = map.entrySet().iterator();
+			while (entries.hasNext()) {
+			    Map.Entry entry = (Map.Entry) entries.next();
+			    Integer key = (Integer)entry.getKey();
+			    Integer value = (Integer)entry.getValue();
+			    System.out.println("Key = " + key + ", Value = " + value);
+			}
+//			for (Integer key : av.keySet())
+//			{
+//				System.out.println(key);
+//				
+//			}
+//			for (Integer value : av.values()) {
+//			    System.out.println("Value = " + value);
+//			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
