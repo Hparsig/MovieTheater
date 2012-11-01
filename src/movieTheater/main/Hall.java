@@ -2,6 +2,7 @@ package movieTheater.main;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Hall {
 
@@ -35,6 +36,12 @@ public class Hall {
 			}
 		}
 		hallBookings.add(new HallBooking(hallNo, seats, timeStart, timeEnd));	
+	}
+	 
+	public HashMap<Integer,Integer> getAvaliableSeats(HallBooking currentHallbooking)
+	{
+		HashMap<Integer,Integer> availableSeats = currentHallbooking.getAvailableSeats();
+		return availableSeats;
 	}
 	
 	public int getHallNo()
