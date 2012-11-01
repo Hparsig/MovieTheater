@@ -8,6 +8,7 @@ import movieTheater.Persons.SalesPerson;
 
 public class SQLEmployeeLoad extends SQL{
 	private ArrayList<Employee> employeeArray;	
+	private ArrayList<Manager> managerArray;
 	private static final String queryEmployee = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE empNo =";
 	private static final String queryEmployeeByFirstName = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE fName LIKE '%";
 	private static final String queryEmployeeByUsername = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE username LIKE '%";
@@ -20,6 +21,7 @@ public class SQLEmployeeLoad extends SQL{
 	public SQLEmployeeLoad()
 	{
 		employeeArray = new ArrayList<Employee>();
+		managerArray = new ArrayList<Manager>();
 		statement = null;
 		connection = null;
 	}

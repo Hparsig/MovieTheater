@@ -1,17 +1,16 @@
 package movieTheater.main;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
-
 
 public class HallBooking {
 
 	private int hallNo;
 	private ArrayList<ArrayList<Seat>> seatBooking;
-	private Date timeStart;
-	private Date timeEnd;
+	private Timestamp timeStart;
+	private Timestamp timeEnd;
 	
-	public HallBooking(int hallNo, ArrayList<ArrayList<Seat>> seatBooking, Date timeStart, Date timeEnd)
+	public HallBooking(int hallNo, ArrayList<ArrayList<Seat>> seatBooking, Timestamp timeStart, Timestamp timeEnd)
 	{
 		this.hallNo = hallNo;
 		this.seatBooking = seatBooking;
@@ -23,11 +22,11 @@ public class HallBooking {
 	{
 		return hallNo;
 	}
-	public Date getTimeStart()
+	public Timestamp getTimeStart()
 	{
 		return timeStart;
 	}
-	public Date getTimeEnd()
+	public Timestamp getTimeEnd()
 	{
 		return timeEnd;
 	}

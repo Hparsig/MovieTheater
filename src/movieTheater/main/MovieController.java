@@ -1,7 +1,7 @@
 package movieTheater.main;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 
 import movieTheater.Movie.Cast;
 import movieTheater.Movie.Director;

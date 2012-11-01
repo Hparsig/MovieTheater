@@ -7,16 +7,14 @@ import java.util.Date;
 public class HallController {
 	
 	private ArrayList<Hall> halls;
-	private int[] seatsPrRowHall1 = {8, 10, 12, 12, 14, 14, 16, 16, 16, 16};
-	private int[] seatsPrRowHall2 = {10, 10, 12, 12, 14, 14, 16, 16, 16, 18, 18, 18};
-	private int[] seatsPrRowHall3 = {6, 6, 8, 8, 10, 10, 10, 12};
+
 
 	public HallController()
 	{
 		halls = new ArrayList<Hall>();
-		halls.add(new Hall(1, seatsPrRowHall1));
-		halls.add(new Hall(2, seatsPrRowHall2));
-		halls.add(new Hall(2, seatsPrRowHall3));
+		halls.add(new Hall(1, HallData.seatsPrRowHall1));
+		halls.add(new Hall(2, HallData.seatsPrRowHall2));
+		halls.add(new Hall(2, HallData.seatsPrRowHall3));
 	}
 	/**
 	 * 
