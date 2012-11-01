@@ -10,7 +10,7 @@ public class CinemaController {
 	{	
 		movieController = new MovieController();
 		hallController = new HallController();
-		showController = new ShowController(movieController,hallController);
+		showController = new ShowController();
 	}
 
 

@@ -14,12 +14,9 @@ public class ShowController {
 	private ArrayList<Show> shows;
 	private SQLShowLoad sqlShowLoad;
 	private SQLShowSave sqlShowSave;
-	private MovieController movieController;
-	private HallController hallController;
+	
 
-	public ShowController(MovieController movieController, HallController hallController){
-		this.movieController = movieController;
-		this.hallController = hallController;
+	public ShowController(){
 		shows = new ArrayList<Show>();
 		sqlShowLoad = new SQLShowLoad();
 	}
@@ -56,7 +53,7 @@ public class ShowController {
 	{
 		int choise = 0;
 		//GUI brugerinput omkring tid start og slut
-		ArrayList<Movie> availableFilms = movieController.getAvailableMovies(timeStart, timeEnd);
+		//ArrayList<Movie> availableFilms = movieController.getAvailableMovies(timeStart, timeEnd);
 		// choise = GUI brugervalg
 		//int movieID = availableFilms.get(choise).getID();
 		//ArrayList<Hall> availableHalls = hallController.getAvailableHalls(movieLength, timeStart, timeEnd);
