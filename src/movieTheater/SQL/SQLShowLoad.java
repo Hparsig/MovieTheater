@@ -155,7 +155,7 @@ public class SQLShowLoad extends SQL{
 		openConnection();
 		
 		try {
-			resultSet = statement.executeQuery(queryLoadShowByDate+date+"' "+queryLoadShowsByTitle+"%'");
+			resultSet = statement.executeQuery(queryLoadShowByDate+date+"' "+queryLoadShowsByTitle+title+"%'");
 			setShow(resultSet);
 		} catch (SQLException e) {
 			System.out.println("fejl i load af forestilling efter dato og titel");
@@ -394,7 +394,7 @@ public class SQLShowLoad extends SQL{
 		HallBooking hallBooking=null;
 		openConnection();
 		ArrayList<ArrayList<Seat>> seats = new ArrayList<ArrayList<Seat>>();
-		ArrayList<Seat> seatsOnRow = new ArrayList<Seat>();
+		
 		int[] seatsPrRow;
 		
 		if(hallNo==1)
@@ -405,20 +405,18 @@ public class SQLShowLoad extends SQL{
 		{
 			seatsPrRow = HallData.seatsPrRowHall2;
 		}
-		else
+		else{
 			seatsPrRow = HallData.seatsPrRowHall3;
-		
-		
+		}
 		for(int i = 0; i < seatsPrRow.length; i++)						//iterates over one row at the time
 		{
 			int noSeatsCurrentRow = seatsPrRow[i];
-			seatsOnRow.clear();
+			ArrayList<Seat> seatsOnRow = new ArrayList<Seat>();
 			for(int j = 0; j < noSeatsCurrentRow; j++)			//adds seats according to the seatsPrRow-array. 
 			{
 				seatsOnRow.add(new Seat(j));
 			}
 			seats.add(seatsOnRow);
-			
 		}
 		try
 		{

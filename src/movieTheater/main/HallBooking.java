@@ -31,19 +31,19 @@ public class HallBooking {
 	{
 		return timeEnd;
 	}
-	public HashMap<Integer,Integer> getAvailableSeats()
+	public HashMap<Integer,ArrayList<Integer>> getAvailableSeats()
 	{
-		HashMap<Integer,Integer> seatSuggestion = new HashMap<Integer,Integer>();
+		HashMap<Integer,ArrayList<Integer>> seatSuggestion = new HashMap<Integer,ArrayList<Integer>>();
 		
 		for (int row=0;row<seatBooking.size();row++) {
-			
-	         for (int seat=0;seat<seatBooking.get(row).size();seat++)
-	         {
-	        	 int status = seatBooking.get(row).get(seat).getStatus();
-	        	 if(status==0){
-	        		 seatSuggestion.put(row, seat);
-	        	 }
-	        		 
+			ArrayList<Integer> seats = new ArrayList<Integer>();
+	        for (int seat=0;seat<seatBooking.get(row).size();seat++)
+	        {
+	        	int status = seatBooking.get(row).get(seat).getStatus();
+	        	if(status==0){
+	        		seats.add(seat);
+	        	}
+	        	seatSuggestion.put(row, seats);	 
 	         } 
 		}
 		return  seatSuggestion;

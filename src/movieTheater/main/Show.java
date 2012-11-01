@@ -26,4 +26,7 @@ public class Show {
 	public HallBooking getHallBooking(){
 		return hallBooking;
 	}
+	public String toString(){
+		return "Film: "+movie.getMovieName()+"\nStart tid: "+ hallBooking.getTimeStart()+"\nSal:"+hallBooking.getHalleNo();
+	}
 }

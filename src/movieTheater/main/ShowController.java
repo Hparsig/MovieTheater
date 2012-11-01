@@ -33,15 +33,20 @@ public class ShowController {
 		try
 		{
 			shows = sqlShowLoad.loadShowsByDateAndTitle(date, titel);
-			HashMap<Integer,Integer> av = shows.get(0).getHallBooking().getAvailableSeats();
 			
-			Map map = av;
-			Iterator entries = map.entrySet().iterator();
-			while (entries.hasNext()) {
-			    Map.Entry entry = (Map.Entry) entries.next();
-			    Integer key = (Integer)entry.getKey();
-			    Integer value = (Integer)entry.getValue();
-			    System.out.println("Key = " + key + ", Value = " + value);
+			for(int i=0; i < shows.size(); i++){
+				HashMap<Integer,ArrayList<Integer>> av = shows.get(i).getHallBooking().getAvailableSeats();
+				Map map = av;
+				Iterator entries = map.entrySet().iterator();
+				System.out.println(shows.get(i));
+				while (entries.hasNext())
+				{
+					Map.Entry entry = (Map.Entry) entries.next();
+					Integer key = (Integer)entry.getKey();
+					ArrayList<Integer> value = (ArrayList<Integer>)entry.getValue();
+					System.out.println("Række = " + key + ", Ledige sæder = " + value);
+				}
+				System.out.println("\n");
 			}
 //			for (Integer key : av.keySet())
 //			{

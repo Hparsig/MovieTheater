@@ -133,7 +133,7 @@ public class SQLMovieLoad extends SQL{
 					isThreeDim = true;
 				}
 				cast = new Cast(castHash);
-				dataFilmArray.add(new Movie(title, director, length, genre, premier, endDay, orgTitel, isThreeDim, cast, ratings));
+				dataFilmArray.add(new Movie(movieID,title, director, length, genre, premier, endDay, orgTitel, isThreeDim, cast, ratings));
 			}
 		}
 		catch (Exception e)

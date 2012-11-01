@@ -38,9 +38,9 @@ public class Hall {
 		hallBookings.add(new HallBooking(hallNo, seats, timeStart, timeEnd));	
 	}
 	 
-	public HashMap<Integer,Integer> getAvaliableSeats(HallBooking currentHallbooking)
+	public HashMap<Integer,ArrayList<Integer>> getAvaliableSeats(HallBooking currentHallbooking)
 	{
-		HashMap<Integer,Integer> availableSeats = currentHallbooking.getAvailableSeats();
+		HashMap<Integer,ArrayList<Integer>> availableSeats = currentHallbooking.getAvailableSeats();
 		return availableSeats;
 	}
 	
