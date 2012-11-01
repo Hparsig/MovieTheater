@@ -13,6 +13,7 @@ import movieTheater.Movie.Movie;
 import movieTheater.Movie.Rating;
 import movieTheater.Movie.Cast;
 import movieTheater.main.HallBooking;
+import movieTheater.main.HallData;
 import movieTheater.main.Seat;
 import movieTheater.main.Show;
 
@@ -392,7 +393,28 @@ public class SQLShowLoad extends SQL{
 		HallBooking hallBooking=null;
 		openConnection();
 		ArrayList<ArrayList<Seat>> seats = new ArrayList<ArrayList<Seat>>();
+		int[] seatsPrRow;
 		
+		if(hallNo==1)
+		{
+			seatsPrRow = HallData.seatsPrRowHall1;
+		}
+		else if(hallNo==2)
+		{
+			seatsPrRow = HallData.seatsPrRowHall2;
+		}
+		else
+			seatsPrRow = HallData.seatsPrRowHall3;
+		
+		for(int currentRow: seatsPrRow)							//iterates over one row at the time
+		{
+			int noSeatsCurrentRow = seatsPrRow[currentRow];
+			
+			for(int i = 0; i < noSeatsCurrentRow; i++)			//adds seats according to the seatsPrRow-array. 
+			{
+				seats.get(currentRow).add(new Seat(i));
+			}
+		}
 		try
 		{
 			resultSet = statement.executeQuery((queryBooking+showID));
@@ -402,7 +424,7 @@ public class SQLShowLoad extends SQL{
 				int seatNr = resultSet.getInt("seat");
 				int rowID = resultSet.getInt("rowID");
 			
-				//seats.get(rowID).get(seatNr).setReservation(); Ordne dette TODO fix
+				seats.get(rowID).get(seatNr).setReservation();
 			}
 			hallBooking = new HallBooking(hallNo,seats,sTime,eTime);
 						
@@ -416,9 +438,7 @@ public class SQLShowLoad extends SQL{
 		{
 			closeConnectionLoad();
 		}
-		
 		return hallBooking;
-		
 	}
 	
 }

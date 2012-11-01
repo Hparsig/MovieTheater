@@ -17,7 +17,6 @@ public class ShowController {
 	
 
 	public ShowController(){
-		shows = new ArrayList<Show>();
 		sqlShowLoad = new SQLShowLoad();
 	}
 	/**
