@@ -5,21 +5,21 @@ import java.sql.SQLException;
 
 import movieTheater.Persons.Customer;
 
-public class SQLCustomerSave extends SQL {
-	private static final String createCustomer = "insert into Costumers(fName, lName, road, houseNo, postCode, phone, username, pW) values(?,?,?,?,?,?,?,?)";
+public class SQLCustomerEdit extends SQL {
+	private static final String updateCustomer = "UPDATE Customers SEt fName = ? lName = ?, road = ?, houseNo = ?, postCode = ?, phone = ?, username = ?, pW = ?";
 	
-	public SQLCustomerSave()
+	public SQLCustomerEdit()
 	{
 		statement = null;
 		connection = null;
 	}
 	
    
-	public void createCustomer(Customer customer) throws SQLException 
+	public int createCustomer(Customer customer) throws SQLException 
 	{
 		openConnection();
-		preparedStatement = connection.prepareStatement(createCustomer); // create statement object
-//       int rows=0;
+		preparedStatement = connection.prepareStatement(updateCustomer); // create statement object
+       int rows=0;
        try
        {
 	   	   preparedStatement.setString(1, customer.getfName());
@@ -43,5 +43,6 @@ public class SQLCustomerSave extends SQL {
        {  
     	   closeConnectionSave();      
        } 
+       return rows;
 	}  
 }
