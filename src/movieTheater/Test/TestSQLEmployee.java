@@ -6,6 +6,7 @@ import java.util.Random;
 
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
+import movieTheater.Persons.SalesPerson;
 import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLEmployeeSave;
 
@@ -13,7 +14,6 @@ public class TestSQLEmployee {
 
 	SQLEmployeeLoad employeeLoad;
 	SQLEmployeeSave employeeSave;
-	Manager employee;
 	ArrayList<Employee> employees;
 
 	public TestSQLEmployee()
@@ -52,7 +52,12 @@ public class TestSQLEmployee {
 	public void testEmployeeSave()
 	{
 		try {
-			employeeSave.createEmployee(new Employee(0, Generator(8, true), Generator(8, true), 0, 0, Generator(8, true), 0, 0, Generator(8, true), Generator(8, true), Generator(8, true)));
+			Manager m = new Manager(Generator(8, true), Generator(8, false), Integer.parseInt(Generator(8, false)), Generator(2, true), Generator(8, true), 
+					Integer.parseInt(Generator(4, false)), Generator(8, true), Generator(8, true), Generator(8, true));
+			SalesPerson s = new SalesPerson(Generator(8, true), Generator(8, false), Integer.parseInt(Generator(8, false)), Generator(2, true), Generator(8, true),
+					Integer.parseInt(Generator(4, false)), Generator(8, true), Generator(8, true), Generator(8, true));
+			employeeSave.createEmployee(m);
+			employeeSave.createEmployee(s);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}

@@ -15,5 +15,32 @@ public class Booking {
 		this.seats = seats;
 		this.bookingNo = bookingNo;
 	}
+
+	public Show getShow() 
+	{
+		return show;
+	}
+
+	public void setShow(Show show) {
+		this.show = show;
+	}
+
+	public ArrayList<Seat> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(ArrayList<Seat> seats) {
+		this.seats = seats;
+	}
+
+	public int getBookingNo() 
+	{
+		return bookingNo;
+	}
+
+	public void setBookingNo(int bookingNo) 
+	{
+		this.bookingNo = bookingNo;
+	}
 	
 }
