@@ -19,7 +19,7 @@ public class SQLCustomerSave extends SQL {
 	{
 		openConnection();
 		preparedStatement = connection.prepareStatement(createCustomer); // create statement object
-//       int rows=0;
+
        try
        {
 	   	   preparedStatement.setString(1, customer.getfName());
@@ -31,7 +31,7 @@ public class SQLCustomerSave extends SQL {
 	   	   preparedStatement.setString(7, customer.getUserName());
 	   	   preparedStatement.setString(8,customer.getPW());
 	      
-	   	   rows = preparedStatement.executeUpdate();                     
+	   	   preparedStatement.executeUpdate();                     
         
        }
        catch (Exception e)
