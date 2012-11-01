@@ -3,6 +3,8 @@ package movieTheater.main;
 import java.util.ArrayList;
 import java.util.Date;
 
+import movieTheater.Movie.Cast;
+import movieTheater.Movie.Director;
 import movieTheater.Movie.Movie;
 
 
@@ -23,8 +25,5 @@ public class MovieController {
 		}
 		return availableMovies;
 	}
-	
-	public void createMovie(){
-		
-	}
+
 }
