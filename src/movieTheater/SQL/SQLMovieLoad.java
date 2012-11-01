@@ -1,5 +1,6 @@
 package movieTheater.SQL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.sql.*;
 
 import movieTheater.Movie.Actor;
@@ -101,7 +102,8 @@ public class SQLMovieLoad extends SQL{
 	 */
 	public ArrayList<Movie> setMovie(ResultSet resultSet)
 	{
-		ArrayList<Cast> cast = new ArrayList<Cast>();
+		HashMap<Actor, String> castHash = new HashMap<Actor, String>();
+		Cast cast;
 		ArrayList<Rating> ratings = new ArrayList<Rating>();
 		boolean isThreeDim = false;
 
@@ -122,7 +124,7 @@ public class SQLMovieLoad extends SQL{
 				Date endDay = resultSet.getDate("endDay");
 
 				Director director = LoadDirector(directID);
-				cast = LoadCast(movieID);
+				castHash = LoadCast(movieID);
 				ratings = LoadRatings(movieID);
 				String genre = LoadGenre(genreID);
 
@@ -130,7 +132,7 @@ public class SQLMovieLoad extends SQL{
 				{
 					isThreeDim = true;
 				}
-
+				cast = new Cast(castHash);
 				dataFilmArray.add(new Movie(title, director, length, genre, premier, endDay, orgTitel, isThreeDim, cast, ratings));
 			}
 		}
@@ -342,10 +344,12 @@ public class SQLMovieLoad extends SQL{
 		return actors;
 
 	}
-	public ArrayList<Cast> LoadCast(int filmID) throws SQLException 
+
+	public HashMap<Actor, String> LoadCast(int filmID) throws SQLException 
 	{
 		openConnection();
-		ArrayList<Cast> cast = new ArrayList<Cast>();
+		Actor actor;
+		HashMap<Actor, String> cast = new HashMap<Actor, String>(); //FIXME undersøg om hashmap og map virker sammen
 		ResultSet resultSet = null;
 
 		try
@@ -355,15 +359,14 @@ public class SQLMovieLoad extends SQL{
 		
 			while (resultSet.next())
 			{
-				int movieID = resultSet.getInt("movieID");
 				int actorID = resultSet.getInt("actorID");
 				String rolename = resultSet.getString("roleName");
-				
 				String firstName = resultSet.getString("fName");
 				String lastName = resultSet.getString("lName");
 				int gender = resultSet.getInt("gender");
 				String description = resultSet.getString("descript");
-				cast.add(new Cast(movieID,new Actor(firstName, lastName, gender, description,actorID) ,rolename));
+				actor = new Actor(firstName, lastName, gender, description, actorID);
+				cast.put(actor, rolename);
 			}	
 		}
 		catch (Exception e)

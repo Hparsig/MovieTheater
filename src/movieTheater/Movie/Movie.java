@@ -18,7 +18,7 @@ public class Movie {
 	private Date timeEnd;
 	private String originalTitle;
 	private boolean is3D;
-	private ArrayList<Cast> cast;
+	private Cast cast;
 	private ArrayList<Rating> ratings;
 
 	/**
@@ -35,7 +35,7 @@ public class Movie {
 	 */
 
 	public Movie(String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
-			String originalName, boolean is3D, ArrayList<Cast> cast, 
+			String originalName, boolean is3D, Cast cast, 
 			ArrayList<Rating> ratings)
 	{
 		this.title = movieName;
@@ -50,7 +50,7 @@ public class Movie {
 		this.ratings = ratings;
 	}
 	public Movie(int movieID,String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
-			String originalName, boolean is3D, ArrayList<Cast> cast, 
+			String originalName, boolean is3D, Cast cast, 
 			ArrayList<Rating> ratings)
 	{
 		this.movieID = movieID;
@@ -103,9 +103,13 @@ public class Movie {
 	{
 		return is3D;
 	}
-	public ArrayList<Cast> getCast()
+	public Cast getCast()
 	{
 		return cast;
+	}
+	public ArrayList<String> getCastNames()
+	{
+		return cast.getActorNames();
 	}
 	public Rating getRating(int userID)
 	{

@@ -100,12 +100,8 @@ public class testSQLMovie {
 					+ currentFilm.getInstructedBy().getFName() + " " + currentFilm.getInstructedBy().getLName() + " " +
 					currentFilm.getReleaseDate());
 
-			for(Actor currentActor: currentFilm.getCast())
-			{
-				System.out.println(currentActor.getFName() + " " + currentActor.getLName());
-			}
 			System.out.println();
-			
+			System.out.println(currentFilm.getCastNames());
 			for(Rating currentRating: currentFilm.getRatings())
 			{
 				System.out.println(currentRating.getStars() + " " + currentRating.getReview());

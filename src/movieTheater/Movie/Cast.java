@@ -1,30 +1,30 @@
 package movieTheater.Movie;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public class Cast {
 
-	private int movieID;
-	private Actor actor;
-	private String rolename;
+
+	private Map<Actor, String> cast;
 	
-	public Cast(int movieID, Actor actor, String rolename) {
-		this.movieID = movieID;
-		this.actor = actor;
-		this.rolename = rolename;
+	public Cast(Map<Actor, String> cast)
+	{
+		this.cast = cast;
 	}
-	public Cast(Actor actor, String rolename) {
-		this.actor = actor;
-		this.rolename = rolename;
+
+	public ArrayList<String> getActorNames()
+	{
+		ArrayList<String> castString = new ArrayList<String>();
+
+		for(Map.Entry<Actor, String> entry : cast.entrySet())
+		{
+			String name = (entry.getKey().getFName() + " " + entry.getKey().getLName() + " ");
+			String role = entry.getValue();
+			
+			castString.add("\n" + role+ ":" + name);
+		}
+		return castString;
 	}
-	
-	public int getMovieID(){
-		return movieID;
-	}
-	public Actor getActor(){
-		return actor;
-	}
-	public String getRolename(){
-		return rolename;
-	}
-	
 
 }
