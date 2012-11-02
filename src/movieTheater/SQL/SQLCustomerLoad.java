@@ -2,21 +2,21 @@ package movieTheater.SQL;
 
 import java.util.ArrayList;
 import java.sql.*;
-import movieTheater.Persons.Customer;
+import movieTheater.Persons.Costumer;
 
 public class SQLCustomerLoad extends SQL{
-	private ArrayList<Customer> customerArray;	
+	private ArrayList<Costumer> customerArray;	
 	private static final String queryCustomer = "SELECT * FROM costumers where costNo =";
 	private static final String queryCustomerByFirstName = "SELECT * FROM costumers where fName LIKE '%";
 	private static final String queryGetCity = "SELECT city FROM postcode WHERE postCode =";
 	public SQLCustomerLoad()
 	{
-		customerArray = new ArrayList<Customer>();
+		customerArray = new ArrayList<Costumer>();
 		statement = null;
 		connection = null;
 	}
 
-	public ArrayList<Customer> setCustomer(ResultSet resultSet)
+	public ArrayList<Costumer> setCustomer(ResultSet resultSet)
 	{
 		
 		try
@@ -35,7 +35,7 @@ public class SQLCustomerLoad extends SQL{
 				
 				String city = getCity(postCode);
 					
-				customerArray.add(new Customer(fname, lname, telephone, street, houseNo, postCode, city, username, password,custNo));
+				customerArray.add(new Costumer(fname, lname, telephone, street, houseNo, postCode, city, username, password,custNo));
 			}
 		}
 		catch (Exception e)
@@ -46,7 +46,7 @@ public class SQLCustomerLoad extends SQL{
 		return customerArray;	
 	}
 
-	public ArrayList<Customer> LoadCustomer(int custNo) throws SQLException {
+	public ArrayList<Costumer> LoadCustomer(int custNo) throws SQLException {
 
 		ResultSet resultSet = null;
 		openConnection();
@@ -68,7 +68,7 @@ public class SQLCustomerLoad extends SQL{
 		return customerArray;
 	}
 
-	public ArrayList<Customer> LoadCustomer(String fname) throws SQLException {
+	public ArrayList<Costumer> LoadCustomer(String fname) throws SQLException {
 		ResultSet resultSet = null;
 		openConnection();
 

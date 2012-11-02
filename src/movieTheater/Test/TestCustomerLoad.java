@@ -11,7 +11,7 @@ public class TestCustomerLoad {
 	public static void main(String[] args) {	
 		SQLCustomerLoad load = new SQLCustomerLoad();
 		try{
-			ArrayList<Customer> customers = load.LoadCustomer("h");
+			ArrayList<Costumer> customers = load.LoadCustomer("h");
 			for (int i=0; i < customers.size();i++)
 			{
 				System.out.println(customers.get(i).getCostumerNo());

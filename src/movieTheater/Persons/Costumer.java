@@ -1,16 +1,16 @@
 package movieTheater.Persons;
 
-public class Customer extends Person 
+public class Costumer extends Person 
 {
 	private int costumerNo;
 	
-	public Customer(String fName, String lName, int phone, String road, String houseNo, int postCode, String city, String userName, 
+	public Costumer(String fName, String lName, int phone, String road, String houseNo, int postCode, String city, String userName, 
 			String PW, int costumerNo)
 	{
 		super(fName, lName, phone, road, houseNo, postCode, city, userName, PW);
 		this.costumerNo = costumerNo;
 	}
-	public Customer(String fName, String lName, int phone, String road, String houseNo, int postCode, String city, String userName, 
+	public Costumer(String fName, String lName, int phone, String road, String houseNo, int postCode, String city, String userName, 
 			String PW)
 	{
 		super(fName, lName, phone, road, houseNo, postCode, city, userName, PW);

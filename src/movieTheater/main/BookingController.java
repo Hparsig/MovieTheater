@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import movieTheater.Show.Booking;
 
 
-public class BookingController {
-
+public class BookingController 
+{
 	private ArrayList<Booking> bookings;
 
+	
 	
 	public ArrayList<Booking> getBooking(int bookingNo)
 	{

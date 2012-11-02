@@ -3,7 +3,7 @@ package movieTheater.SQL;
 
 import java.sql.SQLException;
 
-import movieTheater.Persons.Customer;
+import movieTheater.Persons.Costumer;
 
 public class SQLCustomerEdit extends SQL {
 	private static final String updateCustomer = "UPDATE Customers SEt fName = ? lName = ?, road = ?, houseNo = ?, postCode = ?, phone = ?, username = ?, pW = ?";
@@ -15,7 +15,7 @@ public class SQLCustomerEdit extends SQL {
 	}
 	
    
-	public int createCustomer(Customer customer) throws SQLException 
+	public int createCustomer(Costumer customer) throws SQLException 
 	{
 		openConnection();
 		preparedStatement = connection.prepareStatement(updateCustomer); // create statement object
