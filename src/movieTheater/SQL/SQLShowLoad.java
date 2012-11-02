@@ -60,10 +60,11 @@ public class SQLShowLoad extends SQL{
 				Timestamp timeS = resultSet.getTimestamp("timeS");
 				Timestamp timeE = resultSet.getTimestamp("timeE");
 				int movieID = resultSet.getInt("movieID");
+				int priceCategory = 0; //FIXME mangler at lave priceCategory i databasen. 
 				
 				loadMovie(movieID);
 				HallBooking hallBooking = loadBooking(showID,hallNo,timeS, timeE);
-				showArray.add(new Show(showID, movie,hallBooking));
+				showArray.add(new Show(showID, movie,hallBooking,priceCategory));
 				
 			}
 		}
