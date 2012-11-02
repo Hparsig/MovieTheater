@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import movieTheater.SQL.SQLShowLoad;
-import movieTheater.main.Show;
+import movieTheater.Show.Show;
 import movieTheater.main.ShowController;
 
 public class SQLShowLoadTest {

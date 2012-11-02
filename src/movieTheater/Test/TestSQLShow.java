@@ -6,7 +6,7 @@ import java.util.Random;
 
 import movieTheater.SQL.SQLShowLoad;
 import movieTheater.SQL.SQLShowSave;
-import movieTheater.main.Show;
+import movieTheater.Show.Show;
 
 public class TestSQLShow{
 

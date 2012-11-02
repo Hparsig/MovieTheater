@@ -1,8 +1,9 @@
-package movieTheater.main;
+package movieTheater.Show;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class HallBooking {
 

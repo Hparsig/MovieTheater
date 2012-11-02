@@ -1,6 +1,7 @@
-package movieTheater.main;
+package movieTheater.Show;
 
 import java.util.ArrayList;
+
 
 
 public class Booking {

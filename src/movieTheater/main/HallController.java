@@ -3,6 +3,8 @@ package movieTheater.main;
 import java.util.ArrayList;
 import java.util.Date;
 
+import movieTheater.Show.Hall;
+
 
 public class HallController {
 	

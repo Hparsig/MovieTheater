@@ -1,4 +1,4 @@
-package movieTheater.main;
+package movieTheater.Show;
 import movieTheater.Movie.Movie;
 
 public class Show {

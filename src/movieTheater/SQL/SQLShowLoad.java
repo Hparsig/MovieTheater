@@ -12,10 +12,10 @@ import movieTheater.Movie.Director;
 import movieTheater.Movie.Movie;
 import movieTheater.Movie.Rating;
 import movieTheater.Movie.Cast;
-import movieTheater.main.HallBooking;
+import movieTheater.Show.HallBooking;
+import movieTheater.Show.Seat;
+import movieTheater.Show.Show;
 import movieTheater.main.HallData;
-import movieTheater.main.Seat;
-import movieTheater.main.Show;
 
 public class SQLShowLoad extends SQL{
 	

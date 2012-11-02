@@ -2,6 +2,8 @@ package movieTheater.main;
 
 import java.util.ArrayList;
 
+import movieTheater.Show.Booking;
+
 
 public class BookingController {
 

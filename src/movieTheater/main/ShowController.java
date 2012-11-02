@@ -11,6 +11,7 @@ import java.util.Map;
 import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLShowLoad;
 import movieTheater.SQL.SQLShowSave;
+import movieTheater.Show.Show;
 
 public class ShowController {
 	
