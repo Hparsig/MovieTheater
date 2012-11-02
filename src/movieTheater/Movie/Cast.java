@@ -12,6 +12,10 @@ public class Cast {
 	{
 		this.cast = cast;
 	}
+	public Map<Actor, String> getCast()
+	{
+		return cast;
+	}
 
 	public ArrayList<String> getActorNames()
 	{

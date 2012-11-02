@@ -1,6 +1,9 @@
 package movieTheater.SQL;
 import java.sql.*;
+import java.util.Map;
 
+import movieTheater.Movie.Actor;
+import movieTheater.Movie.Cast;
 import movieTheater.Movie.Director;
 import movieTheater.Movie.Movie;
 import movieTheater.Persons.Manager;
@@ -34,7 +37,8 @@ public class SQLMovieSave extends SQL{
 	 * @throws SQLException 
 	 */
 	
-	public int saveMovie(Movie movie){
+	public int saveMovie(Movie movie)
+	{
 		openConnection();
 		
 		int rows=0;
@@ -51,9 +55,9 @@ public class SQLMovieSave extends SQL{
 			
 			preparedStatement.setInt(4,movie.getInstructedBy().getDirectorID());
 			
-			boolean threedim = movie.getIsIn3D();
 			int tdim = 0;
-			if(threedim==true){
+			if(movie.getIsIn3D())
+			{
 				tdim = 1;
 			}
 		
@@ -73,7 +77,6 @@ public class SQLMovieSave extends SQL{
 		}
 		finally
 		{  
-
 			closeConnectionSave(); 
 		} 
 		saveCastList(movie);
@@ -107,13 +110,16 @@ public class SQLMovieSave extends SQL{
 		
 	}
 	
-	public void saveCastList(Movie movie){
+	public void saveCastList(Movie movie)
+	{
 		ResultSet resultSet = null;
 		preparedStatement = null;
 		openConnection();
 		int movieID=0;
 		String title = movie.getOriginalName();
-
+		Cast cast = movie.getCast();
+		Map<Actor, String> castMap = cast.getCast();
+		
 		try
 		{
 			resultSet = statement.executeQuery(getMovieID+title+"'");
@@ -122,18 +128,27 @@ public class SQLMovieSave extends SQL{
 			{
 				movieID = resultSet.getInt("movieID");
 			}
-			for (int i=0; i < movie.getCast().size();i++)
-			{
+			
+			for(Map.Entry<Actor, String> entry : castMap.entrySet())
+			{	
+				int actorID = entry.getKey().getActorID();
+				String roleName = entry.getValue();
+//				String name = (entry.getKey().getFName() + " " + entry.getKey().getLName() + " ");
+//				String role = entry.getValue();
 				
-				int actorID = movie.getCast().get(i).getActor().getActorID();
-				String roleName = movie.getCast().get(i).getRolename();
+//				castString.add("\n" + role+ ":" + name);
+//			}
+//			for (int i=0; i < movie.getCast().;i++)
+//			{
+//				
+//				int actorID = movie.getCast().get(i).getActor().getActorID();
+//				String roleName = movie.getCast().get(i).getRolename();
 				preparedStatement = connection.prepareStatement(createCastList); 
 				
 				preparedStatement.setInt(1,movieID);				
 				preparedStatement.setInt(2,actorID);
 				preparedStatement.setString(3, roleName);
 				preparedStatement.executeUpdate();
-
 			}
 		}
 		catch (Exception e)
@@ -143,7 +158,7 @@ public class SQLMovieSave extends SQL{
 		}
 		finally
 		{
-			closeConnectionLoad();
+			closeConnectionSave();
 		}
 	}
 	

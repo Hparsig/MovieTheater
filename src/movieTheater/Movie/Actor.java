@@ -13,7 +13,8 @@ public class Actor extends MoviePerson
 		this.actorID = actorID;
 	}
 	
-	public int getActorID(){
+	public int getActorID()
+	{
 		return actorID;
 	}
 }
