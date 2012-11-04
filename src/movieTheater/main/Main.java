@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import movieTheater.GUI.MainWindow;
 //import movieTheater.GUI.TestWindow;
 import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLMovieLoad;
@@ -15,6 +16,9 @@ public class Main {
 	{
 		//testSQLMovie test = new testSQLMovie();
 		//test.runTest();
+		
+		MainWindow mainWindow = new MainWindow();
+		mainWindow.setVisible(true);
 		
 		SQLShowLoadTest test = new SQLShowLoadTest();
 		Date dato = new Date(2012-1900,9,26);

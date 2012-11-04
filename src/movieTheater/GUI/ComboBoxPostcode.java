@@ -25,11 +25,13 @@ public class ComboBoxPostcode  extends AbstractListModel implements ComboBoxMode
 			this.city = city;
 		}
 
-		public Object getSelectedItem() {
+		public Object getSelectedItem() 
+		{
 			return selectedItem;
 		}
 
-		public void setSelectedItem(Object newValue) {
+		public void setSelectedItem(Object newValue) 
+		{
 			selectedItem = newValue;
 		}
 
@@ -37,10 +39,12 @@ public class ComboBoxPostcode  extends AbstractListModel implements ComboBoxMode
 			return city.size();
 		}
 
-		public Object getElementAt(int i) {
+		public Object getElementAt(int i) 
+		{
 			return city.get(i);
 		}
-		public JComboBox set() {
+		public JComboBox set() 
+		{
 			ArrayList city = postcode.getCitys();
 			ComboBoxPostcode model = new ComboBoxPostcode(city);
 	    	JComboBox comboBox = new JComboBox(model);

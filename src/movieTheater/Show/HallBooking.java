@@ -38,14 +38,14 @@ public class HallBooking {
 		
 		for (int row=0;row<seatBooking.size();row++) {
 			ArrayList<Integer> seats = new ArrayList<Integer>();
-	        for (int seat=0;seat<seatBooking.get(row).size();seat++)
+	        for (int seat = 0; seat < seatBooking.get(row).size(); seat++)
 	        {
 	        	int status = seatBooking.get(row).get(seat).getStatus();
 	        	if(status==0){
 	        		seats.add(seat);
 	        	}
-	        	seatSuggestion.put(row, seats);	 
 	         } 
+        	seatSuggestion.put(row, seats);	 
 		}
 		return  seatSuggestion;
 	}

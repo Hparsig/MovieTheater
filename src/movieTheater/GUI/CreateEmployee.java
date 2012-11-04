@@ -17,18 +17,18 @@ import movieTheater.main.EmployeeController;
 import movieTheater.main.City;
 import movieTheater.SQL.SQLLoadPostCode;
 import movieTheater.SQL.SQLLoadTitel;
-import movieTheater.main.Titel;
+import movieTheater.main.Title;
 
 
 
 public class CreateEmployee extends JFrame {
 	private EmployeeController emploeyyController;
 	private ArrayList<City> postcodeArray;
-	private ArrayList<Titel> titelArray;
+	private ArrayList<Title> titleArray;
 	private SQLLoadPostCode loadPostcode;
-	private SQLLoadTitel loadTitel;
+	private SQLLoadTitel loadTitle;
 	private ComboBoxPostcode city;
-	private ComboBoxTitels titel;
+	private ComboBoxTitels title;
 	private JPanel contentPane;
 	private JTextField tlf;
 	private JTextField vej;
@@ -38,13 +38,13 @@ public class CreateEmployee extends JFrame {
 	private JTextField brugernavn;
 	private JTextField password;
 	private JComboBox citys;
-	private JComboBox titels;
+	private JComboBox titles;
 	
 	private String name;
 	private String lastname;
 	private int phone;
 	private String pWord;
-	private int titelID;
+	private int titleID;
 	private String road;
 	private String houseNr;
 	private int postcode;
@@ -58,10 +58,13 @@ public class CreateEmployee extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					CreateEmployee frame = new CreateEmployee();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
 				}
 			}
@@ -72,13 +75,13 @@ public class CreateEmployee extends JFrame {
 	 * Create the frame.
 	 */
 	public CreateEmployee() {
-		loadTitel = new SQLLoadTitel();
+		loadTitle = new SQLLoadTitel();
 		loadPostcode = new SQLLoadPostCode();
 		city = new ComboBoxPostcode(loadPostcode);
-		titel  = new ComboBoxTitels(loadTitel);
+		title  = new ComboBoxTitels(loadTitle);
 		
 		emploeyyController = new EmployeeController();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -106,16 +109,16 @@ public class CreateEmployee extends JFrame {
 					username = brugernavn.getText();
 					pWord = password.getText();
 				
-					int titelChoose = titels.getSelectedIndex();
-					titelArray = loadTitel.getTitels();
-					titelID = titelArray.get(titelChoose).getTitelID();
+					int titelChoose = titles.getSelectedIndex();
+					titleArray = loadTitle.getTitels();
+					titleID = titleArray.get(titelChoose).getTitelID();
 				
 					int cityChoose = citys.getSelectedIndex();
 					postcodeArray = loadPostcode.getCitys();
 					postcode = postcodeArray.get(cityChoose).getPostcode();
 					cityChoosen = postcodeArray.get(cityChoose).getCity();
 				
-					emploeyyController.createEmployee(name, lastname, phone, pWord, titelID, road, houseNr, postcode, cityChoosen, username);
+					emploeyyController.createEmployee(name, lastname, phone, pWord, titleID, road, houseNr, postcode, cityChoosen, username);
 				}catch(Exception e)
 				{
 					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
@@ -201,10 +204,18 @@ public class CreateEmployee extends JFrame {
 		citys.setBounds(90, 106, 117, 22);
 		panel.add(citys);
 		
-		titels = titel.set(); 
-		titels.setBounds(91, 200, 116, 22);
-		panel.add(titels);
-
-	
+		titles = title.set(); 
+		titles.setBounds(91, 200, 116, 22);
+		panel.add(titles);
+		
+		JButton btnAnnuller = new JButton("annuller");
+		btnAnnuller.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				CreateEmployee.this.dispose();
+			}
+		});
+		btnAnnuller.setBounds(297, 173, 113, 25);
+		panel.add(btnAnnuller);
 	}
 }

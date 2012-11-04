@@ -10,18 +10,18 @@ package movieTheater.GUI;
 	import javax.swing.JFrame;
 	
 	import movieTheater.SQL.SQLLoadTitel;
-	import movieTheater.main.Titel;
+	import movieTheater.main.Title;
 
-public class ComboBoxTitels  extends AbstractListModel implements ComboBoxModel {	
+public class ComboBoxTitels extends AbstractListModel implements ComboBoxModel {	
 		
 		private Object selectedItem;
-		private ArrayList titel;
+		private ArrayList<Title> titel;
 		private SQLLoadTitel loadTitel;
 		 
 		public ComboBoxTitels(SQLLoadTitel loadTitel){
 			this.loadTitel = loadTitel;
 		}
-		public ComboBoxTitels(ArrayList titel) {
+		public ComboBoxTitels(ArrayList<Title> titel) {
 			this.titel = titel;
 		}
 
@@ -41,7 +41,7 @@ public class ComboBoxTitels  extends AbstractListModel implements ComboBoxModel 
 			return titel.get(i);
 		}
 		public JComboBox set() {
-			ArrayList titel = loadTitel.getTitels();
+			ArrayList<Title> titel = loadTitel.getTitels();
 			ComboBoxTitels model = new ComboBoxTitels(titel);
 	    	JComboBox comboBox = new JComboBox(model);
     	

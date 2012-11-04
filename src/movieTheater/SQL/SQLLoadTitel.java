@@ -2,20 +2,21 @@ package movieTheater.SQL;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import movieTheater.main.Titel;
+import movieTheater.main.Title;
 
 public class SQLLoadTitel extends SQL {
 	
-	private ArrayList<Titel> titel;
+	private ArrayList<Title> titel;
 	private static final String getAllTitels = "SELECT * FROM titel";
 	
 	public SQLLoadTitel() {
-		titel = new ArrayList<Titel>();
+		titel = new ArrayList<Title>();
 		statement = null;
 		connection = null;
 	}
 	
-	public ArrayList<Titel> getTitels(){
+	public ArrayList<Title> getTitels()
+	{
 		ResultSet resultSet = null;
 		openConnection();
 
@@ -26,7 +27,7 @@ public class SQLLoadTitel extends SQL {
 			{
 				String titelName = resultSet.getString("titelName");
 				int titelID = resultSet.getInt("titelID");
-				titel.add(new Titel(titelID,titelName));
+				titel.add(new Title(titelID,titelName));
 			}			
 		}
 		catch (Exception e)
@@ -40,6 +41,4 @@ public class SQLLoadTitel extends SQL {
 		}
 		return titel;
 	}
-	
-
 }

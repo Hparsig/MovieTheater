@@ -5,9 +5,11 @@ import java.sql.*;
 
 import movieTheater.Movie.Actor;
 import movieTheater.Movie.Director;
+import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
 import movieTheater.Movie.Rating;
 import movieTheater.Movie.Cast;
+import movieTheater.main.Title;
 /**
  * 
  * @author Henrik
@@ -25,6 +27,7 @@ public class SQLMovieLoad extends SQL{
 	private static final String queryDirectorBylName = "SELECT * FROM Directors where lName LIKE '";
 	private static final String queryRatings = "SELECT * FROM Reviews where filmID =";
 	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
+	private static final String queryAllGenre = "SELECT * FROM genres";
 	private static final String queryCast = "SELECT c.*, a.* FROM casts c, actors a WHERE c.movieID =";
 	private static final String queryCastTwo = " AND c.actorID = a.actorID";
 /**
@@ -273,6 +276,61 @@ public class SQLMovieLoad extends SQL{
 			closeConnectionLoad();
 		}
 		return genre;
+	}
+	
+	public ArrayList<Genre> LoadGenres() throws SQLException 
+	{
+		ArrayList<Genre> genres = new ArrayList<Genre>();
+		ResultSet resultSet = null;
+		openConnection();
+
+		try
+		{
+			resultSet = statement.executeQuery(queryAllGenre);
+			while (resultSet.next())
+			{
+				String genreName = resultSet.getString("genre");
+				int genreID = resultSet.getInt("genreID");
+				genres.add(new Genre(genreID,genreName));
+			}			
+		}
+		catch (Exception e)
+		{
+			System.out.println("Fejl i load af genre"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return genres;
+
+	}
+	public ArrayList<String> LoadGenresString() throws SQLException 
+	{
+		ArrayList<String> genres = new ArrayList<String>();
+		ResultSet resultSet = null;
+		openConnection();
+
+		try
+		{
+			resultSet = statement.executeQuery(queryAllGenre);
+			while (resultSet.next())
+			{
+				genres.add(resultSet.getString("genre"));
+			}			
+		}
+		catch (Exception e)
+		{
+			System.out.println("Fejl i load af genre"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return genres;
+
 	}
 	/**
 	 * 

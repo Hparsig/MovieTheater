@@ -27,7 +27,8 @@ public class Movie {
 	 * @param instructedBy String
 	 * @param length int
 	 * @param genre String
-	 * @param releaseDate int
+	 * @param releaseDate Date
+	 * @param timeEnd Date
 	 * @param isDoubleLength boolean
 	 * @param is3D boolean
 	 * @param cast ArrayList<Cast>

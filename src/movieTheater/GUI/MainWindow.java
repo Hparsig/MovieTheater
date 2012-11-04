@@ -24,13 +24,15 @@ public class MainWindow extends JFrame {
 	private JButton btnGetOrder;
 	private JButton btnLogOff;
 	private JLabel lblHovedmenu;
+	private JButton btnOpretMedarbejder;
+	private JButton button;
 
 	/**
 	 * Create the frame.
 	 */
 	public MainWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 560, 352);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -82,5 +84,28 @@ public class MainWindow extends JFrame {
 		lblHovedmenu.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblHovedmenu.setBounds(138, 11, 166, 47);
 		panel.add(lblHovedmenu);
+		
+		btnOpretMedarbejder = new JButton("Opret Medarbejder");
+		btnOpretMedarbejder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				CreateEmployee createEmployee = new CreateEmployee();
+				createEmployee.setVisible(true);
+			}
+		});
+
+		btnOpretMedarbejder.setBounds(300, 106, 114, 47);
+		panel.add(btnOpretMedarbejder);
+		
+		button = new JButton("Opret film");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				NewMovie newMovie = new NewMovie();
+				newMovie.setVisible(true);
+			}
+		});
+		button.setBounds(420, 106, 114, 47);
+		panel.add(button);
 	}
 }
