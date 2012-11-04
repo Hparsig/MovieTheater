@@ -19,5 +19,9 @@ public class Director extends MoviePerson
 		return directorID;
 	}
 	
+	public String toString()
+	{
+		return (lName + ", " + fName);
+	}
 }
 

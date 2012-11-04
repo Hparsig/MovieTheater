@@ -2,8 +2,8 @@ package movieTheater.Movie;
 
 public abstract class MoviePerson {
 
-	private String fName;
-	private String lName;
+	protected String fName;
+	protected String lName;
 	private int gender;
 	private String description;
 

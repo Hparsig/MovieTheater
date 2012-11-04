@@ -17,4 +17,9 @@ public class Actor extends MoviePerson
 	{
 		return actorID;
 	}
+	
+	public String toString()
+	{
+		return (lName + ", " + fName);
+	}
 }

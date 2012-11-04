@@ -284,7 +284,7 @@ public class NewMovie extends JFrame {
 		panel.add(comboBoxDirectors);
 		
 		comboBoxActors = comboBoxActor.set();
-		comboBoxDirectors.setBounds(289, 53, 125, 23);
-		panel.add(comboBoxDirectors);
+		comboBoxActors.setBounds(289, 53, 125, 23);
+		panel.add(comboBoxActors);
 	}
 }

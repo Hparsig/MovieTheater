@@ -21,9 +21,9 @@ public class SQLMovieLoad extends SQL{
 	private ArrayList<Movie> dataFilmArray;
 	private static final String queryMovies = "SELECT * FROM Movies where genreID =";
 	private static final String queryMoviesByTitle = "SELECT * FROM Movies where title like '";
-	private static final String queryActor = "SELECT * FROM Actors";
+	private static final String queryActor = "SELECT * FROM Actors ORDER BY lName ASC";
 	private static final String queryDirectorByID = "SELECT * FROM Directors where directID =";
-	private static final String queryDirector = "SELECT * FROM Directors";
+	private static final String queryDirector = "SELECT * FROM Directors ORDER BY lName ASC";
 	private static final String queryDirectorBylName = "SELECT * FROM Directors where lName LIKE '";
 	private static final String queryRatings = "SELECT * FROM Reviews where filmID =";
 	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
