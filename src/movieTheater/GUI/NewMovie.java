@@ -42,7 +42,7 @@ import java.awt.List;
 public class NewMovie extends JFrame {
 
 	private JPanel contentPane;
-	private JPanel panel;
+	private JPanel castList;
 	private JTextField tfTitel;
 	private JTextField tfOriginalTitel;
 	private JLabel lblTitel;
@@ -69,7 +69,6 @@ public class NewMovie extends JFrame {
 	private String genre;
 	private ArrayList<Genre> genres;
 	private ArrayList<Director> directors;
-	private ArrayList<Actor> actors;
 	private ComboBoxGenre comboBoxGenre;
 	private ComboBoxDirector comboBoxDirector;
 	private ComboBoxActor comboBoxActor;
@@ -78,11 +77,14 @@ public class NewMovie extends JFrame {
 	private JComboBox comboBoxActors;
 	private Director director;
 	private Cast cast;
-	private Actor actor;
+	private ArrayList<Actor> maleActors;
+	private ArrayList<Actor> femaleActors;
 	private JButton btnAddDirector;
 	private JButton btnAddGenre;
 	private SQLMovieLoad load;
 	private SQLMovieSave save;
+	private List male;
+	private List female;
 	
 
 	/**
@@ -92,18 +94,16 @@ public class NewMovie extends JFrame {
 	{
 		director = null;
 		cast = null;
-		actor = null;
-		
 		load = new SQLMovieLoad();
 		save = new SQLMovieSave();
-		
-		
+
 		
 		try
 		{
 			genres = load.LoadGenres();
 			directors = load.LoadDirector();
-			actors = load.LoadActors();
+			maleActors = load.LoadMaleActors();
+			femaleActors = load.LoadFemaleActors();
 		} 
 		catch (SQLException e2)
 		{
@@ -127,65 +127,65 @@ public class NewMovie extends JFrame {
 		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 620, 320);
+		setBounds(100, 100, 986, 408);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
-		panel = new JPanel();
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
+		castList = new JPanel();
+		contentPane.add(castList, BorderLayout.CENTER);
+		castList.setLayout(null);
 
 		tfTitel = new JTextField();
 		tfTitel.setBounds(112, 53, 142, 20);
-		panel.add(tfTitel);
+		castList.add(tfTitel);
 		tfTitel.setColumns(10);
 
 		tfOriginalTitel = new JTextField();
 		tfOriginalTitel.setColumns(10);
 		tfOriginalTitel.setBounds(112, 84, 142, 20);
-		panel.add(tfOriginalTitel);
+		castList.add(tfOriginalTitel);
 
 		lblTitel = new JLabel("Titel");
 		lblTitel.setBounds(28, 57, 46, 14);
-		panel.add(lblTitel);
+		castList.add(lblTitel);
 
 		lblOriginalTitel = new JLabel("Original titel");
 		lblOriginalTitel.setBounds(28, 88, 74, 14);
-		panel.add(lblOriginalTitel);
+		castList.add(lblOriginalTitel);
 
 		lblInstruktr = new JLabel("Instrukt\u00F8r");
 		lblInstruktr.setBounds(28, 119, 74, 14);
-		panel.add(lblInstruktr);
+		castList.add(lblInstruktr);
 
 		lblPrmiere = new JLabel("Pr\u00E6miere");
 		lblPrmiere.setBounds(28, 151, 74, 14);
-		panel.add(lblPrmiere);
+		castList.add(lblPrmiere);
 
 		lblSpilletid = new JLabel("Spilletid");
 		lblSpilletid.setBounds(28, 182, 74, 14);
-		panel.add(lblSpilletid);
+		castList.add(lblSpilletid);
 
 		ftfPremier = new JFormattedTextField(maskFormatDate);
 		ftfPremier.setBounds(112, 146, 142, 20);
-		panel.add(ftfPremier);
+		castList.add(ftfPremier);
 
 		ftfPlayingTime = new JFormattedTextField(maskFormatLength);
 		ftfPlayingTime.setBounds(112, 178, 142, 20);
-		panel.add(ftfPlayingTime);
+		castList.add(ftfPlayingTime);
 
 		lblGenre = new JLabel("Genre");
 		lblGenre.setBounds(28, 212, 46, 14);
-		panel.add(lblGenre);
+		castList.add(lblGenre);
 
 		lblUdlbsdato = new JLabel("Udl\u00F8bsdato");
 		lblUdlbsdato.setBounds(28, 240, 64, 14);
-		panel.add(lblUdlbsdato);
+		castList.add(lblUdlbsdato);
 
 		ftfOffday = new JFormattedTextField(maskFormatDate);
 		ftfOffday.setBounds(112, 239, 142, 20);
-		panel.add(ftfOffday);
+		castList.add(ftfOffday);
 
 		btnAddActor = new JButton("Opret skuespiller");
 		btnAddActor.addActionListener(new ActionListener() {
@@ -228,12 +228,12 @@ public class NewMovie extends JFrame {
 				});
 			}
 		});
-		btnAddActor.setBounds(430, 53, 130, 23);
-		panel.add(btnAddActor);
+		btnAddActor.setBounds(816, 56, 130, 23);
+		castList.add(btnAddActor);
 
 		tglbtnNewToggleButton = new JToggleButton("3D");
-		tglbtnNewToggleButton.setBounds(289, 236, 121, 23);
-		panel.add(tglbtnNewToggleButton);
+		tglbtnNewToggleButton.setBounds(28, 272, 121, 23);
+		castList.add(tglbtnNewToggleButton);
 
 		btnAbort = new JButton("Annuller");
 		btnAbort.addActionListener(new ActionListener(){
@@ -243,8 +243,8 @@ public class NewMovie extends JFrame {
 			} 
 		});
 		btnAbort.setBackground(Color.RED);
-		btnAbort.setBounds(437, 208, 100, 23);
-		panel.add(btnAbort);
+		btnAbort.setBounds(846, 291, 100, 23);
+		castList.add(btnAbort);
 
 		btnCreateMovie = new JButton("Opret film");
 		btnCreateMovie.addActionListener(new ActionListener() {
@@ -279,21 +279,21 @@ public class NewMovie extends JFrame {
 			}});
 		
 		btnCreateMovie.setBackground(Color.GREEN);
-		btnCreateMovie.setBounds(437, 236, 100, 23);
-		panel.add(btnCreateMovie);
+		btnCreateMovie.setBounds(846, 319, 100, 23);
+		castList.add(btnCreateMovie);
 
 		lblOpretFilm = new JLabel("Opret film");
 		lblOpretFilm.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblOpretFilm.setBounds(28, 11, 158, 31);
-		panel.add(lblOpretFilm);
+		castList.add(lblOpretFilm);
 		
 		comboBoxGenres = comboBoxGenre.set();
 		comboBoxGenres.setBounds(112, 209, 142, 20);
-		panel.add(comboBoxGenres);
+		castList.add(comboBoxGenres);
 		
 		comboBoxDirectors = comboBoxDirector.set();
 		comboBoxDirectors.setBounds(112, 116, 142, 20);
-		panel.add(comboBoxDirectors);
+		castList.add(comboBoxDirectors);
 		
 //		comboBoxActors = comboBoxActor.set();
 //		comboBoxActors.addActionListener(new ActionListener(){
@@ -307,21 +307,29 @@ public class NewMovie extends JFrame {
 		//panel.add(comboBoxActors);
 		
 		btnAddDirector = new JButton("Opret instrukt\u00F8r");
-		btnAddDirector.setBounds(430, 83, 130, 23);
-		panel.add(btnAddDirector);
+		btnAddDirector.setBounds(816, 86, 130, 23);
+		castList.add(btnAddDirector);
 		
 		btnAddGenre = new JButton("Opret genre");
-		btnAddGenre.setBounds(430, 115, 130, 23);
-		panel.add(btnAddGenre);
+		btnAddGenre.setBounds(816, 118, 130, 23);
+		castList.add(btnAddGenre);
 		
-		List male = new List();
+		male = new List();
 		male.setMultipleMode(true);
-		male.setBounds(285, 53, 125, 84);
-		panel.add(male);
+		male.setBounds(260, 53, 168, 206);
+		castList.add(male);
 		
-		List female = new List();
+		female = new List();
 		female.setMultipleMode(true);
-		female.setBounds(285, 146, 125, 84);
-		panel.add(female);
+		female.setBounds(441, 53, 168, 206);
+		castList.add(female);
+		for (int i=0; i < maleActors.size(); i++)
+		{
+			male.add(maleActors.get(i).toString());
+		}
+		for (int i=0; i < femaleActors.size(); i++)
+		{
+			female.add(femaleActors.get(i).toString());
+		}
 	}
 }

@@ -30,6 +30,8 @@ public class SQLMovieLoad extends SQL{
 	private static final String queryAllGenre = "SELECT * FROM genres";
 	private static final String queryCast = "SELECT c.*, a.* FROM casts c, actors a WHERE c.movieID =";
 	private static final String queryCastTwo = " AND c.actorID = a.actorID";
+	private static final String queryLoadMaleActors = "SELECT * FROM actors WHERE gender=1";
+	private static final String queryLoadFemaleActors = "SELECT * FROM actors WHERE gender=0";
 /**
  * 	public SQLMovieLoad()
  */
@@ -214,6 +216,71 @@ public class SQLMovieLoad extends SQL{
 			closeConnectionLoad();
 		}
 		return directors;
+	}
+	public ArrayList<Actor> LoadFemaleActors() throws SQLException 
+	{
+		openConnection();
+		ArrayList<Actor> actors = new ArrayList<Actor>();
+		ResultSet resultSet = null;
+
+		try
+		{
+			resultSet = statement.executeQuery(queryLoadFemaleActors);
+			
+		
+			while (resultSet.next())
+			{
+				int actorID = resultSet.getInt("actorID");
+				String firstName = resultSet.getString("fName");
+				String lastName = resultSet.getString("lName");
+				int gender = resultSet.getInt("gender");
+				String description = resultSet.getString("descript");
+				actors.add(new Actor(firstName,lastName,gender,description,actorID));
+			}	
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i load af mandlige skuespillere"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return actors;
+	}
+	
+	public ArrayList<Actor> LoadMaleActors() throws SQLException 
+	{
+		openConnection();
+		ArrayList<Actor> actors = new ArrayList<Actor>();
+		ResultSet resultSet = null;
+
+		try
+		{
+			resultSet = statement.executeQuery(queryLoadMaleActors);
+			
+		
+			while (resultSet.next())
+			{
+				int actorID = resultSet.getInt("actorID");
+				String firstName = resultSet.getString("fName");
+				String lastName = resultSet.getString("lName");
+				int gender = resultSet.getInt("gender");
+				String description = resultSet.getString("descript");
+				actors.add(new Actor(firstName,lastName,gender,description,actorID));
+			}	
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i load af mandlige skuespillere"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return actors;
 	}
 
 	public ArrayList<Director> LoadDirector(String lName) throws SQLException
