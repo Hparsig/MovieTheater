@@ -1,7 +1,7 @@
 package movieTheater.SQL;
-import java.sql.*;
-import java.util.Map;
 
+import java.sql.ResultSet;
+import java.util.Map;
 import movieTheater.Movie.Actor;
 import movieTheater.Movie.Cast;
 import movieTheater.Movie.Director;

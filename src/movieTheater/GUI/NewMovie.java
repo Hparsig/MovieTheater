@@ -28,6 +28,7 @@ import movieTheater.Movie.Director;
 import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLMovieLoad;
+import movieTheater.SQL.SQLMovieSave;
 
 import java.awt.Font;
 import java.sql.SQLException;
@@ -36,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JComboBox;
+import java.awt.List;
 
 public class NewMovie extends JFrame {
 
@@ -68,7 +70,6 @@ public class NewMovie extends JFrame {
 	private ArrayList<Genre> genres;
 	private ArrayList<Director> directors;
 	private ArrayList<Actor> actors;
-	private SQLMovieLoad load;
 	private ComboBoxGenre comboBoxGenre;
 	private ComboBoxDirector comboBoxDirector;
 	private ComboBoxActor comboBoxActor;
@@ -80,6 +81,9 @@ public class NewMovie extends JFrame {
 	private Actor actor;
 	private JButton btnAddDirector;
 	private JButton btnAddGenre;
+	private SQLMovieLoad load;
+	private SQLMovieSave save;
+	
 
 	/**
 	 * Create the frame.
@@ -91,6 +95,10 @@ public class NewMovie extends JFrame {
 		actor = null;
 		
 		load = new SQLMovieLoad();
+		save = new SQLMovieSave();
+		
+		
+		
 		try
 		{
 			genres = load.LoadGenres();
@@ -102,9 +110,10 @@ public class NewMovie extends JFrame {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
+		
 		comboBoxGenre = new ComboBoxGenre(genres);
 		comboBoxDirector = new ComboBoxDirector(directors);
-		comboBoxActor = new ComboBoxActor(actors);
+		//comboBoxActor = new ComboBoxActor(actors);
 		
 		try
 		{
@@ -116,6 +125,7 @@ public class NewMovie extends JFrame {
 			e1.printStackTrace();
 		}
 		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 620, 320);
 		contentPane = new JPanel();
@@ -242,8 +252,12 @@ public class NewMovie extends JFrame {
 			{
 				try
 				{	
+					
 					premierDate = dateFormat.parse(ftfPremier.getText());
 					offDate = dateFormat.parse(ftfOffday.getText());
+					java.sql.Date sqlDatePremier = new java.sql.Date(premierDate.getTime());
+					java.sql.Date sqlDateEnd = new java.sql.Date(offDate.getTime());
+					
 					playingTime = Integer.parseInt(ftfPlayingTime.getText());
 					
 					if (comboBoxGenres.getSelectedItem() instanceof Genre)
@@ -252,16 +266,18 @@ public class NewMovie extends JFrame {
 					}
 					if (comboBoxDirectors.getSelectedItem() instanceof Director)
 					{
-					director = (Director)comboBoxDirectors.getSelectedItem();
+						director = (Director)comboBoxDirectors.getSelectedItem();
 					}
+					Movie newMovie = new Movie(tfTitel.getText(), director, playingTime, genre, sqlDatePremier, sqlDateEnd, tfOriginalTitel.getText(), tglbtnNewToggleButton.isSelected(), cast);	
+					save.saveMovie(newMovie);
 				} 
 				catch (ParseException e1)
 				{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				Movie newMovie = new Movie(tfTitel.getText(), director, playingTime, genre, premierDate, offDate, tfOriginalTitel.getText(), tglbtnNewToggleButton.isSelected(), cast);			}
-		});
+			}});
+		
 		btnCreateMovie.setBackground(Color.GREEN);
 		btnCreateMovie.setBounds(437, 236, 100, 23);
 		panel.add(btnCreateMovie);
@@ -279,16 +295,16 @@ public class NewMovie extends JFrame {
 		comboBoxDirectors.setBounds(112, 116, 142, 20);
 		panel.add(comboBoxDirectors);
 		
-		comboBoxActors = comboBoxActor.set();
-		comboBoxActors.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) 
-			{
-				AddToCast addToCast = new AddToCast((Actor)comboBoxActors.getSelectedItem());
-				addToCast.setVisible(true);
-			} 
-		});
-		comboBoxActors.setBounds(289, 53, 125, 23);
-		panel.add(comboBoxActors);
+//		comboBoxActors = comboBoxActor.set();
+//		comboBoxActors.addActionListener(new ActionListener(){
+//			public void actionPerformed(ActionEvent e) 
+//			{
+//				AddToCast addToCast = new AddToCast((Actor)comboBoxActors.getSelectedItem());
+//				addToCast.setVisible(true);
+//			} 
+//		});
+		//comboBoxActors.setBounds(289, 53, 125, 23);
+		//panel.add(comboBoxActors);
 		
 		btnAddDirector = new JButton("Opret instrukt\u00F8r");
 		btnAddDirector.setBounds(430, 83, 130, 23);
@@ -297,5 +313,15 @@ public class NewMovie extends JFrame {
 		btnAddGenre = new JButton("Opret genre");
 		btnAddGenre.setBounds(430, 115, 130, 23);
 		panel.add(btnAddGenre);
+		
+		List male = new List();
+		male.setMultipleMode(true);
+		male.setBounds(285, 53, 125, 84);
+		panel.add(male);
+		
+		List female = new List();
+		female.setMultipleMode(true);
+		female.setBounds(285, 146, 125, 84);
+		panel.add(female);
 	}
 }

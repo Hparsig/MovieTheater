@@ -195,12 +195,13 @@ public class SQLMovieLoad extends SQL{
 
 			while(resultSet.next())
 			{
+				int directID = resultSet.getInt("directID") ;
 				String dirFirstName = resultSet.getString("fName") ;
 				String dirLastName = resultSet.getString("lName");
 				int dirGender = resultSet.getInt("gender");
 				String dirDescription = resultSet.getString("descript");
 
-				directors.add(new Director(dirFirstName, dirLastName, dirGender, dirDescription));
+				directors.add(new Director(dirFirstName, dirLastName, dirGender, dirDescription,directID));
 			}
 		}
 		catch (Exception e)
