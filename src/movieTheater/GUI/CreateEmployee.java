@@ -92,7 +92,7 @@ public class CreateEmployee extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Create user");
+		JButton btnNewButton = new JButton("Opret");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try
