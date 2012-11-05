@@ -2,7 +2,6 @@ package movieTheater.Show;
 import movieTheater.Movie.Movie;
 
 public class Show {
-
 	
 	private HallBooking hallBooking;
 	private Movie movie;

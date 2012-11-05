@@ -16,13 +16,16 @@ public class Main {
 	{
 		//testSQLMovie test = new testSQLMovie();
 		//test.runTest();
+
+		MainController mainController = new MainController();
+		mainController.run();
 		
-		MainWindow mainWindow = new MainWindow();
-		mainWindow.setVisible(true);
-		
-		SQLShowLoadTest test = new SQLShowLoadTest();
-		Date dato = new Date(2012-1900,9,26);
-		test.test("Skyfall",dato);
+//		MainWindow mainWindow = new MainWindow();
+//		mainWindow.setVisible(true);
+//		
+//		SQLShowLoadTest test = new SQLShowLoadTest();
+//		Date dato = new Date(2012-1900,9,26);
+//		test.test("Skyfall",dato);
 //		MovieController movieController = new MovieController();
 //		HallController hallController = new HallController();
 //		ShowController showC = new ShowController(movieController,hallController);
