@@ -451,12 +451,13 @@ public class SQLMovieLoad extends SQL{
 			resultSet = statement.executeQuery(queryActor);					
 			while (resultSet.next())
 			{
+				int actorID = resultSet.getInt("actorID");
 				String firstName = resultSet.getString("fName");
 				String lastName = resultSet.getString("lName");
 				int gender = resultSet.getInt("gender");
 				String description = resultSet.getString("descript");
 
-				actors.add(new Actor(firstName, lastName, gender, description));
+				actors.add(new Actor(firstName, lastName, gender, description,actorID));
 			}
 		}
 		catch (Exception e)
