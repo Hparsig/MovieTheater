@@ -351,6 +351,7 @@ public class SQLShowLoad extends SQL{
 		return ratings;
 	}
 	
+
 	public HashMap<Actor, String> LoadCast(int filmID) throws SQLException 
 	{
 		openConnection();

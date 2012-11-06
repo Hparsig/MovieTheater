@@ -1,7 +1,9 @@
 package movieTheater.Movie;
 
+
 import java.sql.Date;
 import java.util.ArrayList;
+
 /**
  * 
  * @author Henrik

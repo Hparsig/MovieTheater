@@ -47,4 +47,8 @@ public abstract class MoviePerson {
 	{
 		this.fName = description;
 	}
+	
+	public String toString(){
+		return fName+" "+lName;
+	}
 }
