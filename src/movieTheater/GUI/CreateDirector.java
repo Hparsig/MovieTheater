@@ -1,26 +1,26 @@
 package movieTheater.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-
-import movieTheater.Movie.Actor;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.concurrent.CountDownLatch;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
-import java.awt.Color;
-import java.util.concurrent.CountDownLatch;
+import javax.swing.border.EmptyBorder;
+
+import movieTheater.Movie.Actor;
+import movieTheater.Movie.Director;
 import java.awt.Font;
 
-public class CreateActor extends JFrame
+public class CreateDirector extends JFrame
 {
 
 	private JPanel contentPane;
@@ -35,14 +35,14 @@ public class CreateActor extends JFrame
 	private JLabel lblNewLabel;
 	private JButton btnAbort;
 	private JButton btnOpret;
-	private Actor actor;
+	private Director director;
 	private String fName;
 	private String lName;
 	private String description;
 	private String genderText;
 	private int gender;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
-	private JLabel lblOpretSkuespiller;
+	private JLabel lblOpretInstruktr;
 
 	/**
 	 * Launch the application.
@@ -55,7 +55,7 @@ public class CreateActor extends JFrame
 			{
 				try
 				{
-					CreateActor frame = new CreateActor();
+					CreateDirector frame = new CreateDirector();
 					frame.setVisible(true);
 				} catch (Exception e)
 				{
@@ -68,9 +68,9 @@ public class CreateActor extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public CreateActor()
+	public CreateDirector()
 	{
-		actor = null;
+		director = null;
 		gender = 1; 		// sets gender to mail
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -150,7 +150,7 @@ public class CreateActor extends JFrame
 				if (tglbtnGender.isSelected())
 					gender = 0;							// 0 = Female, 1 = male
 				
-				Actor actor = new Actor(fName, lName, gender, description);
+				Director director = new Director(fName, lName, gender, description);
 				latch.countDown();
 			}
 		});	
@@ -159,10 +159,10 @@ public class CreateActor extends JFrame
 		btnOpret.setBounds(316, 218, 100, 23);
 		panel.add(btnOpret);
 		
-		lblOpretSkuespiller = new JLabel("Opret skuespiller");
-		lblOpretSkuespiller.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblOpretSkuespiller.setBounds(10, 11, 193, 20);
-		panel.add(lblOpretSkuespiller);
+		lblOpretInstruktr = new JLabel("Opret instrukt\u00F8r");
+		lblOpretInstruktr.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblOpretInstruktr.setBounds(25, 11, 129, 20);
+		panel.add(lblOpretInstruktr);
 	}
 
 	public String toggleGender()
@@ -180,8 +180,8 @@ public class CreateActor extends JFrame
 		return genderText;
 	}
 	
-	public Actor getActor()
+	public Director getDirector()
 	{
-		return actor;
+		return director;
 	}
 }
