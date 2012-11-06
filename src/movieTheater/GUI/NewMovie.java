@@ -34,6 +34,7 @@ import movieTheater.Movie.Director;
 import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLMovieLoad;
+import movieTheater.SQL.SQLMovieSave;
 
 public class NewMovie extends JFrame {
 
@@ -71,6 +72,7 @@ public class NewMovie extends JFrame {
 	private ArrayList<Director> directors;
 	private ArrayList<Actor> actors;
 	private SQLMovieLoad load;
+	private SQLMovieSave save;
 	private ComboBoxGenre comboBoxGenre;
 	private ComboBoxDirector comboBoxDirector;
 	private ComboBoxActor comboBoxActor;
@@ -101,6 +103,8 @@ public class NewMovie extends JFrame {
 		is3DSelected = false;
 
 		load = new SQLMovieLoad();
+		save = new SQLMovieSave();
+		
 		try
 		{
 			genres = load.LoadGenres();
@@ -260,6 +264,9 @@ public class NewMovie extends JFrame {
 					playingTime = Integer.parseInt(ftfPlayingTime.getText());
 					is3DSelected = tglbtnNewToggleButton.isSelected();
 
+					java.sql.Date sqlDatePremier = new java.sql.Date(premierDate.getTime());	
+					java.sql.Date sqlDateEnd = new java.sql.Date(offDate.getTime());
+				 	 
 					if (comboBoxGenres.getSelectedItem() instanceof Genre)
 					{
 						genre = ((Genre) comboBoxGenres.getSelectedItem()).getGenreName();
@@ -269,7 +276,8 @@ public class NewMovie extends JFrame {
 						director = (Director)comboBoxDirectors.getSelectedItem();
 					}
 					
-					movie = new Movie(title, director, playingTime, genre, premierDate, offDate, orgTitle, is3DSelected, cast);
+					Movie newMovie = new Movie(tfTitel.getText(), director, playingTime, genre, sqlDatePremier, sqlDateEnd, tfOriginalTitel.getText(), tglbtnNewToggleButton.isSelected(), cast);      
+					save.saveMovie(newMovie);
 					 
 					latch.countDown();
 				} 
