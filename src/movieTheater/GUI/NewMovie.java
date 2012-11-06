@@ -254,13 +254,13 @@ public class NewMovie extends JFrame {
 		btnCreateMovie.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				try
-				{	
+//				try
+//				{	
 					cast = new Cast(castMap);
 					title = tfTitel.getText();
 					orgTitle = tfOriginalTitel.getText();
-					premierDate = dateFormat.parse(ftfPremier.getText());
-					offDate = dateFormat.parse(ftfOffday.getText());
+//					premierDate = dateFormat.parse(ftfPremier.getText());
+//					offDate = dateFormat.parse(ftfOffday.getText());
 					playingTime = Integer.parseInt(ftfPlayingTime.getText());
 					is3DSelected = tglbtnNewToggleButton.isSelected();
 
@@ -280,12 +280,12 @@ public class NewMovie extends JFrame {
 					save.saveMovie(newMovie);
 					 
 					latch.countDown();
-				} 
-				catch (ParseException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+//				} 
+//				catch (ParseException e1)
+//				{
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
 			}
 		});
 		btnCreateMovie.setBackground(Color.GREEN);
