@@ -276,8 +276,8 @@ public class NewMovie extends JFrame {
 						director = (Director)comboBoxDirectors.getSelectedItem();
 					}
 					
-					Movie newMovie = new Movie(tfTitel.getText(), director, playingTime, genre, sqlDatePremier, sqlDateEnd, tfOriginalTitel.getText(), tglbtnNewToggleButton.isSelected(), cast);      
-					save.saveMovie(newMovie);
+					movie = new Movie(title, director, playingTime, genre, sqlDatePremier, sqlDateEnd, orgTitle, tglbtnNewToggleButton.isSelected(), cast);      
+					
 					 
 					latch.countDown();
 				} 
