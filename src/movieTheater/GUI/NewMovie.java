@@ -35,7 +35,7 @@ import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLMovieLoad;
 
-public class NewMovie2 extends JFrame {
+public class NewMovie extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panel;
