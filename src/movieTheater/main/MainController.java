@@ -2,6 +2,7 @@ package movieTheater.main;
 
 import movieTheater.GUI.MainWindow;
 import movieTheater.GUI.NewMovie;
+import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLMovieSave;
 
 public class MainController
@@ -9,6 +10,7 @@ public class MainController
 	private NewMovie newMovie;
 	private SQLMovieSave saveMovie;
 	private int userChoice;
+	private Movie movie;
 	
 
 	public void run()
@@ -85,7 +87,12 @@ public class MainController
 			System.out.println("Opret film");
 			
 			saveMovie = new SQLMovieSave();
-			saveMovie.saveMovie(newMovie.getMovie());
+			movie = newMovie.getMovie();
+			if (movie != null)
+			{
+				//TODO valider data før det gemmes
+			saveMovie.saveMovie(movie);
+			}
 			newMovie.dispose();
 			break;
 		}

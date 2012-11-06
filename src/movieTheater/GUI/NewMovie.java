@@ -67,7 +67,6 @@ public class NewMovie extends JFrame {
 	private Date offDate;
 	private int playingTime; 
 	private String genre;
-	Boolean is3DSelected;
 	private ArrayList<Genre> genres;
 	private ArrayList<Director> directors;
 	private ArrayList<Actor> actors;
@@ -83,6 +82,7 @@ public class NewMovie extends JFrame {
 	private Director director;
 	private Cast cast;
 	private Actor actor;
+	private Genre genreObj;
 	private HashMap<Actor, String> castMap;
 	private JButton btnAddDirector;
 	private JButton btnAddGenre;
@@ -99,9 +99,8 @@ public class NewMovie extends JFrame {
 		director = null;
 		cast = null;
 		actor = null;
+		movie = null;
 		castMap = new HashMap<Actor, String>();
-		is3DSelected = false;
-
 		load = new SQLMovieLoad();
 		save = new SQLMovieSave();
 		
@@ -124,7 +123,8 @@ public class NewMovie extends JFrame {
 		{
 			maskFormatDate = new MaskFormatter("##-##-####");
 			maskFormatLength = new MaskFormatter("###");
-		} catch (ParseException e1)
+		} 
+		catch (ParseException e1)
 		{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -192,46 +192,72 @@ public class NewMovie extends JFrame {
 		panel.add(ftfOffday);
 
 		btnAddActor = new JButton("Opret skuespiller");
-		btnAddActor.addActionListener(new ActionListener() {
+		btnAddActor.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				final CreateActor createActor = new CreateActor();
+				CreateActor createActor = new CreateActor();
 				createActor.setVisible(true);
-				final ArrayList<Actor> actors = new ArrayList<Actor>();
-				createActor.addComponentListener(new ComponentListener(){
-
-					@Override
-					public void componentHidden(ComponentEvent arg0)
-					{
-						Actor actor = createActor.getActor();
-						actors.add(actor);
-						createActor.dispose();
-					}
-
-					@Override
-					public void componentMoved(ComponentEvent arg0)
-					{
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void componentResized(ComponentEvent arg0)
-					{
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void componentShown(ComponentEvent arg0)
-					{
-						// TODO Auto-generated method stub
-
-					}
-
-				});
+				try
+				{
+					createActor.latch.await();
+				} 
+				catch (InterruptedException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println("test");
+				Actor newActor = createActor.getActor();
+				if (newActor != null)
+				{
+				save.saveActor(newActor);
+				actors.add(newActor);
+				comboBoxActor = new ComboBoxActor(actors);
+				comboBoxActors.setModel(comboBoxActor);
+				}
+				createActor.dispose();
 			}
 		});
+//			{
+//				final CreateActor createActor = new CreateActor();
+//				createActor.setVisible(true);
+//				final ArrayList<Actor> actors = new ArrayList<Actor>();
+//				createActor.addComponentListener(new ComponentListener()
+//				{
+//
+//					@Override
+//					public void componentHidden(ComponentEvent arg0)
+//					{
+//						Actor actor = createActor.getActor();
+//						actors.add(actor);
+//						createActor.dispose();
+//					}
+//
+//					@Override
+//					public void componentMoved(ComponentEvent arg0)
+//					{
+//						// TODO Auto-generated method stub
+//
+//					}
+//
+//					@Override
+//					public void componentResized(ComponentEvent arg0)
+//					{
+//						// TODO Auto-generated method stub
+//
+//					}
+//
+//					@Override
+//					public void componentShown(ComponentEvent arg0)
+//					{
+//						// TODO Auto-generated method stub
+//
+//					}
+//
+//				});
+//			}
+//		});
 		btnAddActor.setBounds(549, 52, 130, 23);
 		panel.add(btnAddActor);
 
@@ -240,9 +266,11 @@ public class NewMovie extends JFrame {
 		panel.add(tglbtnNewToggleButton);
 
 		btnAbort = new JButton("Annuller");
-		btnAbort.addActionListener(new ActionListener(){
+		btnAbort.addActionListener(new ActionListener()
+		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				latch.countDown();
 				NewMovie.this.dispose();
 			} 
 		});
@@ -251,7 +279,8 @@ public class NewMovie extends JFrame {
 		panel.add(btnAbort);
 
 		btnCreateMovie = new JButton("Opret film");
-		btnCreateMovie.addActionListener(new ActionListener() {
+		btnCreateMovie.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				try
@@ -262,7 +291,6 @@ public class NewMovie extends JFrame {
 					premierDate = dateFormat.parse(ftfPremier.getText());
 					offDate = dateFormat.parse(ftfOffday.getText());
 					playingTime = Integer.parseInt(ftfPlayingTime.getText());
-					is3DSelected = tglbtnNewToggleButton.isSelected();
 
 					java.sql.Date sqlDatePremier = new java.sql.Date(premierDate.getTime());	
 					java.sql.Date sqlDateEnd = new java.sql.Date(offDate.getTime());
@@ -276,7 +304,8 @@ public class NewMovie extends JFrame {
 						director = (Director)comboBoxDirectors.getSelectedItem();
 					}
 					
-					movie = new Movie(title, director, playingTime, genre, sqlDatePremier, sqlDateEnd, orgTitle, tglbtnNewToggleButton.isSelected(), cast);      
+					movie = new Movie(title, director, playingTime, genre, sqlDatePremier, sqlDateEnd, orgTitle, 
+							tglbtnNewToggleButton.isSelected(), cast);      
 					
 					 
 					latch.countDown();
@@ -318,7 +347,8 @@ public class NewMovie extends JFrame {
 		panel.add(comboBoxDirectors);
 
 		comboBoxActors = comboBoxActor.set();
-		comboBoxActors.addActionListener(new ActionListener(){
+		comboBoxActors.addActionListener(new ActionListener()
+		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				Actor selectedActor = (Actor)comboBoxActors.getSelectedItem();
@@ -347,14 +377,36 @@ public class NewMovie extends JFrame {
 		panel.add(comboBoxActors);
 
 		btnAddDirector = new JButton("Opret instrukt\u00F8r");
-		btnAddDirector.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnAddDirector.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				
 			}
 		});
 		btnAddDirector.setBounds(549, 83, 130, 23);
 		panel.add(btnAddDirector);
 
 		btnAddGenre = new JButton("Opret genre");
+		btnAddGenre.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				String genreName = JOptionPane.showInputDialog(NewMovie.this, "Genretekst" , "Opret ny genre", JOptionPane.DEFAULT_OPTION);
+				save.saveGenre(genreName);
+				try
+				{
+					genres = load.LoadGenres();
+				}
+				catch (SQLException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				comboBoxGenre = new ComboBoxGenre(genres);
+				comboBoxGenres.setModel(comboBoxGenre);
+			}
+		});
 		btnAddGenre.setBounds(549, 115, 130, 23);
 		panel.add(btnAddGenre);
 	}
