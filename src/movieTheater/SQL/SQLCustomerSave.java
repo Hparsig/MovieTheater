@@ -15,13 +15,14 @@ public class SQLCustomerSave extends SQL {
 	}
 	
    
-	public void createCustomer(Costumer customer) throws SQLException 
+	public void createCustomer(Costumer customer)
 	{
 		openConnection();
-		preparedStatement = connection.prepareStatement(createCustomer); // create statement object
-
+		
        try
        {
+    	   preparedStatement = connection.prepareStatement(createCustomer); // create statement object
+    	   
 	   	   preparedStatement.setString(1, customer.getfName());
 	   	   preparedStatement.setString(2, customer.getlName());
 	   	   preparedStatement.setString(3, customer.getRoad());

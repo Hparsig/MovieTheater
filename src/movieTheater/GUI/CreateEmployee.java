@@ -1,6 +1,5 @@
 package movieTheater.GUI;
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -8,13 +7,16 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import movieTheater.main.EmployeeController;
 import movieTheater.main.City;
+import movieTheater.Persons.Employee;
+import movieTheater.Persons.Manager;
+import movieTheater.Persons.SalesPerson;
 import movieTheater.SQL.SQLLoadPostCode;
 import movieTheater.SQL.SQLLoadTitel;
 import movieTheater.main.Title;
@@ -22,8 +24,7 @@ import movieTheater.main.Title;
 
 
 public class CreateEmployee extends JFrame {
-	private EmployeeController emploeyyController;
-	private ArrayList<City> postcodeArray;
+		private ArrayList<City> postcodeArray;
 	private ArrayList<Title> titleArray;
 	private SQLLoadPostCode loadPostcode;
 	private SQLLoadTitel loadTitle;
@@ -39,6 +40,7 @@ public class CreateEmployee extends JFrame {
 	private JTextField password;
 	private JComboBox citys;
 	private JComboBox titles;
+	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 	
 	private String name;
 	private String lastname;
@@ -50,29 +52,13 @@ public class CreateEmployee extends JFrame {
 	private int postcode;
 	private String cityChoosen;
 	private String username;
+	private Employee employee;
+
+
 	
-
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try 
-				{
-					CreateEmployee frame = new CreateEmployee();
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
+	 * @author Jesper
+	 * Create the frame createEmployee.
 	 */
 	public CreateEmployee() {
 		loadTitle = new SQLLoadTitel();
@@ -80,7 +66,7 @@ public class CreateEmployee extends JFrame {
 		city = new ComboBoxPostcode(loadPostcode);
 		title  = new ComboBoxTitels(loadTitle);
 		
-		emploeyyController = new EmployeeController();
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -117,8 +103,17 @@ public class CreateEmployee extends JFrame {
 					postcodeArray = loadPostcode.getCitys();
 					postcode = postcodeArray.get(cityChoose).getPostcode();
 					cityChoosen = postcodeArray.get(cityChoose).getCity();
-				
-					emploeyyController.createEmployee(name, lastname, phone, pWord, titleID, road, houseNr, postcode, cityChoosen, username);
+					
+					if(titleID==1)
+					{
+						employee = new Manager(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
+					}
+					else
+					{
+						employee = new SalesPerson(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
+					}
+					latch.countDown();
+					
 				}catch(Exception e)
 				{
 					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
@@ -217,5 +212,9 @@ public class CreateEmployee extends JFrame {
 		});
 		btnAnnuller.setBounds(297, 173, 113, 25);
 		panel.add(btnAnnuller);
+	}
+	
+	public Employee getEmployee(){
+		return employee;
 	}
 }

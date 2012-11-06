@@ -1,16 +1,32 @@
 package movieTheater.main;
 
+import movieTheater.GUI.CreateCostumer;
+import movieTheater.GUI.CreateEmployee;
 import movieTheater.GUI.MainWindow;
 import movieTheater.GUI.NewMovie;
 import movieTheater.Movie.Movie;
+import movieTheater.Persons.Costumer;
+import movieTheater.Persons.Employee;
+import movieTheater.SQL.SQLCustomerSave;
+import movieTheater.SQL.SQLEmployeeSave;
 import movieTheater.SQL.SQLMovieSave;
 
 public class MainController
 {
 	private NewMovie newMovie;
 	private SQLMovieSave saveMovie;
+	
+	private CreateEmployee createEmployee;
+	private SQLEmployeeSave saveEmployee;
+	
+	private CreateCostumer createCostumer;
+	private SQLCustomerSave saveCostumer;
+	
 	private int userChoice;
+	
 	private Movie movie;
+	private Employee employee;
+	private Costumer costumer;
 	
 
 	public void run()
@@ -43,7 +59,28 @@ public class MainController
 		}
 		case MainWindow.CREATECOSTUMER:
 		{
+			createCostumer = new CreateCostumer();
+			createCostumer.setVisible(true);
+			
+			try
+			{
+				createCostumer.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println("Opret kunde");
+			
+			saveCostumer = new SQLCustomerSave();
+			costumer = createCostumer.getCostumer();
+			
+			if (costumer != null)
+			{
+				saveCostumer.createCustomer(costumer);
+			}
+			createCostumer.dispose();
 			break;
 		}
 		case MainWindow.EDITCOSTUMER:
@@ -58,8 +95,30 @@ public class MainController
 		}
 		case MainWindow.CREATEEMPLOYEE:
 		{
+			createEmployee = new CreateEmployee();
+			createEmployee.setVisible(true);
+			
+			try
+			{
+				createEmployee.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println("Opret medarbejder");
+			
+			saveEmployee = new SQLEmployeeSave();
+			employee = createEmployee.getEmployee();
+			
+			if (employee != null)
+			{
+				saveEmployee.createEmployee(employee);
+			}
+			createEmployee.dispose();
 			break;
+				
 		}
 		case MainWindow.EDITEMPLOYEE:
 		{
@@ -75,6 +134,7 @@ public class MainController
 		{
 			newMovie = new NewMovie();
 			newMovie.setVisible(true);
+			
 			try
 			{
 				newMovie.latch.await();
@@ -91,7 +151,7 @@ public class MainController
 			if (movie != null)
 			{
 				//TODO valider data før det gemmes
-			saveMovie.saveMovie(movie);
+				saveMovie.saveMovie(movie);
 			}
 			newMovie.dispose();
 			break;
@@ -123,9 +183,10 @@ public class MainController
 		}
 		case MainWindow.LOGOFF:
 		{
-			System.out.println("Slet forestilling");
+			System.out.println("Log af");
 			break;
 		}
 		}
+		run(); //TODO holder ikke hvis der logges af, så skal findes en anden måde at køre i ring.
 	}
 }

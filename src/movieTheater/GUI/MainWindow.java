@@ -67,7 +67,7 @@ public class MainWindow extends JFrame
 	public MainWindow() 
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		setBounds(100, 100, 575, 395);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -124,8 +124,8 @@ public class MainWindow extends JFrame
 		btnNewEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				CreateEmployee createEmployee = new CreateEmployee();
-				createEmployee.setVisible(true);
+				choise = CREATEEMPLOYEE;
+				latch.countDown();
 			}
 		});
 

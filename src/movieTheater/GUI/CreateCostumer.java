@@ -1,6 +1,5 @@
 package movieTheater.GUI;
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -8,26 +7,22 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import movieTheater.main.EmployeeController;
 import movieTheater.main.City;
+import movieTheater.Persons.Costumer;
 import movieTheater.SQL.SQLLoadPostCode;
-import movieTheater.SQL.SQLLoadTitel;
-import movieTheater.main.Title;
-
 
 
 public class CreateCostumer extends JFrame {
+	
 	private ArrayList<City> postcodeArray;
-	private ArrayList<Title> titleArray;
 	private SQLLoadPostCode loadPostcode;
-	private SQLLoadTitel loadTitle;
 	private ComboBoxPostcode city;
-	private ComboBoxTitels title;
 	private JPanel contentPane;
 	private JTextField tlf;
 	private JTextField vej;
@@ -37,43 +32,29 @@ public class CreateCostumer extends JFrame {
 	private JTextField brugernavn;
 	private JTextField password;
 	private JComboBox citys;
+	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 	
 	private String name;
 	private String lastname;
 	private int phone;
 	private String pWord;
+	private int titleID;
 	private String road;
 	private String houseNr;
 	private int postcode;
 	private String cityChoosen;
 	private String username;
+	private Costumer costumer;
 	
-
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try 
-				{
-					CreateCostumer frame = new CreateCostumer();
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
+	 * @author Jesper
+	 * Create the frame createCostumer.
 	 */
 	public CreateCostumer() {
+		
+		
 		loadPostcode = new SQLLoadPostCode();
-		city = new ComboBoxPostcode(loadPostcode);
+		city = new ComboBoxPostcode(loadPostcode);	
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -102,16 +83,17 @@ public class CreateCostumer extends JFrame {
 
 					username = brugernavn.getText();
 					pWord = password.getText();
-				
-					titleArray = loadTitle.getTitels();
-				
+							
 					int cityChoose = citys.getSelectedIndex();
 					postcodeArray = loadPostcode.getCitys();
 					postcode = postcodeArray.get(cityChoose).getPostcode();
 					cityChoosen = postcodeArray.get(cityChoose).getCity();
-								
-				}
-				catch(Exception e)
+										
+					costumer = new Costumer(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
+					
+					latch.countDown();
+					
+				}catch(Exception e)
 				{
 					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
 				}
@@ -187,18 +169,11 @@ public class CreateCostumer extends JFrame {
 		password.setBounds(313, 42, 97, 22);
 		panel.add(password);
 		
-		JLabel lblRolle = new JLabel("Rolle");
-		lblRolle.setBounds(12, 203, 56, 16);
-		panel.add(lblRolle);
-		
 		
 		citys = city.set();
 		citys.setBounds(90, 106, 117, 22);
 		panel.add(citys);
 		
-		titles = title.set(); 
-		titles.setBounds(91, 200, 116, 22);
-		panel.add(titles);
 		
 		JButton btnAnnuller = new JButton("annuller");
 		btnAnnuller.addActionListener(new ActionListener() {
@@ -210,4 +185,9 @@ public class CreateCostumer extends JFrame {
 		btnAnnuller.setBounds(297, 173, 113, 25);
 		panel.add(btnAnnuller);
 	}
+	
+	public Costumer getCostumer(){
+		return costumer;
+	}
+	
 }

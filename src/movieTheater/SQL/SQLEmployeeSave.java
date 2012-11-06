@@ -30,13 +30,14 @@ public class SQLEmployeeSave extends SQL {
 	 * @return int rows
 	 * @throws SQLException 
 	 */
-	public int createEmployee(Employee employee) throws SQLException 
+	public int createEmployee(Employee employee)
 	{
 		openConnection();
-		preparedStatement = connection.prepareStatement(createEmployee); 
+		
 		int rows=0;
 		try
 		{
+			preparedStatement = connection.prepareStatement(createEmployee); 
 			int titleID = 2;
 			
 			if (employee instanceof Manager)
@@ -64,7 +65,7 @@ public class SQLEmployeeSave extends SQL {
 		{  
 
 			closeConnectionSave(); 
-			preparedStatement.close();
+			
 		} 
 		return rows;
 	}  
