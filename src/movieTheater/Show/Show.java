@@ -45,6 +45,6 @@ public class Show {
 	
 	public String toString()
 	{
-		return "Film: "+movie.getMovieName()+"\nStart tid: "+ hallBooking.getTimeStart()+"\nSal:"+hallBooking.getHalleNo();
+		return "Film: "+movie.getMovieName()+", Start tid: "+ hallBooking.getTimeStart().toLocaleString()+", Sal: "+hallBooking.getHalleNo();
 	}
 }

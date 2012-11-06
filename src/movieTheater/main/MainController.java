@@ -4,6 +4,7 @@ import movieTheater.GUI.CreateCostumer;
 import movieTheater.GUI.CreateEmployee;
 import movieTheater.GUI.MainWindow;
 import movieTheater.GUI.NewMovie;
+import movieTheater.GUI.SearchShow;
 import movieTheater.Movie.Movie;
 import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
@@ -21,6 +22,8 @@ public class MainController
 	
 	private CreateCostumer createCostumer;
 	private SQLCustomerSave saveCostumer;
+	
+	private SearchShow searchShow;
 	
 	private int userChoice;
 	
@@ -49,6 +52,18 @@ public class MainController
 		{
 		case MainWindow.NEWORDER:
 		{
+			searchShow = new SearchShow();
+			searchShow.setVisible(true);
+			
+			try
+			{
+				searchShow.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println("Ny bestilling");
 			break;
 		}

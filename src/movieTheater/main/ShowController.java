@@ -33,36 +33,14 @@ public class ShowController {
 	{
 		try
 		{
-			shows = sqlShowLoad.loadShowsByDateAndTitle(date, titel);
-			
-			for(int i=0; i < shows.size(); i++){
-				HashMap<Integer,ArrayList<Integer>> av = shows.get(i).getHallBooking().getAvailableSeats();
-				Map map = av;
-				Iterator entries = map.entrySet().iterator();
-				System.out.println(shows.get(i));
-				while (entries.hasNext())
-				{
-					Map.Entry entry = (Map.Entry) entries.next();
-					Integer key = (Integer)entry.getKey();
-					ArrayList<Integer> value = (ArrayList<Integer>)entry.getValue();
-					System.out.println("Række = " + key + ", Ledige sæder = " + value);
-				}
-				System.out.println("\n");
-			}
-//			for (Integer key : av.keySet())
-//			{
-//				System.out.println(key);
-//				
-//			}
-//			for (Integer value : av.values()) {
-//			    System.out.println("Value = " + value);
-//			}
+			shows = sqlShowLoad.loadShowsByDateAndTitle(date, titel);			
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 		return shows;
 	}
+	
 	public ArrayList<Show> getShows()
 	{
 		try

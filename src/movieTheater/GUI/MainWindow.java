@@ -60,7 +60,8 @@ public class MainWindow extends JFrame
 	public static final int EDITSHOW = 13;
 	public static final int DELETESHOW = 14;
 	public static final int LOGOFF = 15;
-
+	
+	
 	/**
 	 * Create the frame.
 	 */
