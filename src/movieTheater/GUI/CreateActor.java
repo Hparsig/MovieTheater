@@ -132,7 +132,7 @@ public class CreateActor extends JFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				latch.countDown();
+//				latch.countDown();
 			} 
 		});
 		btnAbort.setBackground(Color.RED);
@@ -151,7 +151,7 @@ public class CreateActor extends JFrame
 					gender = 0;							// 0 = Female, 1 = male
 				
 				Actor actor = new Actor(fName, lName, gender, description);
-				latch.countDown();
+//				latch.countDown();
 			}
 		});	
 

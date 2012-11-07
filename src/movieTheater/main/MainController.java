@@ -35,6 +35,7 @@ public class MainController
 	public void run()
 	{
 		MainWindow mainWindow = new MainWindow();
+		mainWindow.runMainWindow(); //FIXME skal udbygges til at tage en Employee med (den der er logget på)
 		mainWindow.setVisible(true);
 		try
 		{

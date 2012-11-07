@@ -5,8 +5,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JButton;
@@ -15,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import movieTheater.Movie.Actor;
+import movieTheater.Persons.Employee;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
@@ -44,6 +46,7 @@ public class MainWindow extends JFrame
 	private JLabel lblVisndre;
 	private JLabel lblSlet;
 	private int choise;
+	private Employee loggedOn;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 	public static final int NEWORDER = 1;
 	public static final int GETORDER = 2;
@@ -68,7 +71,10 @@ public class MainWindow extends JFrame
 	public MainWindow() 
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+	}
+	public void runMainWindow()
+	{
+//		this.loggedOn = loggedOn;
 		setBounds(100, 100, 575, 395);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -121,6 +127,8 @@ public class MainWindow extends JFrame
 		lblHovedmenu.setBounds(10, 0, 166, 47);
 		panel.add(lblHovedmenu);
 
+//		if (loggedOn instanceof Manager)
+//		{
 		btnNewEmployee = new JButton("Medarbejder");
 		btnNewEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
@@ -129,10 +137,12 @@ public class MainWindow extends JFrame
 				latch.countDown();
 			}
 		});
-
 		btnNewEmployee.setBounds(163, 140, 114, 47);
 		panel.add(btnNewEmployee);
-
+//		}
+		
+//		if (loggedOn instanceof Manager)
+//		{		
 		btnNewMovie = new JButton("Film");
 		btnNewMovie.addActionListener(new ActionListener() 
 		{
@@ -144,7 +154,8 @@ public class MainWindow extends JFrame
 		});
 		btnNewMovie.setBounds(163, 198, 114, 47);
 		panel.add(btnNewMovie);
-
+//		}
+		
 		btnNewCostumer = new JButton("Kunde");
 		btnNewCostumer.addActionListener(new ActionListener() 
 		{
@@ -156,7 +167,7 @@ public class MainWindow extends JFrame
 		});
 		btnNewCostumer.setBounds(163, 81, 114, 47);
 		panel.add(btnNewCostumer);
-
+		
 		btnEditCostumer = new JButton("Kunde");
 		btnEditCostumer.addActionListener(new ActionListener() 
 		{
@@ -169,6 +180,8 @@ public class MainWindow extends JFrame
 		btnEditCostumer.setBounds(287, 81, 114, 47);
 		panel.add(btnEditCostumer);
 
+//		if (loggedOn instanceof Manager)
+//		{
 		btnEditEmployee = new JButton("Medarbejder");
 		btnEditEmployee.addActionListener(new ActionListener() 
 		{
@@ -180,7 +193,10 @@ public class MainWindow extends JFrame
 		});
 		btnEditEmployee.setBounds(287, 140, 114, 47);
 		panel.add(btnEditEmployee);
-
+//		}
+		
+//		if (loggedOn instanceof Manager)
+//		{
 		btnEditFilm = new JButton("Film");
 		btnEditFilm.addActionListener(new ActionListener() 
 		{
@@ -192,7 +208,10 @@ public class MainWindow extends JFrame
 		});
 		btnEditFilm.setBounds(287, 198, 114, 47);
 		panel.add(btnEditFilm);
-
+//		}
+		
+//		if (loggedOn instanceof Manager)
+//		{
 		btnNewShow = new JButton("Forestilling");
 		btnNewShow.addActionListener(new ActionListener() 
 		{
@@ -204,7 +223,10 @@ public class MainWindow extends JFrame
 		});
 		btnNewShow.setBounds(163, 258, 114, 47);
 		panel.add(btnNewShow);
-
+//		}
+		
+//		if (loggedOn instanceof Manager)
+//		{
 		btnEditShow = new JButton("Forestilling");
 		btnEditShow.addActionListener(new ActionListener() 
 		{
@@ -216,7 +238,8 @@ public class MainWindow extends JFrame
 		});
 		btnEditShow.setBounds(287, 258, 114, 47);
 		panel.add(btnEditShow);
-
+//		}
+		
 		btnDeleteCostumer = new JButton("Kunde");
 		btnDeleteCostumer.addActionListener(new ActionListener() 
 		{
@@ -238,6 +261,9 @@ public class MainWindow extends JFrame
 				latch.countDown();
 			}
 		});
+		
+//		if (loggedOn instanceof Manager)
+//		{
 		btnDeleteEmployee.setBounds(411, 140, 114, 47);
 		panel.add(btnDeleteEmployee);
 
@@ -252,7 +278,10 @@ public class MainWindow extends JFrame
 		});
 		btnDeleteMovie.setBounds(411, 198, 114, 47);
 		panel.add(btnDeleteMovie);
-
+//		}
+		
+//		if (loggedOn instanceof Manager)
+//		{
 		btnDeleteShow = new JButton("Forestilling");
 		btnDeleteShow.addActionListener(new ActionListener() 
 		{
@@ -264,7 +293,8 @@ public class MainWindow extends JFrame
 		});
 		btnDeleteShow.setBounds(411, 258, 114, 47);
 		panel.add(btnDeleteShow);
-
+//		}
+		
 		lblOpret = new JLabel("opret");
 		lblOpret.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOpret.setFont(new Font("Tahoma", Font.PLAIN, 20));
