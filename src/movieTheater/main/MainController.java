@@ -230,7 +230,7 @@ public class MainController
 			System.out.println("Opret film");
 			
 			movie = newMovie.getMovie();
-			if (movie != null)
+			if (movie.getInstructedBy() != null)
 			{
 				//TODO valider data før det gemmes
 				saveMovie.saveMovie(movie);

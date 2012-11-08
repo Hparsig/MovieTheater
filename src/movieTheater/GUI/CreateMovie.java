@@ -74,9 +74,6 @@ public class CreateMovie extends JFrame {
 	private ArrayList<Actor> newActors;
 	private SQLMovieLoad load;
 	private SQLMovieSave save;
-	private ComboBoxGenre comboBoxGenre;
-	private ComboBoxDirector comboBoxDirector;
-	private ComboBoxActor comboBoxActor;
 	private JComboBox comboBoxGenres;
 	private JComboBox comboBoxDirectors;
 	private JComboBox comboBoxActors;
@@ -91,24 +88,28 @@ public class CreateMovie extends JFrame {
 	private JPanel panel_1;
 	private JPanel panel_2;
 	boolean areChangesMade;
-	
+
 	/**
 	 * Create the frame.
 	 */
 	public CreateMovie(Movie movie) 
 	{
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.movie = movie;
 		areChangesMade = false;
-		
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		//		director = null;
-		//		cast = null;
-		//		actor = null;
 		newActors = new ArrayList<Actor>();
-		//		castMap = new HashMap<Actor, String>();
 		load = new SQLMovieLoad();
 		save = new SQLMovieSave();
+
+		if(movie.getInstructedBy() != null)
+		{	
+			castMap = (HashMap<Actor, String>) movie.getCast().getCast();
+		}
+		else
+		{
+			castMap = new HashMap<Actor, String>();
+			cast = new Cast(castMap);
+		}
 
 		try
 		{
@@ -121,9 +122,6 @@ public class CreateMovie extends JFrame {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		comboBoxGenre = new ComboBoxGenre(genres);
-		comboBoxDirector = new ComboBoxDirector(directors);
-		comboBoxActor = new ComboBoxActor(actors);
 
 		try
 		{
@@ -238,8 +236,6 @@ public class CreateMovie extends JFrame {
 						}
 						newActors.add(actor);
 						createActor.dispose();
-						comboBoxActor = new ComboBoxActor(actors);
-						comboBoxActors.setModel(comboBoxActor);
 					}
 					@Override
 					public void componentMoved(ComponentEvent arg0)
@@ -275,14 +271,22 @@ public class CreateMovie extends JFrame {
 		btnAbort.setBounds(579, 208, 100, 23);
 		panel.add(btnAbort);
 
-		btnCreateMovie = new JButton("Opret film");
+
+		if(movie.getInstructedBy() == null)
+		{	
+			btnCreateMovie = new JButton("Opret film");
+		}
+		else
+		{
+			btnCreateMovie = new JButton("Gem");	
+		}		
 		btnCreateMovie.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				try
 				{	
-					cast = new Cast(castMap);
+
 					title = tfTitel.getText();
 					orgTitle = tfOriginalTitel.getText();
 					premierDate = dateFormat.parse(ftfPremier.getText());
@@ -331,7 +335,7 @@ public class CreateMovie extends JFrame {
 		}
 		else
 		{
-			lblOpretFilm = new JLabel("Rediger film");	
+			lblOpretFilm = new JLabel("Gem");	
 		}
 		lblOpretFilm.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblOpretFilm.setBounds(28, 11, 158, 31);
@@ -349,17 +353,33 @@ public class CreateMovie extends JFrame {
 		panel_2.setBackground(Color.WHITE);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
 
-		comboBoxGenres = comboBoxGenre.set();
+		if (movie.getCast() != null)
+		{
+			panel_1.removeAll();
+			panel_2.removeAll();
+
+			for (Actor actor: castMap.keySet())
+			{
+				panel_1.add(new JLabel(actor.getLName() + ", " + actor.getFName()));
+				panel_2.add(new JLabel(castMap.get(actor)));
+			}	
+			panel_1.validate();
+			panel_1.repaint();
+			panel_2.validate();
+			panel_2.repaint();
+		}
+
+		comboBoxGenres = new JComboBox(genres.toArray());
 		comboBoxGenres.setBounds(112, 209, 142, 20);
 		comboBoxGenres.setSelectedItem(movie.getGenre());
 		panel.add(comboBoxGenres);
 
-		comboBoxDirectors = comboBoxDirector.set();
+		comboBoxDirectors = new JComboBox(directors.toArray());
 		comboBoxDirectors.setBounds(112, 116, 142, 20);
 		comboBoxDirectors.setSelectedItem(movie.getInstructedBy());
 		panel.add(comboBoxDirectors);
 
-		comboBoxActors = comboBoxActor.set();
+		comboBoxActors = new JComboBox(actors.toArray());
 		comboBoxActors.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -415,8 +435,6 @@ public class CreateMovie extends JFrame {
 						}
 						newActors.add(actor);
 						createDirector.dispose();
-						comboBoxDirector = new ComboBoxDirector(directors);
-						comboBoxDirectors.setModel(comboBoxDirector);
 					}
 					@Override
 					public void componentMoved(ComponentEvent arg0)
@@ -454,8 +472,6 @@ public class CreateMovie extends JFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					comboBoxGenre = new ComboBoxGenre(genres);
-					comboBoxGenres.setModel(comboBoxGenre);
 				}
 			}
 		});
