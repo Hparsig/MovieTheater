@@ -130,7 +130,8 @@ public class MainController
 		}
 		case MainWindow.CREATEEMPLOYEE:
 		{
-			createEmployee = new CreateEmployee();
+			
+			createEmployee = new CreateEmployee(employeeController);
 			createEmployee.setVisible(true);
 			
 			try
@@ -139,7 +140,6 @@ public class MainController
 			} 
 			catch (InterruptedException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			System.out.println("Opret medarbejder");
@@ -172,8 +172,9 @@ public class MainController
 			}
 			
 			employee = searchEmployee.getEmployee();
-			editEmployee = new EditEmployee(employee);
+			editEmployee = new EditEmployee(employee,employeeController);
 			editEmployee.setVisible(true);
+			searchEmployee.dispose();
 			try
 			{
 				editEmployee.latch.await();

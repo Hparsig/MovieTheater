@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import movieTheater.main.City;
+import movieTheater.main.EmployeeController;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
 import movieTheater.Persons.SalesPerson;
@@ -28,8 +29,6 @@ public class CreateEmployee extends JFrame {
 	private ArrayList<Title> titleArray;
 	private SQLLoadPostCode loadPostcode;
 	private SQLLoadTitel loadTitle;
-	private ComboBoxPostcode city;
-	private ComboBoxTitels title;
 	private JPanel contentPane;
 	private JTextField tlf;
 	private JTextField vej;
@@ -53,6 +52,7 @@ public class CreateEmployee extends JFrame {
 	private String cityChoosen;
 	private String username;
 	private Employee employee;
+	private EmployeeController employeeCon;
 
 
 	
@@ -60,12 +60,14 @@ public class CreateEmployee extends JFrame {
 	 * @author Jesper
 	 * Create the frame createEmployee.
 	 */
-	public CreateEmployee() {
+	public CreateEmployee(EmployeeController employeeController) {
+		employeeCon = employeeController;
+
 		loadTitle = new SQLLoadTitel();
 		loadPostcode = new SQLLoadPostCode();
-		city = new ComboBoxPostcode(loadPostcode);
-		title  = new ComboBoxTitels(loadTitle);
-		
+
+		titleArray = loadTitle.getTitels();
+		postcodeArray = loadPostcode.getCitys();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -96,22 +98,13 @@ public class CreateEmployee extends JFrame {
 					pWord = password.getText();
 				
 					int titelChoose = titles.getSelectedIndex();
-					titleArray = loadTitle.getTitels();
 					titleID = titleArray.get(titelChoose).getTitelID();
 				
 					int cityChoose = citys.getSelectedIndex();
-					postcodeArray = loadPostcode.getCitys();
 					postcode = postcodeArray.get(cityChoose).getPostcode();
 					cityChoosen = postcodeArray.get(cityChoose).getCity();
 					
-					if(titleID==1)
-					{
-						employee = new Manager(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
-					}
-					else
-					{
-						employee = new SalesPerson(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
-					}
+					employeeCon.createEmployee(titleID, name, lastname, phone, road, houseNr, postcode, cityChoosen, username, pWord);					
 					latch.countDown();
 					
 				}catch(Exception e)
@@ -195,11 +188,11 @@ public class CreateEmployee extends JFrame {
 		panel.add(lblRolle);
 		
 		
-		citys = city.set();
+		citys = new JComboBox(postcodeArray.toArray());
 		citys.setBounds(90, 106, 117, 22);
 		panel.add(citys);
 		
-		titles = title.set(); 
+		titles = new JComboBox(titleArray.toArray());
 		titles.setBounds(91, 200, 116, 22);
 		panel.add(titles);
 		

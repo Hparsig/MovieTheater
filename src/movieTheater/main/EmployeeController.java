@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import movieTheater.Persons.Employee;
+import movieTheater.Persons.Manager;
+import movieTheater.Persons.SalesPerson;
 import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLEmployeeSave;
 
@@ -12,6 +14,7 @@ public class EmployeeController {
 	private SQLEmployeeLoad load;
 	private SQLEmployeeSave save;
 	private ArrayList<Employee> employees;
+	private Employee employee;
 	
 	public EmployeeController(SQLEmployeeLoad load, SQLEmployeeSave save) 
 	{
@@ -40,6 +43,29 @@ public class EmployeeController {
 		}
 		return employees;
 				
+	}
+	public Employee createEmployee(int titleID, String name, String lastname,int phone, String road, String houseNr, int postcode, String cityChoosen,String username, String pWord){
+		
+		if(titleID==1)
+		{
+			employee = new Manager(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
+		}
+		else
+		{
+			employee = new SalesPerson(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
+		}
+		
+		return employee;
+	}
+	public void EditEmployee(int titleID, String name, String lastname,int phone, String road, String houseNr, int postcode, String cityChoosen,String username, String pWord, int employeeNum){
+		if(titleID==1)
+		{
+			employee = new Manager(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord,employeeNum);
+		}
+		else
+		{
+			employee = new SalesPerson(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord,employeeNum);
+		}
 	}
 
 

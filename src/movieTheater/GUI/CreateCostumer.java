@@ -22,7 +22,6 @@ public class CreateCostumer extends JFrame {
 	
 	private ArrayList<City> postcodeArray;
 	private SQLLoadPostCode loadPostcode;
-	private ComboBoxPostcode city;
 	private JPanel contentPane;
 	private JTextField tlf;
 	private JTextField vej;
@@ -54,7 +53,7 @@ public class CreateCostumer extends JFrame {
 		
 		
 		loadPostcode = new SQLLoadPostCode();
-		city = new ComboBoxPostcode(loadPostcode);	
+		postcodeArray = loadPostcode.getCitys();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -85,7 +84,6 @@ public class CreateCostumer extends JFrame {
 					pWord = password.getText();
 							
 					int cityChoose = citys.getSelectedIndex();
-					postcodeArray = loadPostcode.getCitys();
 					postcode = postcodeArray.get(cityChoose).getPostcode();
 					cityChoosen = postcodeArray.get(cityChoose).getCity();
 										
@@ -170,7 +168,7 @@ public class CreateCostumer extends JFrame {
 		panel.add(password);
 		
 		
-		citys = city.set();
+		citys = new JComboBox(postcodeArray.toArray());
 		citys.setBounds(90, 106, 117, 22);
 		panel.add(citys);
 		
