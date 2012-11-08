@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLMovieLoad;
 import movieTheater.SQL.SQLMovieSave;
 
-public class NewMovie extends JFrame {
+public class CreateMovie extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panel;
@@ -89,20 +90,23 @@ public class NewMovie extends JFrame {
 	private JButton btnAddGenre;
 	private JPanel panel_1;
 	private JPanel panel_2;
-
+	boolean areChangesMade;
+	
 	/**
 	 * Create the frame.
 	 */
-	public NewMovie() 
+	public CreateMovie(Movie movie) 
 	{
+		this.movie = movie;
+		areChangesMade = false;
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		director = null;
-		cast = null;
-		actor = null;
-		movie = null;
+		//		director = null;
+		//		cast = null;
+		//		actor = null;
 		newActors = new ArrayList<Actor>();
-		castMap = new HashMap<Actor, String>();
+		//		castMap = new HashMap<Actor, String>();
 		load = new SQLMovieLoad();
 		save = new SQLMovieSave();
 
@@ -146,11 +150,13 @@ public class NewMovie extends JFrame {
 		tfTitel = new JTextField();
 		tfTitel.setBounds(112, 53, 142, 20);
 		panel.add(tfTitel);
+		tfTitel.setText(movie.getMovieName());
 		tfTitel.setColumns(10);
 
 		tfOriginalTitel = new JTextField();
 		tfOriginalTitel.setColumns(10);
 		tfOriginalTitel.setBounds(112, 84, 142, 20);
+		tfOriginalTitel.setText(movie.getOriginalName());
 		panel.add(tfOriginalTitel);
 
 		lblTitel = new JLabel("Titel");
@@ -175,10 +181,18 @@ public class NewMovie extends JFrame {
 
 		ftfPremier = new JFormattedTextField(maskFormatDate);
 		ftfPremier.setBounds(112, 146, 142, 20);
+		if (movie.getReleaseDate() != null)
+		{
+			ftfPremier.setText(movie.getReleaseDate().toLocaleString());
+		}
 		panel.add(ftfPremier);
 
 		ftfPlayingTime = new JFormattedTextField(maskFormatLength);
 		ftfPlayingTime.setBounds(112, 178, 142, 20);
+		if (movie.getLength() != 0)
+		{
+			ftfPlayingTime.setText(movie.getLength()+"");
+		}
 		panel.add(ftfPlayingTime);
 
 		lblGenre = new JLabel("Genre");
@@ -191,52 +205,56 @@ public class NewMovie extends JFrame {
 
 		ftfOffday = new JFormattedTextField(maskFormatDate);
 		ftfOffday.setBounds(112, 239, 142, 20);
+		if (movie.getTimeEnd() != null)
+		{
+			ftfOffday.setText(movie.getTimeEnd().toLocaleString());
+		}
 		panel.add(ftfOffday);
 
 		btnAddActor = new JButton("Opret skuespiller");
 		btnAddActor.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
+			{
+				final CreateActor createActor = new CreateActor();
+				createActor.setVisible(true);
+
+				createActor.addComponentListener(new ComponentListener()
+				{
+					@Override
+					public void componentHidden(ComponentEvent arg0)
 					{
-						final CreateActor createActor = new CreateActor();
-						createActor.setVisible(true);
-						
-						createActor.addComponentListener(new ComponentListener()
+						System.out.println("kommer vi hertil");
+						Actor actor = createActor.getDirector();
+						save.saveActor(actor);
+						try
 						{
-							@Override
-							public void componentHidden(ComponentEvent arg0)
-							{
-								System.out.println("kommer vi hertil");
-								Actor actor = createActor.getDirector();
-								save.saveActor(actor);
-								try
-								{
-									actors = load.LoadActors();
-								} 
-								catch (SQLException e)
-								{
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								newActors.add(actor);
-								createActor.dispose();
-								comboBoxActor = new ComboBoxActor(actors);
-								comboBoxActors.setModel(comboBoxActor);
-							}
-							@Override
-							public void componentMoved(ComponentEvent arg0)
-							{	}
-		
-							@Override
-							public void componentResized(ComponentEvent arg0)
-							{	}
-		
-							@Override
-							public void componentShown(ComponentEvent arg0)
-							{	}
-						});
+							actors = load.LoadActors();
+						} 
+						catch (SQLException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						newActors.add(actor);
+						createActor.dispose();
+						comboBoxActor = new ComboBoxActor(actors);
+						comboBoxActors.setModel(comboBoxActor);
 					}
+					@Override
+					public void componentMoved(ComponentEvent arg0)
+					{	}
+
+					@Override
+					public void componentResized(ComponentEvent arg0)
+					{	}
+
+					@Override
+					public void componentShown(ComponentEvent arg0)
+					{	}
 				});
+			}
+		});
 		btnAddActor.setBounds(549, 52, 130, 23);
 		panel.add(btnAddActor);
 
@@ -250,7 +268,7 @@ public class NewMovie extends JFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				latch.countDown();
-				NewMovie.this.dispose();
+				CreateMovie.this.dispose();
 			} 
 		});
 		btnAbort.setBackground(Color.RED);
@@ -283,10 +301,18 @@ public class NewMovie extends JFrame {
 						director = (Director)comboBoxDirectors.getSelectedItem();
 					}
 
-					movie = new Movie(title, director, playingTime, genre, sqlDatePremier, sqlDateEnd, orgTitle, 
-							tglbtnNewToggleButton.isSelected(), cast);      
-
-
+					CreateMovie.this.movie.setTitle(title);
+					CreateMovie.this.movie.setOriginalTitle(orgTitle);
+					CreateMovie.this.movie.setReleaseDate(sqlDatePremier);
+					CreateMovie.this.movie.setTimeEnd(sqlDateEnd);
+					CreateMovie.this.movie.setLength(playingTime);
+					CreateMovie.this.movie.setDirector(director);
+					CreateMovie.this.movie.setGenre(genre);
+					CreateMovie.this.movie.setCast(cast);
+					CreateMovie.this.movie.setIs3D(tglbtnNewToggleButton.isSelected());
+					//					movie = new Movie(title, director, playingTime, genre, sqlDatePremier, sqlDateEnd, orgTitle, 
+					//							tglbtnNewToggleButton.isSelected(), cast);      
+					areChangesMade = true;
 					latch.countDown();
 				} 
 				catch (ParseException e1)
@@ -299,7 +325,14 @@ public class NewMovie extends JFrame {
 		btnCreateMovie.setBounds(579, 236, 100, 23);
 		panel.add(btnCreateMovie);
 
-		lblOpretFilm = new JLabel("Opret film");
+		if(movie.getInstructedBy() == null)
+		{	
+			lblOpretFilm = new JLabel("Opret film");
+		}
+		else
+		{
+			lblOpretFilm = new JLabel("Rediger film");	
+		}
 		lblOpretFilm.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblOpretFilm.setBounds(28, 11, 158, 31);
 		panel.add(lblOpretFilm);
@@ -318,10 +351,12 @@ public class NewMovie extends JFrame {
 
 		comboBoxGenres = comboBoxGenre.set();
 		comboBoxGenres.setBounds(112, 209, 142, 20);
+		comboBoxGenres.setSelectedItem(movie.getGenre());
 		panel.add(comboBoxGenres);
 
 		comboBoxDirectors = comboBoxDirector.set();
 		comboBoxDirectors.setBounds(112, 116, 142, 20);
+		comboBoxDirectors.setSelectedItem(movie.getInstructedBy());
 		panel.add(comboBoxDirectors);
 
 		comboBoxActors = comboBoxActor.set();
@@ -361,7 +396,7 @@ public class NewMovie extends JFrame {
 			{
 				final CreateDirector createDirector = new CreateDirector();
 				createDirector.setVisible(true);
-				
+
 				createDirector.addComponentListener(new ComponentListener()
 				{
 					@Override
@@ -406,7 +441,7 @@ public class NewMovie extends JFrame {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				String genreName = JOptionPane.showInputDialog(NewMovie.this, "Genretekst" , "Opret ny genre", JOptionPane.DEFAULT_OPTION);
+				String genreName = JOptionPane.showInputDialog(CreateMovie.this, "Genretekst" , "Opret ny genre", JOptionPane.DEFAULT_OPTION);
 				if (genreName != null)
 				{
 					save.saveGenre(genreName);
@@ -435,5 +470,9 @@ public class NewMovie extends JFrame {
 	public ArrayList<Actor> getNewActors()
 	{
 		return newActors;
+	}
+	public boolean areChangesMade()
+	{
+		return areChangesMade;
 	}
 }

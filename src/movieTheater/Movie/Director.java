@@ -23,5 +23,16 @@ public class Director extends MoviePerson
 	{
 		return (lName + ", " + fName);
 	}
+	public boolean equals(Object o)
+	{
+		boolean isEqual = false;
+		
+		if(o instanceof Director)
+		{
+			isEqual = this.fName.equals(((Director)o).getFName());
+//		isEqual = (this.directorID == ((Director) o).getDirectorID());
+		}
+		return isEqual;
+	}
 }
 

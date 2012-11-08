@@ -6,7 +6,8 @@ import movieTheater.GUI.CreateEmployee;
 import movieTheater.GUI.DeleteEmployee;
 import movieTheater.GUI.SearchEmployee;
 import movieTheater.GUI.MainWindow;
-import movieTheater.GUI.NewMovie;
+import movieTheater.GUI.CreateMovie;
+import movieTheater.GUI.SearchMovie;
 import movieTheater.GUI.SearchShow;
 import movieTheater.Movie.Movie;
 import movieTheater.Persons.Costumer;
@@ -14,12 +15,14 @@ import movieTheater.Persons.Employee;
 import movieTheater.SQL.SQLCustomerSave;
 import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLEmployeeSave;
+import movieTheater.SQL.SQLMovieLoad;
 import movieTheater.SQL.SQLMovieSave;
 
 public class MainController
 {
-	private NewMovie newMovie;
+	private CreateMovie newMovie;
 	private SQLMovieSave saveMovie;
+	private SQLMovieLoad loadMovie;
 	
 	private CreateEmployee createEmployee;
 	private DeleteEmployee deleteEmployee;
@@ -28,6 +31,7 @@ public class MainController
 	private EmployeeController employeeController;
 	private SQLEmployeeSave saveEmployee;
 	private SQLEmployeeLoad loadEmployee;
+	private MovieController movieController;
 	
 	private CreateCostumer createCostumer;
 	private SQLCustomerSave saveCostumer;
@@ -45,6 +49,7 @@ public class MainController
 	public MainController()
 	{
 		saveMovie = new SQLMovieSave();
+		loadMovie = new SQLMovieLoad();
 		saveCostumer = new SQLCustomerSave();
 		saveEmployee = new SQLEmployeeSave();
 		loadEmployee = new SQLEmployeeLoad();
@@ -208,7 +213,8 @@ public class MainController
 		}
 		case MainWindow.CREATEMOVIE:
 		{
-			newMovie = new NewMovie();
+			movie = new Movie();
+			newMovie = new CreateMovie(movie);
 			newMovie.setVisible(true);
 			
 			try
@@ -233,7 +239,41 @@ public class MainController
 		}
 		case MainWindow.EDITMOVIE:
 		{
-			System.out.println("Rediger film");
+			movieController = new MovieController(loadMovie, saveMovie);
+			SearchMovie searchMovie = new SearchMovie(movieController);
+			searchMovie.setVisible(true);
+			try
+			{
+				searchMovie.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			movie = searchMovie.getMovie();
+			newMovie = new CreateMovie(movie);
+			newMovie.setVisible(true);
+			searchMovie.dispose();
+			
+			try
+			{
+				newMovie.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Opret film");
+			
+			movie = newMovie.getMovie();
+			if (newMovie.areChangesMade())
+			{
+				//TODO valider data før det gemmes
+				saveMovie.saveMovie(movie);
+			}
+			newMovie.dispose();
 			break;
 		}
 		case MainWindow.DELETEMOVIE:

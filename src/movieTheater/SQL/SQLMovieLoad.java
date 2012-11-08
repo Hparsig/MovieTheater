@@ -9,6 +9,7 @@ import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
 import movieTheater.Movie.Rating;
 import movieTheater.Movie.Cast;
+import movieTheater.Persons.Employee;
 import movieTheater.main.Title;
 /**
  * 
@@ -32,6 +33,11 @@ public class SQLMovieLoad extends SQL{
 	private static final String queryCastTwo = " AND c.actorID = a.actorID";
 	private static final String queryLoadMaleActors = "SELECT * FROM actors WHERE gender=1";
 	private static final String queryLoadFemaleActors = "SELECT * FROM actors WHERE gender=0";
+	private static final String queryMovieByTitle = "SELECT * FROM Movies WHERE title LIKE '%";
+	private static final String queryMoviesByOrgTitle = " AND orgTitel LIKE '%";
+//	private static final String queryMovieByDirectorsFName = " AND username LIKE '%";
+//	private static final String queryMoviesByeDirectorLName = " AND empNo =";
+
 /**
  * 	public SQLMovieLoad()
  */
@@ -506,6 +512,28 @@ public class SQLMovieLoad extends SQL{
 			closeConnectionLoad();
 		}
 		return cast;
+	}
+	public ArrayList<Movie> searchMovie(String title, String orgTitle, String actorFName, String directorFName) throws SQLException 
+	{
+		ResultSet resultSet = null;
+		openConnection();
+
+		try
+		{
+			resultSet = statement.executeQuery(queryMovieByTitle+title+"%'"+queryMoviesByOrgTitle+orgTitle+"%'");
+			//FIXME skal udvides til også at søge på skuespiller og instruktør. 
+			setMovie(resultSet);			
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i søgning af film"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return dataFilmArray;
 	}
 
 }
