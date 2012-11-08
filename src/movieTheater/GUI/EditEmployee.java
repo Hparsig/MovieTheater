@@ -151,7 +151,8 @@ public class EditEmployee extends JFrame {
 		lblVej.setBounds(242, 10, 75, 16);
 		panel.add(lblVej);
 		
-		tlf = new JTextField(employee.getPhone());
+		Integer phoneNum = employee.getPhone();
+		tlf = new JTextField(phoneNum.toString());
 		tlf.setColumns(10);
 		tlf.setBounds(91, 77, 116, 22);
 		panel.add(tlf);

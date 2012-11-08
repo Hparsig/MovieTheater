@@ -66,6 +66,7 @@ public class EmployeeController {
 		{
 			employee = new SalesPerson(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord,employeeNum);
 		}
+		save.editEmployee(employee);
 	}
 
 

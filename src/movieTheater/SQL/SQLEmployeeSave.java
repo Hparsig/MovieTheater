@@ -84,6 +84,7 @@ public class SQLEmployeeSave extends SQL {
 			{
 				titleID = 1; 
 			}
+			
 			preparedStatement.setString(1,employee.getfName());				
 			preparedStatement.setString(2,employee.getlName());
 			preparedStatement.setInt(3, titleID);
