@@ -1,7 +1,10 @@
 package movieTheater.main;
 
+import movieTheater.GUI.EditEmployee;
 import movieTheater.GUI.CreateCostumer;
 import movieTheater.GUI.CreateEmployee;
+import movieTheater.GUI.DeleteEmployee;
+import movieTheater.GUI.SearchEmployee;
 import movieTheater.GUI.MainWindow;
 import movieTheater.GUI.NewMovie;
 import movieTheater.GUI.SearchShow;
@@ -9,6 +12,7 @@ import movieTheater.Movie.Movie;
 import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
 import movieTheater.SQL.SQLCustomerSave;
+import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLEmployeeSave;
 import movieTheater.SQL.SQLMovieSave;
 
@@ -18,7 +22,12 @@ public class MainController
 	private SQLMovieSave saveMovie;
 	
 	private CreateEmployee createEmployee;
+	private DeleteEmployee deleteEmployee;
+	private SearchEmployee searchEmployee;
+	private EditEmployee editEmployee;
+	private EmployeeController employeeController;
 	private SQLEmployeeSave saveEmployee;
+	private SQLEmployeeLoad loadEmployee;
 	
 	private CreateCostumer createCostumer;
 	private SQLCustomerSave saveCostumer;
@@ -31,6 +40,17 @@ public class MainController
 	private Employee employee;
 	private Costumer costumer;
 	
+
+	
+	public MainController()
+	{
+		saveMovie = new SQLMovieSave();
+		saveCostumer = new SQLCustomerSave();
+		saveEmployee = new SQLEmployeeSave();
+		loadEmployee = new SQLEmployeeLoad();
+		employeeController = new EmployeeController(loadEmployee,saveEmployee);
+		
+	}
 
 	public void run()
 	{
@@ -88,7 +108,6 @@ public class MainController
 			}
 			System.out.println("Opret kunde");
 			
-			saveCostumer = new SQLCustomerSave();
 			costumer = createCostumer.getCostumer();
 			
 			if (costumer != null)
@@ -124,7 +143,7 @@ public class MainController
 			}
 			System.out.println("Opret medarbejder");
 			
-			saveEmployee = new SQLEmployeeSave();
+
 			employee = createEmployee.getEmployee();
 			
 			if (employee != null)
@@ -137,12 +156,53 @@ public class MainController
 		}
 		case MainWindow.EDITEMPLOYEE:
 		{
-			System.out.println("Rediger medarbejder");
+			searchEmployee = new SearchEmployee(employeeController);
+			searchEmployee.setVisible(true);
+			
+			try
+			{
+				searchEmployee.latch.await();
+
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			employee = searchEmployee.getEmployee();
+			editEmployee = new EditEmployee(employee);
+			editEmployee.setVisible(true);
+			try
+			{
+				editEmployee.latch.await();
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			System.out.println("Ændre medarbejder");
+			
+			
 			break;
 		}
 		case MainWindow.DELETEEMPLOYEE:
 		{
+			deleteEmployee = new DeleteEmployee(employeeController);
+			deleteEmployee.setVisible(true);
+			
+			try
+			{
+				deleteEmployee.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println("Slet medarbejder");
+			
+			deleteEmployee.dispose();
 			break;
 		}
 		case MainWindow.CREATEMOVIE:
@@ -161,7 +221,6 @@ public class MainController
 			}
 			System.out.println("Opret film");
 			
-			saveMovie = new SQLMovieSave();
 			movie = newMovie.getMovie();
 			if (movie != null)
 			{

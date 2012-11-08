@@ -13,6 +13,7 @@ public class SQLEmployeeSave extends SQL {
 	private static final String changeRoad = "UPDATE employees SET road='";
 	private static final String changeNumber = ",houseNo=";
 	private static final String changePostcode = ",postCode=";
+	private static final String deleteEmployee = "DELETE FROM employees WHERE empNo=";
 
 	/**
 	 * Constructor
@@ -153,6 +154,32 @@ public class SQLEmployeeSave extends SQL {
 			closeConnectionSave();      
 		} 
 		return rows;
+	}
+	/**
+	 * @author Jesper
+	 * change adress for one employee
+	 * @param int employeeID, String Raod, int number, int postcode
+	 * @return int rows
+	 * @throws SQLException 
+	 */
+	public void deleteEmployee(int emNum) throws SQLException 
+	{
+		openConnection();
+		try 
+		{                     
+			statement.executeUpdate(deleteEmployee+emNum);      
+
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i sletning af medarbejder"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{   
+
+			closeConnectionSave();      
+		} 
 	}  
 
 }

@@ -13,4 +13,7 @@ public class Manager extends Employee
 	{
 		super(fName, lName, phone, road, houseNo, postCode, city, userName, PW);
 	}
+	public String toString(){
+		return super.toString()+": Manager";
+	}
 }

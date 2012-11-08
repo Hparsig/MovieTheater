@@ -23,4 +23,7 @@ public abstract class Employee extends Person
 	public void setEmployeeNo(int employeeNo) {
 		this.employeeNo = employeeNo;
 	}
+	public String toString(){
+		return fName+" "+lName;
+	}
 }

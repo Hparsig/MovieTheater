@@ -8,10 +8,11 @@ import movieTheater.Persons.SalesPerson;
 
 public class SQLEmployeeLoad extends SQL{
 	private ArrayList<Employee> employeeArray;	
-	private ArrayList<Manager> managerArray;
-	private static final String queryEmployee = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE empNo =";
+	
 	private static final String queryEmployeeByFirstName = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE fName LIKE '%";
-	private static final String queryEmployeeByUsername = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE username LIKE '%";
+	private static final String queryEmployeeLastname = " AND lName LIKE '%";
+	private static final String queryEmployeeByUsername = " AND username LIKE '%";
+	private static final String queryEmployeeByEmpNo = " AND empNo =";
 	private static final String comparePostcode = " AND emp.postCode = post.postCode";
 	
 
@@ -21,7 +22,6 @@ public class SQLEmployeeLoad extends SQL{
 	public SQLEmployeeLoad()
 	{
 		employeeArray = new ArrayList<Employee>();
-		managerArray = new ArrayList<Manager>();
 		statement = null;
 		connection = null;
 	}
@@ -77,19 +77,20 @@ public class SQLEmployeeLoad extends SQL{
 	 * @return ArrayList<Employee> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Employee> LoadEmployee(int emNum) throws SQLException {
-
+	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username, int empID) throws SQLException 
+	{
+		
 		ResultSet resultSet = null;
 		openConnection();
 
 		try
 		{
-			resultSet = statement.executeQuery((queryEmployee+emNum+comparePostcode));
+			resultSet = statement.executeQuery((queryEmployeeByFirstName+fName+"%'"+queryEmployeeLastname+lName+"%'"+queryEmployeeByUsername+username+"%'"+queryEmployeeByEmpNo+empID+comparePostcode));
 			setEmployee(resultSet);			
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af medarbejdere ud fra medarbejder nummer"); //boundary TODO fix
+			System.out.println("fejl i load af medarbejdere 1"); //boundary TODO fix
 		}
 		finally
 		{
@@ -99,25 +100,24 @@ public class SQLEmployeeLoad extends SQL{
 	}
 	/**
 	 * @author Jesper
-	 * Search employees using firstname
-	 * @param String firstName
+	 * Search employees using employee number
+	 * @param int emNum
 	 * @return ArrayList<Employee> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Employee> LoadEmployee(String firstName) throws SQLException {
+	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username) throws SQLException {
 
 		ResultSet resultSet = null;
 		openConnection();
 
 		try
 		{
-			resultSet = statement.executeQuery((queryEmployeeByFirstName+firstName+"%'"+comparePostcode));
+			resultSet = statement.executeQuery((queryEmployeeByFirstName+fName+"%'"+queryEmployeeLastname+lName+"%'"+queryEmployeeByUsername+username+"%'"+comparePostcode));
 			setEmployee(resultSet);			
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af medarbejdere efter fornavn"); //boundary TODO fix
-			e.printStackTrace();
+			System.out.println("fejl i load af medarbejdere 2"); //boundary TODO fix
 		}
 		finally
 		{
@@ -125,33 +125,6 @@ public class SQLEmployeeLoad extends SQL{
 		}
 		return employeeArray;
 	}
-	
-	/**
-	 * @author Jesper
-	 * Search employees using username
-	 * @param String username
-	 * @return ArrayList<Employee> 
-	 * @throws SQLException
-	 */
-	public ArrayList<Employee> LoadEmployeeByUsername(String username) throws SQLException {
 
-		ResultSet resultSet = null;
-		openConnection();
-
-		try
-		{
-			resultSet = statement.executeQuery((queryEmployeeByUsername+username+"%'"+comparePostcode));
-			setEmployee(resultSet);			
-		}
-		catch (Exception e)
-		{
-			System.out.println("fejl i load af medarbejdere efter username"); //boundary TODO fix
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return employeeArray;
-	}	
 
 }
