@@ -28,5 +28,16 @@ public class Genre
 	{
 		return genreID + " " + genreName;
 	}
+	public boolean equals(Object o)
+	{
+		boolean isEqual = false;
+		
+		if(o instanceof Director)
+		{
+			isEqual = this.genreName.equals(((Genre)o).getGenreName());
+//		isEqual = (this.directorID == ((Director) o).getDirectorID());
+		}
+		return isEqual;
+	}
 
 }

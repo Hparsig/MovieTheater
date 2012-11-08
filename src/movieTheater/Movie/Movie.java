@@ -36,6 +36,20 @@ public class Movie {
 	 * @param cast ArrayList<Cast>
 	 * @param ratings ArrayList<Rating>
 	 */
+	public Movie()
+	{
+		title = "";
+		director = null;
+		length = 0;
+		genre = null;
+		releaseDate = null;
+		timeEnd = null;
+		originalTitle = "";
+		is3D = false;
+		cast = null;
+		ratings = null; 
+	
+	}
 
 	public Movie(String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
 			String originalName, boolean is3D, Cast cast)
@@ -140,4 +154,65 @@ public class Movie {
 
 		return stars;
 	}
+
+	public void setMovieID(int movieID)
+	{
+		this.movieID = movieID;
+	}
+
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+
+	public void setDirector(Director director)
+	{
+		this.director = director;
+	}
+
+	public void setLength(int length)
+	{
+		this.length = length;
+	}
+
+	public void setGenre(String genre)
+	{
+		this.genre = genre;
+	}
+
+	public void setReleaseDate(Date releaseDate)
+	{
+		this.releaseDate = releaseDate;
+	}
+
+	public void setTimeEnd(Date timeEnd)
+	{
+		this.timeEnd = timeEnd;
+	}
+
+	public void setOriginalTitle(String originalTitle)
+	{
+		this.originalTitle = originalTitle;
+	}
+
+	public void setIs3D(boolean is3d)
+	{
+		is3D = is3d;
+	}
+
+	public void setCast(Cast cast)
+	{
+		this.cast = cast;
+	}
+
+	public void setRatings(ArrayList<Rating> ratings)
+	{
+		this.ratings = ratings;
+	}
+	
+	public String toString()
+	{
+		return (title + " - " + genre);
+	}
+	
 }
