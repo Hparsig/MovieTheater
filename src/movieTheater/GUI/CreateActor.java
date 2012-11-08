@@ -29,7 +29,7 @@ public class CreateActor extends JFrame
 	private JTextField txtLName;
 	private JLabel lblFName;
 	private JLabel lblLName;
-	private JTextField textField;
+	private JTextField txtDescript;
 	private JLabel lblDescript;
 	private JToggleButton tglbtnGender;
 	private JLabel lblNewLabel;
@@ -41,7 +41,7 @@ public class CreateActor extends JFrame
 	private String description;
 	private String genderText;
 	private int gender;
-	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
+	public final CountDownLatch latchActor = new CountDownLatch(1); //venter på brugerens input. 
 	private JLabel lblOpretSkuespiller;
 
 	/**
@@ -70,6 +70,7 @@ public class CreateActor extends JFrame
 	 */
 	public CreateActor()
 	{
+		System.out.println("bliver den kaldt?");
 		actor = null;
 		gender = 1; 		// sets gender to mail
 
@@ -102,10 +103,10 @@ public class CreateActor extends JFrame
 		lblLName.setBounds(25, 104, 71, 14);
 		panel.add(lblLName);
 
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(106, 130, 200, 111);
-		panel.add(textField);
+		txtDescript = new JTextField();
+		txtDescript.setColumns(10);
+		txtDescript.setBounds(106, 130, 200, 111);
+		panel.add(txtDescript);
 
 		lblDescript = new JLabel("Description");
 		lblDescript.setBounds(25, 133, 71, 14);
@@ -132,7 +133,8 @@ public class CreateActor extends JFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-//				latch.countDown();
+//				latchActor.countDown();
+				CreateActor.this.dispose();
 			} 
 		});
 		btnAbort.setBackground(Color.RED);
@@ -144,17 +146,17 @@ public class CreateActor extends JFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				fName = lblFName.getText();
-				lName = lblLName.getText();
-				description = lblDescript.getText();
+				fName = txtFName.getText();
+				lName = txtLName.getText();
+				description = txtDescript.getText();
 				if (tglbtnGender.isSelected())
 					gender = 0;							// 0 = Female, 1 = male
 				
-				Actor actor = new Actor(fName, lName, gender, description);
-//				latch.countDown();
+				actor = new Actor(fName, lName, gender, description);
+				setVisible(false);
+//				latchActor.countDown();
 			}
 		});	
-
 		btnOpret.setBackground(Color.GREEN);
 		btnOpret.setBounds(316, 218, 100, 23);
 		panel.add(btnOpret);
@@ -180,7 +182,7 @@ public class CreateActor extends JFrame
 		return genderText;
 	}
 	
-	public Actor getActor()
+	public Actor getDirector()
 	{
 		return actor;
 	}

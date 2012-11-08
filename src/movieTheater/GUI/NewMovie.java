@@ -101,6 +101,7 @@ public class NewMovie extends JFrame {
 		cast = null;
 		actor = null;
 		movie = null;
+		newActors = new ArrayList<Actor>();
 		castMap = new HashMap<Actor, String>();
 		load = new SQLMovieLoad();
 		save = new SQLMovieSave();
@@ -196,30 +197,6 @@ public class NewMovie extends JFrame {
 		btnAddActor.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
-//			{
-//				CreateActor createActor = new CreateActor();
-//				createActor.setVisible(true);
-//				try
-//				{
-//					createActor.latch.await();
-//				} 
-//				catch (InterruptedException e1)
-//				{
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//				System.out.println("test");
-//				Actor newActor = createActor.getActor();
-//				if (newActor != null)
-//				{
-//					save.saveActor(newActor);
-//					actors.add(newActor);
-//					comboBoxActor = new ComboBoxActor(actors);
-//					comboBoxActors.setModel(comboBoxActor);
-//				}
-//				createActor.dispose();
-//			}
-//		});
 					{
 						final CreateActor createActor = new CreateActor();
 						createActor.setVisible(true);
@@ -229,9 +206,19 @@ public class NewMovie extends JFrame {
 							@Override
 							public void componentHidden(ComponentEvent arg0)
 							{
-								Actor actor = createActor.getActor();
+								System.out.println("kommer vi hertil");
+								Actor actor = createActor.getDirector();
+								save.saveActor(actor);
+								try
+								{
+									actors = load.LoadActors();
+								} 
+								catch (SQLException e)
+								{
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								newActors.add(actor);
-								actors.add(actor);
 								createActor.dispose();
 								comboBoxActor = new ComboBoxActor(actors);
 								comboBoxActors.setModel(comboBoxActor);
@@ -304,7 +291,6 @@ public class NewMovie extends JFrame {
 				} 
 				catch (ParseException e1)
 				{
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -373,9 +359,45 @@ public class NewMovie extends JFrame {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				final CreateDirector createDirector = new CreateDirector();
+				createDirector.setVisible(true);
+				
+				createDirector.addComponentListener(new ComponentListener()
+				{
+					@Override
+					public void componentHidden(ComponentEvent arg0)
+					{
+						Director director = createDirector.getDirector();
+						save.saveDirector(director);
+						try
+						{
+							directors = load.LoadDirector();
+						} 
+						catch (SQLException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						newActors.add(actor);
+						createDirector.dispose();
+						comboBoxDirector = new ComboBoxDirector(directors);
+						comboBoxDirectors.setModel(comboBoxDirector);
+					}
+					@Override
+					public void componentMoved(ComponentEvent arg0)
+					{	}
 
+					@Override
+					public void componentResized(ComponentEvent arg0)
+					{	}
+
+					@Override
+					public void componentShown(ComponentEvent arg0)
+					{	}
+				});
 			}
 		});
+
 		btnAddDirector.setBounds(549, 83, 130, 23);
 		panel.add(btnAddDirector);
 

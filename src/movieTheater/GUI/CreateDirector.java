@@ -3,6 +3,7 @@ package movieTheater.GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.CountDownLatch;
@@ -16,9 +17,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import movieTheater.Movie.Actor;
 import movieTheater.Movie.Director;
-import java.awt.Font;
 
 public class CreateDirector extends JFrame
 {
@@ -29,7 +28,7 @@ public class CreateDirector extends JFrame
 	private JTextField txtLName;
 	private JLabel lblFName;
 	private JLabel lblLName;
-	private JTextField textField;
+	private JTextField txtDescript;
 	private JLabel lblDescript;
 	private JToggleButton tglbtnGender;
 	private JLabel lblNewLabel;
@@ -41,29 +40,8 @@ public class CreateDirector extends JFrame
 	private String description;
 	private String genderText;
 	private int gender;
-	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
-	private JLabel lblOpretInstruktr;
+	private JLabel lblcreateDirector;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args)
-	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-					CreateDirector frame = new CreateDirector();
-					frame.setVisible(true);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -102,10 +80,10 @@ public class CreateDirector extends JFrame
 		lblLName.setBounds(25, 104, 71, 14);
 		panel.add(lblLName);
 
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(106, 130, 200, 111);
-		panel.add(textField);
+		txtDescript = new JTextField();
+		txtDescript.setColumns(10);
+		txtDescript.setBounds(106, 130, 200, 111);
+		panel.add(txtDescript);
 
 		lblDescript = new JLabel("Description");
 		lblDescript.setBounds(25, 133, 71, 14);
@@ -132,7 +110,7 @@ public class CreateDirector extends JFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				latch.countDown();
+				dispose();
 			} 
 		});
 		btnAbort.setBackground(Color.RED);
@@ -144,25 +122,24 @@ public class CreateDirector extends JFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				fName = lblFName.getText();
-				lName = lblLName.getText();
-				description = lblDescript.getText();
+				fName = txtFName.getText();
+				lName = txtLName.getText();
+				description = txtDescript.getText();
 				if (tglbtnGender.isSelected())
 					gender = 0;							// 0 = Female, 1 = male
 				
-				Director director = new Director(fName, lName, gender, description);
-				latch.countDown();
+				director = new Director(fName, lName, gender, description);
+				setVisible(false);
 			}
 		});	
-
 		btnOpret.setBackground(Color.GREEN);
 		btnOpret.setBounds(316, 218, 100, 23);
 		panel.add(btnOpret);
 		
-		lblOpretInstruktr = new JLabel("Opret instrukt\u00F8r");
-		lblOpretInstruktr.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblOpretInstruktr.setBounds(25, 11, 129, 20);
-		panel.add(lblOpretInstruktr);
+		lblcreateDirector = new JLabel("Opret instruktør");
+		lblcreateDirector.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblcreateDirector.setBounds(10, 11, 193, 20);
+		panel.add(lblcreateDirector);
 	}
 
 	public String toggleGender()

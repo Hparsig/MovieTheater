@@ -22,6 +22,7 @@ public class SQLMovieSave extends SQL{
 	private static final String getMovieID = "SELECT movieID FROM movies WHERE orgTitel LIKE '";
 	private static final String createGenre = "INSERT INTO genres(genre) values(?)";
 	private static final String createActor = "INSERT INTO actors(fName, lName, gender, descript) values (?,?,?,?)";
+	private static final String createDirector = "INSERT INTO directors(fName, lName, gender, descript) values (?,?,?,?)";
 
 	public SQLMovieSave()
 	{
@@ -207,6 +208,34 @@ public class SQLMovieSave extends SQL{
 		catch (Exception e)
 		{
 			System.out.println("fejl i save af skuespiller"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{  
+			closeConnectionSave(); 
+		} 
+		return rows;
+	}
+	
+	public int saveDirector(Director director)
+	{
+		openConnection();
+
+		int rows=0;
+		try
+		{
+
+			preparedStatement = connection.prepareStatement(createDirector); 
+			preparedStatement.setString(1, director.getFName());
+			preparedStatement.setString(2, director.getLName());
+			preparedStatement.setInt(3, director.getGender());
+			preparedStatement.setString(4, director.getDescription());
+			rows = preparedStatement.executeUpdate();                     
+
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i save af instruktører"); //boundary TODO fix
 			e.printStackTrace();
 		}
 		finally
