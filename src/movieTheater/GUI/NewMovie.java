@@ -70,6 +70,7 @@ public class NewMovie extends JFrame {
 	private ArrayList<Genre> genres;
 	private ArrayList<Director> directors;
 	private ArrayList<Actor> actors;
+	private ArrayList<Actor> newActors;
 	private SQLMovieLoad load;
 	private SQLMovieSave save;
 	private ComboBoxGenre comboBoxGenre;
@@ -100,10 +101,11 @@ public class NewMovie extends JFrame {
 		cast = null;
 		actor = null;
 		movie = null;
+		newActors = new ArrayList<Actor>();
 		castMap = new HashMap<Actor, String>();
 		load = new SQLMovieLoad();
 		save = new SQLMovieSave();
-		
+
 		try
 		{
 			genres = load.LoadGenres();
@@ -195,69 +197,46 @@ public class NewMovie extends JFrame {
 		btnAddActor.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
-			{
-				CreateActor createActor = new CreateActor();
-				createActor.setVisible(true);
-				try
-				{
-					createActor.latch.await();
-				} 
-				catch (InterruptedException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				System.out.println("test");
-				Actor newActor = createActor.getActor();
-				if (newActor != null)
-				{
-				save.saveActor(newActor);
-				actors.add(newActor);
-				comboBoxActor = new ComboBoxActor(actors);
-				comboBoxActors.setModel(comboBoxActor);
-				}
-				createActor.dispose();
-			}
-		});
-//			{
-//				final CreateActor createActor = new CreateActor();
-//				createActor.setVisible(true);
-//				final ArrayList<Actor> actors = new ArrayList<Actor>();
-//				createActor.addComponentListener(new ComponentListener()
-//				{
-//
-//					@Override
-//					public void componentHidden(ComponentEvent arg0)
-//					{
-//						Actor actor = createActor.getActor();
-//						actors.add(actor);
-//						createActor.dispose();
-//					}
-//
-//					@Override
-//					public void componentMoved(ComponentEvent arg0)
-//					{
-//						// TODO Auto-generated method stub
-//
-//					}
-//
-//					@Override
-//					public void componentResized(ComponentEvent arg0)
-//					{
-//						// TODO Auto-generated method stub
-//
-//					}
-//
-//					@Override
-//					public void componentShown(ComponentEvent arg0)
-//					{
-//						// TODO Auto-generated method stub
-//
-//					}
-//
-//				});
-//			}
-//		});
+					{
+						final CreateActor createActor = new CreateActor();
+						createActor.setVisible(true);
+						
+						createActor.addComponentListener(new ComponentListener()
+						{
+							@Override
+							public void componentHidden(ComponentEvent arg0)
+							{
+								System.out.println("kommer vi hertil");
+								Actor actor = createActor.getDirector();
+								save.saveActor(actor);
+								try
+								{
+									actors = load.LoadActors();
+								} 
+								catch (SQLException e)
+								{
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								newActors.add(actor);
+								createActor.dispose();
+								comboBoxActor = new ComboBoxActor(actors);
+								comboBoxActors.setModel(comboBoxActor);
+							}
+							@Override
+							public void componentMoved(ComponentEvent arg0)
+							{	}
+		
+							@Override
+							public void componentResized(ComponentEvent arg0)
+							{	}
+		
+							@Override
+							public void componentShown(ComponentEvent arg0)
+							{	}
+						});
+					}
+				});
 		btnAddActor.setBounds(549, 52, 130, 23);
 		panel.add(btnAddActor);
 
@@ -294,7 +273,7 @@ public class NewMovie extends JFrame {
 
 					java.sql.Date sqlDatePremier = new java.sql.Date(premierDate.getTime());	
 					java.sql.Date sqlDateEnd = new java.sql.Date(offDate.getTime());
-				 	 
+
 					if (comboBoxGenres.getSelectedItem() instanceof Genre)
 					{
 						genre = ((Genre) comboBoxGenres.getSelectedItem()).getGenreName();
@@ -303,16 +282,15 @@ public class NewMovie extends JFrame {
 					{
 						director = (Director)comboBoxDirectors.getSelectedItem();
 					}
-					
+
 					movie = new Movie(title, director, playingTime, genre, sqlDatePremier, sqlDateEnd, orgTitle, 
 							tglbtnNewToggleButton.isSelected(), cast);      
-					
-					 
+
+
 					latch.countDown();
 				} 
 				catch (ParseException e1)
 				{
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -381,9 +359,45 @@ public class NewMovie extends JFrame {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				final CreateDirector createDirector = new CreateDirector();
+				createDirector.setVisible(true);
 				
+				createDirector.addComponentListener(new ComponentListener()
+				{
+					@Override
+					public void componentHidden(ComponentEvent arg0)
+					{
+						Director director = createDirector.getDirector();
+						save.saveDirector(director);
+						try
+						{
+							directors = load.LoadDirector();
+						} 
+						catch (SQLException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						newActors.add(actor);
+						createDirector.dispose();
+						comboBoxDirector = new ComboBoxDirector(directors);
+						comboBoxDirectors.setModel(comboBoxDirector);
+					}
+					@Override
+					public void componentMoved(ComponentEvent arg0)
+					{	}
+
+					@Override
+					public void componentResized(ComponentEvent arg0)
+					{	}
+
+					@Override
+					public void componentShown(ComponentEvent arg0)
+					{	}
+				});
 			}
 		});
+
 		btnAddDirector.setBounds(549, 83, 130, 23);
 		panel.add(btnAddDirector);
 
@@ -393,18 +407,21 @@ public class NewMovie extends JFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				String genreName = JOptionPane.showInputDialog(NewMovie.this, "Genretekst" , "Opret ny genre", JOptionPane.DEFAULT_OPTION);
-				save.saveGenre(genreName);
-				try
+				if (genreName != null)
 				{
-					genres = load.LoadGenres();
+					save.saveGenre(genreName);
+					try
+					{
+						genres = load.LoadGenres();
+					}
+					catch (SQLException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					comboBoxGenre = new ComboBoxGenre(genres);
+					comboBoxGenres.setModel(comboBoxGenre);
 				}
-				catch (SQLException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				comboBoxGenre = new ComboBoxGenre(genres);
-				comboBoxGenres.setModel(comboBoxGenre);
 			}
 		});
 		btnAddGenre.setBounds(549, 115, 130, 23);
@@ -414,5 +431,9 @@ public class NewMovie extends JFrame {
 	public Movie getMovie()
 	{
 		return movie;
+	}
+	public ArrayList<Actor> getNewActors()
+	{
+		return newActors;
 	}
 }
