@@ -385,7 +385,7 @@ public class NewMovie extends JFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				String genreName = JOptionPane.showInputDialog(NewMovie.this, "Genretekst" , "Opret ny genre", JOptionPane.DEFAULT_OPTION);
-				if (genreName != null || genreName != "")
+				if (genreName != null)
 				{
 					save.saveGenre(genreName);
 					try
