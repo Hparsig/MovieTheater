@@ -14,21 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import movieTheater.main.City;
-import movieTheater.main.EmployeeController;
-import movieTheater.Persons.Employee;
-import movieTheater.Persons.Manager;
-import movieTheater.Persons.SalesPerson;
-import movieTheater.SQL.SQLLoadPostCode;
-import movieTheater.SQL.SQLLoadTitel;
 import movieTheater.main.Title;
 
 
 
 public class CreateEmployee extends JFrame {
-		private ArrayList<City> postcodeArray;
-	private ArrayList<Title> titleArray;
-	private SQLLoadPostCode loadPostcode;
-	private SQLLoadTitel loadTitle;
+
 	private JPanel contentPane;
 	private JTextField tlf;
 	private JTextField vej;
@@ -39,6 +30,7 @@ public class CreateEmployee extends JFrame {
 	private JTextField password;
 	private JComboBox citys;
 	private JComboBox titles;
+	JPanel panel;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 	
 	private String name;
@@ -51,24 +43,14 @@ public class CreateEmployee extends JFrame {
 	private int postcode;
 	private String cityChoosen;
 	private String username;
-	private Employee employee;
-	private EmployeeController employeeCon;
-
-
+	
 	
 	/**
 	 * @author Jesper
 	 * Create the frame createEmployee.
 	 */
-	public CreateEmployee(EmployeeController employeeController) {
-		employeeCon = employeeController;
-
-		loadTitle = new SQLLoadTitel();
-		loadPostcode = new SQLLoadPostCode();
-
-		titleArray = loadTitle.getTitels();
-		postcodeArray = loadPostcode.getCitys();
-		
+	public CreateEmployee() {
+	
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -76,11 +58,11 @@ public class CreateEmployee extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Opret");
+		JButton btnNewButton = new JButton("Tilføj");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try
@@ -97,19 +79,17 @@ public class CreateEmployee extends JFrame {
 					username = brugernavn.getText();
 					pWord = password.getText();
 				
-					int titelChoose = titles.getSelectedIndex();
-					titleID = titleArray.get(titelChoose).getTitelID();
-				
-					int cityChoose = citys.getSelectedIndex();
-					postcode = postcodeArray.get(cityChoose).getPostcode();
-					cityChoosen = postcodeArray.get(cityChoose).getCity();
+					titleID = titles.getSelectedIndex();
 					
-					employeeCon.createEmployee(titleID, name, lastname, phone, road, houseNr, postcode, cityChoosen, username, pWord);					
+				
+					postcode = citys.getSelectedIndex();
+
 					latch.countDown();
 					
 				}catch(Exception e)
 				{
-					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
+					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt"); 
+					e.printStackTrace();
 				}
 			}
 		});
@@ -187,27 +167,112 @@ public class CreateEmployee extends JFrame {
 		lblRolle.setBounds(12, 203, 56, 16);
 		panel.add(lblRolle);
 		
-		
-		citys = new JComboBox(postcodeArray.toArray());
+		citys = new JComboBox();
 		citys.setBounds(90, 106, 117, 22);
 		panel.add(citys);
-		
-		titles = new JComboBox(titleArray.toArray());
+	
+		titles = new JComboBox();
 		titles.setBounds(91, 200, 116, 22);
 		panel.add(titles);
 		
-		JButton btnAnnuller = new JButton("annuller");
+
+		
+		JButton btnAnnuller = new JButton("Annuller");
 		btnAnnuller.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				CreateEmployee.this.dispose();
+				latch.countDown();
 			}
 		});
 		btnAnnuller.setBounds(297, 173, 113, 25);
 		panel.add(btnAnnuller);
 	}
 	
-	public Employee getEmployee(){
-		return employee;
+	public String getName() {
+		return name;
 	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public int getPhone() {
+		return phone;
+	}
+
+	public String getpWord() {
+		return pWord;
+	}
+
+	public int getTitleID() {
+		return titleID;
+	}
+
+	public String getRoad() {
+		return road;
+	}
+
+	public String getHouseNr() {
+		return houseNr;
+	}
+
+	public int getPostcode() {
+		return postcode;
+	}
+
+	public String getCityChoosen() {
+		return cityChoosen;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+	public void setTlf(String text) {
+		tlf.setText(text);
+	}
+
+	public void setVej(String text) {
+		vej.setText(text);
+	}
+
+	public void setEfternavn(String text) {
+		efternavn.setText(text);
+	}
+
+	public void setFornavn(String text) {
+		fornavn.setText(text);
+	}
+
+	public void setNr(String text) {
+		nr.setText(text);
+	}
+
+	public void setBrugernavn(String text) {
+		brugernavn.setText(text);
+	}
+
+	public void setPassword(String text) {
+		password.setText(text);
+	}
+	public void setTitle(int index)
+	{
+		titles.setSelectedIndex(index);
+	}
+	public void setPostcode(int index)
+	{
+		citys.setSelectedIndex(index);
+	}
+
+	public void setPostcodeArray(String text) {
+	
+		citys.addItem(text);
+	}
+
+	public void setTitleArray(String text) {
+		titles.addItem(text);
+		
+	}
+
+	
+	
 }

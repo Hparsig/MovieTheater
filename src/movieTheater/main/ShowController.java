@@ -45,7 +45,7 @@ public class ShowController {
 	{
 		try
 		{
-		sqlShowLoad.loadAllShows();
+			sqlShowLoad.loadAllShows();
 		}
 		catch(Exception e){
 			e.printStackTrace();

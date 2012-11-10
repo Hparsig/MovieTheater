@@ -111,7 +111,7 @@ public class SearchShow extends JFrame{
 		btnStartSgning.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				showList.clear();
+				showList.removeAll();
 				
 				try
 				{
@@ -144,7 +144,6 @@ public class SearchShow extends JFrame{
 		btnFortryd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				latch.countDown();
-				SearchShow.this.dispose();
 			}
 		});
 		btnFortryd.setBounds(12, 245, 89, 23);
@@ -155,16 +154,13 @@ public class SearchShow extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				listSæder.removeAll();
 				int selected = showList.getSelectedIndex();
-				HashMap<Integer,ArrayList<Integer>> av = shows.get(selected).getHallBooking().getAvailableSeats();
-				Map map = av;
-				Iterator entries = map.entrySet().iterator();
 				
-				while (entries.hasNext())
+				Map<Integer,ArrayList<Integer>> av = shows.get(selected).getHallBooking().getAvailableSeats();
+				
+				for (Map.Entry<Integer, ArrayList<Integer>> entry : av.entrySet())
 				{
-					Map.Entry entry = (Map.Entry) entries.next();
-					Integer key = (Integer)entry.getKey();
-					ArrayList<Integer> value = (ArrayList<Integer>)entry.getValue();
-					listSæder.add("Række = " + key + ", Ledige sæder = " + value);
+
+					listSæder.add("Række = " + entry.getKey() + ", Ledige sæder = " + entry.getValue());
 				}
 				
 			}

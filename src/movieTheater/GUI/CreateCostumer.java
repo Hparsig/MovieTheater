@@ -177,7 +177,7 @@ public class CreateCostumer extends JFrame {
 		btnAnnuller.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				CreateCostumer.this.dispose();
+				latch.countDown();
 			}
 		});
 		btnAnnuller.setBounds(297, 173, 113, 25);

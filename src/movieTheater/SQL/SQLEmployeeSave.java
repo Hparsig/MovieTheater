@@ -55,6 +55,7 @@ public class SQLEmployeeSave extends SQL {
 		catch (Exception e)
 		{
 			System.out.println("fejl i save af medarbejder"); //boundary TODO fix
+			e.printStackTrace();
 		}
 		finally
 		{  
