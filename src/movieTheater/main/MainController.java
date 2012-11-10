@@ -2,26 +2,17 @@ package movieTheater.main;
 
 import movieTheater.GUI.CreateCostumer;
 import movieTheater.GUI.CreateEmployee;
-import movieTheater.GUI.SearchEmployee;
 import movieTheater.GUI.MainWindow;
-import movieTheater.GUI.CreateMovie;
-import movieTheater.GUI.SearchMovie;
+import movieTheater.GUI.SearchEmployee;
 import movieTheater.GUI.SearchShow;
-import movieTheater.Movie.Movie;
 import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
 import movieTheater.SQL.SQLCustomerSave;
 import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLEmployeeSave;
-import movieTheater.SQL.SQLMovieLoad;
-import movieTheater.SQL.SQLMovieSave;
 
 public class MainController
 {
-	private CreateMovie newMovie;
-	private SQLMovieSave saveMovie;
-	private SQLMovieLoad loadMovie;
-
 	private CreateEmployee createEmployee;
 	private SearchEmployee searchEmployee;
 	private EmployeeController employeeController;
@@ -33,10 +24,7 @@ public class MainController
 	private SQLCustomerSave saveCostumer;
 
 	private SearchShow searchShow;
-
 	private int userChoice;
-
-	private Movie movie;
 	private Employee employee;
 	private Costumer costumer;
 
@@ -44,8 +32,6 @@ public class MainController
 
 	public MainController()
 	{
-		saveMovie = new SQLMovieSave();
-		loadMovie = new SQLMovieLoad();
 		saveCostumer = new SQLCustomerSave();
 		saveEmployee = new SQLEmployeeSave();
 		loadEmployee = new SQLEmployeeLoad();
@@ -222,15 +208,13 @@ public class MainController
 		}
 		case MainWindow.CREATEMOVIE:
 		{
-			movie = new Movie();
-			MovieController movieController = new MovieController();
+			movieController = new MovieController();
 			movieController.setMovie();
 			break;
 		}
 		case MainWindow.EDITMOVIE:
 		{
-			movie = new Movie();
-			MovieController movieController = new MovieController();
+			movieController = new MovieController();
 			movieController.EditMovie();
 			break;
 		}
