@@ -1,7 +1,6 @@
 package movieTheater.GUI;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.List;
 import java.awt.event.ActionEvent;
@@ -17,8 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import movieTheater.Movie.Movie;
-import movieTheater.Persons.Employee;
-import movieTheater.main.EmployeeController;
 import movieTheater.main.MovieController;
 
 public class SearchMovie extends JFrame
@@ -36,7 +33,7 @@ public class SearchMovie extends JFrame
 	private String director;
 	private ArrayList<Movie> movies;
 	private Movie movie;
-	private final MovieController movieController;
+	private MovieController movieController;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 
 	/**
@@ -45,7 +42,6 @@ public class SearchMovie extends JFrame
 	public SearchMovie(final MovieController movieController) 
 	{
 		this.movieController = movieController;
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 522, 359);
 		

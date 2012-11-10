@@ -15,7 +15,7 @@ public class Movie {
 	private String title;
 	private Director director;
 	private int length;
-	private String genre;
+	private Genre genre;
 	private Date releaseDate;
 	private Date timeEnd;
 	private String originalTitle;
@@ -51,12 +51,12 @@ public class Movie {
 	
 	}
 
-	public Movie(String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
+	public Movie(String movieName, Director directedBy, int length, Genre genre, Date releaseDate, Date timeEnd,
 			String originalName, boolean is3D, Cast cast)
 	{
 		this(0, movieName, directedBy, length, genre, releaseDate, timeEnd, originalName, is3D, cast, null); //Kalder 2. konstruktør
 	}
-	public Movie(int movieID,String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
+	public Movie(int movieID,String movieName, Director directedBy, int length, Genre genre, Date releaseDate, Date timeEnd,
 			String originalName, boolean is3D, Cast cast, 
 			ArrayList<Rating> ratings)
 	{
@@ -90,7 +90,7 @@ public class Movie {
 	{
 		return length;
 	}
-	public String getGenre()
+	public Genre getGenre()
 	{
 		return genre;
 	}
@@ -175,7 +175,7 @@ public class Movie {
 		this.length = length;
 	}
 
-	public void setGenre(String genre)
+	public void setGenre(Genre genre)
 	{
 		this.genre = genre;
 	}

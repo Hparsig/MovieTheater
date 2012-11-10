@@ -23,7 +23,6 @@ public class MainController
 	private CreateMovie newMovie;
 	private SQLMovieSave saveMovie;
 	private SQLMovieLoad loadMovie;
-	
 	private CreateEmployee createEmployee;
 	private DeleteEmployee deleteEmployee;
 	private SearchEmployee searchEmployee;
@@ -43,9 +42,7 @@ public class MainController
 	private Movie movie;
 	private Employee employee;
 	private Costumer costumer;
-	
-
-	
+		
 	public MainController()
 	{
 		saveMovie = new SQLMovieSave();
@@ -54,7 +51,6 @@ public class MainController
 		saveEmployee = new SQLEmployeeSave();
 		loadEmployee = new SQLEmployeeLoad();
 		employeeController = new EmployeeController(loadEmployee,saveEmployee);
-		
 	}
 
 	public void run()
@@ -135,7 +131,6 @@ public class MainController
 		}
 		case MainWindow.CREATEEMPLOYEE:
 		{
-			
 			createEmployee = new CreateEmployee(employeeController);
 			createEmployee.setVisible(true);
 			
@@ -183,13 +178,12 @@ public class MainController
 			try
 			{
 				editEmployee.latch.await();
-			}catch(Exception e)
+			}
+			catch(Exception e)
 			{
 				e.printStackTrace();
 			}
-			
 			System.out.println("Ændre medarbejder");
-			
 			
 			break;
 		}
@@ -214,67 +208,14 @@ public class MainController
 		}
 		case MainWindow.CREATEMOVIE:
 		{
-			movie = new Movie();
-			newMovie = new CreateMovie(movie);
-			newMovie.setVisible(true);
-			
-			try
-			{
-				newMovie.latch.await();
-			} 
-			catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("Opret film");
-			
-			movie = newMovie.getMovie();
-			if (movie.getInstructedBy() != null)
-			{
-				//TODO valider data før det gemmes
-				saveMovie.saveMovie(movie);
-			}
-			newMovie.dispose();
+			movieController = new MovieController();
+			movieController.setMovie();
 			break;
 		}
 		case MainWindow.EDITMOVIE:
 		{
-			movieController = new MovieController(loadMovie, saveMovie);
-			SearchMovie searchMovie = new SearchMovie(movieController);
-			searchMovie.setVisible(true);
-			try
-			{
-				searchMovie.latch.await();
-			} 
-			catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			movie = searchMovie.getMovie();
-			newMovie = new CreateMovie(movie);
-			newMovie.setVisible(true);
-			searchMovie.dispose();
-			
-			try
-			{
-				newMovie.latch.await();
-			} 
-			catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("Opret film");
-			
-			movie = newMovie.getMovie();
-			if (newMovie.areChangesMade())
-			{
-				//TODO valider data før det gemmes
-				saveMovie.saveMovie(movie);
-			}
-			newMovie.dispose();
+			movieController = new MovieController();
+			movieController.EditMovie();
 			break;
 		}
 		case MainWindow.DELETEMOVIE:

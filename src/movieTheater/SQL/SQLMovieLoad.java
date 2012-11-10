@@ -134,10 +134,10 @@ public class SQLMovieLoad extends SQL{
 				Date premier = resultSet.getDate("premier");
 				Date endDay = resultSet.getDate("endDay");
 
+				Genre genre = LoadGenre(genreID);
 				Director director = LoadDirector(directID);
 				castHash = LoadCast(movieID);
 				ratings = LoadRatings(movieID);
-				String genre = LoadGenre(genreID);
 
 				if(threeDim == 1)
 				{
@@ -223,71 +223,71 @@ public class SQLMovieLoad extends SQL{
 		}
 		return directors;
 	}
-	public ArrayList<Actor> LoadFemaleActors() throws SQLException 
-	{
-		openConnection();
-		ArrayList<Actor> actors = new ArrayList<Actor>();
-		ResultSet resultSet = null;
-
-		try
-		{
-			resultSet = statement.executeQuery(queryLoadFemaleActors);
-			
-		
-			while (resultSet.next())
-			{
-				int actorID = resultSet.getInt("actorID");
-				String firstName = resultSet.getString("fName");
-				String lastName = resultSet.getString("lName");
-				int gender = resultSet.getInt("gender");
-				String description = resultSet.getString("descript");
-				actors.add(new Actor(firstName,lastName,gender,description,actorID));
-			}	
-		}
-		catch (Exception e)
-		{
-			System.out.println("fejl i load af mandlige skuespillere"); //boundary TODO fix
-			e.printStackTrace();
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return actors;
-	}
-	
-	public ArrayList<Actor> LoadMaleActors() throws SQLException 
-	{
-		openConnection();
-		ArrayList<Actor> actors = new ArrayList<Actor>();
-		ResultSet resultSet = null;
-
-		try
-		{
-			resultSet = statement.executeQuery(queryLoadMaleActors);
-			
-		
-			while (resultSet.next())
-			{
-				int actorID = resultSet.getInt("actorID");
-				String firstName = resultSet.getString("fName");
-				String lastName = resultSet.getString("lName");
-				int gender = resultSet.getInt("gender");
-				String description = resultSet.getString("descript");
-				actors.add(new Actor(firstName,lastName,gender,description,actorID));
-			}	
-		}
-		catch (Exception e)
-		{
-			System.out.println("fejl i load af mandlige skuespillere"); //boundary TODO fix
-			e.printStackTrace();
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return actors;
-	}
+//	public ArrayList<Actor> LoadFemaleActors() throws SQLException 
+//	{
+//		openConnection();
+//		ArrayList<Actor> actors = new ArrayList<Actor>();
+//		ResultSet resultSet = null;
+//
+//		try
+//		{
+//			resultSet = statement.executeQuery(queryLoadFemaleActors);
+//			
+//		
+//			while (resultSet.next())
+//			{
+//				int actorID = resultSet.getInt("actorID");
+//				String firstName = resultSet.getString("fName");
+//				String lastName = resultSet.getString("lName");
+//				int gender = resultSet.getInt("gender");
+//				String description = resultSet.getString("descript");
+//				actors.add(new Actor(firstName,lastName,gender,description,actorID));
+//			}	
+//		}
+//		catch (Exception e)
+//		{
+//			System.out.println("fejl i load af mandlige skuespillere"); //boundary TODO fix
+//			e.printStackTrace();
+//		}
+//		finally
+//		{
+//			closeConnectionLoad();
+//		}
+//		return actors;
+//	}
+//	
+//	public ArrayList<Actor> LoadMaleActors() throws SQLException 
+//	{
+//		openConnection();
+//		ArrayList<Actor> actors = new ArrayList<Actor>();
+//		ResultSet resultSet = null;
+//
+//		try
+//		{
+//			resultSet = statement.executeQuery(queryLoadMaleActors);
+//			
+//		
+//			while (resultSet.next())
+//			{
+//				int actorID = resultSet.getInt("actorID");
+//				String firstName = resultSet.getString("fName");
+//				String lastName = resultSet.getString("lName");
+//				int gender = resultSet.getInt("gender");
+//				String description = resultSet.getString("descript");
+//				actors.add(new Actor(firstName,lastName,gender,description,actorID));
+//			}	
+//		}
+//		catch (Exception e)
+//		{
+//			System.out.println("fejl i load af mandlige skuespillere"); //boundary TODO fix
+//			e.printStackTrace();
+//		}
+//		finally
+//		{
+//			closeConnectionLoad();
+//		}
+//		return actors;
+//	}
 
 	public ArrayList<Director> LoadDirector(String lName) throws SQLException
 	{
@@ -326,9 +326,10 @@ public class SQLMovieLoad extends SQL{
 	 * @return String genreName
 	 * @throws SQLException
 	 */
-	public String LoadGenre(int genreID) throws SQLException 
+	public Genre LoadGenre(int genreID) throws SQLException 
 	{
-		String genre = "";
+		Genre genre;
+		String genreName = "";
 		ResultSet resultSet = null;
 
 		try
@@ -338,7 +339,7 @@ public class SQLMovieLoad extends SQL{
 
 			while(resultSet.next())
 			{
-				genre = resultSet.getString("genre");
+				genreName = resultSet.getString("genre");
 			}
 		}
 		catch (Exception e)
@@ -347,6 +348,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		finally
 		{
+			genre = new Genre(genreID, genreName);
 			closeConnectionLoad();
 		}
 		return genre;

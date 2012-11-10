@@ -182,7 +182,7 @@ public class CreateActor extends JFrame
 		return genderText;
 	}
 	
-	public Actor getDirector()
+	public Actor getActor()
 	{
 		return actor;
 	}

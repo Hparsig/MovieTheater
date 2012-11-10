@@ -18,8 +18,22 @@ public class Actor extends MoviePerson
 		return actorID;
 	}
 	
+	public void setActorID(int actorID)
+	{
+		this.actorID = actorID;
+	}
 	public String toString()
 	{
 		return (lName + ", " + fName);
+	}
+	public boolean equals(Object o)
+	{
+		boolean isEqual = false;
+		
+		if(o instanceof Actor)
+		{
+			isEqual = (this.fName.equals(((Actor)o).getFName()) && this.lName.equals(((Actor)o).getLName()));
+		}
+		return isEqual;
 	}
 }

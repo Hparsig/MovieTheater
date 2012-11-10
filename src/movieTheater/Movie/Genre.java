@@ -20,19 +20,23 @@ public class Genre
 	{
 		return genreID;
 	}
+	public void setGenreID(int genreID)
+	{
+		this.genreID = genreID;
+	}
 	public String getGenreName()
 	{
 		return genreName;
 	}
 	public String toString()
 	{
-		return genreID + " " + genreName;
+		return (genreID + " " + genreName);
 	}
 	public boolean equals(Object o)
 	{
 		boolean isEqual = false;
 		
-		if(o instanceof Director)
+		if(o instanceof Genre)
 		{
 			isEqual = this.genreName.equals(((Genre)o).getGenreName());
 //		isEqual = (this.directorID == ((Director) o).getDirectorID());

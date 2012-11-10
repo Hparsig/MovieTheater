@@ -67,16 +67,16 @@ public class CreateMovie extends JFrame {
 	private Date premierDate;
 	private Date offDate;
 	private int playingTime; 
-	private String genre;
-	private ArrayList<Genre> genres;
-	private ArrayList<Director> directors;
-	private ArrayList<Actor> actors;
+	private Genre genre;
+	private final ArrayList<Genre> genres;
+	private ArrayList<Genre> newGenres;
+	private final ArrayList<Director> directors;
+	private ArrayList<Director> newDirectors;
+	private final ArrayList<Actor> actors;
 	private ArrayList<Actor> newActors;
-	private SQLMovieLoad load;
-	private SQLMovieSave save;
-	private JComboBox comboBoxGenres;
-	private JComboBox comboBoxDirectors;
-	private JComboBox comboBoxActors;
+	private JComboBox<Genre> comboBoxGenres;
+	private JComboBox<Director> comboBoxDirectors;
+	private JComboBox<Actor> comboBoxActors;
 	private Movie movie;
 	private Director director;
 	private Cast cast;
@@ -92,14 +92,19 @@ public class CreateMovie extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CreateMovie(Movie movie) 
+	public CreateMovie(Movie movie, final ArrayList<Actor> actors, final ArrayList<Director> directors, final ArrayList<Genre> genres) 
 	{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.movie = movie;
+		this.actors = actors;
+		this.directors = directors;
+		this.genres = genres;
 		areChangesMade = false;
 		newActors = new ArrayList<Actor>();
-		load = new SQLMovieLoad();
-		save = new SQLMovieSave();
+		newDirectors = new ArrayList<Director>();
+		newGenres = new ArrayList<Genre>();
+//		load = new SQLMovieLoad();
+//		save = new SQLMovieSave();
 
 		if(movie.getInstructedBy() != null)
 		{	
@@ -109,18 +114,6 @@ public class CreateMovie extends JFrame {
 		{
 			castMap = new HashMap<Actor, String>();
 			cast = new Cast(castMap);
-		}
-
-		try
-		{
-			genres = load.LoadGenres();
-			directors = load.LoadDirector();
-			actors = load.LoadActors();
-		} 
-		catch (SQLException e2)
-		{
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
 		}
 
 		try
@@ -222,20 +215,12 @@ public class CreateMovie extends JFrame {
 					@Override
 					public void componentHidden(ComponentEvent arg0)
 					{
-						System.out.println("kommer vi hertil");
-						Actor actor = createActor.getDirector();
-						save.saveActor(actor);
-						try
-						{
-							actors = load.LoadActors();
-						} 
-						catch (SQLException e)
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						Actor actor = createActor.getActor();
+						actors.add(actor);
 						newActors.add(actor);
 						createActor.dispose();
+						comboBoxActors.addItem(actor);
+						comboBoxActors.setSelectedItem(actor);
 					}
 					@Override
 					public void componentMoved(ComponentEvent arg0)
@@ -287,8 +272,6 @@ public class CreateMovie extends JFrame {
 				try
 				{	
 
-					title = tfTitel.getText();
-					orgTitle = tfOriginalTitel.getText();
 					premierDate = dateFormat.parse(ftfPremier.getText());
 					offDate = dateFormat.parse(ftfOffday.getText());
 					playingTime = Integer.parseInt(ftfPlayingTime.getText());
@@ -298,15 +281,15 @@ public class CreateMovie extends JFrame {
 
 					if (comboBoxGenres.getSelectedItem() instanceof Genre)
 					{
-						genre = ((Genre) comboBoxGenres.getSelectedItem()).getGenreName();
+						genre = (Genre)comboBoxGenres.getSelectedItem();
 					}
 					if (comboBoxDirectors.getSelectedItem() instanceof Director)
 					{
 						director = (Director)comboBoxDirectors.getSelectedItem();
 					}
 
-					CreateMovie.this.movie.setTitle(title);
-					CreateMovie.this.movie.setOriginalTitle(orgTitle);
+					CreateMovie.this.movie.setTitle(tfTitel.getText());
+					CreateMovie.this.movie.setOriginalTitle(tfOriginalTitel.getText());
 					CreateMovie.this.movie.setReleaseDate(sqlDatePremier);
 					CreateMovie.this.movie.setTimeEnd(sqlDateEnd);
 					CreateMovie.this.movie.setLength(playingTime);
@@ -314,8 +297,7 @@ public class CreateMovie extends JFrame {
 					CreateMovie.this.movie.setGenre(genre);
 					CreateMovie.this.movie.setCast(cast);
 					CreateMovie.this.movie.setIs3D(tglbtnNewToggleButton.isSelected());
-					//					movie = new Movie(title, director, playingTime, genre, sqlDatePremier, sqlDateEnd, orgTitle, 
-					//							tglbtnNewToggleButton.isSelected(), cast);      
+
 					areChangesMade = true;
 					latch.countDown();
 				} 
@@ -423,18 +405,11 @@ public class CreateMovie extends JFrame {
 					public void componentHidden(ComponentEvent arg0)
 					{
 						Director director = createDirector.getDirector();
-						save.saveDirector(director);
-						try
-						{
-							directors = load.LoadDirector();
-						} 
-						catch (SQLException e)
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						newActors.add(actor);
+						directors.add(director);
+						newDirectors.add(director);
 						createDirector.dispose();
+						comboBoxDirectors.addItem(director);
+						comboBoxDirectors.setSelectedItem(director);
 					}
 					@Override
 					public void componentMoved(ComponentEvent arg0)
@@ -462,16 +437,11 @@ public class CreateMovie extends JFrame {
 				String genreName = JOptionPane.showInputDialog(CreateMovie.this, "Genretekst" , "Opret ny genre", JOptionPane.DEFAULT_OPTION);
 				if (genreName != null)
 				{
-					save.saveGenre(genreName);
-					try
-					{
-						genres = load.LoadGenres();
-					}
-					catch (SQLException e1)
-					{
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					Genre newGenre = new Genre(genreName);
+					genres.add(newGenre);
+					newGenres.add(newGenre);
+					comboBoxGenres.addItem(newGenre);
+					comboBoxGenres.setSelectedItem(newGenre);
 				}
 			}
 		});
@@ -487,8 +457,20 @@ public class CreateMovie extends JFrame {
 	{
 		return newActors;
 	}
+	public ArrayList<Director> getNewDirectors()
+	{
+		return newDirectors;
+	}
+	public ArrayList<Genre> getNewGenres()
+	{
+		return newGenres;
+	}
 	public boolean areChangesMade()
 	{
 		return areChangesMade;
+	}
+	public void setCastMap()
+	{
+		
 	}
 }

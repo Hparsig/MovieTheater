@@ -15,8 +15,14 @@ public class Director extends MoviePerson
 		this.directorID = directorID;
 	}
 	
-	public int getDirectorID(){
+	public int getDirectorID()
+	{
 		return directorID;
+	}
+	
+	public void setDirectorID(int directorID)
+	{
+		this.directorID = directorID;
 	}
 	
 	public String toString()
@@ -29,8 +35,7 @@ public class Director extends MoviePerson
 		
 		if(o instanceof Director)
 		{
-			isEqual = this.fName.equals(((Director)o).getFName());
-//		isEqual = (this.directorID == ((Director) o).getDirectorID());
+			isEqual = (this.fName.equals(((Director)o).getFName()) && this.lName.equals(((Director)o).getLName()));
 		}
 		return isEqual;
 	}

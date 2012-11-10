@@ -1,12 +1,15 @@
 package movieTheater.SQL;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Map;
+
 import movieTheater.Movie.Actor;
 import movieTheater.Movie.Cast;
 import movieTheater.Movie.Director;
+import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
-import movieTheater.Persons.Manager;
 
 /**
  * 
@@ -40,22 +43,17 @@ public class SQLMovieSave extends SQL{
 	 * @throws SQLException 
 	 */
 
-	public int saveMovie(Movie movie)
+	public Movie saveMovie(Movie movie)
 	{
 		openConnection();
 
-		int rows=0;
 		try
 		{
-
-			preparedStatement = connection.prepareStatement(createMovie); 
+			preparedStatement = connection.prepareStatement(createMovie, Statement.RETURN_GENERATED_KEYS); 
 
 			preparedStatement.setString(1, movie.getMovieName());				
 			preparedStatement.setInt(2,movie.getLength());
-
-			int genreID = getGenreID(movie);
-			preparedStatement.setInt(3, genreID);
-
+			preparedStatement.setInt(3, movie.getGenre().getGenreID());
 			preparedStatement.setInt(4,movie.getInstructedBy().getDirectorID());
 
 			int tdim = 0;
@@ -69,9 +67,13 @@ public class SQLMovieSave extends SQL{
 			preparedStatement.setDate(7, movie.getReleaseDate());
 			preparedStatement.setDate(8, movie.getTimeEnd());
 
+			preparedStatement.executeUpdate();                     
 
-			rows = preparedStatement.executeUpdate();                     
-
+			ResultSet rs = preparedStatement.getGeneratedKeys();
+			if(rs.next())															//Henter nøglen fra det forrige statement. Er der ikke lavet en ny nøgle returneres false 
+			{
+				movie.setMovieID(rs.getInt(1));							
+			}
 		}
 		catch (Exception e)
 		{
@@ -82,8 +84,7 @@ public class SQLMovieSave extends SQL{
 		{  
 			closeConnectionSave(); 
 		} 
-		saveCastList(movie);
-		return rows;
+		return movie;
 	}
 
 	public int getGenreID(Movie movie){
@@ -164,18 +165,23 @@ public class SQLMovieSave extends SQL{
 			closeConnectionSave();
 		}
 	}
-	public int saveGenre(String genreName)
+	public Genre saveGenre(Genre genre)
 	{
 		openConnection();
-
-		int rows=0;
+		
 		try
 		{
 
-			preparedStatement = connection.prepareStatement(createGenre); 
-			preparedStatement.setString(1, genreName);				
+			preparedStatement = connection.prepareStatement(createGenre, Statement.RETURN_GENERATED_KEYS); 
+			preparedStatement.setString(1, genre.getGenreName());				
 
-			rows = preparedStatement.executeUpdate();                     
+			preparedStatement.executeUpdate();                     
+
+			ResultSet rs = preparedStatement.getGeneratedKeys();
+			if(rs.next())															//Henter nøglen fra det forrige statement. Er der ikke lavet en ny nøgle returneres false 
+			{
+				genre.setGenreID(rs.getInt(1));							
+			}
 
 		}
 		catch (Exception e)
@@ -187,22 +193,52 @@ public class SQLMovieSave extends SQL{
 		{  
 			closeConnectionSave(); 
 		} 
-		return rows;
+		return genre;
 	}
-	public int saveActor(Actor actor)
+//	public int saveGenre(String genreName)
+//	{
+//		openConnection();
+//
+//		int rows=0;
+//		try
+//		{
+//
+//			preparedStatement = connection.prepareStatement(createGenre); 
+//			preparedStatement.setString(1, genreName);				
+//
+//			rows = preparedStatement.executeUpdate();                     
+//
+//		}
+//		catch (Exception e)
+//		{
+//			System.out.println("fejl i save af genre"); //boundary TODO fix
+//			e.printStackTrace();
+//		}
+//		finally
+//		{  
+//			closeConnectionSave(); 
+//		} 
+//		return rows;
+//	}
+	public Actor saveActor(Actor actor)
 	{
 		openConnection();
 
-		int rows=0;
 		try
 		{
 
-			preparedStatement = connection.prepareStatement(createActor); 
+			preparedStatement = connection.prepareStatement(createActor, Statement.RETURN_GENERATED_KEYS); 
 			preparedStatement.setString(1, actor.getFName());
 			preparedStatement.setString(2, actor.getLName());
 			preparedStatement.setInt(3, actor.getGender());
 			preparedStatement.setString(4, actor.getDescription());
-			rows = preparedStatement.executeUpdate();                     
+			preparedStatement.executeUpdate();                     
+
+			ResultSet rs = preparedStatement.getGeneratedKeys();
+			if(rs.next())															//Henter nøglen fra det forrige statement. Er der ikke lavet en ny nøgle returneres false 
+			{
+				actor.setActorID(rs.getInt(1));							
+			}
 
 		}
 		catch (Exception e)
@@ -214,24 +250,28 @@ public class SQLMovieSave extends SQL{
 		{  
 			closeConnectionSave(); 
 		} 
-		return rows;
+		return actor;
 	}
 	
-	public int saveDirector(Director director)
+	public Director saveDirector(Director director)
 	{
 		openConnection();
 
-		int rows=0;
 		try
 		{
 
-			preparedStatement = connection.prepareStatement(createDirector); 
+			preparedStatement = connection.prepareStatement(createDirector, Statement.RETURN_GENERATED_KEYS); 
 			preparedStatement.setString(1, director.getFName());
 			preparedStatement.setString(2, director.getLName());
 			preparedStatement.setInt(3, director.getGender());
 			preparedStatement.setString(4, director.getDescription());
-			rows = preparedStatement.executeUpdate();                     
+			preparedStatement.executeUpdate();                     
 
+			ResultSet rs = preparedStatement.getGeneratedKeys();
+			if(rs.next())															//Henter nøglen fra det forrige statement. Er der ikke lavet en ny nøgle returneres false 
+			{
+				director.setDirectorID(rs.getInt(1));							
+			}
 		}
 		catch (Exception e)
 		{
@@ -242,7 +282,7 @@ public class SQLMovieSave extends SQL{
 		{  
 			closeConnectionSave(); 
 		} 
-		return rows;
+		return director;
 	}
 
 }
