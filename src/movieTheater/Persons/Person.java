@@ -11,16 +11,6 @@ public abstract class Person {
 	protected String userName;
 	protected String pW;
 	
-	public Person(){
-		fName = "";
-		lName = "";
-		phone = 0;
-		houseNo = "";
-		postCode = 0;
-		city = "";
-		userName = "";
-		pW = "";
-	}
 	public Person(String fName, String lName, int phone, String road, String houseNo, int postCode, String city, String userName, 
 			String pW)
 	{

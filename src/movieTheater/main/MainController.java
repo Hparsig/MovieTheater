@@ -1,9 +1,7 @@
 package movieTheater.main;
 
-import movieTheater.GUI.EditEmployee;
 import movieTheater.GUI.CreateCostumer;
 import movieTheater.GUI.CreateEmployee;
-import movieTheater.GUI.DeleteEmployee;
 import movieTheater.GUI.SearchEmployee;
 import movieTheater.GUI.MainWindow;
 import movieTheater.GUI.CreateMovie;
@@ -23,10 +21,9 @@ public class MainController
 	private CreateMovie newMovie;
 	private SQLMovieSave saveMovie;
 	private SQLMovieLoad loadMovie;
+	
 	private CreateEmployee createEmployee;
-	private DeleteEmployee deleteEmployee;
 	private SearchEmployee searchEmployee;
-	private EditEmployee editEmployee;
 	private EmployeeController employeeController;
 	private SQLEmployeeSave saveEmployee;
 	private SQLEmployeeLoad loadEmployee;
@@ -42,7 +39,9 @@ public class MainController
 	private Movie movie;
 	private Employee employee;
 	private Costumer costumer;
-		
+	
+
+	
 	public MainController()
 	{
 		saveMovie = new SQLMovieSave();
@@ -51,6 +50,7 @@ public class MainController
 		saveEmployee = new SQLEmployeeSave();
 		loadEmployee = new SQLEmployeeLoad();
 		employeeController = new EmployeeController(loadEmployee,saveEmployee);
+		
 	}
 
 	public void run()
@@ -87,6 +87,7 @@ public class MainController
 				e.printStackTrace();
 			}
 			System.out.println("Ny bestilling");
+			searchShow.dispose();
 			break;
 		}
 		case MainWindow.GETORDER:
@@ -131,91 +132,157 @@ public class MainController
 		}
 		case MainWindow.CREATEEMPLOYEE:
 		{
-			createEmployee = new CreateEmployee(employeeController);
-			createEmployee.setVisible(true);
+			createEmployee = new CreateEmployee();
+			employeeController.showCreateEmployee(createEmployee);
 			
-			try
-			{
-				createEmployee.latch.await();
-			} 
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-			System.out.println("Opret medarbejder");
 			
-
-			employee = createEmployee.getEmployee();
-			
-			if (employee != null)
-			{
-				saveEmployee.createEmployee(employee);
-			}
-			createEmployee.dispose();
+//			createEmployee = new CreateEmployee(employeeController);
+//			createEmployee.setVisible(true);
+//			
+//			try
+//			{
+//				createEmployee.latch.await();
+//			} 
+//			catch (InterruptedException e)
+//			{
+//				e.printStackTrace();
+//			}
+//			System.out.println("Opret medarbejder");
+//			
+//
+//			employee = createEmployee.getEmployee();
+//			
+//			if (employee != null)
+//			{
+//				saveEmployee.createEmployee(employee);
+//			}
+//			createEmployee.dispose();
 			break;
 				
 		}
 		case MainWindow.EDITEMPLOYEE:
 		{
-			searchEmployee = new SearchEmployee(employeeController);
-			searchEmployee.setVisible(true);
-			
-			try
-			{
-				searchEmployee.latch.await();
+			searchEmployee = new SearchEmployee();
+			createEmployee = new CreateEmployee();
+			employeeController.searchEmployees(searchEmployee, 0,createEmployee);
 
-			} 
-			catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			employee = searchEmployee.getEmployee();
-			editEmployee = new EditEmployee(employee,employeeController);
-			editEmployee.setVisible(true);
-			searchEmployee.dispose();
-			try
-			{
-				editEmployee.latch.await();
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			System.out.println("Ændre medarbejder");
+//			searchEmployee = new SearchEmployee(employeeController);
+//			searchEmployee.setVisible(true);
+//			
+//			try
+//			{
+//				searchEmployee.latch.await();
+//
+//			} 
+//			catch (InterruptedException e)
+//			{
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//			employee = searchEmployee.getEmployee();
+//			editEmployee = new EditEmployee(employee,employeeController);
+//			editEmployee.setVisible(true);
+//			searchEmployee.dispose();
+//			try
+//			{
+//				editEmployee.latch.await();
+//			}catch(Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//			
+//			System.out.println("Ændre medarbejder");
+//			
 			
 			break;
 		}
 		case MainWindow.DELETEEMPLOYEE:
 		{
-			deleteEmployee = new DeleteEmployee(employeeController);
-			deleteEmployee.setVisible(true);
+			searchEmployee = new SearchEmployee();
+			employeeController.searchEmployees(searchEmployee, 1,null);
+			
+			
+			//			deleteEmployee = new DeleteEmployee(employeeController);
+//			deleteEmployee.setVisible(true);
+//			
+//			try
+//			{
+//				deleteEmployee.latch.await();
+//			} 
+//			catch (InterruptedException e)
+//			{
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			System.out.println("Slet medarbejder");
+//			
+//			deleteEmployee.dispose();
+			break;
+		}
+		case MainWindow.CREATEMOVIE:
+		{
+			movie = new Movie();
+			newMovie = new CreateMovie(movie);
+			newMovie.setVisible(true);
 			
 			try
 			{
-				deleteEmployee.latch.await();
+				newMovie.latch.await();
 			} 
 			catch (InterruptedException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("Slet medarbejder");
+			System.out.println("Opret film");
 			
-			deleteEmployee.dispose();
-			break;
-		}
-		case MainWindow.CREATEMOVIE:
-		{
-			movieController = new MovieController();
-			movieController.setMovie();
+			movie = newMovie.getMovie();
+			if (movie.getInstructedBy() != null)
+			{
+				//TODO valider data før det gemmes
+				saveMovie.saveMovie(movie);
+			}
+			newMovie.dispose();
 			break;
 		}
 		case MainWindow.EDITMOVIE:
 		{
-			movieController = new MovieController();
-			movieController.EditMovie();
+			movieController = new MovieController(loadMovie, saveMovie);
+			SearchMovie searchMovie = new SearchMovie(movieController);
+			searchMovie.setVisible(true);
+			try
+			{
+				searchMovie.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			movie = searchMovie.getMovie();
+			newMovie = new CreateMovie(movie);
+			newMovie.setVisible(true);
+			searchMovie.dispose();
+			
+			try
+			{
+				newMovie.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Opret film");
+			
+			movie = newMovie.getMovie();
+			if (newMovie.areChangesMade())
+			{
+				//TODO valider data før det gemmes
+				saveMovie.saveMovie(movie);
+			}
+			newMovie.dispose();
 			break;
 		}
 		case MainWindow.DELETEMOVIE:

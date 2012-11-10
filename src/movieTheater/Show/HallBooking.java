@@ -32,6 +32,13 @@ public class HallBooking {
 	{
 		return timeEnd;
 	}
+	public ArrayList<ArrayList<Seat>> getSeats(){
+		return seatBooking;
+	}
+	/**
+	 * @author Jesper
+	 * @return avaiable seats to the show
+	 */
 	public HashMap<Integer,ArrayList<Integer>> getAvailableSeats()
 	{
 		HashMap<Integer,ArrayList<Integer>> seatSuggestion = new HashMap<Integer,ArrayList<Integer>>();

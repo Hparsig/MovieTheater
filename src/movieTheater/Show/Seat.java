@@ -15,7 +15,7 @@ public class Seat {
 	
 	public Seat(int seatNo)
 	{
-		this.seatNo = seatNo;
+		this.seatNo = seatNo+1;
 		catagoryFactor = STANDARD;
 		seatStatus = AVAILABLE;
 	}

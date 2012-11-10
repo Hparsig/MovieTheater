@@ -27,6 +27,8 @@ import movieTheater.Persons.Employee;
 import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLEmployeeSave;
 import movieTheater.main.EmployeeController;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class SearchEmployee extends JFrame {
 
@@ -36,21 +38,21 @@ public class SearchEmployee extends JFrame {
 	private JTextField textEfternavn;
 	private JTextField textBrugernavn;
 	private JTextField textMedarbejderNr;
+	private int choosen;
 	private String name;
 	private String lastname;
 	private String username;
 	private String empNo;
-	private ArrayList<Employee> employees;
-	private Employee employee;
-	private final EmployeeController employeeController;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
+	private Object lock;  // synkroniserings objekt
 	
 	/**
 	 * @author Jesper
 	 * Create the frame.
 	 */
-	public SearchEmployee(EmployeeController employeeCon) {
-		employeeController = employeeCon;
+	public SearchEmployee()
+	{
+		lock = new Object();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 522, 359);
@@ -67,9 +69,7 @@ public class SearchEmployee extends JFrame {
 		employeesList = new List();
 		employeesList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int choosen = employeesList.getSelectedIndex();
-				employee = employees.get(choosen);
-				
+				choosen = employeesList.getSelectedIndex();
 				latch.countDown();
 			}
 		});
@@ -124,11 +124,9 @@ public class SearchEmployee extends JFrame {
 					lastname = textEfternavn.getText();
 					username = textBrugernavn.getText();
 					empNo =  textMedarbejderNr.getText();
-					employees = employeeController.searchEmployees(name, lastname, username, empNo);	
 					
-					for(int i=0; i <employees.size(); i++){
-						employeesList.add(employees.get(i).toString());
-					}	
+					ok();
+					
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -139,6 +137,12 @@ public class SearchEmployee extends JFrame {
 		panel.add(btnSearch);
 		
 		JButton btnTilbage = new JButton("Tilbage");
+		btnTilbage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				latch.countDown();
+				SearchEmployee.this.dispose();
+			}
+		});
 		btnTilbage.setBounds(0, 268, 97, 25);
 		panel.add(btnTilbage);
 		
@@ -148,7 +152,48 @@ public class SearchEmployee extends JFrame {
 		panel.add(lblSgMedarbejder);
 	}
 	
-	public Employee getEmployee(){
-		return employee;
+	private void ok() 
+	{
+		synchronized (lock) 
+		{
+			lock.notify();
+		}
+	}
+
+	public String getName() 
+	{
+		try {
+			synchronized(lock) {
+				lock.wait();
+			}
+		} catch (InterruptedException e) {}	
+		return name;
+	}
+
+	public String getLastname() {	
+		return lastname;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getEmpNo() {
+
+		return empNo;
+	}
+	public int getChoosen()
+	{
+		return choosen;
+	}
+	
+	public void addEmployee(String text)
+	{
+		employeesList.add(text);	
+	}
+	public int delete(String name)
+	{
+		int result = JOptionPane.showConfirmDialog((Component) null, "Er du sikker på du vil slette "+name,"Advarsel", JOptionPane.OK_CANCEL_OPTION);
+		return result;
 	}
 }

@@ -8,14 +8,14 @@ import movieTheater.main.HallData;
 public class Booking {
 
 	private Show show;
-	private ArrayList<Seat> seats;
+	ArrayList<SeatBookings> seatBookings;
 	private int bookingNo;
 	private Payment payment;
 
-	public Booking(Show show, ArrayList<Seat> seats, int bookingNo)
+	public Booking(Show show, ArrayList<SeatBookings> seatBookings, int bookingNo)
 	{
 		this.show = show;
-		this.seats = seats;
+		this.seatBookings = seatBookings;
 		this.bookingNo = bookingNo;
 		payment = null;
 	}
@@ -29,13 +29,13 @@ public class Booking {
 		this.show = show;
 	}
 
-	public ArrayList<Seat> getSeats() {
-		return seats;
+	public ArrayList<SeatBookings> getSeats() {
+		return seatBookings;
 	}
 
-	public void setSeats(ArrayList<Seat> seats) 
+	public void setSeats(ArrayList<SeatBookings> seatBookings) 
 	{
-		this.seats = seats;
+		this.seatBookings = seatBookings;
 	}
 
 	public int getBookingNo() 
@@ -50,9 +50,9 @@ public class Booking {
 
 	public void setReservation()
 	{
-		for(Seat currentSeat: seats)
+		for(SeatBookings currentSeat: seatBookings)
 		{
-			currentSeat.setReservation();
+			currentSeat.getSeat().setReservation();
 		}
 	}
 
@@ -71,9 +71,9 @@ public class Booking {
 		double price = 0;
 		double showCategory = show.getPriceCategory();
 		
-		for(Seat currentSeat: seats)
+		for(SeatBookings currentSeat: seatBookings)
 		{
-			price = price + ( HallData.MAINPRICE * showCategory * currentSeat.getCatagory());
+			price = price + ( HallData.MAINPRICE * showCategory * currentSeat.getSeat().getCatagory());
 		}
 		
 		return price;
@@ -92,9 +92,9 @@ public class Booking {
 		
 	public void setSeatsPayed()
 	{
-		for(Seat currentSeat: seats)
+		for(SeatBookings currentSeat: seatBookings)
 		{
-			currentSeat.setPayment();
+			currentSeat.getSeat().setPayment();
 		}
 	}
 }
