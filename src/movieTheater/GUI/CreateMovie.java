@@ -7,11 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
@@ -34,8 +31,7 @@ import movieTheater.Movie.Cast;
 import movieTheater.Movie.Director;
 import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
-import movieTheater.SQL.SQLMovieLoad;
-import movieTheater.SQL.SQLMovieSave;
+import movieTheater.main.MovieController;
 
 public class CreateMovie extends JFrame {
 
@@ -62,49 +58,30 @@ public class CreateMovie extends JFrame {
 	private MaskFormatter maskFormatLength;
 	private SimpleDateFormat dateFormat;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
-	private String title;
-	private String orgTitle;
 	private Date premierDate;
 	private Date offDate;
 	private int playingTime; 
 	private Genre genre;
-	private final ArrayList<Genre> genres;
-	private ArrayList<Genre> newGenres;
-	private final ArrayList<Director> directors;
-	private ArrayList<Director> newDirectors;
-	private final ArrayList<Actor> actors;
-	private ArrayList<Actor> newActors;
 	private JComboBox<Genre> comboBoxGenres;
 	private JComboBox<Director> comboBoxDirectors;
 	private JComboBox<Actor> comboBoxActors;
-	private Movie movie;
 	private Director director;
 	private Cast cast;
-	private Actor actor;
-	private Genre genreObj;
 	private HashMap<Actor, String> castMap;
 	private JButton btnAddDirector;
 	private JButton btnAddGenre;
 	private JPanel panel_1;
 	private JPanel panel_2;
 	boolean areChangesMade;
+	private Movie movie;
 
 	/**
 	 * Create the frame.
 	 */
-	public CreateMovie(Movie movie, final ArrayList<Actor> actors, final ArrayList<Director> directors, final ArrayList<Genre> genres) 
+	public CreateMovie(final Movie movie) 
 	{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.movie = movie;
-		this.actors = actors;
-		this.directors = directors;
-		this.genres = genres;
 		areChangesMade = false;
-		newActors = new ArrayList<Actor>();
-		newDirectors = new ArrayList<Director>();
-		newGenres = new ArrayList<Genre>();
-//		load = new SQLMovieLoad();
-//		save = new SQLMovieSave();
 
 		if(movie.getInstructedBy() != null)
 		{	
@@ -216,8 +193,8 @@ public class CreateMovie extends JFrame {
 					public void componentHidden(ComponentEvent arg0)
 					{
 						Actor actor = createActor.getActor();
-						actors.add(actor);
-						newActors.add(actor);
+						MovieController.actors.add(actor);
+						MovieController.newActors.add(actor);
 						createActor.dispose();
 						comboBoxActors.addItem(actor);
 						comboBoxActors.setSelectedItem(actor);
@@ -288,15 +265,15 @@ public class CreateMovie extends JFrame {
 						director = (Director)comboBoxDirectors.getSelectedItem();
 					}
 
-					CreateMovie.this.movie.setTitle(tfTitel.getText());
-					CreateMovie.this.movie.setOriginalTitle(tfOriginalTitel.getText());
-					CreateMovie.this.movie.setReleaseDate(sqlDatePremier);
-					CreateMovie.this.movie.setTimeEnd(sqlDateEnd);
-					CreateMovie.this.movie.setLength(playingTime);
-					CreateMovie.this.movie.setDirector(director);
-					CreateMovie.this.movie.setGenre(genre);
-					CreateMovie.this.movie.setCast(cast);
-					CreateMovie.this.movie.setIs3D(tglbtnNewToggleButton.isSelected());
+					movie.setTitle(tfTitel.getText());
+					movie.setOriginalTitle(tfOriginalTitel.getText());
+					movie.setReleaseDate(sqlDatePremier);
+					movie.setTimeEnd(sqlDateEnd);
+					movie.setLength(playingTime);
+					movie.setDirector(director);
+					movie.setGenre(genre);
+					movie.setCast(cast);
+					movie.setIs3D(tglbtnNewToggleButton.isSelected());
 
 					areChangesMade = true;
 					latch.countDown();
@@ -351,17 +328,17 @@ public class CreateMovie extends JFrame {
 			panel_2.repaint();
 		}
 
-		comboBoxGenres = new JComboBox(genres.toArray());
+		comboBoxGenres = new JComboBox(MovieController.genres.toArray());
 		comboBoxGenres.setBounds(112, 209, 142, 20);
 		comboBoxGenres.setSelectedItem(movie.getGenre());
 		panel.add(comboBoxGenres);
 
-		comboBoxDirectors = new JComboBox(directors.toArray());
+		comboBoxDirectors = new JComboBox(MovieController.directors.toArray());
 		comboBoxDirectors.setBounds(112, 116, 142, 20);
 		comboBoxDirectors.setSelectedItem(movie.getInstructedBy());
 		panel.add(comboBoxDirectors);
 
-		comboBoxActors = new JComboBox(actors.toArray());
+		comboBoxActors = new JComboBox(MovieController.actors.toArray());
 		comboBoxActors.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -405,8 +382,8 @@ public class CreateMovie extends JFrame {
 					public void componentHidden(ComponentEvent arg0)
 					{
 						Director director = createDirector.getDirector();
-						directors.add(director);
-						newDirectors.add(director);
+						MovieController.directors.add(director);
+						MovieController.newDirectors.add(director);
 						createDirector.dispose();
 						comboBoxDirectors.addItem(director);
 						comboBoxDirectors.setSelectedItem(director);
@@ -438,8 +415,8 @@ public class CreateMovie extends JFrame {
 				if (genreName != null)
 				{
 					Genre newGenre = new Genre(genreName);
-					genres.add(newGenre);
-					newGenres.add(newGenre);
+					MovieController.genres.add(newGenre);
+					MovieController.newGenres.add(newGenre);
 					comboBoxGenres.addItem(newGenre);
 					comboBoxGenres.setSelectedItem(newGenre);
 				}
@@ -448,23 +425,23 @@ public class CreateMovie extends JFrame {
 		btnAddGenre.setBounds(549, 115, 130, 23);
 		panel.add(btnAddGenre);
 	}
-
+//
 	public Movie getMovie()
 	{
 		return movie;
 	}
-	public ArrayList<Actor> getNewActors()
-	{
-		return newActors;
-	}
-	public ArrayList<Director> getNewDirectors()
-	{
-		return newDirectors;
-	}
-	public ArrayList<Genre> getNewGenres()
-	{
-		return newGenres;
-	}
+//	public ArrayList<Actor> getNewActors()
+//	{
+//		return newActors;
+//	}
+//	public ArrayList<Director> getNewDirectors()
+//	{
+//		return newDirectors;
+//	}
+//	public ArrayList<Genre> getNewGenres()
+//	{
+//		return newGenres;
+//	}
 	public boolean areChangesMade()
 	{
 		return areChangesMade;

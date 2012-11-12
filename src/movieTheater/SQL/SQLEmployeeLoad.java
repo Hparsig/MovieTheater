@@ -1,13 +1,15 @@
 package movieTheater.SQL;
-import java.util.ArrayList; 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
+import movieTheater.Persons.Person;
 import movieTheater.Persons.SalesPerson;
 
 public class SQLEmployeeLoad extends SQL{
-	private ArrayList<Employee> employeeArray;	
+	private ArrayList<Person> employeeArray;	
 	
 	private static final String queryEmployeeByFirstName = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE fName LIKE '%";
 	private static final String queryEmployeeLastname = " AND lName LIKE '%";
@@ -21,7 +23,7 @@ public class SQLEmployeeLoad extends SQL{
 	 */
 	public SQLEmployeeLoad()
 	{
-		employeeArray = new ArrayList<Employee>();
+		employeeArray = new ArrayList<Person>();
 		statement = null;
 		connection = null;
 	}
@@ -31,7 +33,7 @@ public class SQLEmployeeLoad extends SQL{
 	 * @param ResultSet resultSet
 	 * @return ArrayList<Employee> 
 	 */
-	public ArrayList<Employee> setEmployee(ResultSet resultSet)
+	public ArrayList<Person> setEmployee(ResultSet resultSet)
 	{
 		
 		try
@@ -77,7 +79,7 @@ public class SQLEmployeeLoad extends SQL{
 	 * @return ArrayList<Employee> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username, int empID) throws SQLException 
+	public ArrayList<Person> LoadEmployee(String fName, String lName, String username, int empID) throws SQLException 
 	{
 		
 		ResultSet resultSet = null;
@@ -105,7 +107,7 @@ public class SQLEmployeeLoad extends SQL{
 	 * @return ArrayList<Employee> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username) throws SQLException {
+	public ArrayList<Person> LoadEmployee(String fName, String lName, String username) throws SQLException {
 
 		ResultSet resultSet = null;
 		openConnection();
