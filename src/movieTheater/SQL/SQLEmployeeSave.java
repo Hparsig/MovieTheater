@@ -1,8 +1,10 @@
 package movieTheater.SQL;
 import java.sql.SQLException;
 
+import movieTheater.Persons.Admin;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
+import movieTheater.Persons.Person;
 
 
 public class SQLEmployeeSave extends SQL {
@@ -26,7 +28,7 @@ public class SQLEmployeeSave extends SQL {
 	 * @return void
 	 * @throws SQLException 
 	 */
-	public void createEmployee(Employee employee)
+	public void createEmployee(Person person)
 	{
 		openConnection();
 		
@@ -35,19 +37,19 @@ public class SQLEmployeeSave extends SQL {
 			preparedStatement = connection.prepareStatement(createEmployee); 
 			int titleID = 2;
 			
-			if (employee instanceof Manager)
+			if (person instanceof Manager)
 			{
 				titleID = 1; 
 			}
-			preparedStatement.setString(1,employee.getfName());				
-			preparedStatement.setString(2,employee.getlName());
+			preparedStatement.setString(1,person.getfName());				
+			preparedStatement.setString(2,person.getlName());
 			preparedStatement.setInt(3, titleID);
-			preparedStatement.setString(4, employee.getRoad());
-			preparedStatement.setString(5, employee.getHouseNo());  
-			preparedStatement.setInt(6, employee.getPostCode());
-			preparedStatement.setInt(7,employee.getPhone());
-			preparedStatement.setString(8, employee.getPW());
-			preparedStatement.setString(9, employee.getUserName());
+			preparedStatement.setString(4, person.getRoad());
+			preparedStatement.setString(5, person.getHouseNo());  
+			preparedStatement.setInt(6, person.getPostCode());
+			preparedStatement.setInt(7,person.getPhone());
+			preparedStatement.setString(8, person.getPW());
+			preparedStatement.setString(9, person.getUserName());
 
 			preparedStatement.executeUpdate();                     
 
@@ -72,7 +74,7 @@ public class SQLEmployeeSave extends SQL {
 	 * @return void
 	 * @throws SQLException 
 	 */
-	public void editEmployee(Employee employee)
+	public void editEmployee(Person person)
 	{
 		openConnection();
 		
@@ -80,22 +82,31 @@ public class SQLEmployeeSave extends SQL {
 		{
 			preparedStatement = connection.prepareStatement(updateEmployee); 
 			int titleID = 2;
+			int employeeNo = 0;
 			
-			if (employee instanceof Manager)
+			if (person instanceof Employee)
+			{
+				employeeNo = ((Employee)person).getEmployeeNo();
+			}
+			if (person instanceof Manager)
 			{
 				titleID = 1; 
 			}
+			if (person instanceof Admin)
+			{
+				titleID = 3;
+			}
 			
-			preparedStatement.setString(1,employee.getfName());				
-			preparedStatement.setString(2,employee.getlName());
+			preparedStatement.setString(1,person.getfName());				
+			preparedStatement.setString(2,person.getlName());
 			preparedStatement.setInt(3, titleID);
-			preparedStatement.setString(4, employee.getRoad());
-			preparedStatement.setString(5, employee.getHouseNo());  
-			preparedStatement.setInt(6, employee.getPostCode());
-			preparedStatement.setInt(7,employee.getPhone());
-			preparedStatement.setString(8, employee.getPW());
-			preparedStatement.setString(9, employee.getUserName());
-			preparedStatement.setInt(9, employee.getEmployeeNo());
+			preparedStatement.setString(4, person.getRoad());
+			preparedStatement.setString(5, person.getHouseNo());  
+			preparedStatement.setInt(6, person.getPostCode());
+			preparedStatement.setInt(7,person.getPhone());
+			preparedStatement.setString(8, person.getPW());
+			preparedStatement.setString(9, person.getUserName());
+			preparedStatement.setInt(9, employeeNo);
 			preparedStatement.executeUpdate();                     
 
 		}

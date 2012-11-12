@@ -21,26 +21,29 @@ public class MovieController
 	private SQLMovieSave save;
 	private CreateMovie createMovie;
 	private Movie movie;
-	private ArrayList<Movie> movies;
-	private ArrayList<Actor> actors;
-	private ArrayList<Actor> newActors;
-	private ArrayList<Director> directors;
-	private ArrayList<Director> newDirectors;
-	private ArrayList<Genre> genres;
-	private ArrayList<Genre> newGenres;
+	public static ArrayList<Movie> movies;
+	public static ArrayList<Actor> actors;
+	public static ArrayList<Actor> newActors;
+	public static ArrayList<Director> directors;
+	public static ArrayList<Director> newDirectors;
+	public static ArrayList<Genre> genres;
+	public static ArrayList<Genre> newGenres;
 
 	public MovieController()
 	{
 		load = new SQLMovieLoad();
 		save = new SQLMovieSave();
 		movies = new ArrayList<Movie>();
+		newActors = new ArrayList<Actor>();
+		newDirectors = new ArrayList<Director>();
+		newGenres = new ArrayList<Genre>(); 
 	}
 
 	public void setMovie()
 	{
 		movie = new Movie();
 		loadAttributes();
-		createMovie = new CreateMovie(movie, actors, directors, genres);
+		createMovie = new CreateMovie(movie);
 		createMovie.setVisible(true);
 
 		try
@@ -74,7 +77,7 @@ public class MovieController
 		}
 		movie = searchMovie.getMovie();
 		loadAttributes();
-		createMovie = new CreateMovie(movie, actors, directors, genres);
+		createMovie = new CreateMovie(movie);
 		createMovie.setVisible(true);
 		searchMovie.dispose();
 
@@ -111,17 +114,14 @@ public class MovieController
 	private void checkAndSaveMovie()
 	{
 
-		newDirectors = createMovie.getNewDirectors();
 		for (Director currentDirector : newDirectors)
 		{
 			//check om der er gengangere
 		}
 		saveNewDirectors();									//Saves the created directors and adds directorID
 
-		newActors = createMovie.getNewActors();
 		saveNewActors();									//Saves the created actors and adds actorID
 
-		newGenres = createMovie.getNewGenres();
 		saveNewGenres();									//Saves the created genres and adds genreID
 
 		movie = createMovie.getMovie();

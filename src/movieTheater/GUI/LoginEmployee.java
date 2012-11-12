@@ -79,24 +79,24 @@ public class LoginEmployee extends JFrame {
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try
-				{
+//				try
+//				{
 					username = usernameField.getText();
 					password = passwordField.getText();
-					loginController.employeeLogin(password, username);
+					//loginController.employeeLogin(password, username);
 					
-				}
-				catch(IndexOutOfBoundsException outOf){
-					JOptionPane.showMessageDialog(new JFrame(), "Brugeren findes ikke");
-				}
-				catch(SQLException sql)
-				{
-					JOptionPane.showMessageDialog(new JFrame(), "Fejl i load til databasen, prøv venligst igen");  
-				}	
-				catch(Exception t)
-				{
-					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
-				}		
+//				}
+//				catch(IndexOutOfBoundsException outOf){
+//					JOptionPane.showMessageDialog(new JFrame(), "Brugeren findes ikke");
+//				}
+//				catch(SQLException sql)
+//				{
+//					JOptionPane.showMessageDialog(new JFrame(), "Fejl i load til databasen, prøv venligst igen");  
+//				}	
+//				catch(Exception t)
+//				{
+//					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
+//				}		
 				
 			}
 		});
@@ -107,4 +107,14 @@ public class LoginEmployee extends JFrame {
 		btnCancel.setBounds(204, 209, 97, 25);
 		panel.add(btnCancel);
 	}
+	
+	public String getUsername()
+	{
+		return username;
+	}
+	public String getPassword()
+	{
+		return password;
+	}
+	
 }

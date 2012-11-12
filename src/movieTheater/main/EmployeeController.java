@@ -7,6 +7,7 @@ import movieTheater.GUI.CreateEmployee;
 import movieTheater.GUI.SearchEmployee;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
+import movieTheater.Persons.Person;
 import movieTheater.Persons.SalesPerson;
 import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLEmployeeSave;
@@ -17,15 +18,15 @@ public class EmployeeController {
 
 	private SQLEmployeeLoad load;
 	private SQLEmployeeSave save;
-	private ArrayList<Employee> employees;
-	private Employee employee;
+	private ArrayList<Person> persons;
+	private Person person;
 	private SQLLoadPostCode loadPostcode;
 	private SQLLoadTitel loadTitle;
 	private ArrayList<City> postcodeArray;
 	private ArrayList<Title> titleArray;
 	
 	/**
-	 * @author Jesper
+	 * @author Jesper and a bit Henrik
 	 * @param load
 	 * @param save
 	 */
@@ -34,7 +35,7 @@ public class EmployeeController {
 	{
 		this.load = load;
 		this.save = save;
-		employees = new ArrayList<Employee>();
+		persons = new ArrayList<Person>();
 		
 		loadTitle = new SQLLoadTitel();
 		loadPostcode = new SQLLoadPostCode();
@@ -101,7 +102,7 @@ public class EmployeeController {
 	 */
 	public void searchEmployees(SearchEmployee searchEmployee, int choose,CreateEmployee createEmployee)
 	{
-		employees.clear();	
+		persons.clear();	
 	
 		searchEmployee.setVisible(true);
 		String fName = searchEmployee.getName();
@@ -112,13 +113,14 @@ public class EmployeeController {
 		try
 		{
 			int num = Integer.parseInt(employeeID);
-			employees = load.LoadEmployee(fName, lName, username,num);
+			persons = load.LoadEmployee(fName, lName, username,num);
 		}catch(java.lang.NumberFormatException e)
 		{
 			try
 			{
-				employees = load.LoadEmployee(fName, lName, username);
-			}catch(Exception e1)
+				persons = load.LoadEmployee(fName, lName, username);
+			}
+			catch(Exception e1)
 			{
 				
 			}
@@ -126,9 +128,9 @@ public class EmployeeController {
 		{	
 		}
 		
-		for(int i=0; i <employees.size(); i++)
+		for(int i=0; i <persons.size(); i++)
 		{
-			searchEmployee.addEmployee(employees.get(i).toString());
+			searchEmployee.addEmployee(persons.get(i).toString());
 		}
 
 		try
@@ -143,16 +145,17 @@ public class EmployeeController {
 		}	
 		
 		int selected = searchEmployee.getChoosen();
-		employee = employees.get(selected);
+		person = persons.get(selected);
 		searchEmployee.dispose();
 		
 		if(choose==1)
 		{
 			try
 			{
-				int delete = searchEmployee.delete(employee.getfName());
-				deleteEmployee(delete,employee);
-			}catch(Exception e)
+				int delete = searchEmployee.delete(person.getfName());
+				deleteEmployee(delete,person);
+			}
+			catch(Exception e)
 			{
 				
 			}
@@ -181,18 +184,18 @@ public class EmployeeController {
 			createEmployee.setTitleArray(titleArray.get(i).toString());
 		}
 		
-		createEmployee.setFornavn(employee.getfName());
-		createEmployee.setEfternavn(employee.getlName());
+		createEmployee.setFornavn(person.getfName());
+		createEmployee.setEfternavn(person.getlName());
 		
-		Integer phone1 = employee.getPhone();
+		Integer phone1 = person.getPhone();
 		createEmployee.setTlf(phone1.toString());
-		createEmployee.setVej(employee.getRoad());		
-		createEmployee.setNr(employee.getHouseNo());
-		createEmployee.setBrugernavn(employee.getUserName());
-		createEmployee.setPassword(employee.getPW());
+		createEmployee.setVej(person.getRoad());		
+		createEmployee.setNr(person.getHouseNo());
+		createEmployee.setBrugernavn(person.getUserName());
+		createEmployee.setPassword(person.getPW());
 		
 		int indexTitle = 1;
-		if(employee instanceof Manager)
+		if(person instanceof Manager)
 		{	
 			indexTitle = 0;
 		}
@@ -201,7 +204,7 @@ public class EmployeeController {
 		int indexPostcode = 0;
 		for(int i=0; i < postcodeArray.size(); i++)
 		{
-			if(postcodeArray.get(i).getPostcode()==employee.getPostCode())
+			if(postcodeArray.get(i).getPostcode()==person.getPostCode())
 			{
 				indexPostcode = i;
 			}
@@ -218,8 +221,11 @@ public class EmployeeController {
 			e.printStackTrace();
 		}
 		
-		int employeeID = employee.getEmployeeNo();
-		
+		int employeeID = 0;
+		if (person instanceof Employee)
+		{
+		employeeID = ((Employee)person).getEmployeeNo();
+		}
 		int selectedTitle = createEmployee.getTitleID();
 		int titleID = titleArray.get(selectedTitle).getTitelID();
 		
@@ -248,41 +254,41 @@ public class EmployeeController {
 		
 		if(titleID==1)
 		{
-			employee = new Manager(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
+			person = new Manager(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
 		}
 		else
 		{
-			employee = new SalesPerson(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
+			person = new SalesPerson(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
 		}
 		
-		if(employee.getfName()!=null)
+		if(person.getfName()!=null)
 		{
-		save.createEmployee(employee);
+		save.createEmployee(person);
 		}
 	}
 	public void EditEmployee(int titleID, String name, String lastname,int phone, String road, String houseNr, int postcode, String cityChoosen,String username, String pWord, int employeeNum)
 	{
 		if(titleID==1)
 		{
-			employee = new Manager(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord,employeeNum);
+			person = new Manager(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord,employeeNum);
 		}
 		else
 		{
-			employee = new SalesPerson(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord,employeeNum);
+			person = new SalesPerson(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord,employeeNum);
 		}
 		
-		if(employee.getfName()!=null)
+		if(person.getfName()!=null)
 		{
-			save.editEmployee(employee);
+			save.editEmployee(person);
 		}
 		
 	}
 
-	public void deleteEmployee(int choose,Employee employee) throws SQLException
+	public void deleteEmployee(int choose,Person person) throws SQLException
 	{
-		if(choose==0)
+		if(choose==0 && person instanceof Employee)
 		{
-			save.deleteEmployee(employee.getEmployeeNo());
+			save.deleteEmployee(((Employee)person).getEmployeeNo());
 		}
 	}
 
