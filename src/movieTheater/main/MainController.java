@@ -1,5 +1,6 @@
 package movieTheater.main;
 
+import movieTheater.GUI.AvaliableSeats;
 import movieTheater.GUI.CreateCostumer;
 import movieTheater.GUI.CreateEmployee;
 import movieTheater.GUI.MainWindow;
@@ -10,6 +11,8 @@ import movieTheater.Persons.Employee;
 import movieTheater.SQL.SQLCustomerSave;
 import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLEmployeeSave;
+import movieTheater.SQL.SQLShowLoad;
+import movieTheater.SQL.SQLShowSave;
 
 public class MainController
 {
@@ -23,7 +26,10 @@ public class MainController
 	private CreateCostumer createCostumer;
 	private SQLCustomerSave saveCostumer;
 
-	private SearchShow searchShow;
+	private ShowController showController;
+	private SQLShowLoad showLoad;
+	private SQLShowSave showSave;
+	
 	private int userChoice;
 	private Employee employee;
 	private Costumer costumer;
@@ -35,7 +41,11 @@ public class MainController
 		saveCostumer = new SQLCustomerSave();
 		saveEmployee = new SQLEmployeeSave();
 		loadEmployee = new SQLEmployeeLoad();
+		showLoad = new SQLShowLoad();
+		showSave = new SQLShowSave();
+		
 		employeeController = new EmployeeController(loadEmployee,saveEmployee);
+		showController = new ShowController(showLoad,showSave);
 
 	}
 
@@ -60,20 +70,8 @@ public class MainController
 		{
 		case MainWindow.NEWORDER:
 		{
-			searchShow = new SearchShow();
-			searchShow.setVisible(true);
-
-			try
-			{
-				searchShow.latch.await();
-			} 
-			catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("Ny bestilling");
-			searchShow.dispose();
+			showController.showSearchShow();
+			
 			break;
 		}
 		case MainWindow.GETORDER:
@@ -121,28 +119,6 @@ public class MainController
 			createEmployee = new CreateEmployee();
 			employeeController.showCreateEmployee(createEmployee);
 
-
-			//			createEmployee = new CreateEmployee(employeeController);
-			//			createEmployee.setVisible(true);
-			//			
-			//			try
-			//			{
-			//				createEmployee.latch.await();
-			//			} 
-			//			catch (InterruptedException e)
-			//			{
-			//				e.printStackTrace();
-			//			}
-			//			System.out.println("Opret medarbejder");
-			//			
-			//
-			//			employee = createEmployee.getEmployee();
-			//			
-			//			if (employee != null)
-			//			{
-			//				saveEmployee.createEmployee(employee);
-			//			}
-			//			createEmployee.dispose();
 			break;
 
 		}
@@ -151,36 +127,7 @@ public class MainController
 			searchEmployee = new SearchEmployee();
 			createEmployee = new CreateEmployee();
 			employeeController.searchEmployees(searchEmployee, 0,createEmployee);
-
-			//			searchEmployee = new SearchEmployee(employeeController);
-			//			searchEmployee.setVisible(true);
-			//			
-			//			try
-			//			{
-			//				searchEmployee.latch.await();
-			//
-			//			} 
-			//			catch (InterruptedException e)
-			//			{
-			//				// TODO Auto-generated catch block
-			//				e.printStackTrace();
-			//			}
-			//			
-			//			employee = searchEmployee.getEmployee();
-			//			editEmployee = new EditEmployee(employee,employeeController);
-			//			editEmployee.setVisible(true);
-			//			searchEmployee.dispose();
-			//			try
-			//			{
-			//				editEmployee.latch.await();
-			//			}catch(Exception e)
-			//			{
-			//				e.printStackTrace();
-			//			}
-			//			
-			//			System.out.println("Ændre medarbejder");
-			//			
-
+		
 			break;
 		}
 		case MainWindow.DELETEEMPLOYEE:
@@ -188,22 +135,6 @@ public class MainController
 			searchEmployee = new SearchEmployee();
 			employeeController.searchEmployees(searchEmployee, 1,null);
 
-
-			//			deleteEmployee = new DeleteEmployee(employeeController);
-			//			deleteEmployee.setVisible(true);
-			//			
-			//			try
-			//			{
-			//				deleteEmployee.latch.await();
-			//			} 
-			//			catch (InterruptedException e)
-			//			{
-			//				// TODO Auto-generated catch block
-			//				e.printStackTrace();
-			//			}
-			//			System.out.println("Slet medarbejder");
-			//			
-			//			deleteEmployee.dispose();
 			break;
 		}
 		case MainWindow.CREATEMOVIE:

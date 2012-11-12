@@ -8,21 +8,75 @@ import java.util.Iterator;
 import java.util.Map;
 
 
+import movieTheater.GUI.AvaliableSeats;
+import movieTheater.GUI.SearchShow;
 import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLShowLoad;
 import movieTheater.SQL.SQLShowSave;
+import movieTheater.Show.Seat;
 import movieTheater.Show.Show;
 
 public class ShowController {
 	
 	private ArrayList<Show> shows;
-	private SQLShowLoad sqlShowLoad;
-	private SQLShowSave sqlShowSave;
+	private SQLShowLoad showLoad;
+	private SQLShowSave showSave;
 	
 
-	public ShowController(){
-		sqlShowLoad = new SQLShowLoad();
+	public ShowController(SQLShowLoad showLoad, SQLShowSave showSave)
+	{
+		shows = new ArrayList<Show>();
+		this.showLoad = showLoad;
+		this.showSave = showSave;
+
 	}
+	/**
+	 * @author Jesper
+	 * @param SearchShow searchShow
+	 * show the window searchShow
+	 */
+	public void showSearchShow()
+	{
+		SearchShow searchShow = new SearchShow();
+		searchShow.setVisible(true);
+		
+		while(searchShow.getClose()==0)
+		{	
+			//Get the date and title from the GUI
+			String title = searchShow.getTitel();
+			Date date = searchShow.getSqlDate();
+	
+			//Genereates the show array
+			getShows(title,date);
+		
+			//writes the shows to the screen
+			for(int i=0; i < shows.size(); i++){
+				searchShow.addShowList(shows.get(i).toString());
+			}
+		}		
+		try
+		{
+			searchShow.latch.await();
+		} 
+		catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//get the selected item and close the window
+		int selected = searchShow.getSelected();
+		searchShow.dispose();
+		
+		if(selected!=-1)
+		{
+			BookingController bookingCon = new BookingController();//FIXME skal smides i main controller
+			bookingCon.showNewBookings(shows.get(selected));
+		}
+		
+	}
+	
+	
+	//Følgende skal måske placeres i et funktionslag??
 	/**
 	 * @author Jesper
 	 * @param String titel - titel of the movie
@@ -31,9 +85,10 @@ public class ShowController {
 	 */
 	public ArrayList<Show> getShows(String titel, Date date)
 	{
+		shows.clear();
 		try
 		{
-			shows = sqlShowLoad.loadShowsByDateAndTitle(date, titel);			
+			shows = showLoad.loadShowsByDateAndTitle(date, titel);			
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -43,29 +98,15 @@ public class ShowController {
 	
 	public ArrayList<Show> getShows()
 	{
+		shows.clear();
 		try
 		{
-			sqlShowLoad.loadAllShows();
+			showLoad.loadAllShows();
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 		return shows;
 	}
-	
-	public void setShow(Timestamp timeStart, Timestamp timeEnd)
-	{
-		int choise = 0;
-		//GUI brugerinput omkring tid start og slut
-		//ArrayList<Movie> availableFilms = movieController.getAvailableMovies(timeStart, timeEnd);
-		// choise = GUI brugervalg
-		//int movieID = availableFilms.get(choise).getID();
-		//ArrayList<Hall> availableHalls = hallController.getAvailableHalls(movieLength, timeStart, timeEnd);
-		//choise = GUI brugervalg
-		//int hallNo = availableHalls.get(choise).getHallNo();
-		//sqlShowSave.createShow(hallNo,timeStart,timeEnd,movieID);
-	}
-	
-	
 	
 }

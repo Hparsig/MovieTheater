@@ -14,27 +14,27 @@ public class Payment
 	 * This constructor is used for non-registered costumers paying cash.
 	 * @param amount
 	 */
-	public Payment(double amount)
+	public Payment(double amount,Employee employee)
 	{
-		this(amount, null, 0);
+		this(amount, null, 0,employee);
 	}
 	/**
 	 * This constructor is used for non-registered costumers paying by creditcard. 
 	 * @param amount
 	 * @param payID
 	 */
-	public Payment(double amount, int payID)
+	public Payment(double amount, int payID,Employee employee)
 	{
-		this(amount, null, payID);
+		this(amount, null, payID,employee);
 	}
 	/**
 	 * This constructor is used for registered costumers paying cash. 
 	 * @param amount
 	 * @param costumer
 	 */
-	public Payment(double amount, Costumer costumer)
+	public Payment(double amount, Costumer costumer, Employee employee)
 	{
-		this(amount, costumer, 0);
+		this(amount, costumer, 0,employee);
 	}
 	/**
 	 * this Constructor is used for registered costumers paying by creditcard
@@ -42,7 +42,7 @@ public class Payment
 	 * @param costumer
 	 * @param payID
 	 */
-	public Payment(double amount, Costumer costumer, int payID)
+	public Payment(double amount, Costumer costumer, int payID, Employee employee)
 	{
 		this.amount = amount;
 		this.costumer = costumer;

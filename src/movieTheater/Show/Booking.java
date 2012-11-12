@@ -8,15 +8,21 @@ import movieTheater.main.HallData;
 public class Booking {
 
 	private Show show;
-	ArrayList<SeatBookings> seatBookings;
+	ArrayList<Seat> seatBookings;
 	private int bookingNo;
 	private Payment payment;
 
-	public Booking(Show show, ArrayList<SeatBookings> seatBookings, int bookingNo)
+	public Booking(Show show, ArrayList<Seat> seatBookings, int bookingNo)
 	{
 		this.show = show;
 		this.seatBookings = seatBookings;
 		this.bookingNo = bookingNo;
+		payment = null;
+	}
+	public Booking(Show show, ArrayList<Seat> seatBookings)
+	{
+		this.show = show;
+		this.seatBookings = seatBookings;
 		payment = null;
 	}
 
@@ -29,11 +35,11 @@ public class Booking {
 		this.show = show;
 	}
 
-	public ArrayList<SeatBookings> getSeats() {
+	public ArrayList<Seat> getSeats() {
 		return seatBookings;
 	}
 
-	public void setSeats(ArrayList<SeatBookings> seatBookings) 
+	public void setSeats(ArrayList<Seat> seatBookings) 
 	{
 		this.seatBookings = seatBookings;
 	}
@@ -50,9 +56,9 @@ public class Booking {
 
 	public void setReservation()
 	{
-		for(SeatBookings currentSeat: seatBookings)
+		for(Seat currentSeat: seatBookings)
 		{
-			currentSeat.getSeat().setReservation();
+			currentSeat.setReservation();
 		}
 	}
 
@@ -71,11 +77,11 @@ public class Booking {
 		double price = 0;
 		double showCategory = show.getPriceCategory();
 		
-		for(SeatBookings currentSeat: seatBookings)
+		for(Seat currentSeat: seatBookings)
 		{
-			price = price + ( HallData.MAINPRICE * showCategory * currentSeat.getSeat().getCatagory());
+			price = price + ( HallData.MAINPRICE * showCategory * currentSeat.getCatagory());
 		}
-		
+
 		return price;
 	}
 //	public void setPayed(int amount)
@@ -92,9 +98,9 @@ public class Booking {
 		
 	public void setSeatsPayed()
 	{
-		for(SeatBookings currentSeat: seatBookings)
+		for(Seat currentSeat: seatBookings)
 		{
-			currentSeat.getSeat().setPayment();
+			currentSeat.setPayment();
 		}
 	}
 }
