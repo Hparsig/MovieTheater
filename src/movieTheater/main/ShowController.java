@@ -23,11 +23,11 @@ public class ShowController {
 	private SQLShowSave showSave;
 	
 
-	public ShowController(SQLShowLoad showLoad, SQLShowSave showSave)
+	public ShowController()
 	{
 		shows = new ArrayList<Show>();
-		this.showLoad = showLoad;
-		this.showSave = showSave;
+		showLoad = new SQLShowLoad();
+		showSave = new SQLShowSave();
 
 	}
 	/**

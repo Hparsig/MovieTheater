@@ -40,11 +40,8 @@ public class MainController
 		saveCostumer = new SQLCustomerSave();
 		saveEmployee = new SQLEmployeeSave();
 		loadEmployee = new SQLEmployeeLoad();
-		showLoad = new SQLShowLoad();
-		showSave = new SQLShowSave();
-		
+
 		employeeController = new EmployeeController(loadEmployee,saveEmployee);
-		showController = new ShowController(showLoad,showSave);
 		menuOn = true;
 	}
 
@@ -72,199 +69,95 @@ public class MainController
 
 		while (menuOn)
 		{
-		case MainWindow.NEWORDER:
-		{
-			showController.showSearchShow();
-			
-			break;
-		}
-		case MainWindow.GETORDER:
-		{
-			System.out.println("Hent Bestilling");
-			break;
-		}
-		case MainWindow.CREATECOSTUMER:
-		{
-			createCostumer = new CreateCostumer();
-			createCostumer.setVisible(true);
-
-			try
+			switch(userChoice)
 			{
-				System.out.println("Hent Bestilling");
-				break;
-			}
-			case MainWindow.CREATECOSTUMER:
-			{
-				createCostumer = new CreateCostumer();
-				createCostumer.setVisible(true);
-
-				try
+				case MainWindow.NEWORDER:
 				{
-					createCostumer.latch.await();
-				} 
-				catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ShowController showController = new ShowController();
+					showController.showSearchShow();
+					break;
 				}
-				System.out.println("Opret kunde");
-
-				costumer = createCostumer.getCostumer();
-
-				if (costumer != null)
+				case MainWindow.GETORDER:
 				{
-					saveCostumer.createCustomer(costumer);
+					System.out.println("Hent Bestilling");
+					break;
 				}
-				createCostumer.dispose();
-				break;
-			}
-			case MainWindow.EDITCOSTUMER:
-			{
-				System.out.println("Rediger kunde");
-				break;
-			}
-			case MainWindow.DELETECOSTUMER:
-			{
-				System.out.println("Slet kunde");
-				break;
-			}
-			case MainWindow.CREATEEMPLOYEE:
-			{
-				createEmployee = new CreateEmployee();
-				employeeController.showCreateEmployee(createEmployee);
+				case MainWindow.CREATECOSTUMER:
+				{
+					createCostumer = new CreateCostumer();
+					createCostumer.setVisible(true);
+					break;
+				}
 
-			break;
+				case MainWindow.EDITCOSTUMER:
+				{
+					System.out.println("Rediger kunde");
+					break;
+				}
+				case MainWindow.DELETECOSTUMER:
+				{
+					System.out.println("Slet kunde");
+					break;
+				}
+				case MainWindow.CREATEEMPLOYEE:
+				{
+					createEmployee = new CreateEmployee();
+					employeeController.showCreateEmployee(createEmployee);
+					break;
+				}
+				case MainWindow.EDITEMPLOYEE:
+				{
+					searchEmployee = new SearchEmployee();
+					createEmployee = new CreateEmployee();
+					employeeController.searchEmployees(searchEmployee, 0,createEmployee);
+					break;
+				}
+				case MainWindow.DELETEEMPLOYEE:
+				{
+					searchEmployee = new SearchEmployee();
+					employeeController.searchEmployees(searchEmployee, 1,null);
 
-			}
-			case MainWindow.EDITEMPLOYEE:
-			{
-				searchEmployee = new SearchEmployee();
-				createEmployee = new CreateEmployee();
-				employeeController.searchEmployees(searchEmployee, 0,createEmployee);
-		
+					break;
+				}
+				case MainWindow.CREATEMOVIE:
+				{
+					movieController = new MovieController();
+					movieController.setMovie();
+					break;
+				}
+				case MainWindow.EDITMOVIE:
+				{
+					movieController = new MovieController();
+					movieController.EditMovie();
+					break;
+				}
+				case MainWindow.DELETEMOVIE:
+				{
+					System.out.println("Slet film");
+					break;
+				}
+				case MainWindow.CREATESHOW:
+				{
+					System.out.println("Opret forestilling");
+					break;
+				}
+				case MainWindow.EDITSHOW:
+				{
+					System.out.println("Rediger forestilling");
+					break;
+				}
+				case MainWindow.DELETESHOW:
+				{
+					System.out.println("Slet forestilling");
 				break;
+				}
+				case MainWindow.LOGOFF:
+				{
+					System.out.println("Log af");
+					break;
+				}
 			}
-			case MainWindow.DELETEEMPLOYEE:
-			{
-				searchEmployee = new SearchEmployee();
-				employeeController.searchEmployees(searchEmployee, 1,null);
-
-			break;
 		}
-		case MainWindow.CREATEMOVIE:
-		{
-			movieController = new MovieController();
-			movieController.setMovie();
-			break;
-		}
-		case MainWindow.EDITMOVIE:
-		{
-			movieController = new MovieController();
-			movieController.EditMovie();
-			break;
-		}
-		case MainWindow.DELETEMOVIE:
-		{
-			System.out.println("Slet film");
-			break;
-		}
-		case MainWindow.CREATESHOW:
-		{
-			System.out.println("Opret forestilling");
-			break;
-		}
-		case MainWindow.EDITSHOW:
-		{
-			System.out.println("Rediger forestilling");
-			break;
-		}
-		case MainWindow.DELETESHOW:
-		{
-			System.out.println("Slet forestilling");
-			break;
-		}
-		case MainWindow.LOGOFF:
-		{
-			System.out.println("Log af");
-			break;
-		}
-		}
-		run(); //TODO holder ikke hvis der logges af, så skal findes en anden måde at køre i ring.
-
-				//			deleteEmployee = new DeleteEmployee(employeeController);
-				//			deleteEmployee.setVisible(true);
-				//			
-				//			try
-				//			{
-				//				deleteEmployee.latch.await();
-				//			} 
-				//			catch (InterruptedException e)
-				//			{
-				//				// TODO Auto-generated catch block
-				//				e.printStackTrace();
-				//			}
-				//			System.out.println("Slet medarbejder");
-				//			
-				//			deleteEmployee.dispose();
-				break;
-			}
-			case MainWindow.CREATEMOVIE:
-			{
-				movieController = new MovieController();
-				movieController.setMovie();
-				break;
-			}
-			case MainWindow.EDITMOVIE:
-			{
-				movieController = new MovieController();
-				movieController.EditMovie();
-				break;
-			}
-			case MainWindow.DELETEMOVIE:
-			{
-				System.out.println("Slet film");
-				break;
-			}
-			case MainWindow.CREATESHOW:
-			{
-				System.out.println("Opret forestilling");
-				break;
-			}
-			case MainWindow.EDITSHOW:
-			{
-				System.out.println("Rediger forestilling");
-				break;
-			}
-			case MainWindow.DELETESHOW:
-			{
-				System.out.println("Slet forestilling");
-				break;
-			}
-			case MainWindow.LOGOFF:
-			{
-				loggedOn = null;
-				//FIXME kør logonmetoden igen
-				System.out.println("Log af");
-				menuOn = false;
-				mainWindow.dispose();
-				break;
-			}
-			case MainWindow.CREATEMANAGER:
-			{
-				System.out.println("Opret Manager");
-				break;
-			}
-			case MainWindow.EDITMANAGER:
-			{
-				System.out.println("Rediger Manager");
-				break;
-			}
-			case MainWindow.DELETEMANAGER:
-			{
-				System.out.println("Slet manager");
-				break;
-			}
-			}
-		} 
 	}
+
 }
