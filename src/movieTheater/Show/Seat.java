@@ -55,5 +55,9 @@ public class Seat {
 	{
 		this.seatStatus = seatStatus;
 	}
+	public String toString()
+	{
+		return ""+seatNo;
+	}
 	
 }

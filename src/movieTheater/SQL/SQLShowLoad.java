@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import movieTheater.Movie.Actor;
 import movieTheater.Movie.Director;
+import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
 import movieTheater.Movie.Rating;
 import movieTheater.Movie.Cast;
@@ -60,7 +61,7 @@ public class SQLShowLoad extends SQL{
 				Timestamp timeS = resultSet.getTimestamp("timeS");
 				Timestamp timeE = resultSet.getTimestamp("timeE");
 				int movieID = resultSet.getInt("movieID");
-				int priceCategory = 0; //FIXME mangler at lave priceCategory i databasen. 
+				int priceCategory = 1; //FIXME mangler at lave priceCategory i databasen. 
 				
 				loadMovie(movieID);
 				HallBooking hallBooking = loadBooking(showID,hallNo,timeS, timeE);
@@ -225,17 +226,19 @@ public class SQLShowLoad extends SQL{
 				String orgTitel = resultSet.getString("orgTitel"); 	
 				Date premier = resultSet.getDate("premier");
 				Date endDay = resultSet.getDate("endDay");
-
+				
+				Genre genre = LoadGenre(genreID);
 				Director director = LoadDirector(directID);
 				castHash = LoadCast(movieID);
 				ratings = LoadRatings(movieID);
-				String genre = LoadGenre(genreID);
+
 
 				if(threeDim == 1)
 				{
 					isThreeDim = true;
 				}
 				cast = new Cast(castHash);
+				
 				movie = new Movie(movieID,title, director, length, genre, premier, endDay, orgTitel, isThreeDim, cast, ratings);
 			}
 		}
@@ -290,9 +293,10 @@ public class SQLShowLoad extends SQL{
 	 * @return String genreName
 	 * @throws SQLException
 	 */
-	public String LoadGenre(int genreID) throws SQLException 
+	public Genre LoadGenre(int genreID) throws SQLException 
 	{
-		String genre = "";
+		Genre genre;
+		String genreName = "";
 		ResultSet resultSet = null;
 
 		try
@@ -302,7 +306,7 @@ public class SQLShowLoad extends SQL{
 
 			while(resultSet.next())
 			{
-				genre = resultSet.getString("genre");
+				genreName = resultSet.getString("genre");
 			}
 		}
 		catch (Exception e)
@@ -311,6 +315,7 @@ public class SQLShowLoad extends SQL{
 		}
 		finally
 		{
+			genre = new Genre(genreID, genreName);
 			closeConnectionLoad();
 		}
 		return genre;

@@ -39,17 +39,17 @@ public class HallBooking {
 	 * @author Jesper
 	 * @return avaiable seats to the show
 	 */
-	public HashMap<Integer,ArrayList<Integer>> getAvailableSeats()
+	public HashMap<Integer,ArrayList<Seat>> getAvailableSeats()
 	{
-		HashMap<Integer,ArrayList<Integer>> seatSuggestion = new HashMap<Integer,ArrayList<Integer>>();
+		HashMap<Integer,ArrayList<Seat>> seatSuggestion = new HashMap<Integer,ArrayList<Seat>>();
 		
 		for (int row=0;row<seatBooking.size();row++) {
-			ArrayList<Integer> seats = new ArrayList<Integer>();
+			ArrayList<Seat> seats = new ArrayList<Seat>();
 	        for (int seat = 0; seat < seatBooking.get(row).size(); seat++)
 	        {
 	        	int status = seatBooking.get(row).get(seat).getStatus();
 	        	if(status==0){
-	        		seats.add(seat);
+	        		seats.add(seatBooking.get(row).get(seat));
 	        	}
 	         } 
         	seatSuggestion.put(row, seats);	 

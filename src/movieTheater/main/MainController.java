@@ -1,5 +1,6 @@
 package movieTheater.main;
 
+import movieTheater.GUI.AvaliableSeats;
 import movieTheater.GUI.CreateCostumer;
 import movieTheater.GUI.CreateEmployee;
 import movieTheater.GUI.MainWindow;
@@ -74,86 +75,53 @@ public class MainController
 		{
 			switch(userChoice)
 			{
-			case MainWindow.NEWORDER:
-			{
-				searchShow = new SearchShow();
-				searchShow.setVisible(true);
-
-				try
+				case MainWindow.NEWORDER:
 				{
-					searchShow.latch.await();
-				} 
-				catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ShowController showController = new ShowController();
+					showController.showSearchShow();
+					break;
 				}
-				System.out.println("Ny bestilling");
-				searchShow.dispose();
-				break;
-			}
-			case MainWindow.GETORDER:
-			{
-				System.out.println("Hent Bestilling");
-				break;
-			}
-			case MainWindow.CREATECOSTUMER:
-			{
-				createCostumer = new CreateCostumer();
-				createCostumer.setVisible(true);
-
-				try
+				case MainWindow.GETORDER:
 				{
-					createCostumer.latch.await();
-				} 
-				catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Hent Bestilling");
+					break;
 				}
-				System.out.println("Opret kunde");
-
-				costumer = createCostumer.getCostumer();
-
-				if (costumer != null)
+				case MainWindow.CREATECOSTUMER:
 				{
-					saveCostumer.createCustomer(costumer);
+					createCostumer = new CreateCostumer();
+					createCostumer.setVisible(true);
+					break;
 				}
-				createCostumer.dispose();
-				break;
-			}
-			case MainWindow.EDITCOSTUMER:
-			{
-				System.out.println("Rediger kunde");
-				break;
-			}
-			case MainWindow.DELETECOSTUMER:
-			{
-				System.out.println("Slet kunde");
-				break;
-			}
-			case MainWindow.CREATEEMPLOYEE:
-			{
-				createEmployee = new CreateEmployee();
-				employeeController.showCreateEmployee(createEmployee);
-				break;
+				case MainWindow.EDITCOSTUMER:
+				{
+					System.out.println("Rediger kunde");
+					break;
+				}
+				case MainWindow.DELETECOSTUMER:
+				{
+					System.out.println("Slet kunde");
+					break;
+				}
+				case MainWindow.CREATEEMPLOYEE:
+				{
+					createEmployee = new CreateEmployee();
+					employeeController.showCreateEmployee(createEmployee);
+					break;
+				}
+				case MainWindow.EDITEMPLOYEE:
+				{
+					searchEmployee = new SearchEmployee();
+					createEmployee = new CreateEmployee();
+					employeeController.searchEmployees(searchEmployee, 0,createEmployee);
+					break;
+				}
+				case MainWindow.DELETEEMPLOYEE:
+				{
+					searchEmployee = new SearchEmployee();
+					employeeController.searchEmployees(searchEmployee, 1,null);
 
-			}
-			case MainWindow.EDITEMPLOYEE:
-			{
-				searchEmployee = new SearchEmployee();
-				createEmployee = new CreateEmployee();
-				employeeController.searchEmployees(searchEmployee, 0,createEmployee);
-
-				break;
-			}
-			case MainWindow.DELETEEMPLOYEE:
-			{
-				searchEmployee = new SearchEmployee();
-				employeeController.searchEmployees(searchEmployee, 1,null);
-
-				break;
-			}
+					break;
+				}
 			case MainWindow.CREATEMOVIE:
 			{
 				movieController = new MovieController();
