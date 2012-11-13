@@ -2,30 +2,37 @@ package movieTheater.Show;
 
 import java.util.ArrayList;
 
+import movieTheater.Persons.Employee;
+import movieTheater.Persons.Person;
 import movieTheater.main.HallData;
 
 
 public class Booking {
 
 	private Show show;
-	ArrayList<Seat> seatBookings;
+	private ArrayList<Seat> seatBookings;
 	private int bookingNo;
 	private Payment payment;
+	private Person employee;
 
-	public Booking(Show show, ArrayList<Seat> seatBookings, int bookingNo)
+	public Booking(Show show, ArrayList<Seat> seatBookings, int bookingNo,Person employee)
 	{
 		this.show = show;
 		this.seatBookings = seatBookings;
 		this.bookingNo = bookingNo;
+		this.employee = employee;
 		payment = null;
 	}
-	public Booking(Show show, ArrayList<Seat> seatBookings)
+	
+	public Booking(Show show, ArrayList<Seat> seatBookings, Person employee)
 	{
 		this.show = show;
 		this.seatBookings = seatBookings;
+		this.employee = employee;
 		payment = null;
+		
 	}
-
+	
 	public Show getShow() 
 	{
 		return show;
@@ -102,5 +109,10 @@ public class Booking {
 		{
 			currentSeat.setPayment();
 		}
+	}
+	
+	public Person getEmployee()
+	{
+		return employee;
 	}
 }

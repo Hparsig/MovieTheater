@@ -34,7 +34,7 @@ public class BookingController
 		{
 			int row = avaliableSeats.getRow()-1;
 			int seat = avaliableSeats.getSeat();
-			int ok = -1;
+			int ok = -1; //-1 = seat and row combination doesent excist
 			
 			if(av.containsKey(row)) 
 			{
@@ -42,7 +42,7 @@ public class BookingController
 				{
 					if(av.get(row).get(i).getSeatNo()==seat)
 					{
-						ok = 0;
+						ok = 0; 
 						av.get(row).get(i).setReservation();
 						avaliableSeats.addOrders();
 						av = show.getHallBooking().getAvailableSeats();
@@ -84,18 +84,27 @@ public class BookingController
 			seats.add(entry.getKey());
 		}
 		
-		Booking currentBooking = new Booking(show,seats);
+		Booking currentBooking = new Booking(show,seats,MainController.loggedOn);
 		amount = currentBooking.getPrice();
-		Pay pay  = new Pay();
-		pay.setVisible(true);
+		Pay payWindow  = new Pay();
+		payWindow.setVisible(true);
 		try
 		{
-			pay.latch.await();
+			payWindow.latch.await();
 		} 
 		catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		int paymentMethod = payWindow.getPaymentMethode();
+		switch(paymentMethod)
+		{
+//			case CASH:
+//			{
+//				
+//			}
+//		
 		}
 	}
 

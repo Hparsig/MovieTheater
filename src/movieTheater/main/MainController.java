@@ -9,6 +9,7 @@ import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Manager;
 import movieTheater.Persons.Person;
 import movieTheater.SQL.SQLCustomerSave;
+import movieTheater.Show.Show;
 
 public class MainController
 {
@@ -74,7 +75,12 @@ public class MainController
 			case MainWindow.NEWORDER:
 			{
 				ShowController showController = new ShowController();
-				showController.showSearchShow();
+				Show show = showController.showSearchShow();
+				if(show!=null)
+				{
+					BookingController bookingCon = new BookingController();
+					bookingCon.showNewBookings(show);
+				}
 				break;
 			}
 			case MainWindow.GETORDER:
