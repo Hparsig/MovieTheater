@@ -12,8 +12,6 @@ import movieTheater.SQL.SQLCustomerSave;
 
 public class MainController
 {
-	private CreateEmployee createEmployee;
-	private SearchEmployee searchEmployee;
 	private EmployeeController employeeController;
 	private MovieController movieController;
 
@@ -101,23 +99,22 @@ public class MainController
 			case MainWindow.CREATEEMPLOYEE:
 			{
 				isManager = false;
-				createEmployee = new CreateEmployee();
-				employeeController.showCreateEmployee(createEmployee, isManager);
+				employeeController = new EmployeeController();
+				employeeController.showCreateEmployee(isManager);
 				break;
 			}
 			case MainWindow.EDITEMPLOYEE:
 			{
 				isManager = false;
-				searchEmployee = new SearchEmployee();
-				createEmployee = new CreateEmployee();
-				employeeController.searchEmployees(searchEmployee, 0,createEmployee, isManager);
+				employeeController = new EmployeeController();
+				employeeController.searchEmployees(0, isManager);
 				break;
 			}
 			case MainWindow.DELETEEMPLOYEE:
 			{
 				isManager = false;
-				searchEmployee = new SearchEmployee();
-				employeeController.searchEmployees(searchEmployee, 1,null, isManager);
+				employeeController = new EmployeeController();
+				employeeController.searchEmployees(1, isManager);
 				break;
 			}
 			case MainWindow.CREATEMOVIE:
@@ -161,21 +158,20 @@ public class MainController
 			}
 			case MainWindow.CREATEMANAGER:
 			{
-				createEmployee = new CreateEmployee();
-				employeeController.showCreateEmployee(createEmployee, isManager);
+				employeeController = new EmployeeController();
+				employeeController.showCreateEmployee(isManager);
 				break;
 			}
 			case MainWindow.EDITMANAGER:
 			{
-				searchEmployee = new SearchEmployee();
-				createEmployee = new CreateEmployee();
-				employeeController.searchEmployees(searchEmployee, 0,createEmployee, isManager);
+				employeeController = new EmployeeController();
+				employeeController.searchEmployees(0, isManager);
 				break;
 			}
 			case MainWindow.DELETEMANAGER:
 			{
-				searchEmployee = new SearchEmployee();
-				employeeController.searchEmployees(searchEmployee, 1,null, isManager);
+				employeeController = new EmployeeController();
+				employeeController.searchEmployees(1, isManager);
 				break;
 			}
 			}

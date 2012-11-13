@@ -24,6 +24,8 @@ public class EmployeeController {
 	private SQLLoadTitel loadTitle;
 	private ArrayList<City> postcodeArray;
 	private ArrayList<Title> titleArray;
+	private CreateEmployee createEmployee;
+	private SearchEmployee searchEmployee;
 	
 	/**
 	 * @author Jesper and a bit Henrik
@@ -48,8 +50,9 @@ public class EmployeeController {
 	 * @param createEmployee
 	 * show the createEmployeeWindow
 	 */
-	public void showCreateEmployee(CreateEmployee createEmployee, boolean isManager)
+	public void showCreateEmployee(boolean isManager)
 	{
+		createEmployee = new CreateEmployee();
 		createEmployee.setVisible(true);
 		
 		for (int i=0; i<postcodeArray.size(); i++)
@@ -99,8 +102,11 @@ public class EmployeeController {
 	 * @throws SQLException
 	 * open the window search employee
 	 */
-	public void searchEmployees(SearchEmployee searchEmployee, int choose,CreateEmployee createEmployee, boolean isManager)
+	public void searchEmployees(int choose, boolean isManager)
 	{
+		searchEmployee = new SearchEmployee();
+		createEmployee  = new CreateEmployee();
+
 		persons.clear();	
 	
 		searchEmployee.setVisible(true);
@@ -161,7 +167,7 @@ public class EmployeeController {
 		}
 		else
 		{
-			showEditEmployee(createEmployee);
+			showEditEmployee(isManager);
 		}		
 	}
 	
@@ -170,8 +176,9 @@ public class EmployeeController {
 	 * @param createEmployee
 	 * show the createEmployeeWindow
 	 */
-	public void showEditEmployee(CreateEmployee createEmployee)
+	public void showEditEmployee(boolean isMangager)
 	{
+		createEmployee = new CreateEmployee();
 		createEmployee.setVisible(true);
 		
 		for (int i=0; i<postcodeArray.size(); i++)
