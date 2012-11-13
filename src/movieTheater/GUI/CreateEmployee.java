@@ -49,8 +49,8 @@ public class CreateEmployee extends JFrame {
 	 * @author Jesper
 	 * Create the frame createEmployee.
 	 */
-	public CreateEmployee() {
-	
+	public CreateEmployee() 
+	{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -188,39 +188,48 @@ public class CreateEmployee extends JFrame {
 		panel.add(btnAnnuller);
 	}
 	
-	public String getName() {
+	public String getName() 
+	{
 		return name;
 	}
 
-	public String getLastname() {
+	public String getLastname() 
+	{
 		return lastname;
 	}
 
-	public int getPhone() {
+	public int getPhone() 
+	{
 		return phone;
 	}
 
-	public String getpWord() {
+	public String getpWord() 
+	{
 		return pWord;
 	}
 
-	public int getTitleID() {
+	public int getTitleID() 
+	{
 		return titleID;
 	}
 
-	public String getRoad() {
+	public String getRoad() 
+	{
 		return road;
 	}
 
-	public String getHouseNr() {
+	public String getHouseNr() 
+	{
 		return houseNr;
 	}
 
-	public int getPostcode() {
+	public int getPostcode() 
+	{
 		return postcode;
 	}
 
-	public String getCityChoosen() {
+	public String getCityChoosen() 
+	{
 		return cityChoosen;
 	}
 

@@ -48,7 +48,7 @@ public class EmployeeController {
 	 * @param createEmployee
 	 * show the createEmployeeWindow
 	 */
-	public void showCreateEmployee(CreateEmployee createEmployee)
+	public void showCreateEmployee(CreateEmployee createEmployee, boolean isManager)
 	{
 		createEmployee.setVisible(true);
 		
@@ -99,7 +99,7 @@ public class EmployeeController {
 	 * @throws SQLException
 	 * open the window search employee
 	 */
-	public void searchEmployees(SearchEmployee searchEmployee, int choose,CreateEmployee createEmployee)
+	public void searchEmployees(SearchEmployee searchEmployee, int choose,CreateEmployee createEmployee, boolean isManager)
 	{
 		persons.clear();	
 	

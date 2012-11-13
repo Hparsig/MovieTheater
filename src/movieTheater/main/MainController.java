@@ -1,17 +1,14 @@
 package movieTheater.main;
 
-import movieTheater.GUI.AvaliableSeats;
 import movieTheater.GUI.CreateCostumer;
 import movieTheater.GUI.CreateEmployee;
 import movieTheater.GUI.MainWindow;
 import movieTheater.GUI.SearchEmployee;
 import movieTheater.GUI.SearchShow;
-import movieTheater.Persons.Admin;
 import movieTheater.Persons.Costumer;
+import movieTheater.Persons.Manager;
 import movieTheater.Persons.Person;
 import movieTheater.SQL.SQLCustomerSave;
-import movieTheater.SQL.SQLEmployeeLoad;
-import movieTheater.SQL.SQLEmployeeSave;
 
 public class MainController
 {
@@ -29,6 +26,7 @@ public class MainController
 	private Costumer costumer;
 	private boolean menuOn;
 	private boolean programOn;
+	private boolean isManager;
 
 
 	public MainController()
@@ -44,84 +42,84 @@ public class MainController
 	{
 		while (programOn)
 		{
-		loggedOn = loginController.employeeLogin();
-		runMenu();
+			loggedOn = loginController.employeeLogin();
+			isManager = (loggedOn instanceof Manager);
+			runMenu();
 		}
 	}
 	public void runMenu()
 	{
-	
-		//kør metode til at logge på og sæt loggedOn. 
-		//		loggedOn = new Manager("henrik", "Parsig", 20744864, "Egebo", "19", 2600, "Glostrup", "Hlkdaf", "dflaksdjf");
-		//		loggedOn = new SalesPerson("henrik", "Parsig", 20744864, "Egebo", "19", 2600, "Glostrup", "Hlkdaf", "dflaksdjf");
-//		loggedOn = new Admin("henrik", "Parsig", 20744864, "Egebo", "19", 2600, "Glostrup", "Hlkdaf", "dflaksdjf");
-
-		MainWindow mainWindow = new MainWindow();
-		mainWindow.runMainWindow(); //FIXME skal udbygges til at tage en Employee med (den der er logget på)
-		mainWindow.setVisible(true);
-		try
-		{
-			mainWindow.latch.await();
-		} 
-		catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		userChoice = mainWindow.getChoise();
-		mainWindow.dispose();
-
 		while (menuOn)
 		{
+			MainWindow mainWindow = new MainWindow();
+			mainWindow.runMainWindow(); 
+			mainWindow.setVisible(true);
+
+			try
+			{
+				mainWindow.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			userChoice = mainWindow.getChoise();
+			mainWindow.dispose();
+
+
 			switch(userChoice)
 			{
-				case MainWindow.NEWORDER:
-				{
-					ShowController showController = new ShowController();
-					showController.showSearchShow();
-					break;
-				}
-				case MainWindow.GETORDER:
-				{
-					System.out.println("Hent Bestilling");
-					break;
-				}
-				case MainWindow.CREATECOSTUMER:
-				{
-					createCostumer = new CreateCostumer();
-					createCostumer.setVisible(true);
-					break;
-				}
-				case MainWindow.EDITCOSTUMER:
-				{
-					System.out.println("Rediger kunde");
-					break;
-				}
-				case MainWindow.DELETECOSTUMER:
-				{
-					System.out.println("Slet kunde");
-					break;
-				}
-				case MainWindow.CREATEEMPLOYEE:
-				{
-					createEmployee = new CreateEmployee();
-					employeeController.showCreateEmployee(createEmployee);
-					break;
-				}
-				case MainWindow.EDITEMPLOYEE:
-				{
-					searchEmployee = new SearchEmployee();
-					createEmployee = new CreateEmployee();
-					employeeController.searchEmployees(searchEmployee, 0,createEmployee);
-					break;
-				}
-				case MainWindow.DELETEEMPLOYEE:
-				{
-					searchEmployee = new SearchEmployee();
-					employeeController.searchEmployees(searchEmployee, 1,null);
-
-					break;
-				}
+			case MainWindow.NEWORDER:
+			{
+				ShowController showController = new ShowController();
+				showController.showSearchShow();
+				break;
+			}
+			case MainWindow.GETORDER:
+			{
+				System.out.println("Hent Bestilling");
+				break;
+			}
+			case MainWindow.CREATECOSTUMER:
+			{
+				createCostumer = new CreateCostumer();
+				createCostumer.setVisible(true);
+				break;
+			}
+			case MainWindow.EDITCOSTUMER:
+			{
+				System.out.println("Rediger kunde");
+				break;
+			}
+			case MainWindow.DELETECOSTUMER:
+			{
+				System.out.println("Slet kunde");
+				break;
+			}
+			case MainWindow.CREATEEMPLOYEE:
+			{
+				isManager = false;
+				createEmployee = new CreateEmployee();
+				employeeController.showCreateEmployee(createEmployee, isManager);
+				break;
+			}
+			case MainWindow.EDITEMPLOYEE:
+			{
+				isManager = false;
+				searchEmployee = new SearchEmployee();
+				createEmployee = new CreateEmployee();
+				employeeController.searchEmployees(searchEmployee, 0,createEmployee, isManager);
+				break;
+			}
+			case MainWindow.DELETEEMPLOYEE:
+			{
+				isManager = false;
+				searchEmployee = new SearchEmployee();
+				employeeController.searchEmployees(searchEmployee, 1,null, isManager);
+				break;
+			}
 			case MainWindow.CREATEMOVIE:
 			{
 				movieController = new MovieController();
@@ -164,20 +162,20 @@ public class MainController
 			case MainWindow.CREATEMANAGER:
 			{
 				createEmployee = new CreateEmployee();
-				employeeController.showCreateEmployee(createEmployee);
+				employeeController.showCreateEmployee(createEmployee, isManager);
 				break;
 			}
 			case MainWindow.EDITMANAGER:
 			{
 				searchEmployee = new SearchEmployee();
 				createEmployee = new CreateEmployee();
-				employeeController.searchEmployees(searchEmployee, 0,createEmployee);
+				employeeController.searchEmployees(searchEmployee, 0,createEmployee, isManager);
 				break;
 			}
 			case MainWindow.DELETEMANAGER:
 			{
 				searchEmployee = new SearchEmployee();
-				employeeController.searchEmployees(searchEmployee, 1,null);
+				employeeController.searchEmployees(searchEmployee, 1,null, isManager);
 				break;
 			}
 			}
