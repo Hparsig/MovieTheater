@@ -78,6 +78,7 @@ public class MainController
 				{
 					BookingController bookingCon = new BookingController();
 					bookingCon.showNewBookings(show);
+					
 				}
 				break;
 			}

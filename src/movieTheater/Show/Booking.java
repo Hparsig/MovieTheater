@@ -1,34 +1,37 @@
 package movieTheater.Show;
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Person;
+import movieTheater.main.BookingController;
 import movieTheater.main.HallData;
 
 
 public class Booking {
 
 	private Show show;
-	private ArrayList<Seat> seatBookings;
+	private Map<Seat,Integer> seatBookings;
 	private int bookingNo;
 	private Payment payment;
-	private Person employee;
+	private Costumer costumer;
 
-	public Booking(Show show, ArrayList<Seat> seatBookings, int bookingNo,Person employee)
+	public Booking(int bookingNo,Show show, Map<Seat,Integer> seatBookings,Costumer costumer)
 	{
 		this.show = show;
 		this.seatBookings = seatBookings;
 		this.bookingNo = bookingNo;
-		this.employee = employee;
+		this.costumer = costumer;
 		payment = null;
 	}
 	
-	public Booking(Show show, ArrayList<Seat> seatBookings, Person employee)
+	public Booking(Show show, Map<Seat,Integer> seatBookings, Costumer costumer)
 	{
 		this.show = show;
 		this.seatBookings = seatBookings;
-		this.employee = employee;
+		this.costumer = costumer;
 		payment = null;
 		
 	}
@@ -42,11 +45,11 @@ public class Booking {
 		this.show = show;
 	}
 
-	public ArrayList<Seat> getSeats() {
+	public Map<Seat,Integer> getSeats() {
 		return seatBookings;
 	}
 
-	public void setSeats(ArrayList<Seat> seatBookings) 
+	public void setSeats(Map<Seat,Integer> seatBookings) 
 	{
 		this.seatBookings = seatBookings;
 	}
@@ -63,9 +66,9 @@ public class Booking {
 
 	public void setReservation()
 	{
-		for(Seat currentSeat: seatBookings)
+		for (Map.Entry<Seat, Integer> entry : seatBookings.entrySet())
 		{
-			currentSeat.setReservation();
+			entry.getKey().setReservation();
 		}
 	}
 
@@ -84,35 +87,24 @@ public class Booking {
 		double price = 0;
 		double showCategory = show.getPriceCategory();
 		
-		for(Seat currentSeat: seatBookings)
+		for (Map.Entry<Seat, Integer> entry : seatBookings.entrySet())
 		{
-			price = price + ( HallData.MAINPRICE * showCategory * currentSeat.getCatagory());
+			price = price + ( HallData.MAINPRICE * showCategory * entry.getKey().getCatagory());
+			
 		}
-
 		return price;
 	}
-//	public void setPayed(int amount)
-//	{
-//		setSeatsPayed();
-//		payment = new Payment(amount);
-//	}
-//
-//	public void setPayed(int amount, Costumer costumer)
-//	{
-//		setSeatsPayed();
-//		payment = new Payment(amount, costumer);
-//	}
-		
+
 	public void setSeatsPayed()
 	{
-		for(Seat currentSeat: seatBookings)
+		for (Map.Entry<Seat, Integer> entry : seatBookings.entrySet())
 		{
-			currentSeat.setPayment();
+			entry.getKey().setPayment();	
 		}
 	}
 	
-	public Person getEmployee()
+	public Costumer getCostumer()
 	{
-		return employee;
+		return costumer;
 	}
 }

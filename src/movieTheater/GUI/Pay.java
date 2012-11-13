@@ -26,7 +26,7 @@ public class Pay extends JFrame {
 	private static final int ABORT = -1;
 	private static final int CASH = 0;
 	private static final int CARD = 1;
-	private int paymentMethode;
+	private static int paymentMethode;
 
 	/**
 	 * Create the frame.

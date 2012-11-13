@@ -8,45 +8,46 @@ public class Payment
 	private double amount;
 	private Costumer costumer;
 	private Employee employee;
-	private int payID;
+	private int paymentMethod;
 	
-	/**
-	 * This constructor is used for non-registered costumers paying cash.
-	 * @param amount
-	 */
-	public Payment(double amount,Employee employee)
-	{
-		this(amount, null, 0,employee);
-	}
+//	/**
+//	 * This constructor is used for non-registered costumers paying cash.
+//	 * @param amount
+//	 */
+//	public Payment(double amount,Employee employee)
+//	{
+//		this(amount, null, 0,employee);
+//	}
 	/**
 	 * This constructor is used for non-registered costumers paying by creditcard. 
 	 * @param amount
-	 * @param payID
+	 * @param paymentMethod
 	 */
-	public Payment(double amount, int payID,Employee employee)
+	public Payment(double amount, int paymentMethod,Employee employee)
 	{
-		this(amount, null, payID,employee);
+		this(amount, null, paymentMethod,employee);
 	}
-	/**
-	 * This constructor is used for registered costumers paying cash. 
-	 * @param amount
-	 * @param costumer
-	 */
-	public Payment(double amount, Costumer costumer, Employee employee)
-	{
-		this(amount, costumer, 0,employee);
-	}
+//	/**
+//	 * This constructor is used for registered costumers paying cash. 
+//	 * @param amount
+//	 * @param costumer
+//	 */
+//	public Payment(double amount, Costumer costumer,Employee employee)
+//	{
+//		this(amount, costumer, 0,employee);
+//	}
 	/**
 	 * this Constructor is used for registered costumers paying by creditcard
 	 * @param amount
 	 * @param costumer
-	 * @param payID
+	 * @param paymentMethod
 	 */
-	public Payment(double amount, Costumer costumer, int payID, Employee employee)
+	public Payment(double amount, Costumer costumer, int paymentMethod,Employee employee)
 	{
 		this.amount = amount;
 		this.costumer = costumer;
-		this.payID = payID;
+		this.paymentMethod = paymentMethod;
+		this.employee = employee;
 	}
 	
 	public double getAmount()
@@ -59,11 +60,10 @@ public class Payment
 		return costumer;
 	}
 	
-	public int getPayID()
+	public int getPaymentMethod()
 	{
-		return payID;
+		return paymentMethod;
 	}
-	
 	public Employee getEmployee()
 	{
 		return employee;
