@@ -17,14 +17,13 @@ public abstract class Employee extends Person
 		super(fName, lName, phone, road, houseNo, postCode, city, userName, PW);
 	}
 
-	public int getEmployeeNo() {
+	public int getEmployeeNo() 
+	{
 		return employeeNo;
 	}
 
-	public void setEmployeeNo(int employeeNo) {
+	public void setEmployeeNo(int employeeNo) 
+	{
 		this.employeeNo = employeeNo;
-	}
-	public String toString(){
-		return fName+" "+lName;
 	}
 }

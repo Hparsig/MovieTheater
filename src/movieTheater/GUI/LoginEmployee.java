@@ -17,6 +17,7 @@ import movieTheater.main.LoginController;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import java.util.concurrent.CountDownLatch;
 
 public class LoginEmployee extends JFrame {
 
@@ -26,22 +27,7 @@ public class LoginEmployee extends JFrame {
 	private String username;
 	private String password;
 	private LoginController loginController;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginEmployee frame = new LoginEmployee();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 
 	/**
 	 * Create the frame.
@@ -83,6 +69,7 @@ public class LoginEmployee extends JFrame {
 //				{
 					username = usernameField.getText();
 					password = passwordField.getText();
+					latch.countDown();
 					//loginController.employeeLogin(password, username);
 					
 //				}

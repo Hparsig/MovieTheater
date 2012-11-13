@@ -71,6 +71,7 @@ public class SQLLogin extends SQL {
 				String userName = resultSet.getString("username");
 				String city = resultSet.getString("city");
 				
+				employeeArray.clear();
 				if (titel == 1)
 				{
 				employeeArray.add(new Manager(fName, lName, phone, road, houseNo, postCode, city, userName, 

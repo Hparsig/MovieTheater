@@ -17,36 +17,43 @@ public class MainController
 	private CreateEmployee createEmployee;
 	private SearchEmployee searchEmployee;
 	private EmployeeController employeeController;
-	private SQLEmployeeSave saveEmployee;
-	private SQLEmployeeLoad loadEmployee;
 	private MovieController movieController;
 
 	private CreateCostumer createCostumer;
 	private SQLCustomerSave saveCostumer;
-
+	private LoginController loginController;
 	private SearchShow searchShow;
 	private int userChoice;
 	public static Person loggedOn;
 	private Costumer costumer;
 	private boolean menuOn;
-
+	private boolean programOn;
 
 
 	public MainController()
 	{
 		saveCostumer = new SQLCustomerSave();
-		saveEmployee = new SQLEmployeeSave();
-		loadEmployee = new SQLEmployeeLoad();
-		employeeController = new EmployeeController(loadEmployee,saveEmployee);
+		loginController = new LoginController();
+		employeeController = new EmployeeController();
 		menuOn = true;
+		programOn = true;
 	}
 
 	public void run()
 	{
+		while (programOn)
+		{
+		loggedOn = loginController.employeeLogin();
+		runMenu();
+		}
+	}
+	public void runMenu()
+	{
+	
 		//kør metode til at logge på og sæt loggedOn. 
 		//		loggedOn = new Manager("henrik", "Parsig", 20744864, "Egebo", "19", 2600, "Glostrup", "Hlkdaf", "dflaksdjf");
 		//		loggedOn = new SalesPerson("henrik", "Parsig", 20744864, "Egebo", "19", 2600, "Glostrup", "Hlkdaf", "dflaksdjf");
-		loggedOn = new Admin("henrik", "Parsig", 20744864, "Egebo", "19", 2600, "Glostrup", "Hlkdaf", "dflaksdjf");
+//		loggedOn = new Admin("henrik", "Parsig", 20744864, "Egebo", "19", 2600, "Glostrup", "Hlkdaf", "dflaksdjf");
 
 		MainWindow mainWindow = new MainWindow();
 		mainWindow.runMainWindow(); //FIXME skal udbygges til at tage en Employee med (den der er logget på)
@@ -129,29 +136,6 @@ public class MainController
 			{
 				createEmployee = new CreateEmployee();
 				employeeController.showCreateEmployee(createEmployee);
-
-
-				//			createEmployee = new CreateEmployee(employeeController);
-				//			createEmployee.setVisible(true);
-				//			
-				//			try
-				//			{
-				//				createEmployee.latch.await();
-				//			} 
-				//			catch (InterruptedException e)
-				//			{
-				//				e.printStackTrace();
-				//			}
-				//			System.out.println("Opret medarbejder");
-				//			
-				//
-				//			employee = createEmployee.getEmployee();
-				//			
-				//			if (employee != null)
-				//			{
-				//				saveEmployee.createEmployee(employee);
-				//			}
-				//			createEmployee.dispose();
 				break;
 
 			}
@@ -161,35 +145,6 @@ public class MainController
 				createEmployee = new CreateEmployee();
 				employeeController.searchEmployees(searchEmployee, 0,createEmployee);
 
-				//			searchEmployee = new SearchEmployee(employeeController);
-				//			searchEmployee.setVisible(true);
-				//			
-				//			try
-				//			{
-				//				searchEmployee.latch.await();
-				//
-				//			} 
-				//			catch (InterruptedException e)
-				//			{
-				//				// TODO Auto-generated catch block
-				//				e.printStackTrace();
-				//			}
-				//			
-				//			employee = searchEmployee.getEmployee();
-				//			editEmployee = new EditEmployee(employee,employeeController);
-				//			editEmployee.setVisible(true);
-				//			searchEmployee.dispose();
-				//			try
-				//			{
-				//				editEmployee.latch.await();
-				//			}catch(Exception e)
-				//			{
-				//				e.printStackTrace();
-				//			}
-				//			
-				//			System.out.println("Ændre medarbejder");
-				//			
-
 				break;
 			}
 			case MainWindow.DELETEEMPLOYEE:
@@ -197,22 +152,6 @@ public class MainController
 				searchEmployee = new SearchEmployee();
 				employeeController.searchEmployees(searchEmployee, 1,null);
 
-
-				//			deleteEmployee = new DeleteEmployee(employeeController);
-				//			deleteEmployee.setVisible(true);
-				//			
-				//			try
-				//			{
-				//				deleteEmployee.latch.await();
-				//			} 
-				//			catch (InterruptedException e)
-				//			{
-				//				// TODO Auto-generated catch block
-				//				e.printStackTrace();
-				//			}
-				//			System.out.println("Slet medarbejder");
-				//			
-				//			deleteEmployee.dispose();
 				break;
 			}
 			case MainWindow.CREATEMOVIE:
@@ -250,25 +189,27 @@ public class MainController
 			case MainWindow.LOGOFF:
 			{
 				loggedOn = null;
-				//FIXME kør logonmetoden igen
-				System.out.println("Log af");
 				menuOn = false;
 				mainWindow.dispose();
 				break;
 			}
 			case MainWindow.CREATEMANAGER:
 			{
-				System.out.println("Opret Manager");
+				createEmployee = new CreateEmployee();
+				employeeController.showCreateEmployee(createEmployee);
 				break;
 			}
 			case MainWindow.EDITMANAGER:
 			{
-				System.out.println("Rediger Manager");
+				searchEmployee = new SearchEmployee();
+				createEmployee = new CreateEmployee();
+				employeeController.searchEmployees(searchEmployee, 0,createEmployee);
 				break;
 			}
 			case MainWindow.DELETEMANAGER:
 			{
-				System.out.println("Slet manager");
+				searchEmployee = new SearchEmployee();
+				employeeController.searchEmployees(searchEmployee, 1,null);
 				break;
 			}
 			}

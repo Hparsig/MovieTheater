@@ -10,7 +10,7 @@ public abstract class Person {
 	protected String city;
 	protected String userName;
 	protected String pW;
-	
+
 	public Person(String fName, String lName, int phone, String road, String houseNo, int postCode, String city, String userName, 
 			String pW)
 	{
@@ -24,7 +24,7 @@ public abstract class Person {
 		this.userName = userName;
 		this.pW = pW;
 	}
-	
+
 	public String getfName() {
 		return fName;
 	}
@@ -81,4 +81,8 @@ public abstract class Person {
 	public void setPW(String pW) {
 		this.pW = pW;
 	}	
+	public String toString()
+	{
+		return fName+" "+lName;
+	}
 }

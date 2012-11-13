@@ -12,7 +12,8 @@ public class LoginController {
 	private SQLLogin sqlLogin;
 	private Employee employee;
 
-	public LoginController() {
+	public LoginController() 
+	{
 		sqlLogin = new SQLLogin();
 	}
 
@@ -21,12 +22,22 @@ public class LoginController {
 		employee = null;
 		LoginEmployee login = new LoginEmployee();
 		login.setVisible(true);
+		try
+		{
+			login.latch.await();
+		} 
+		catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 		String username = login.getUsername();
 		String password = login.getPassword();
 
-		try {
+		try 
+		{
 			employee = sqlLogin.checkEmployee(username, password);
-
+			System.out.println(employee.getfName());
 		}
 		catch(IndexOutOfBoundsException outOf){
 			JOptionPane.showMessageDialog(new JFrame(), "Brugeren findes ikke");

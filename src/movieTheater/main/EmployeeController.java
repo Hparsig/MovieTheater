@@ -31,12 +31,11 @@ public class EmployeeController {
 	 * @param save
 	 */
 	
-	public EmployeeController(SQLEmployeeLoad load, SQLEmployeeSave save) 
+	public EmployeeController() 
 	{
-		this.load = load;
-		this.save = save;
+		load = new SQLEmployeeLoad();
+		save = new SQLEmployeeSave();
 		persons = new ArrayList<Person>();
-		
 		loadTitle = new SQLLoadTitel();
 		loadPostcode = new SQLLoadPostCode();
 		
@@ -73,7 +72,7 @@ public class EmployeeController {
 		}
 		
 		int selectedTitle = createEmployee.getTitleID();
-		int titleID = titleArray.get(selectedTitle).getTitelID();
+		int titleID = titleArray.get(selectedTitle).getTitelID(); //FIXME kun Admin må oprette managers
 		
 		String name = createEmployee.getName();
 		String lastname = createEmployee.getLastname();
@@ -105,7 +104,7 @@ public class EmployeeController {
 		persons.clear();	
 	
 		searchEmployee.setVisible(true);
-		String fName = searchEmployee.getName();
+		String fName = searchEmployee.getName();		//FIXME kun Admin må søge på managers
 		String lName = searchEmployee.getLastname();
 		String username = searchEmployee.getUsername();
 		String employeeID = searchEmployee.getEmpNo();
@@ -195,6 +194,7 @@ public class EmployeeController {
 		createEmployee.setPassword(person.getPW());
 		
 		int indexTitle = 1;
+										//FIXME skal også håndtere Admin
 		if(person instanceof Manager)
 		{	
 			indexTitle = 0;
