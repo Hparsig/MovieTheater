@@ -11,6 +11,19 @@ public abstract class Person {
 	protected String userName;
 	protected String pW;
 
+	public Person()
+	{
+		fName = "";
+		lName = "";
+		phone = 0;
+		road = "";
+		houseNo = "";
+		postCode = 0;
+		city = "";
+		userName = "";
+		pW = "";
+	}
+	
 	public Person(String fName, String lName, int phone, String road, String houseNo, int postCode, String city, String userName, 
 			String pW)
 	{
@@ -25,40 +38,52 @@ public abstract class Person {
 		this.pW = pW;
 	}
 
-	public String getfName() {
+	public String getfName() 
+	{
 		return fName;
 	}
-	public void setfName(String fName) {
+	public void setfName(String fName) 
+	{
 		this.fName = fName;
 	}
-	public String getlName() {
+	public String getlName() 
+	{
 		return lName;
 	}
-	public void setlName(String lName) {
+	public void setlName(String lName) 
+	{
 		this.lName = lName;
 	}
-	public int getPhone() {
+	public int getPhone() 
+	{
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(int phone) 
+	{
 		this.phone = phone;
 	}
-	public String getRoad() {
+	public String getRoad() 
+	{
 		return road;
 	}
-	public void setRoad(String road) {
+	public void setRoad(String road) 
+	{
 		this.road = road;
 	}
-	public String getHouseNo() {
+	public String getHouseNo() 
+	{
 		return houseNo;
 	}
-	public void setHouseNo(String houseNo) {
+	public void setHouseNo(String houseNo) 
+	{
 		this.houseNo = houseNo;
 	}
-	public int getPostCode() {
+	public int getPostCode() 
+	{
 		return postCode;
 	}
-	public void setPostCode(int postCode) {
+	public void setPostCode(int postCode) 
+	{
 		this.postCode = postCode;
 	}
 	public String getCity()
@@ -69,18 +94,23 @@ public abstract class Person {
 	{
 		this.city = city;
 	}
-	public String getUserName() {
+	public String getUserName() 
+	{
 		return userName;
 	}
-	public void setUserName(String userName) {
+	public void setUserName(String userName) 
+	{
 		this.userName = userName;
 	}
-	public String getPW() {
+	public String getPW() 
+	{
 		return pW;
 	}
-	public void setPW(String pW) {
+	public void setPW(String pW) 
+	{
 		this.pW = pW;
-	}	
+	}
+		
 	public String toString()
 	{
 		return fName+" "+lName;

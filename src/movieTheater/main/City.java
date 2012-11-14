@@ -10,13 +10,16 @@ public class City {
 		this.city = city;
 	}
 	
-	public int getPostcode(){
+	public int getPostcode()
+	{
 		return postcode;
 	}
-	public String getCity(){
+	public String getCity()
+	{
 		return city;
 	}
-	public String toString(){
+	public String toString()
+	{
 		return postcode+" "+city;
 	}
 

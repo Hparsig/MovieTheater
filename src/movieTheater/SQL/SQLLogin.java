@@ -4,22 +4,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import movieTheater.Persons.Admin;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
+import movieTheater.Persons.Person;
 import movieTheater.Persons.SalesPerson;
 
 public class SQLLogin extends SQL {
 
-	
+
 	private static final String employeeLogin = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE pW = ? AND username = ? AND emp.postCode = post.postCode";
 	private ArrayList<Employee> employeeArray;
-	
-	public SQLLogin() {
+
+	public SQLLogin() 
+	{
 		employeeArray = new ArrayList<Employee>();
 		statement = null;
 		connection = null;
 	}
-	
+
 	/**
 	 * @author Jesper
 	 * login check of employee
@@ -31,14 +34,14 @@ public class SQLLogin extends SQL {
 		openConnection();
 		preparedStatement = connection.prepareStatement(employeeLogin); 
 		ResultSet resultSet = null;
-		
+
 		try
 		{
 			preparedStatement.setString(1, password);
-		    preparedStatement.setString(2, username);
-		      
-		    resultSet = preparedStatement.executeQuery();
-		    setEmployee(resultSet);
+			preparedStatement.setString(2, username);
+
+			resultSet = preparedStatement.executeQuery();
+			setEmployee(resultSet);
 		}
 		catch (Exception e)
 		{
@@ -51,10 +54,10 @@ public class SQLLogin extends SQL {
 		}
 		return employeeArray.get(0);
 	}
-	
+
 	public ArrayList<Employee> setEmployee(ResultSet resultSet)
 	{
-		
+
 		try
 		{
 			while (resultSet.next())
@@ -70,12 +73,17 @@ public class SQLLogin extends SQL {
 				int postCode = resultSet.getInt("postCode");
 				String userName = resultSet.getString("username");
 				String city = resultSet.getString("city");
-				
+
 				employeeArray.clear();
 				if (titel == 1)
 				{
-				employeeArray.add(new Manager(fName, lName, phone, road, houseNo, postCode, city, userName, 
-						pW, employeeNo));
+					employeeArray.add(new Manager(fName, lName, phone, road, houseNo, postCode, city, userName, 
+							pW, employeeNo));
+				}
+				if (titel == 3)
+				{
+					employeeArray.add(new Admin(fName, lName, phone, road, houseNo, postCode, city, userName, 
+							pW));
 				}
 				else
 				{
@@ -88,7 +96,7 @@ public class SQLLogin extends SQL {
 		{
 			System.out.println("fejl i set medarbejder"); //boundary TODO fix
 			e.printStackTrace();
-			
+
 		}
 		return employeeArray;	
 	}

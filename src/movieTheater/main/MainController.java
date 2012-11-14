@@ -1,13 +1,11 @@
 package movieTheater.main;
 
 import movieTheater.GUI.CreateCostumer;
-import movieTheater.GUI.CreateEmployee;
 import movieTheater.GUI.MainWindow;
-import movieTheater.GUI.SearchEmployee;
 import movieTheater.GUI.SearchShow;
+import movieTheater.Persons.Admin;
 import movieTheater.Persons.Costumer;
-import movieTheater.Persons.Manager;
-import movieTheater.Persons.Person;
+import movieTheater.Persons.Employee;
 import movieTheater.SQL.SQLCustomerSave;
 import movieTheater.Show.Show;
 
@@ -15,17 +13,16 @@ public class MainController
 {
 	private EmployeeController employeeController;
 	private MovieController movieController;
-
 	private CreateCostumer createCostumer;
 	private SQLCustomerSave saveCostumer;
 	private LoginController loginController;
 	private SearchShow searchShow;
 	private int userChoice;
-	public static Person loggedOn;
+	public static Employee loggedOn;
 	private Costumer costumer;
 	private boolean menuOn;
 	private boolean programOn;
-	private boolean isManager;
+	private boolean isAdmin;
 
 
 	public MainController()
@@ -42,7 +39,7 @@ public class MainController
 		while (programOn)
 		{
 			loggedOn = loginController.employeeLogin();
-			isManager = (loggedOn instanceof Manager);
+			isAdmin = (loggedOn instanceof Admin);
 			runMenu();
 		}
 	}
@@ -105,24 +102,21 @@ public class MainController
 				break;
 			}
 			case MainWindow.CREATEEMPLOYEE:
-			{
-				isManager = false;
+			{	
 				employeeController = new EmployeeController();
-				employeeController.showCreateEmployee(isManager);
+				employeeController.setEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.EDITEMPLOYEE:
 			{
-				isManager = false;
 				employeeController = new EmployeeController();
-				employeeController.searchEmployees(0, isManager);
+				employeeController.editEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.DELETEEMPLOYEE:
 			{
-				isManager = false;
 				employeeController = new EmployeeController();
-				employeeController.searchEmployees(1, isManager);
+				employeeController.searchEmployees(isAdmin);
 				break;
 			}
 			case MainWindow.CREATEMOVIE:
@@ -167,19 +161,19 @@ public class MainController
 			case MainWindow.CREATEMANAGER:
 			{
 				employeeController = new EmployeeController();
-				employeeController.showCreateEmployee(isManager);
+				employeeController.setEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.EDITMANAGER:
 			{
 				employeeController = new EmployeeController();
-				employeeController.searchEmployees(0, isManager);
+				employeeController.editEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.DELETEMANAGER:
 			{
 				employeeController = new EmployeeController();
-				employeeController.searchEmployees(1, isManager);
+				employeeController.searchEmployees(isAdmin);
 				break;
 			}
 			}

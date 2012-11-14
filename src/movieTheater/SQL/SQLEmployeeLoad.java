@@ -3,13 +3,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import movieTheater.Persons.Admin;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
 import movieTheater.Persons.Person;
 import movieTheater.Persons.SalesPerson;
 
 public class SQLEmployeeLoad extends SQL{
-	private ArrayList<Person> employeeArray;	
+	private ArrayList<Employee> employeeArray;	
 	
 	private static final String queryEmployeeByFirstName = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE fName LIKE '%";
 	private static final String queryEmployeeLastname = " AND lName LIKE '%";
@@ -23,7 +24,7 @@ public class SQLEmployeeLoad extends SQL{
 	 */
 	public SQLEmployeeLoad()
 	{
-		employeeArray = new ArrayList<Person>();
+		employeeArray = new ArrayList<Employee>();
 		statement = null;
 		connection = null;
 	}
@@ -33,7 +34,7 @@ public class SQLEmployeeLoad extends SQL{
 	 * @param ResultSet resultSet
 	 * @return ArrayList<Employee> 
 	 */
-	public ArrayList<Person> setEmployee(ResultSet resultSet)
+	public ArrayList<Employee> setEmployee(ResultSet resultSet, boolean isAdmin)
 	{
 		
 		try
@@ -52,15 +53,19 @@ public class SQLEmployeeLoad extends SQL{
 				String userName = resultSet.getString("username");
 				String city = resultSet.getString("city");
 				
-				if (titel == 1)
+				if (isAdmin && titel == 1)
 				{
 				employeeArray.add(new Manager(fName, lName, phone, road, houseNo, postCode, city, userName, 
 						pW, employeeNo));
 				}
-				else
+				if (titel == 2)
 				{
 					employeeArray.add(new SalesPerson(fName, lName, phone, road, houseNo, postCode, city, userName, 
 							pW, employeeNo));
+				}
+				if (isAdmin && titel == 3)
+				{
+					employeeArray.add(new Admin(fName, lName, phone, road, houseNo, postCode, city, userName, pW));
 				}
 			}
 		}
@@ -79,16 +84,15 @@ public class SQLEmployeeLoad extends SQL{
 	 * @return ArrayList<Employee> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Person> LoadEmployee(String fName, String lName, String username, int empID) throws SQLException 
+	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username, int empID, boolean isAdmin) throws SQLException 
 	{
-		
 		ResultSet resultSet = null;
 		openConnection();
 
 		try
 		{
 			resultSet = statement.executeQuery((queryEmployeeByFirstName+fName+"%'"+queryEmployeeLastname+lName+"%'"+queryEmployeeByUsername+username+"%'"+queryEmployeeByEmpNo+empID+comparePostcode));
-			setEmployee(resultSet);			
+			setEmployee(resultSet, isAdmin);			
 		}
 		catch (Exception e)
 		{
@@ -107,7 +111,7 @@ public class SQLEmployeeLoad extends SQL{
 	 * @return ArrayList<Employee> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Person> LoadEmployee(String fName, String lName, String username) throws SQLException {
+	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username, boolean isAdmin) throws SQLException {
 
 		ResultSet resultSet = null;
 		openConnection();
@@ -115,7 +119,7 @@ public class SQLEmployeeLoad extends SQL{
 		try
 		{
 			resultSet = statement.executeQuery((queryEmployeeByFirstName+fName+"%'"+queryEmployeeLastname+lName+"%'"+queryEmployeeByUsername+username+"%'"+comparePostcode));
-			setEmployee(resultSet);			
+			setEmployee(resultSet, isAdmin);			
 		}
 		catch (Exception e)
 		{

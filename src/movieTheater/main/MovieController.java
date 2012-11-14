@@ -152,8 +152,6 @@ public class MovieController
 		}
 
 		save.saveCastList(movie);
-		
-
 		//TODO valider data før det gemmes
 	}
 

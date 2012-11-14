@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import movieTheater.GUI.LoginEmployee;
 import movieTheater.Persons.Employee;
+import movieTheater.Persons.Person;
 import movieTheater.SQL.SQLLogin;
 
 public class LoginController {
@@ -37,9 +38,9 @@ public class LoginController {
 		try 
 		{
 			employee = sqlLogin.checkEmployee(username, password);
-			System.out.println(employee.getfName());
 		}
-		catch(IndexOutOfBoundsException outOf){
+		catch(IndexOutOfBoundsException outOf)
+		{
 			JOptionPane.showMessageDialog(new JFrame(), "Brugeren findes ikke");
 		}
 		catch(SQLException sql)
@@ -50,7 +51,6 @@ public class LoginController {
 		{
 			JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
 		}		
-
 
 		System.out.println("logget ind");
 

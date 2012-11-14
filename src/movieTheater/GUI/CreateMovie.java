@@ -80,6 +80,14 @@ public class CreateMovie extends JFrame {
 	 */
 	public CreateMovie(final Movie movie) 
 	{
+		if(movie.getInstructedBy() == null)
+		{	
+			setTitle("Opret film");
+		}
+		else
+		{
+			setTitle("Rediger film");
+		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		areChangesMade = false;
 
@@ -294,7 +302,7 @@ public class CreateMovie extends JFrame {
 		}
 		else
 		{
-			lblOpretFilm = new JLabel("Gem");	
+			lblOpretFilm = new JLabel("Rediger film");	
 		}
 		lblOpretFilm.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblOpretFilm.setBounds(28, 11, 158, 31);
@@ -425,29 +433,16 @@ public class CreateMovie extends JFrame {
 		btnAddGenre.setBounds(549, 115, 130, 23);
 		panel.add(btnAddGenre);
 	}
-//
 	public Movie getMovie()
 	{
 		return movie;
 	}
-//	public ArrayList<Actor> getNewActors()
-//	{
-//		return newActors;
-//	}
-//	public ArrayList<Director> getNewDirectors()
-//	{
-//		return newDirectors;
-//	}
-//	public ArrayList<Genre> getNewGenres()
-//	{
-//		return newGenres;
-//	}
 	public boolean areChangesMade()
 	{
 		return areChangesMade;
 	}
 	public void setCastMap()
 	{
-		
+
 	}
 }
