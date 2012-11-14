@@ -26,7 +26,6 @@ public class SQLBookingLoad extends SQL {
 		statement = null;
 		connection = null;
 		bookings = new ArrayList<Booking>();
-		loadCustomer = new SQLCustomerLoad();
 		loadShow = new SQLShowLoad();
 	
 	}
@@ -103,45 +102,45 @@ public class SQLBookingLoad extends SQL {
 	}
 		
 	
-//	public ArrayList<Booking> getBookings(int phone) throws SQLException{
-//		bookings.clear();
-//		openConnection();
-//		preparedStatement = connection.prepareStatement(queryGetBooking); 
-//		ResultSet resultSet = null;
-//		
-//		preparedStatement.setInt(1, phone);
-//		
-//	    resultSet = preparedStatement.executeQuery();
-//	    setBooking(resultSet);
-//		
-//		return bookings;
-//	}
-//	
-//	private void setBooking(ResultSet resultSet) throws SQLException
-//	{
-//		int showID = 0;
-//		ArrayList<SeatBookings> seats = new ArrayList<SeatBookings>();
-//		Show show=null;
-//		int bookId = 0;
-//		int payd=0;
-//		int payID=0;
-//		int costNo = 0;
-//		while (resultSet.next())
-//		{
-//			bookId = resultSet.getInt("bookID");
-//			costNo = resultSet.getInt("costNo");
-//			payID = resultSet.getInt("payID");
-//			payd = resultSet.getInt("payd");
-//			showID = resultSet.getInt("showID");
-//			int seat = resultSet.getInt("seat");
-//			int rowID = resultSet.getInt("rowID");
-//			
-//			show  = showLoad.loadShowFromID(showID).get(0);
-//			seats.add(new SeatBookings(show.getHallBooking().getSeats().get(rowID).get(seat)));
-//		}
-//		bookings.add(new Booking(show,seats,bookId));
+	public ArrayList<Booking> getBookings(int phone) throws SQLException{
+		bookings.clear();
+		openConnection();
+		preparedStatement = connection.prepareStatement(queryGetBooking+phone); 
+		ResultSet resultSet = null;
+		
+		preparedStatement.setInt(1, phone);
+		
+	    resultSet = preparedStatement.executeQuery();
+	    setBooking(resultSet);
+		
+		return bookings;
+	}
+	
+	private void setBooking(ResultSet resultSet) throws SQLException
+	{
+		int showID = 0;
+		ArrayList<SeatBookings> seats = new ArrayList<SeatBookings>();
+		Show show=null;
+		int bookId = 0;
+		int payd=0;
+		int payID=0;
+		int costNo = 0;
+		while (resultSet.next())
+		{
+			bookId = resultSet.getInt("bookID");
+			costNo = resultSet.getInt("costNo");
+			payID = resultSet.getInt("payID");
+			payd = resultSet.getInt("payd");
+			showID = resultSet.getInt("showID");
+			int seat = resultSet.getInt("seat");
+			int rowID = resultSet.getInt("rowID");
+			
+			show  = loadShow.loadShowFromID(showID).get(0);
+			seats.add(new SeatBookings(show.getHallBooking().getSeats().get(rowID).get(seat)));
+		}
+		//bookings.add(new Booking(show,seats,bookId));
 		
 		
-
+	}
 	
 }

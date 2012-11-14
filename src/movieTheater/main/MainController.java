@@ -84,7 +84,8 @@ public class MainController
 			}
 			case MainWindow.GETORDER:
 			{
-				System.out.println("Hent Bestilling");
+				BookingController bookingCon = new BookingController();
+				bookingCon.showLoadOrder();
 				break;
 			}
 			case MainWindow.CREATECOSTUMER:
