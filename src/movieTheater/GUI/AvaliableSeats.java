@@ -103,7 +103,7 @@ public class AvaliableSeats extends JFrame {
 					
 				}catch(Exception e1)
 				{
-					JOptionPane.showMessageDialog(new JFrame(), "sæde og række er i udfyldt korrekt"); 
+					JOptionPane.showMessageDialog(new JFrame(), "sæde og række er ikke udfyldt korrekt"); 
 				}
 			}
 		});

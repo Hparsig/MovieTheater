@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import movieTheater.Persons.Costumer;
 
 public class SQLCustomerSave extends SQL {
-	private static final String createCustomer = "insert into Costumers(fName, lName, road, houseNo, postCode, phone, username, pW) values(?,?,?,?,?,?,?,?)";
+	private static final String createCustomer = "INSERT INTO Costumers(fName, lName, road, houseNo, postCode, phone, username, pW) VALUES(?,?,?,?,?,?,?,?)";
 	
 	public SQLCustomerSave()
 	{

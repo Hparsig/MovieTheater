@@ -50,7 +50,7 @@ public class SQLShowLoad extends SQL{
 	 */
 	public ArrayList<Show> setShow(ResultSet resultSet)
 	{
-		
+		showArray.clear();
 		try
 		{
 			while (resultSet.next())
@@ -434,7 +434,7 @@ public class SQLShowLoad extends SQL{
 				int seatNr = resultSet.getInt("seat");
 				int rowID = resultSet.getInt("rowID");
 			
-				seats.get(rowID).get(seatNr).setReservation();
+				seats.get(rowID).get(seatNr-1).setReservation();
 			}
 			hallBooking = new HallBooking(hallNo,seats,sTime,eTime);
 						

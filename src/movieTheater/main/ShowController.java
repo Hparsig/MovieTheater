@@ -35,7 +35,7 @@ public class ShowController {
 	 * @param SearchShow searchShow
 	 * show the window searchShow
 	 */
-	public void showSearchShow()
+	public Show showSearchShow()
 	{
 		SearchShow searchShow = new SearchShow();
 		searchShow.setVisible(true);
@@ -66,12 +66,17 @@ public class ShowController {
 		//get the selected item and close the window
 		int selected = searchShow.getSelected();
 		searchShow.dispose();
-		
+		Show selectedShow;
 		if(selected!=-1)
 		{
-			BookingController bookingCon = new BookingController();//FIXME skal smides i main controller
-			bookingCon.showNewBookings(shows.get(selected));
+			selectedShow = shows.get(selected);
 		}
+		else 
+		{
+			selectedShow = null;
+		}
+		
+		return selectedShow;
 		
 	}
 	
