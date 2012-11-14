@@ -35,7 +35,7 @@ public class LoginEmployee extends JFrame {
 	public LoginEmployee() {
 		loginController = new LoginController();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 357, 176);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -87,11 +87,11 @@ public class LoginEmployee extends JFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(313, 209, 97, 25);
+		btnNewButton.setBounds(227, 94, 97, 25);
 		panel.add(btnNewButton);
 		
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(204, 209, 97, 25);
+		JButton btnCancel = new JButton("afslut");
+		btnCancel.setBounds(120, 94, 97, 25);
 		panel.add(btnCancel);
 	}
 	

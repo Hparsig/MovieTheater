@@ -3,7 +3,11 @@ package movieTheater.Persons;
 public abstract class Employee extends Person
 {
 	protected int employeeNo;
-	
+
+	public Employee()
+	{
+
+	}
 
 	public Employee(String fName, String lName, int phone, String road, String houseNo, int postCode, String city, String userName, 
 			String PW, int employeeNo)
@@ -15,6 +19,7 @@ public abstract class Employee extends Person
 			String PW)
 	{
 		super(fName, lName, phone, road, houseNo, postCode, city, userName, PW);
+		employeeNo = 0;
 	}
 
 	public int getEmployeeNo() 

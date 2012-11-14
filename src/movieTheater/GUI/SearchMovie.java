@@ -33,7 +33,6 @@ public class SearchMovie extends JFrame
 	private String director;
 	private ArrayList<Movie> movies;
 	private Movie movie;
-	private MovieController movieController;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 
 	/**
@@ -41,7 +40,6 @@ public class SearchMovie extends JFrame
 	 */
 	public SearchMovie(final MovieController movieController) 
 	{
-		this.movieController = movieController;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 522, 359);
 		

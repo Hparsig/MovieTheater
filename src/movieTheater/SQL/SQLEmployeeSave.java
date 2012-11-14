@@ -41,6 +41,11 @@ public class SQLEmployeeSave extends SQL {
 			{
 				titleID = 1; 
 			}
+			if (person instanceof Admin)
+			{
+				titleID = 3;
+			}
+			System.out.println(person.getPostCode());
 			preparedStatement.setString(1,person.getfName());				
 			preparedStatement.setString(2,person.getlName());
 			preparedStatement.setInt(3, titleID);
