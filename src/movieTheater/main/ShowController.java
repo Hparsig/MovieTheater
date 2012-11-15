@@ -21,6 +21,7 @@ public class ShowController {
 	private ArrayList<Show> shows;
 	private SQLShowLoad showLoad;
 	private SQLShowSave showSave;
+	private Show show;
 	
 
 	public ShowController()
@@ -29,6 +30,13 @@ public class ShowController {
 		showLoad = new SQLShowLoad();
 		showSave = new SQLShowSave();
 
+	}
+	/**
+	 * @author Brian
+	 */
+	public void setShow() {
+		// TODO Auto-generated method stub
+		show = new Show();
 	}
 	/**
 	 * @author Jesper
@@ -114,5 +122,8 @@ public class ShowController {
 		}
 		return shows;
 	}
+	
+		
+	
 	
 }

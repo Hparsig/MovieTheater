@@ -22,7 +22,13 @@ public class Show {
 		this.hallBooking = hallBooking;
 		this.priceCategory = priceCategory;
 	}
-	
+	public Show(){
+		showID = 0;
+		movie = null;
+		hallBooking = null;
+		priceCategory = 0;
+		
+	}
 	public int getShowID()
 	{
 		return showID;

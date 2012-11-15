@@ -12,6 +12,7 @@ import movieTheater.Show.Show;
 public class MainController
 {
 	private EmployeeController employeeController;
+	private ShowController showController;
 	private MovieController movieController;
 	private CreateCostumer createCostumer;
 	private SQLCustomerSave saveCostumer;
@@ -137,7 +138,8 @@ public class MainController
 			}
 			case MainWindow.CREATESHOW:
 			{
-				System.out.println("Opret forestilling");
+				showController = new ShowController();
+				showController.setShow();
 				break;
 			}
 			case MainWindow.EDITSHOW:
