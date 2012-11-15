@@ -28,7 +28,7 @@ public class SQLShowLoad extends SQL{
 	private static final String queryShowByShowID = "SELECT * FROM Shows where showID =";
 	private static final String queryShowByHallNo = "SELECT * FROM Shows where hallNo =";
 	private static final String queryDirectorByID = "SELECT * FROM Directors where directID =";
-	private static final String queryRatings = "SELECT * FROM Reviews where filmID =";
+	private static final String queryRatings = "SELECT * FROM Reviews where movieID =";
 	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
 	private static final String queryCast = "SELECT c.*, a.* FROM casts c, actors a WHERE c.movieID =";
 	private static final String queryCastTwo = " AND c.actorID = a.actorID";
@@ -96,7 +96,7 @@ public class SQLShowLoad extends SQL{
 		return showArray;
 	}
 	
-	public ArrayList<Show> loadShowFromID(int showID) throws SQLException{
+	public ArrayList<Show> loadShowFromID(int showID){
 		openConnection();
 		ResultSet resultSet = null;
 		
@@ -352,6 +352,7 @@ public class SQLShowLoad extends SQL{
 		catch (Exception e)
 		{
 			System.out.println("fejl i load ratings"); //boundary TODO fix
+			e.printStackTrace();
 		}
 		finally
 		{

@@ -3,12 +3,19 @@ package movieTheater.SQL;
 import java.util.ArrayList;
 import java.sql.*;
 import movieTheater.Persons.Costumer;
+import movieTheater.Persons.Manager;
+import movieTheater.Persons.Person;
 
 public class SQLCustomerLoad extends SQL{
 	private ArrayList<Costumer> customerArray;	
 	private static final String queryCustomer = "SELECT * FROM costumers where costNo =";
 	private static final String queryCustomerByFirstName = "SELECT * FROM costumers where fName LIKE '%";
 	private static final String queryGetCity = "SELECT city FROM postcode WHERE postCode =";
+	private static final String queryCustomerByPhone = "SELECT * FROM costumers WHERE phone =";
+	private static final String fnameQuery = " AND fName LIKE '%";
+	private static final String lnameQuery = "%' AND lName LIKE '%";
+	private static final String queryCustomerByFAndLName = "SELECT * FROM costumers WHERE fName =? AND lName = ?";
+	
 	public SQLCustomerLoad()
 	{
 		customerArray = new ArrayList<Costumer>();
@@ -18,7 +25,7 @@ public class SQLCustomerLoad extends SQL{
 
 	public ArrayList<Costumer> setCustomer(ResultSet resultSet)
 	{
-		
+		customerArray.clear();
 		try
 		{
 			while (resultSet.next())
@@ -114,4 +121,42 @@ public class SQLCustomerLoad extends SQL{
 		}
 		return city;
 	}
+	
+	public ArrayList<Costumer>  loadCostumer(int phone, String fName, String lName)
+	{
+		openConnection();
+		ResultSet resultSet = null;
+		
+		try
+		{
+			if(phone!=0)
+			{
+				resultSet = statement.executeQuery(queryCustomerByPhone+phone+fnameQuery+fName+lnameQuery+lName+"%'"); 
+				setCustomer(resultSet);	
+			}
+			else
+			{
+				preparedStatement = connection.prepareStatement(queryCustomerByFAndLName); 
+
+				preparedStatement.setString(1, fName);
+				preparedStatement.setString(2, lName);
+
+				resultSet  = preparedStatement.executeQuery();    
+				setCustomer(resultSet);	
+			}
+
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i load af kunde"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{  
+
+			closeConnectionLoad(); 
+			
+		} 
+		return customerArray;
+	}  
 }

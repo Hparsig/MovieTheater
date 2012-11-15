@@ -1,15 +1,20 @@
 package movieTheater.main;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import movieTheater.GUI.AvaliableSeats;
+import movieTheater.GUI.LoadBookingW;
 import movieTheater.GUI.Pay;
+import movieTheater.GUI.SearchShow;
+import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.SalesPerson;
 import movieTheater.SQL.SQLBookingLoad;
 import movieTheater.SQL.SQLBookingSave;
+import movieTheater.SQL.SQLCustomerLoad;
 import movieTheater.Show.Booking;
 import movieTheater.Show.Payment;
 import movieTheater.Show.Seat;
@@ -23,6 +28,7 @@ public class BookingController
 	public static double amount;
 	private SQLBookingSave saveBooking;
 	private SQLBookingLoad loadBooking;
+	private SQLCustomerLoad loadCustomer;
 	private Booking currentBooking;
 	
 	public BookingController()
@@ -30,12 +36,18 @@ public class BookingController
 		bookings =  new HashMap<Seat,Integer>();
 		saveBooking = new SQLBookingSave();
 		loadBooking = new SQLBookingLoad();
+		loadCustomer = new SQLCustomerLoad();
 	}
-	
+	/**
+	 * @author Jesper
+	 * @param show
+	 * show the window avaliableseats
+	 */
 	public void showNewBookings(Show show)
 	{
+		Employee employee = new SalesPerson("Name", "lName", 11, "road", "houseNo", 6950, "city", "userName", "PW", 1);
 		//create new booking object
-		saveBooking.createNewBooking(new Booking(show,null,null)); //TODO hvis kunden er medlem skal han smides med ind..
+		saveBooking.createNewBooking(new Booking(show,null,null,employee,false)); //TODO hvis kunden er medlem skal han smides med ind + medarbejderen
 		
 		//load the new booking
 		currentBooking = loadBooking.getNewestBooking();
@@ -98,6 +110,11 @@ public class BookingController
 		}
 	}
 	
+	/**
+	 * @author Jesper
+	 * @param show
+	 * show the payment window
+	 */
 	public void ShowPayment(Show show)
 	{
 		Employee employee = new SalesPerson("fName", "Name", 123, "road", " houseNo", 6950, "city", "userName", "PW", 1); //TODO laves så det er den der er logget ind der bliver hentet
@@ -133,16 +150,18 @@ public class BookingController
 			}
 			case 0: //pay with cash
 			{
-				payment = new Payment(amount,0,employee);
+				payment = new Payment(amount,0);
 				currentBooking.setSeatsPayed();
 				currentBooking.setPayed(payment);
+				currentBooking.pickedUp();
 				saveBooking.updateBooking(currentBooking);
 				break;
 			}
 			case 1: //pay with creditcard
 			{
-				payment = new Payment(amount,1,employee);
+				payment = new Payment(amount,1);
 				currentBooking.setSeatsPayed();
+				currentBooking.pickedUp();
 				currentBooking.setPayed(payment);
 				saveBooking.updateBooking(currentBooking);
 				break;
@@ -151,7 +170,60 @@ public class BookingController
 		}
 		payWindow.dispose();
 	}
-
 	
+	
+	/**
+	 * @author Jesper
+	 * show the window loadOrder
+	 */
+	public void showLoadOrder()
+	{
+		LoadBookingW loadBookingW = new LoadBookingW();
+		loadBookingW.setVisible(true);
+		
+		while(loadBookingW.getClose()==1)
+		{	
+			//Get the user data from the GUI
+			String phone = loadBookingW.getPhone();
+			String name = loadBookingW.getName();
+			String lName = loadBookingW.getLName();
+			int tlf;
+			try
+			{
+				tlf = Integer.parseInt(phone);
+				
+			}
+			catch(java.lang.NumberFormatException e)
+			{
+				tlf = 0;
+			}
+			try
+			{
+				Costumer costumer = loadCustomer.loadCostumer(tlf, name, lName).get(0);
+				ArrayList<Booking> bookings=loadBooking.getBookings(costumer);
+				//writes the shows to the screen
+				for(int i=0; i < bookings.size(); i++){
+					loadBookingW.addBookings(bookings.get(i).toString());
+				}
+			}
+			catch( java.lang.IndexOutOfBoundsException e)
+			{
+				
+			}
+
+		}
+		
+		try
+		{
+			loadBookingW.latch.await();
+		} 
+		catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//get the selected item and close the window
+
+	}
 	
 }

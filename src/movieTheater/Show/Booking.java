@@ -17,21 +17,27 @@ public class Booking {
 	private int bookingNo;
 	private Payment payment;
 	private Costumer costumer;
+	private Employee employee;
+	private boolean pickedUp;
 
-	public Booking(int bookingNo,Show show, Map<Seat,Integer> seatBookings,Costumer costumer)
+	public Booking(int bookingNo,Show show, Map<Seat,Integer> seatBookings,Costumer costumer, Employee employee,boolean pickedUp)
 	{
 		this.show = show;
 		this.seatBookings = seatBookings;
 		this.bookingNo = bookingNo;
 		this.costumer = costumer;
+		this.employee = employee;
+		this.pickedUp = pickedUp;
 		payment = null;
 	}
 	
-	public Booking(Show show, Map<Seat,Integer> seatBookings, Costumer costumer)
+	public Booking(Show show, Map<Seat,Integer> seatBookings, Costumer costumer, Employee employee,boolean pickedUp)
 	{
 		this.show = show;
 		this.seatBookings = seatBookings;
 		this.costumer = costumer;
+		this.employee = employee;
+		this.pickedUp = pickedUp;
 		payment = null;
 		
 	}
@@ -107,4 +113,17 @@ public class Booking {
 	{
 		return costumer;
 	}
+	public Employee getEmployee()
+	{
+		return employee;
+	}
+	public boolean getPickedUp()
+	{
+		return pickedUp;
+	}
+	public void pickedUp()
+	{
+		pickedUp = true;
+	}
+	
 }

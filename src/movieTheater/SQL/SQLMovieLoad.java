@@ -26,7 +26,7 @@ public class SQLMovieLoad extends SQL{
 	private static final String queryDirectorByID = "SELECT * FROM Directors where directID =";
 	private static final String queryDirector = "SELECT * FROM Directors ORDER BY lName ASC";
 	private static final String queryDirectorBylName = "SELECT * FROM Directors where lName LIKE '";
-	private static final String queryRatings = "SELECT * FROM Reviews where filmID =";
+	private static final String queryRatings = "SELECT * FROM Reviews where movieID =";
 	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
 	private static final String queryAllGenre = "SELECT * FROM genres";
 	private static final String queryCast = "SELECT c.*, a.* FROM casts c, actors a WHERE c.movieID =";
