@@ -156,14 +156,18 @@ public class SQLShowLoad extends SQL{
 		ResultSet resultSet = null;
 		openConnection();
 		
-		try {
+		try 
+		{
 			resultSet = statement.executeQuery(queryLoadShowByDate+date+"' "+queryLoadShowsByTitle+title+"%'");
 			setShow(resultSet);
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) 
+		{
 			System.out.println("fejl i load af forestilling efter dato og titel");
 			e.printStackTrace();
 		} 
-		finally{
+		finally
+		{
 			closeConnectionLoad();
 		}
 		return showArray;

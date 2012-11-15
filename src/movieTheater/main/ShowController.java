@@ -95,7 +95,8 @@ public class ShowController {
 		{
 			shows = showLoad.loadShowsByDateAndTitle(date, titel);			
 		}
-		catch(Exception e){
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return shows;
