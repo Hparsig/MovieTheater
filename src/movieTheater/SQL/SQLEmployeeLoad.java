@@ -17,7 +17,7 @@ public class SQLEmployeeLoad extends SQL{
 	private static final String queryEmployeeByUsername = " AND username LIKE '%";
 	private static final String queryEmployeeByEmpNo = " AND empNo =";
 	private static final String comparePostcode = " AND emp.postCode = post.postCode";
-	
+	private static final String queryByID = "SELECT emp.*, post.city FROM employees emp, postcode post WHERE empNo =";
 
 	/**
 	 * constructor
@@ -37,6 +37,7 @@ public class SQLEmployeeLoad extends SQL{
 	public ArrayList<Employee> setEmployee(ResultSet resultSet, boolean isAdmin)
 	{
 		
+		employeeArray.clear();
 		try
 		{
 			while (resultSet.next())
@@ -72,6 +73,7 @@ public class SQLEmployeeLoad extends SQL{
 		catch (Exception e)
 		{
 			System.out.println("fejl i set medarbejder"); //boundary TODO fix
+			e.printStackTrace();
 			
 		}
 		return employeeArray;	
@@ -124,6 +126,34 @@ public class SQLEmployeeLoad extends SQL{
 		catch (Exception e)
 		{
 			System.out.println("fejl i load af medarbejdere 2"); //boundary TODO fix
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return employeeArray;
+	}
+	
+	/**
+	 * @author Jesper
+	 * Search employees using employee number
+	 * @param int emNum
+	 * @return ArrayList<Employee> 
+	 * @throws SQLException
+	 */
+	public ArrayList<Employee> LoadEmployee(int empNo, boolean isAdmin)  
+	{
+		ResultSet resultSet = null;
+		openConnection();
+
+		try
+		{
+			resultSet = statement.executeQuery(queryByID+empNo+comparePostcode);
+			setEmployee(resultSet, isAdmin);			
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i load af medarbejdere by id"); //boundary TODO fix
 		}
 		finally
 		{

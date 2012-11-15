@@ -189,7 +189,6 @@ public class EmployeeController {
 
 
 	//Følgende skal måske i et funtionalitetslag??
-	//	public void saveEmployee(int titleID, String name, String lastname,int phone, String road, String houseNr, int postcode, String cityChoosen,String username, String pWord)
 	public void saveEmployee(Employee person)
 	{
 		System.out.println(titleID);

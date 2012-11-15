@@ -119,14 +119,6 @@ public class LoadBookingW extends JFrame {
 		}
 	}
 
-	public String getName()
-	{
-		return name;
-	}
-	public String getLName()
-	{
-		return lastname;
-	}
 	public String getPhone()
 	{
 		try {
@@ -136,6 +128,14 @@ public class LoadBookingW extends JFrame {
 		} catch (InterruptedException e) {}	
 		return phone;
 	}
+	public String getName()
+	{
+		return name;
+	}
+	public String getLName()
+	{
+		return lastname;
+	}
 	public int getSelected()
 	{
 		return selected;
@@ -143,5 +143,9 @@ public class LoadBookingW extends JFrame {
 	public int getClose()
 	{
 		return close;
+	}
+	public void addBookings(String text)
+	{
+		listBookings.add(text);
 	}
 }

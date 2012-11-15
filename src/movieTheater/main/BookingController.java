@@ -45,8 +45,9 @@ public class BookingController
 	 */
 	public void showNewBookings(Show show)
 	{
+		Employee employee = new SalesPerson("Name", "lName", 11, "road", "houseNo", 6950, "city", "userName", "PW", 1);
 		//create new booking object
-		saveBooking.createNewBooking(new Booking(show,null,null)); //TODO hvis kunden er medlem skal han smides med ind..
+		saveBooking.createNewBooking(new Booking(show,null,null,employee,false)); //TODO hvis kunden er medlem skal han smides med ind + medarbejderen
 		
 		//load the new booking
 		currentBooking = loadBooking.getNewestBooking();
@@ -149,16 +150,18 @@ public class BookingController
 			}
 			case 0: //pay with cash
 			{
-				payment = new Payment(amount,0,employee);
+				payment = new Payment(amount,0);
 				currentBooking.setSeatsPayed();
 				currentBooking.setPayed(payment);
+				currentBooking.pickedUp();
 				saveBooking.updateBooking(currentBooking);
 				break;
 			}
 			case 1: //pay with creditcard
 			{
-				payment = new Payment(amount,1,employee);
+				payment = new Payment(amount,1);
 				currentBooking.setSeatsPayed();
+				currentBooking.pickedUp();
 				currentBooking.setPayed(payment);
 				saveBooking.updateBooking(currentBooking);
 				break;
@@ -194,13 +197,20 @@ public class BookingController
 			{
 				tlf = 0;
 			}
-			Costumer costumer = loadCustomer.loadCostumer(tlf, name, lName).get(0);
-			System.out.println(costumer.getfName());
-			
-		
-//			//writes the shows to the screen
-//			for(int i=0; i < shows.size(); i++){
-//				searchShow.addShowList(shows.get(i).toString());
+			try
+			{
+				Costumer costumer = loadCustomer.loadCostumer(tlf, name, lName).get(0);
+				ArrayList<Booking> bookings=loadBooking.getBookings(costumer);
+				//writes the shows to the screen
+				for(int i=0; i < bookings.size(); i++){
+					loadBookingW.addBookings(bookings.get(i).toString());
+				}
+			}
+			catch( java.lang.IndexOutOfBoundsException e)
+			{
+				
+			}
+
 		}
 		
 		try

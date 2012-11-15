@@ -2,24 +2,29 @@ package movieTheater.SQL;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import movieTheater.Persons.Costumer;
+import movieTheater.Persons.Employee;
 import movieTheater.Show.Booking;
+import movieTheater.Show.Payment;
 import movieTheater.Show.Seat;
 import movieTheater.Show.SeatBookings;
 import movieTheater.Show.Show;
 
 public class SQLBookingLoad extends SQL {
 
-	private static final String queryGetBooking = "SELECT b.*, s.* FROM bookings b, seatbookings s WHERE b.bookID = s.bookID AND b.costNo IN (SELECT costNo FROM costumers WHERE phone=?)";
+	private static final String queryGetBooking = "SELECT * FROM bookings WHERE costNo = )";
 	private static final String queryGetLatestBooking = "SELECT * FROM bookings WHERE bookID = ( SELECT MAX(bookID) FROM bookings)";
 	private static final String queryGetSeatBookings = "SELECT seat,rowID FROM seatbookings WHERE bookID =";
+	private static final String queryGetPayments = "SELECT * FROM payments WHERE bookID =";
 	private ArrayList<Booking> bookings;
 	private SQLCustomerLoad loadCustomer;
 	private SQLShowLoad loadShow;
+	private SQLEmployeeLoad loadEmployee;
 
 	public SQLBookingLoad()
 	{
@@ -27,6 +32,7 @@ public class SQLBookingLoad extends SQL {
 		connection = null;
 		bookings = new ArrayList<Booking>();
 		loadShow = new SQLShowLoad();
+		loadEmployee = new SQLEmployeeLoad();
 	
 	}
 	public Booking getNewestBooking()
@@ -40,23 +46,31 @@ public class SQLBookingLoad extends SQL {
 			resultSet = statement.executeQuery(queryGetLatestBooking);
 			while (resultSet.next())
 			{
-				System.out.println("her");
 				int bookID = resultSet.getInt("bookID");
-				System.out.println(bookID);
 				Integer costNo = resultSet.getInt("costNo");
 				int pay = resultSet.getInt("payd");
 				int showID = resultSet.getInt("showID");
-				
-				Show show = loadShow.loadShowFromID(showID).get(0);
-				Map<Seat,Integer> seats =  getSeaBookings(bookID);
-				if(costNo!=null)
+				int employeeNum = resultSet.getInt("empNo");
+				int pickedUp = resultSet.getInt("pickedUp");//TODO få hentet den rigtige medarbejder
+
+				boolean picked = false;
+				if(pickedUp==1)
 				{
-					booking = new Booking(bookID,show,seats,null);
+					picked = true;
+				}
+							
+				Show show = loadShow.loadShowFromID(showID).get(0);
+				Employee employee = loadEmployee.LoadEmployee(employeeNum, true).get(0);
+				Map<Seat,Integer> seats =  getSeaBookings(bookID);
+	
+				if(costNo==0)
+				{
+					booking = new Booking(bookID,show,seats,null,employee,picked);
 				}
 				else
 				{
 					Costumer costumer = loadCustomer.LoadCustomer(costNo).get(0);
-					booking = new Booking(bookID,show,seats,costumer);
+					booking = new Booking(bookID,show,seats,costumer,employee,picked);
 				}
 			}
 		}
@@ -102,45 +116,83 @@ public class SQLBookingLoad extends SQL {
 	}
 		
 	
-	public ArrayList<Booking> getBookings(int phone) throws SQLException{
+	public ArrayList<Booking> getBookings(Costumer costumer)
+	{
 		bookings.clear();
-		openConnection();
-		preparedStatement = connection.prepareStatement(queryGetBooking+phone); 
 		ResultSet resultSet = null;
+		openConnection();
+		try
+		{
+			resultSet = statement.executeQuery(queryGetBooking+costumer.getCostumerNo());
 		
-		preparedStatement.setInt(1, phone);
-		
-	    resultSet = preparedStatement.executeQuery();
-	    setBooking(resultSet);
-		
+			while (resultSet.next())
+			{	
+				int  bookID= resultSet.getInt("bookID");
+				int payd = resultSet.getInt("payd");
+				int showID = resultSet.getInt("showID");
+				int empNo = resultSet.getInt("empNo");
+				int pickedUp = resultSet.getInt("pickedUp");
+				
+				boolean picked = true;
+				if(pickedUp==0)
+				{
+					picked=false;
+					Show show = loadShow.loadShowFromID(showID).get(0);
+					Employee employee = loadEmployee.LoadEmployee(empNo, true).get(0); //TODO hvis han er null
+					Map<Seat,Integer> seats = getSeaBookings(bookID);
+					Booking booking = new Booking(bookID,show,seats,costumer,employee,picked);
+					
+					if(payd==1)
+					{
+						Payment payment = getPayment(booking);
+						booking.setPayed(payment);
+					}
+					bookings.add(booking);
+					
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i load af senest booking"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
 		return bookings;
 	}
 	
-	private void setBooking(ResultSet resultSet) throws SQLException
+	
+	public Payment getPayment(Booking booking)
 	{
-		int showID = 0;
-		ArrayList<SeatBookings> seats = new ArrayList<SeatBookings>();
-		Show show=null;
-		int bookId = 0;
-		int payd=0;
-		int payID=0;
-		int costNo = 0;
-		while (resultSet.next())
+		Payment payment = null;
+		ResultSet resultSet = null;
+		openConnection();
+		try
 		{
-			bookId = resultSet.getInt("bookID");
-			costNo = resultSet.getInt("costNo");
-			payID = resultSet.getInt("payID");
-			payd = resultSet.getInt("payd");
-			showID = resultSet.getInt("showID");
-			int seat = resultSet.getInt("seat");
-			int rowID = resultSet.getInt("rowID");
-			
-			show  = loadShow.loadShowFromID(showID).get(0);
-			seats.add(new SeatBookings(show.getHallBooking().getSeats().get(rowID).get(seat)));
+			resultSet = statement.executeQuery(queryGetPayments+booking.getBookingNo());
+			while (resultSet.next())
+			{	
+				int payID = resultSet.getInt("payID");
+				Timestamp date = resultSet.getTimestamp("payDate");
+				double amount = resultSet.getDouble("amount");
+				int paydWith = resultSet.getInt("paydWith");
+				payment = new Payment(payID,amount,paydWith,date);
+					
+			}
 		}
-		//bookings.add(new Booking(show,seats,bookId));
-		
-		
+		catch (Exception e)
+		{
+			System.out.println("fejl i load af senest booking"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return payment;
 	}
 	
 }
