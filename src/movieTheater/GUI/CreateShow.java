@@ -41,26 +41,26 @@ public class CreateShow extends JFrame{
 		panel.setLayout(null);
 		
 		JComboBox comboBoxFilm = new JComboBox(MovieController.movies.toArray());
-		comboBoxFilm.setBounds(107, 86, 85, 20);
+		comboBoxFilm.setBounds(107, 86, 117, 20);
 		panel.add(comboBoxFilm);
 		
 		JLabel lblVlgFillm = new JLabel("V\u00E6lg film");
-		lblVlgFillm.setBounds(36, 89, 46, 14);
+		lblVlgFillm.setBounds(10, 89, 72, 14);
 		panel.add(lblVlgFillm);
 		
 		JLabel lblVlgSal = new JLabel("Start tid");
-		lblVlgSal.setBounds(36, 120, 46, 14);
+		lblVlgSal.setBounds(10, 116, 46, 14);
 		panel.add(lblVlgSal);
 		
 		JComboBox comboBoxPris = new JComboBox();
 		comboBoxPris.setModel(new DefaultComboBoxModel(new String[] {"1", "1.5", "2"}));
 		comboBoxPris.setToolTipText("1 - Normal, 1.5 Medium, 2 - Peak");
 		comboBoxPris.setMaximumRowCount(3);
-		comboBoxPris.setBounds(107, 148, 85, 20);
+		comboBoxPris.setBounds(107, 148, 117, 20);
 		panel.add(comboBoxPris);
 		
 		JLabel lblVlgPris = new JLabel("V\u00E6lg pris");
-		lblVlgPris.setBounds(36, 151, 46, 14);
+		lblVlgPris.setBounds(10, 151, 72, 14);
 		panel.add(lblVlgPris);
 		
 		JButton btnOpret = new JButton("Næste");
@@ -81,7 +81,7 @@ public class CreateShow extends JFrame{
 		panel.add(lblOpretForestilling);
 		
 		JFormattedTextField formattedTextField = new JFormattedTextField();
-		formattedTextField.setBounds(107, 117, 85, 20);
+		formattedTextField.setBounds(107, 117, 117, 20);
 		panel.add(formattedTextField);
 	}
 }

@@ -43,10 +43,12 @@ public class ShowController {
 		createShow = new CreateShow(show);
 		createShow.setVisible(true);
 		
-		try{
+		try
+		{
 			createShow.latch.await();
 		}
-		catch(InterruptedException e){
+		catch(InterruptedException e)
+		{
 			e.printStackTrace();
 		}
 	}

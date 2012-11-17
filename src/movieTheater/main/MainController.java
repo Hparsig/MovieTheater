@@ -15,7 +15,6 @@ public class MainController
 	private ShowController showController;
 	private MovieController movieController;
 	private CreateCostumer createCostumer;
-	private SQLCustomerSave saveCostumer;
 	private LoginController loginController;
 	private SearchShow searchShow;
 	private int userChoice;
@@ -28,7 +27,6 @@ public class MainController
 
 	public MainController()
 	{
-		saveCostumer = new SQLCustomerSave();
 		loginController = new LoginController();
 		employeeController = new EmployeeController();
 		menuOn = true;
@@ -138,9 +136,10 @@ public class MainController
 			}
 			case MainWindow.CREATESHOW:
 			{
-				showController = new ShowController();
+				
 				movieController = new MovieController();
 				movieController.loadMovies();
+				showController = new ShowController();
 				showController.setShow();
 				break;
 			}

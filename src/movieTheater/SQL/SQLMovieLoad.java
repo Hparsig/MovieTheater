@@ -32,8 +32,6 @@ public class SQLMovieLoad extends SQL{
 	private static final String queryAllGenre = "SELECT * FROM genres";
 	private static final String queryCast = "SELECT c.*, a.* FROM casts c, actors a WHERE c.movieID =";
 	private static final String queryCastTwo = " AND c.actorID = a.actorID";
-	private static final String queryLoadMaleActors = "SELECT * FROM actors WHERE gender=1";
-	private static final String queryLoadFemaleActors = "SELECT * FROM actors WHERE gender=0";
 	private static final String queryMovieByTitle = "SELECT * FROM Movies WHERE title LIKE '%";
 	private static final String queryMoviesByOrgTitle = " AND orgTitel LIKE '%";
 //	private static final String queryMovieByDirectorsFName = " AND username LIKE '%";
@@ -115,12 +113,7 @@ public class SQLMovieLoad extends SQL{
 		try
 		{
 			resultSet = statement.executeQuery(queryAllMovies);
-			while (resultSet.next())
-			{
-				String movieTitle = resultSet.getString("title");
-				
-				movies.add(new Movie(movieTitle, null, 0, null, null, null, null, false, null));				
-			}
+			setMovie(resultSet);
 		}
 		catch(Exception e)
 		{
@@ -139,6 +132,8 @@ public class SQLMovieLoad extends SQL{
 	 */
 	public ArrayList<Movie> setMovie(ResultSet resultSet)
 	{
+		
+		dataFilmArray.clear();
 		HashMap<Actor, String> castHash = new HashMap<Actor, String>();
 		Cast cast;
 		ArrayList<Rating> ratings = new ArrayList<Rating>();
