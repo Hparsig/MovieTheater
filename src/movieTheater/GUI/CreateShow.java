@@ -25,14 +25,14 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 
-public class CreateShow extends JFrame
-{
+public class CreateShow extends JFrame{
 	private Show show;
 	private MaskFormatter ShowStart;
 	private MaskFormatter ShowEnd;
+	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input.
 	
 	public CreateShow(final Show show) {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		setTitle("Opret Forestilling");
 		

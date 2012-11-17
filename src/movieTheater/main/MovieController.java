@@ -200,6 +200,17 @@ public class MovieController
 			e.printStackTrace();
 		}
 	}
+	public void loadMovies()
+	{
+		try
+		{
+			movies = load.LoadMovie();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
 
 

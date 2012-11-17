@@ -139,6 +139,8 @@ public class MainController
 			case MainWindow.CREATESHOW:
 			{
 				showController = new ShowController();
+				movieController = new MovieController();
+				movieController.loadMovies();
 				showController.setShow();
 				break;
 			}

@@ -20,6 +20,7 @@ public class SQLMovieLoad extends SQL{
 	//Henrik Parsig
 
 	private ArrayList<Movie> dataFilmArray;
+	private static final String queryAllMovies = "SELECT * From Movies";
 	private static final String queryMovies = "SELECT * FROM Movies where genreID =";
 	private static final String queryMoviesByTitle = "SELECT * FROM Movies where title like '";
 	private static final String queryActor = "SELECT * FROM Actors ORDER BY lName ASC";
@@ -106,6 +107,31 @@ public class SQLMovieLoad extends SQL{
 		return dataFilmArray;
 	}
 
+	public ArrayList<Movie> LoadMovie() throws SQLException{
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+		ResultSet resultSet = null;
+		openConnection();
+		
+		try
+		{
+			resultSet = statement.executeQuery(queryAllMovies);
+			while (resultSet.next())
+			{
+				String movieTitle = resultSet.getString("title");
+				
+				movies.add(new Movie(movieTitle, null, 0, null, null, null, null, false, null));				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return dataFilmArray;
+	}
 	/**
 	 * 
 	 * @param resultSet

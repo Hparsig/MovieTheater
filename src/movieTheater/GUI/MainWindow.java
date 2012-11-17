@@ -252,6 +252,7 @@ public class MainWindow extends JFrame
 			{
 				public void actionPerformed(ActionEvent e) 
 				{
+					System.out.println("tryk!");
 					choise = CREATESHOW;
 					latch.countDown();
 				}
