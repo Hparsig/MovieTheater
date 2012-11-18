@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JList;
 import java.awt.List;
@@ -54,6 +55,7 @@ public class LoadBookingW extends JFrame {
 		JButton btnSg = new JButton("S\u00F8g");
 		btnSg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				listBookings.removeAll();
 				phone = textPhone.getText();
 				name = textName.getText();
 				lastname =  textLName.getText();
@@ -102,6 +104,14 @@ public class LoadBookingW extends JFrame {
 		panel.add(textName);
 		
 		listBookings = new List();
+		listBookings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selected = listBookings.getSelectedIndex();
+				close = 0;
+				ok();
+				latch.countDown();
+			}
+		});
 		listBookings.setBounds(12, 145, 213, 99);
 		panel.add(listBookings);
 		
@@ -147,5 +157,9 @@ public class LoadBookingW extends JFrame {
 	public void addBookings(String text)
 	{
 		listBookings.add(text);
+	}
+	public void showError()
+	{
+		JOptionPane.showMessageDialog(new JFrame(), "Ingen bruger er fundet eller du skal være mere specifik"); 
 	}
 }

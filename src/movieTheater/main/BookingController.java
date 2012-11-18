@@ -45,12 +45,11 @@ public class BookingController
 	 */
 	public void showNewBookings(Show show)
 	{
-		Employee employee = new SalesPerson("Name", "lName", 11, "road", "houseNo", 6950, "city", "userName", "PW", 1);
+
 		//create new booking object
-		saveBooking.createNewBooking(new Booking(show,null,null,employee,false)); //TODO hvis kunden er medlem skal han smides med ind + medarbejderen
-		
+		int bookingID = saveBooking.createNewBooking(new Booking(show,null,null,MainController.loggedOn,false)); //TODO hvis kunden er medlem skal han smides med ind		
 		//load the new booking
-		currentBooking = loadBooking.getNewestBooking();
+		currentBooking = loadBooking.getBooking(bookingID);
 		
 		//Create the hashMap
 		av = show.getHallBooking().getAvailableSeats();
@@ -102,7 +101,9 @@ public class BookingController
 		
 		if(close==1) //open payment
 		{
-			ShowPayment(show);
+			//adding the selected seats to the booking 
+			currentBooking.setSeats(bookings);
+			ShowPayment();
 		}
 		else //the user cancel the booking
 		{
@@ -115,13 +116,9 @@ public class BookingController
 	 * @param show
 	 * show the payment window
 	 */
-	public void ShowPayment(Show show)
+	public void ShowPayment()
 	{
-		Employee employee = new SalesPerson("fName", "Name", 123, "road", " houseNo", 6950, "city", "userName", "PW", 1); //TODO laves så det er den der er logget ind der bliver hentet
-
-		//adding the selected seats to the booking 
-		currentBooking.setSeats(bookings);
-		
+			
 		//get the price from the booking objct
 		amount = currentBooking.getPrice();
 		
@@ -145,7 +142,6 @@ public class BookingController
 			case -1://cancel the booking and payment
 			{
 				saveBooking.delteBooking(currentBooking);
-				
 				break;
 			}
 			case 0: //pay with cash
@@ -166,7 +162,6 @@ public class BookingController
 				saveBooking.updateBooking(currentBooking);
 				break;
 			}
-		
 		}
 		payWindow.dispose();
 	}
@@ -180,9 +175,10 @@ public class BookingController
 	{
 		LoadBookingW loadBookingW = new LoadBookingW();
 		loadBookingW.setVisible(true);
-		
+		ArrayList<Booking> currentbookings = new ArrayList<Booking>();
 		while(loadBookingW.getClose()==1)
 		{	
+			currentbookings.clear();
 			//Get the user data from the GUI
 			String phone = loadBookingW.getPhone();
 			String name = loadBookingW.getName();
@@ -199,18 +195,26 @@ public class BookingController
 			}
 			try
 			{
-				Costumer costumer = loadCustomer.loadCostumer(tlf, name, lName).get(0);
-				ArrayList<Booking> bookings=loadBooking.getBookings(costumer);
-				//writes the shows to the screen
-				for(int i=0; i < bookings.size(); i++){
-					loadBookingW.addBookings(bookings.get(i).toString());
+				ArrayList<Costumer> costumers = loadCustomer.loadCostumer(tlf, name, lName);
+				Costumer costumer = null;
+				if(costumers.size()==1)
+				{
+					costumer = costumers.get(0);
+					currentbookings=loadBooking.getBookings(costumer);
+					//writes the bookings to the screen
+					for(int i=0; i < currentbookings.size(); i++){
+						loadBookingW.addBookings(currentbookings.get(i).toString());
+					}
+				}
+				else
+				{
+					loadBookingW.showError(); //hvis brugeren ikke kunne blive fundet. 
 				}
 			}
-			catch( java.lang.IndexOutOfBoundsException e)
+			catch(Exception e)
 			{
-				
+				loadBookingW.showError();
 			}
-
 		}
 		
 		try
@@ -223,7 +227,23 @@ public class BookingController
 			e.printStackTrace();
 		}
 		//get the selected item and close the window
-
+		int close = loadBookingW.getClose();
+		int selected = loadBookingW.getSelected();
+		loadBookingW.dispose();
+		if(close!=-1)
+		{
+			currentBooking = currentbookings.get(selected);
+			if(currentBooking.getPayment()==null)//are not payd
+			{
+				bookings = currentBooking.getSeats();
+				ShowPayment();
+				
+			}
+			else //the seats are already payd
+			{
+				//TODO udskrift af billet. 
+			}
+		}
 	}
 	
 }

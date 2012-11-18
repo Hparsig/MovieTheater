@@ -1,6 +1,7 @@
 package movieTheater.SQL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -26,12 +27,13 @@ public class SQLBookingSave extends SQL {
     * @param booking
     * save the new booking to the database, so we get the booking id. 
     */
-	public void createNewBooking(Booking booking)
+	public int createNewBooking(Booking booking)
 	{
+		int bookingID = 0;
 		openConnection();
        try
        {
-    	   preparedStatement = connection.prepareStatement(queryInsertToBooking); // create statement object
+    	   preparedStatement = connection.prepareStatement(queryInsertToBooking,Statement.RETURN_GENERATED_KEYS); // create statement object
     	   Costumer costumer = booking.getCostumer();
     	   if(costumer!=null)
 	   	   {
@@ -50,7 +52,13 @@ public class SQLBookingSave extends SQL {
 	   		   pickedUp = 1;
 	   	   }
 	   	   preparedStatement.setInt(5, pickedUp);
-	   	   preparedStatement.executeUpdate();                     
+	   	   preparedStatement.executeUpdate();
+	   	   
+			ResultSet rs = preparedStatement.getGeneratedKeys();
+			if(rs.next())//Henter nøglen fra det forrige statement. Er der ikke lavet en ny nøgle returneres false 
+			{
+				bookingID = rs.getInt(1);							
+			}
 	   	   
        }
        catch (Exception e)
@@ -62,6 +70,7 @@ public class SQLBookingSave extends SQL {
        {  
     	   closeConnectionSave();      
        } 
+       return bookingID;
 	}  
 
 	/**

@@ -11,15 +11,12 @@ import movieTheater.Show.Show;
 
 public class MainController
 {
-	private EmployeeController employeeController;
 	private ShowController showController;
 	private MovieController movieController;
 	private CreateCostumer createCostumer;
 	private LoginController loginController;
-	private SearchShow searchShow;
 	private int userChoice;
 	public static Employee loggedOn;
-	private Costumer costumer;
 	private boolean menuOn;
 	private boolean programOn;
 	private boolean isAdmin;
@@ -28,7 +25,6 @@ public class MainController
 	public MainController()
 	{
 		loginController = new LoginController();
-		employeeController = new EmployeeController();
 		menuOn = true;
 		programOn = true;
 	}
@@ -85,7 +81,7 @@ public class MainController
 			}
 			case MainWindow.CREATECOSTUMER:
 			{
-				createCostumer = new CreateCostumer();
+				createCostumer = new CreateCostumer(); //TODO ændre fremgangs måden så den ligner employee..
 				createCostumer.setVisible(true);
 				break;
 			}
@@ -101,19 +97,19 @@ public class MainController
 			}
 			case MainWindow.CREATEEMPLOYEE:
 			{	
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.setEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.EDITEMPLOYEE:
 			{
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.editEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.DELETEEMPLOYEE:
 			{
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.searchEmployees(isAdmin);
 				break;
 			}
@@ -162,19 +158,19 @@ public class MainController
 			}
 			case MainWindow.CREATEMANAGER:
 			{
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.setEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.EDITMANAGER:
 			{
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.editEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.DELETEMANAGER:
 			{
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.searchEmployees(isAdmin);
 				break;
 			}

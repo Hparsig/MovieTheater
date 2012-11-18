@@ -17,8 +17,8 @@ import movieTheater.Show.Show;
 
 public class SQLBookingLoad extends SQL {
 
-	private static final String queryGetBooking = "SELECT * FROM bookings WHERE costNo = )";
-	private static final String queryGetLatestBooking = "SELECT * FROM bookings WHERE bookID = ( SELECT MAX(bookID) FROM bookings)";
+	private static final String queryGetBooking = "SELECT * FROM bookings WHERE costNo = ";
+	private static final String queryGetBookingByID = "SELECT * FROM bookings WHERE bookID = ";
 	private static final String queryGetSeatBookings = "SELECT seat,rowID FROM seatbookings WHERE bookID =";
 	private static final String queryGetPayments = "SELECT * FROM payments WHERE bookID =";
 	private ArrayList<Booking> bookings;
@@ -35,7 +35,7 @@ public class SQLBookingLoad extends SQL {
 		loadEmployee = new SQLEmployeeLoad();
 	
 	}
-	public Booking getNewestBooking()
+	public Booking getBooking(int bookingID)
 	{
 		Booking booking=null;
 		ResultSet resultSet = null;
@@ -43,7 +43,7 @@ public class SQLBookingLoad extends SQL {
 		
 		try
 		{
-			resultSet = statement.executeQuery(queryGetLatestBooking);
+			resultSet = statement.executeQuery(queryGetBookingByID+bookingID);
 			while (resultSet.next())
 			{
 				int bookID = resultSet.getInt("bookID");
@@ -51,7 +51,7 @@ public class SQLBookingLoad extends SQL {
 				int pay = resultSet.getInt("payd");
 				int showID = resultSet.getInt("showID");
 				int employeeNum = resultSet.getInt("empNo");
-				int pickedUp = resultSet.getInt("pickedUp");//TODO få hentet den rigtige medarbejder
+				int pickedUp = resultSet.getInt("pickedUp");
 
 				boolean picked = false;
 				if(pickedUp==1)
@@ -72,6 +72,12 @@ public class SQLBookingLoad extends SQL {
 					Costumer costumer = loadCustomer.LoadCustomer(costNo).get(0);
 					booking = new Booking(bookID,show,seats,costumer,employee,picked);
 				}
+				if(pay==1)
+				{
+					Payment payment = getPayment(booking);
+					booking.setPayed(payment);
+				}
+				
 			}
 		}
 		catch (Exception e)
@@ -85,36 +91,6 @@ public class SQLBookingLoad extends SQL {
 		}
 		return booking;
 	}
-	public Map<Seat,Integer> getSeaBookings(int bookID)
-	{
-		Map<Seat,Integer> seats = new HashMap<Seat,Integer>();
-		ResultSet resultSet = null;
-		openConnection();
-		
-		try
-		{
-			resultSet = statement.executeQuery(queryGetSeatBookings+bookID);
-			while (resultSet.next())
-			{
-				int  seatID= resultSet.getInt("seat");
-				int row = resultSet.getInt("rowID");
-
-				Seat seat = new Seat(seatID);
-				seats.put(seat, row);
-			}
-		}
-		catch (Exception e)
-		{
-			System.out.println("fejl i load af senest booking"); //boundary TODO fix
-			e.printStackTrace();
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return seats;
-	}
-		
 	
 	public ArrayList<Booking> getBookings(Costumer costumer)
 	{
@@ -146,9 +122,9 @@ public class SQLBookingLoad extends SQL {
 					{
 						Payment payment = getPayment(booking);
 						booking.setPayed(payment);
+						booking.setSeatsPayed();
 					}
-					bookings.add(booking);
-					
+					bookings.add(booking);	
 				}
 			}
 		}
@@ -193,6 +169,35 @@ public class SQLBookingLoad extends SQL {
 			closeConnectionLoad();
 		}
 		return payment;
+	}
+	public Map<Seat,Integer> getSeaBookings(int bookID)
+	{
+		Map<Seat,Integer> seats = new HashMap<Seat,Integer>();
+		ResultSet resultSet = null;
+		openConnection();
+		
+		try
+		{
+			resultSet = statement.executeQuery(queryGetSeatBookings+bookID);
+			while (resultSet.next())
+			{
+				int  seatID= resultSet.getInt("seat");
+				int row = resultSet.getInt("rowID");
+
+				Seat seat = new Seat(seatID);
+				seats.put(seat, row);
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i load af senest booking"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return seats;
 	}
 	
 }
