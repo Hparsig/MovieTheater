@@ -8,6 +8,8 @@ import movieTheater.Persons.Costumer;
 public class SQLCustomerSave extends SQL {
 	private static final String createCustomer = "INSERT INTO Costumers(fName, lName, road, houseNo, postCode, phone, username, pW) VALUES(?,?,?,?,?,?,?,?)";
 	private static final String updateCustomer = "UPDATE Costumers SET fName = ?, lName = ?, road = ?, houseNo = ?, postCode = ?, phone = ?, username = ?, pW = ? WHERE costNo=?";
+	private static final String deleteCustomer = "DELETE FROM Costumers WHERE costNo=";
+	
 	public SQLCustomerSave()
 	{
 		statement = null;
@@ -62,5 +64,31 @@ public class SQLCustomerSave extends SQL {
 	   	preparedStatement.executeUpdate();                     
         
     	   closeConnectionSave();      
+	}
+	
+	/**
+	 * @author Jesper
+	 * delete one customer
+	 * @param Customer customer
+	 * @throws SQLException 
+	 */
+	public void deleteEmployee(Costumer customer) throws SQLException 
+	{
+		openConnection();
+		try 
+		{                     
+			statement.executeUpdate(deleteCustomer+customer.getCostumerNo());      
+
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i sletning af kunde"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{   
+
+			closeConnectionSave();      
+		} 
 	}  
 }

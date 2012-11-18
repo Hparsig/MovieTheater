@@ -157,4 +157,16 @@ public class CostumerController {
 		searchCostumer.dispose();
 		return costumer; 
 	}
+	
+	public void deleteCostumer(Costumer costum)
+	{
+		try
+		{
+		saveCostumer.deleteEmployee(costum);
+		}
+		catch(Exception e)
+		{
+			
+		}
+	}
 }

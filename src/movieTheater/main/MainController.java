@@ -75,14 +75,14 @@ public class MainController
 				int choise = areYouCostumer.getChoise();
 				areYouCostumer.dispose();
 				
-				if(choise!=-1)
+				if(choise!=-1)//-1 = cancel 
 				{
-					if(choise==1)
+					if(choise==1)//the costumer is a member
 					{
 						CostumerController cosController = new CostumerController();
 						Costumer costumer = cosController.showSearchCostumer();
 					
-						if(costumer!=null)
+						if(costumer!=null) //if costumer==null, the user has cancelled the order
 						{
 							ShowController showController = new ShowController();
 							Show show = showController.showSearchShow();
@@ -93,7 +93,7 @@ public class MainController
 							}
 						}
 					}
-					else
+					else //the costumer is not af member
 					{
 						ShowController showController = new ShowController();
 						Show show = showController.showSearchShow();
@@ -136,7 +136,12 @@ public class MainController
 			}
 			case MainWindow.DELETECOSTUMER:
 			{
-				System.out.println("Slet kunde");
+				CostumerController cosController = new CostumerController();
+				Costumer costumer = cosController.showSearchCostumer();
+				if(costumer!=null)
+				{
+					cosController.deleteCostumer(costumer);
+				}
 				break;
 			}
 			case MainWindow.CREATEEMPLOYEE:
