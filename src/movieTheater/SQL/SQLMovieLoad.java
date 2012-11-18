@@ -34,6 +34,7 @@ public class SQLMovieLoad extends SQL{
 	private static final String queryCastTwo = " AND c.actorID = a.actorID";
 	private static final String queryMovieByTitle = "SELECT * FROM Movies WHERE title LIKE '%";
 	private static final String queryMoviesByOrgTitle = " AND orgTitel LIKE '%";
+	private static final String queryViewMovies = "SELECT * FROM movieWithNoShow";
 //	private static final String queryMovieByDirectorsFName = " AND username LIKE '%";
 //	private static final String queryMoviesByeDirectorLName = " AND empNo =";
 
@@ -551,6 +552,32 @@ public class SQLMovieLoad extends SQL{
 		{
 			System.out.println("fejl i søgning af film"); //boundary TODO fix
 			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionLoad();
+		}
+		return dataFilmArray;
+	}
+	
+	/**
+	 * Search movies using genre as parameter
+	 * @param int genreID
+	 * @return ArrayList<Film> 
+	 * @throws SQLException
+	 */
+	public ArrayList<Movie> LoadMovieView() throws SQLException {
+		ResultSet resultSet = null;
+		openConnection();
+
+		try
+		{
+			resultSet = statement.executeQuery(queryViewMovies);
+			setMovie(resultSet);			
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i load movie view"); //boundary TODO fix
 		}
 		finally
 		{

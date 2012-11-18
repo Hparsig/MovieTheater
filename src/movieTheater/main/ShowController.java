@@ -67,7 +67,6 @@ public class ShowController {
 			//Get the date and title from the GUI
 			String title = searchShow.getTitel();
 			Date date = searchShow.getSqlDate();
-	
 			//Genereates the show array
 			getShows(title,date);
 		

@@ -26,18 +26,22 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 
 public class CreateShow extends JFrame{
+	private JPanel contentPane;
 	private Show show;
 	private MaskFormatter ShowStart;
 	private MaskFormatter ShowEnd;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input.
 	
 	public CreateShow(final Show show) {
-		//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		setTitle("Opret Forestilling");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 269, 272);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
+		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
 		JComboBox comboBoxFilm = new JComboBox(MovieController.movies.toArray());
