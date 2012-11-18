@@ -7,7 +7,7 @@ import movieTheater.Persons.Costumer;
 
 public class SQLCustomerSave extends SQL {
 	private static final String createCustomer = "INSERT INTO Costumers(fName, lName, road, houseNo, postCode, phone, username, pW) VALUES(?,?,?,?,?,?,?,?)";
-	
+	private static final String updateCustomer = "UPDATE Costumers SET fName = ?, lName = ?, road = ?, houseNo = ?, postCode = ?, phone = ?, username = ?, pW = ? WHERE costNo=?";
 	public SQLCustomerSave()
 	{
 		statement = null;
@@ -44,5 +44,23 @@ public class SQLCustomerSave extends SQL {
        {  
     	   closeConnectionSave();      
        } 
+	}  
+	
+	public void editCustomer(Costumer customer) throws SQLException 
+	{
+		openConnection();
+		preparedStatement = connection.prepareStatement(updateCustomer); 
+	   	preparedStatement.setString(1, customer.getfName());
+	   	preparedStatement.setString(2, customer.getlName());
+	   	preparedStatement.setString(3, customer.getRoad());
+	   	preparedStatement.setString(4, customer.getHouseNo());  
+	   	preparedStatement.setInt(5, customer.getPostCode());
+	   	preparedStatement.setInt(6, customer.getPhone());
+	   	preparedStatement.setString(7, customer.getUserName());
+	   	preparedStatement.setString(8,customer.getPW());
+	   	preparedStatement.setInt(9,customer.getCostumerNo());
+	   	preparedStatement.executeUpdate();                     
+        
+    	   closeConnectionSave();      
 	}  
 }

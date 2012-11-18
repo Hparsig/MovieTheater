@@ -121,12 +121,17 @@ public class MainController
 			case MainWindow.CREATECOSTUMER:
 			{
 				CostumerController cosController = new CostumerController();
-				cosController.setCostumer();
+				cosController.setCostumer(null);
 				break;
 			}
 			case MainWindow.EDITCOSTUMER:
 			{
-				System.out.println("Rediger kunde");
+				CostumerController cosController = new CostumerController();
+				Costumer costumer = cosController.showSearchCostumer();
+				if(costumer!=null)
+				{
+					cosController.setCostumer(costumer);
+				}
 				break;
 			}
 			case MainWindow.DELETECOSTUMER:

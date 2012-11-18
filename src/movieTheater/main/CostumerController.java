@@ -31,9 +31,12 @@ public class CostumerController {
 	 * @param createEmployee
 	 * show the createEmployeeWindow
 	 */
-	public void setCostumer()
+	public void setCostumer(Costumer costumer)
 	{
-		costumer = new Costumer();
+		if(costumer==null)
+		{
+			costumer = new Costumer();
+		}
 		CreateCostumer createCostumer= new CreateCostumer(costumer);
 		createCostumer.setVisible(true);
 
@@ -65,9 +68,26 @@ public class CostumerController {
 		String pWord = costum.getPW();
 		int postcode =costum.getPostCode();
 		String cityChoosen = costum.getCity();
-							
-		costum = new Costumer(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
-		saveCostumer.createCustomer(costum);
+		int costumNum = costum.getCostumerNo();
+		
+		if(costumNum==0)
+		{
+			costum = new Costumer(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord);
+			saveCostumer.createCustomer(costum);
+		}
+		else
+		{
+			costum = new Costumer(name,lastname,phone,road,houseNr,postcode,cityChoosen,username,pWord,costumNum);
+			try
+			{
+				saveCostumer.editCustomer(costum);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	public Costumer showSearchCostumer()
