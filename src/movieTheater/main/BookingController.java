@@ -28,7 +28,7 @@ public class BookingController
 	public static double amount;
 	private SQLBookingSave saveBooking;
 	private SQLBookingLoad loadBooking;
-	private SQLCustomerLoad loadCustomer;
+	
 	private Booking currentBooking;
 	
 	public BookingController()
@@ -36,18 +36,17 @@ public class BookingController
 		bookings =  new HashMap<Seat,Integer>();
 		saveBooking = new SQLBookingSave();
 		loadBooking = new SQLBookingLoad();
-		loadCustomer = new SQLCustomerLoad();
 	}
 	/**
 	 * @author Jesper
 	 * @param show
 	 * show the window avaliableseats
 	 */
-	public void showNewBookings(Show show)
+	public void showNewBookings(Show show, Costumer costumer)
 	{
 
 		//create new booking object
-		int bookingID = saveBooking.createNewBooking(new Booking(show,null,null,MainController.loggedOn,false)); //TODO hvis kunden er medlem skal han smides med ind		
+		int bookingID = saveBooking.createNewBooking(new Booking(show,null,costumer,MainController.loggedOn,false)); 		
 		//load the new booking
 		currentBooking = loadBooking.getBooking(bookingID);
 		
@@ -171,50 +170,23 @@ public class BookingController
 	 * @author Jesper
 	 * show the window loadOrder
 	 */
-	public void showLoadOrder()
+	public void showLoadOrder(Costumer costumer)
 	{
 		LoadBookingW loadBookingW = new LoadBookingW();
 		loadBookingW.setVisible(true);
-		ArrayList<Booking> currentbookings = new ArrayList<Booking>();
-		while(loadBookingW.getClose()==1)
-		{	
-			currentbookings.clear();
-			//Get the user data from the GUI
-			String phone = loadBookingW.getPhone();
-			String name = loadBookingW.getName();
-			String lName = loadBookingW.getLName();
-			int tlf;
-			try
-			{
-				tlf = Integer.parseInt(phone);
-				
+		ArrayList<Booking> currentbookings =null;
+		
+		try
+		{
+			currentbookings=loadBooking.getBookings(costumer);
+			//writes the bookings to the screen
+			for(int i=0; i < currentbookings.size(); i++){
+					loadBookingW.addBookings(currentbookings.get(i).toString());
 			}
-			catch(java.lang.NumberFormatException e)
-			{
-				tlf = 0;
-			}
-			try
-			{
-				ArrayList<Costumer> costumers = loadCustomer.loadCostumer(tlf, name, lName);
-				Costumer costumer = null;
-				if(costumers.size()==1)
-				{
-					costumer = costumers.get(0);
-					currentbookings=loadBooking.getBookings(costumer);
-					//writes the bookings to the screen
-					for(int i=0; i < currentbookings.size(); i++){
-						loadBookingW.addBookings(currentbookings.get(i).toString());
-					}
-				}
-				else
-				{
-					loadBookingW.showError(); //hvis brugeren ikke kunne blive fundet. 
-				}
-			}
-			catch(Exception e)
-			{
+		}
+		catch(Exception e)
+		{
 				loadBookingW.showError();
-			}
 		}
 		
 		try
@@ -227,17 +199,15 @@ public class BookingController
 			e.printStackTrace();
 		}
 		//get the selected item and close the window
-		int close = loadBookingW.getClose();
 		int selected = loadBookingW.getSelected();
 		loadBookingW.dispose();
-		if(close!=-1)
+		if(selected!=-1)
 		{
 			currentBooking = currentbookings.get(selected);
 			if(currentBooking.getPayment()==null)//are not payd
 			{
 				bookings = currentBooking.getSeats();
 				ShowPayment();
-				
 			}
 			else //the seats are already payd
 			{

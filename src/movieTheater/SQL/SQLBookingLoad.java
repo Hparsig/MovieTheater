@@ -33,6 +33,7 @@ public class SQLBookingLoad extends SQL {
 		bookings = new ArrayList<Booking>();
 		loadShow = new SQLShowLoad();
 		loadEmployee = new SQLEmployeeLoad();
+		loadCustomer = new SQLCustomerLoad();
 	
 	}
 	public Booking getBooking(int bookingID)
@@ -62,7 +63,7 @@ public class SQLBookingLoad extends SQL {
 				Show show = loadShow.loadShowFromID(showID).get(0);
 				Employee employee = loadEmployee.LoadEmployee(employeeNum, true).get(0);
 				Map<Seat,Integer> seats =  getSeaBookings(bookID);
-	
+
 				if(costNo==0)
 				{
 					booking = new Booking(bookID,show,seats,null,employee,picked);
