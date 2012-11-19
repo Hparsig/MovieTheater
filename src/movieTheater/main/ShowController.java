@@ -9,6 +9,7 @@ import java.util.Map;
 
 
 import movieTheater.GUI.AvaliableSeats;
+import movieTheater.GUI.CreateShow;
 import movieTheater.GUI.SearchShow;
 import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLShowLoad;
@@ -21,6 +22,8 @@ public class ShowController {
 	private ArrayList<Show> shows;
 	private SQLShowLoad showLoad;
 	private SQLShowSave showSave;
+	private Show show;
+	private CreateShow createShow;
 	
 
 	public ShowController()
@@ -29,6 +32,25 @@ public class ShowController {
 		showLoad = new SQLShowLoad();
 		showSave = new SQLShowSave();
 
+	}
+	/**
+	 * @author Brian
+	 */
+	public void setShow() {
+		//System.out.println("setshow()");
+		// TODO Auto-generated method stub
+		show = new Show();
+		createShow = new CreateShow(show);
+		createShow.setVisible(true);
+		
+		try
+		{
+			createShow.latch.await();
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * @author Jesper
@@ -45,7 +67,6 @@ public class ShowController {
 			//Get the date and title from the GUI
 			String title = searchShow.getTitel();
 			Date date = searchShow.getSqlDate();
-	
 			//Genereates the show array
 			getShows(title,date);
 		
@@ -114,5 +135,8 @@ public class ShowController {
 		}
 		return shows;
 	}
+	
+		
+	
 	
 }

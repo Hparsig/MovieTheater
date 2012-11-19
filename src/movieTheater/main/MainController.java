@@ -1,25 +1,19 @@
 package movieTheater.main;
 
-import movieTheater.GUI.CreateCostumer;
 import movieTheater.GUI.MainWindow;
-import movieTheater.GUI.SearchShow;
+import movieTheater.GUI.NewOrderAreYouCostumer;
 import movieTheater.Persons.Admin;
 import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
-import movieTheater.SQL.SQLCustomerSave;
 import movieTheater.Show.Show;
 
 public class MainController
 {
-	private EmployeeController employeeController;
+	private ShowController showController;
 	private MovieController movieController;
-	private CreateCostumer createCostumer;
-	private SQLCustomerSave saveCostumer;
 	private LoginController loginController;
-	private SearchShow searchShow;
 	private int userChoice;
 	public static Employee loggedOn;
-	private Costumer costumer;
 	private boolean menuOn;
 	private boolean programOn;
 	private boolean isAdmin;
@@ -27,9 +21,7 @@ public class MainController
 
 	public MainController()
 	{
-		saveCostumer = new SQLCustomerSave();
 		loginController = new LoginController();
-		employeeController = new EmployeeController();
 		menuOn = true;
 		programOn = true;
 	}
@@ -69,52 +61,104 @@ public class MainController
 			{
 			case MainWindow.NEWORDER:
 			{
-				ShowController showController = new ShowController();
-				Show show = showController.showSearchShow();
-				if(show!=null)
+				NewOrderAreYouCostumer areYouCostumer = new NewOrderAreYouCostumer();
+				areYouCostumer.setVisible(true);
+				try
 				{
-					BookingController bookingCon = new BookingController();
-					bookingCon.showNewBookings(show);
+					areYouCostumer.latch.await();
+				} 
+				catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				int choise = areYouCostumer.getChoise();
+				areYouCostumer.dispose();
+				
+				if(choise!=-1)//-1 = cancel 
+				{
+					if(choise==1)//the costumer is a member
+					{
+						CostumerController cosController = new CostumerController();
+						Costumer costumer = cosController.showSearchCostumer();
+					
+						if(costumer!=null) //if costumer==null, the user has cancelled the order
+						{
+							ShowController showController = new ShowController();
+							Show show = showController.showSearchShow();
+							if(show!=null)
+							{
+								BookingController bookingCon = new BookingController();
+								bookingCon.showNewBookings(show,costumer);
+							}
+						}
+					}
+					else //the costumer is not af member
+					{
+						ShowController showController = new ShowController();
+						Show show = showController.showSearchShow();
+						if(show!=null)
+						{
+							BookingController bookingCon = new BookingController();
+							bookingCon.showNewBookings(show,null);
+						}
+					}
+				}
+
 				break;
 			}
 			case MainWindow.GETORDER:
 			{
-				BookingController bookingCon = new BookingController();
-				bookingCon.showLoadOrder();
+				CostumerController cosController = new CostumerController();
+				Costumer costumer = cosController.showSearchCostumer();
+				if(costumer!=null)
+				{
+					BookingController bookingCon = new BookingController();
+					bookingCon.showLoadOrder(costumer);
+				}
 				break;
 			}
 			case MainWindow.CREATECOSTUMER:
 			{
-				createCostumer = new CreateCostumer();
-				createCostumer.setVisible(true);
+				CostumerController cosController = new CostumerController();
+				cosController.setCostumer(null);
 				break;
 			}
 			case MainWindow.EDITCOSTUMER:
 			{
-				System.out.println("Rediger kunde");
+				CostumerController cosController = new CostumerController();
+				Costumer costumer = cosController.showSearchCostumer();
+				if(costumer!=null)
+				{
+					cosController.setCostumer(costumer);
+				}
 				break;
 			}
 			case MainWindow.DELETECOSTUMER:
 			{
-				System.out.println("Slet kunde");
+				CostumerController cosController = new CostumerController();
+				Costumer costumer = cosController.showSearchCostumer();
+				if(costumer!=null)
+				{
+					cosController.deleteCostumer(costumer);
+				}
 				break;
 			}
 			case MainWindow.CREATEEMPLOYEE:
 			{	
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.setEmployee(false);
 				break;
 			}
 			case MainWindow.EDITEMPLOYEE:
 			{
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.editEmployee(false);
 				break;
 			}
 			case MainWindow.DELETEEMPLOYEE:
 			{
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.deleteEmployee(false);
 				break;
 			}
@@ -138,7 +182,11 @@ public class MainController
 			}
 			case MainWindow.CREATESHOW:
 			{
-				System.out.println("Opret forestilling");
+				
+				movieController = new MovieController();
+				movieController.loadMovies();
+				showController = new ShowController();
+				showController.setShow();
 				break;
 			}
 			case MainWindow.EDITSHOW:
@@ -160,20 +208,20 @@ public class MainController
 			}
 			case MainWindow.CREATEMANAGER:
 			{
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.setEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.EDITMANAGER:
 			{
-				employeeController = new EmployeeController();
+				EmployeeController employeeController = new EmployeeController();
 				employeeController.editEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.DELETEMANAGER:
 			{
-				employeeController = new EmployeeController();
-				employeeController.searchEmployees(isAdmin);
+				EmployeeController employeeController = new EmployeeController();
+				employeeController.deleteEmployee(isAdmin);
 				break;
 			}
 			}

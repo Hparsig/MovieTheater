@@ -36,7 +36,6 @@ public class MovieController
 	{
 		load = new SQLMovieLoad();
 		save = new SQLMovieSave();
-		movies = new ArrayList<Movie>();
 		newActors = new ArrayList<Actor>();
 		newDirectors = new ArrayList<Director>();
 		newGenres = new ArrayList<Genre>(); 
@@ -231,22 +230,16 @@ public class MovieController
 			e.printStackTrace();
 		}
 	}
+	public void loadMovies()
+	{
+		try
+		{
+			movies = load.LoadMovie();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
 
-
-
-
-
-//public ArrayList<Movie> getAvailableMovies(Date timeStart, Date timeEnd)
-//{
-//	ArrayList<Movie> availableMovies = new ArrayList<Movie>();
-//
-//	for(Movie currentMovie: movies)
-//	{
-//		if(timeStart.after(currentMovie.getReleaseDate()) && timeEnd.before(currentMovie.getTimeEnd()))
-//		{
-//			availableMovies.add(currentMovie);
-//		}
-//	}
-//	return availableMovies;
-//}

@@ -28,7 +28,7 @@ public class BookingController
 	public static double amount;
 	private SQLBookingSave saveBooking;
 	private SQLBookingLoad loadBooking;
-	private SQLCustomerLoad loadCustomer;
+	
 	private Booking currentBooking;
 	
 	public BookingController()
@@ -36,21 +36,19 @@ public class BookingController
 		bookings =  new HashMap<Seat,Integer>();
 		saveBooking = new SQLBookingSave();
 		loadBooking = new SQLBookingLoad();
-		loadCustomer = new SQLCustomerLoad();
 	}
 	/**
 	 * @author Jesper
 	 * @param show
 	 * show the window avaliableseats
 	 */
-	public void showNewBookings(Show show)
+	public void showNewBookings(Show show, Costumer costumer)
 	{
-		Employee employee = new SalesPerson("Name", "lName", 11, "road", "houseNo", 6950, "city", "userName", "PW", 1);
+
 		//create new booking object
-		saveBooking.createNewBooking(new Booking(show,null,null,employee,false)); //TODO hvis kunden er medlem skal han smides med ind + medarbejderen
-		
+		int bookingID = saveBooking.createNewBooking(new Booking(show,null,costumer,MainController.loggedOn,false)); 		
 		//load the new booking
-		currentBooking = loadBooking.getNewestBooking();
+		currentBooking = loadBooking.getBooking(bookingID);
 		
 		//Create the hashMap
 		av = show.getHallBooking().getAvailableSeats();
@@ -102,7 +100,9 @@ public class BookingController
 		
 		if(close==1) //open payment
 		{
-			ShowPayment(show);
+			//adding the selected seats to the booking 
+			currentBooking.setSeats(bookings);
+			ShowPayment();
 		}
 		else //the user cancel the booking
 		{
@@ -115,13 +115,9 @@ public class BookingController
 	 * @param show
 	 * show the payment window
 	 */
-	public void ShowPayment(Show show)
+	public void ShowPayment()
 	{
-		Employee employee = new SalesPerson("fName", "Name", 123, "road", " houseNo", 6950, "city", "userName", "PW", 1); //TODO laves så det er den der er logget ind der bliver hentet
-
-		//adding the selected seats to the booking 
-		currentBooking.setSeats(bookings);
-		
+			
 		//get the price from the booking objct
 		amount = currentBooking.getPrice();
 		
@@ -145,7 +141,6 @@ public class BookingController
 			case -1://cancel the booking and payment
 			{
 				saveBooking.delteBooking(currentBooking);
-				
 				break;
 			}
 			case 0: //pay with cash
@@ -166,7 +161,6 @@ public class BookingController
 				saveBooking.updateBooking(currentBooking);
 				break;
 			}
-		
 		}
 		payWindow.dispose();
 	}
@@ -176,41 +170,23 @@ public class BookingController
 	 * @author Jesper
 	 * show the window loadOrder
 	 */
-	public void showLoadOrder()
+	public void showLoadOrder(Costumer costumer)
 	{
 		LoadBookingW loadBookingW = new LoadBookingW();
 		loadBookingW.setVisible(true);
+		ArrayList<Booking> currentbookings =null;
 		
-		while(loadBookingW.getClose()==1)
-		{	
-			//Get the user data from the GUI
-			String phone = loadBookingW.getPhone();
-			String name = loadBookingW.getName();
-			String lName = loadBookingW.getLName();
-			int tlf;
-			try
-			{
-				tlf = Integer.parseInt(phone);
-				
+		try
+		{
+			currentbookings=loadBooking.getBookings(costumer);
+			//writes the bookings to the screen
+			for(int i=0; i < currentbookings.size(); i++){
+					loadBookingW.addBookings(currentbookings.get(i).toString());
 			}
-			catch(java.lang.NumberFormatException e)
-			{
-				tlf = 0;
-			}
-			try
-			{
-				Costumer costumer = loadCustomer.loadCostumer(tlf, name, lName).get(0);
-				ArrayList<Booking> bookings=loadBooking.getBookings(costumer);
-				//writes the shows to the screen
-				for(int i=0; i < bookings.size(); i++){
-					loadBookingW.addBookings(bookings.get(i).toString());
-				}
-			}
-			catch( java.lang.IndexOutOfBoundsException e)
-			{
-				
-			}
-
+		}
+		catch(Exception e)
+		{
+				loadBookingW.showError();
 		}
 		
 		try
@@ -223,7 +199,21 @@ public class BookingController
 			e.printStackTrace();
 		}
 		//get the selected item and close the window
-
+		int selected = loadBookingW.getSelected();
+		loadBookingW.dispose();
+		if(selected!=-1)
+		{
+			currentBooking = currentbookings.get(selected);
+			if(currentBooking.getPayment()==null)//are not payd
+			{
+				bookings = currentBooking.getSeats();
+				ShowPayment();
+			}
+			else //the seats are already payd
+			{
+				//TODO udskrift af billet. 
+			}
+		}
 	}
 	
 }

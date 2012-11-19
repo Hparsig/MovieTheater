@@ -126,4 +126,9 @@ public class Booking {
 		pickedUp = true;
 	}
 	
+	public String toString()
+	{
+		return "Film: "+show.getMovie().getMovieName()+", Dato: "+ show.getHallBooking().getTimeStart()+", Sal: "+show.getHallBooking().getHalleNo();
+	}
+	
 }
