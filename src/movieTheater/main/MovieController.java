@@ -1,8 +1,11 @@
 package movieTheater.main;
 
+import java.awt.Component;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
+
+import javax.swing.JOptionPane;
 
 import movieTheater.GUI.CreateMovie;
 import movieTheater.GUI.SearchMovie;
@@ -97,6 +100,28 @@ public class MovieController
 		createMovie.dispose();
 	}
 
+	public void deleteMovie()
+	{
+		SearchMovie searchMovie = new SearchMovie(this);
+		searchMovie.setVisible(true);
+		try
+		{
+			searchMovie.latch.await();
+		} 
+		catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		movie = searchMovie.getMovie();
+		int result = JOptionPane.showConfirmDialog((Component) null, "Er du sikker på du vil slette "+movie.getMovieName(),"Advarsel", JOptionPane.OK_CANCEL_OPTION);
+		
+		if (result == 0)
+		{
+			save.deleteMovie(movie.getMovieID());
+		}
+	}
+	
 	public ArrayList<Movie> searchMovie(String title, String orgTitle, String actorFName, String directorFName)throws SQLException
 	{
 		movies.clear();
@@ -126,7 +151,7 @@ public class MovieController
 
 		movie = createMovie.getMovie();
 
-		//Checks whether movie Genre og Director are new, if so they are replaced with the saved ones, who has gotten an ID. 
+		//Checks whether movie Genre or Director are new, if so they are replaced with the saved ones, who has gotten an ID. 
 		for (Director currentDirector: newDirectors)
 		{
 			if (currentDirector.equals(movie.getInstructedBy()))
@@ -137,9 +162,16 @@ public class MovieController
 			if (currentGenre.equals(movie.getGenre()))
 				movie.setGenre(currentGenre);
 		}
-	
-		movie = save.saveMovie(movie);				
-	//FIXME virker ikke når man redigerer film. 
+		
+		if (movie.getMovieID() != 0)
+		{
+			save.updateMovie(movie);
+		}
+		else
+		{
+		movie = save.saveMovie(movie); // returns with a created movieID. 
+		}
+
 		for(Map.Entry<Actor, String> entry : movie.getCast().getCast().entrySet())
 		{
 			Actor currentActor = entry.getKey();
@@ -154,7 +186,6 @@ public class MovieController
 		save.saveCastList(movie);
 		//TODO valider data før det gemmes
 	}
-
 
 	private void saveNewActors()
 	{

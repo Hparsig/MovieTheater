@@ -1,6 +1,7 @@
 package movieTheater.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.List;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,7 @@ import java.util.concurrent.CountDownLatch;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -164,9 +166,9 @@ public class SearchEmployee extends JFrame {
 		return choosen;
 	}
 
-//	public int delete(String name)
-//	{
-//		int result = JOptionPane.showConfirmDialog((Component) null, "Er du sikker på du vil slette "+name,"Advarsel", JOptionPane.OK_CANCEL_OPTION);
-//		return result;
-//	}
+	public int delete(String name)
+	{
+		int result = JOptionPane.showConfirmDialog((Component) null, "Er du sikker på du vil slette "+name,"Advarsel", JOptionPane.OK_CANCEL_OPTION);
+		return result;
+	}
 }

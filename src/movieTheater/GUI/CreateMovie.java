@@ -80,6 +80,8 @@ public class CreateMovie extends JFrame {
 	 */
 	public CreateMovie(final Movie movie) 
 	{
+		this.movie = movie;
+		
 		if(movie.getInstructedBy() == null)
 		{	
 			setTitle("Opret film");

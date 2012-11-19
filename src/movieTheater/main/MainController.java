@@ -103,19 +103,19 @@ public class MainController
 			case MainWindow.CREATEEMPLOYEE:
 			{	
 				employeeController = new EmployeeController();
-				employeeController.setEmployee(isAdmin);
+				employeeController.setEmployee(false);
 				break;
 			}
 			case MainWindow.EDITEMPLOYEE:
 			{
 				employeeController = new EmployeeController();
-				employeeController.editEmployee(isAdmin);
+				employeeController.editEmployee(false);
 				break;
 			}
 			case MainWindow.DELETEEMPLOYEE:
 			{
 				employeeController = new EmployeeController();
-				employeeController.searchEmployees(isAdmin);
+				employeeController.deleteEmployee(false);
 				break;
 			}
 			case MainWindow.CREATEMOVIE:
@@ -132,7 +132,8 @@ public class MainController
 			}
 			case MainWindow.DELETEMOVIE:
 			{
-				System.out.println("Slet film");
+				movieController = new MovieController();
+				movieController.deleteMovie();
 				break;
 			}
 			case MainWindow.CREATESHOW:

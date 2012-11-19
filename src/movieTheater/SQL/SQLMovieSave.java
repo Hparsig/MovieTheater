@@ -10,10 +10,14 @@ import movieTheater.Movie.Cast;
 import movieTheater.Movie.Director;
 import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
+import movieTheater.Persons.Admin;
+import movieTheater.Persons.Employee;
+import movieTheater.Persons.Manager;
+import movieTheater.Persons.Person;
 
 /**
  * 
- * @author Jesper
+ * @author Henrik
  *
  */
 public class SQLMovieSave extends SQL{
@@ -26,6 +30,9 @@ public class SQLMovieSave extends SQL{
 	private static final String createGenre = "INSERT INTO genres(genre) values(?)";
 	private static final String createActor = "INSERT INTO actors(fName, lName, gender, descript) values (?,?,?,?)";
 	private static final String createDirector = "INSERT INTO directors(fName, lName, gender, descript) values (?,?,?,?)";
+	private static final String updateMovie = "UPDATE movies SET title = ?, length  = ?, genreID = ?, directID = ?, threeDim = ?, orgTitel = ?, premier = ?, endDay = ? WHERE movieID=?";
+	private static final String deleteMovie = "DELETE FROM movies WHERE movieID=";
+	
 
 	public SQLMovieSave()
 	{
@@ -51,23 +58,23 @@ public class SQLMovieSave extends SQL{
 		{
 			preparedStatement = connection.prepareStatement(createMovie, Statement.RETURN_GENERATED_KEYS); 
 
-			preparedStatement.setString(1, movie.getMovieName());				
-			preparedStatement.setInt(2,movie.getLength());
-			preparedStatement.setInt(3, movie.getGenre().getGenreID());
-			preparedStatement.setInt(4,movie.getInstructedBy().getDirectorID());
-
-			int tdim = 0;
-			if(movie.getIsIn3D())
-			{
-				tdim = 1;
-			}
-
-			preparedStatement.setInt(5, tdim);
-			preparedStatement.setString(6,movie.getOriginalName());
-			preparedStatement.setDate(7, movie.getReleaseDate());
-			preparedStatement.setDate(8, movie.getTimeEnd());
-
-			preparedStatement.executeUpdate();                     
+			setStatement(movie);
+//			preparedStatement.setString(1, movie.getMovieName());				
+//			preparedStatement.setInt(2,movie.getLength());
+//			preparedStatement.setInt(3, movie.getGenre().getGenreID());
+//			preparedStatement.setInt(4,movie.getInstructedBy().getDirectorID());
+//
+//			int tdim = 0;
+//			if(movie.getIsIn3D())
+//			{
+//				tdim = 1;
+//			}
+//
+//			preparedStatement.setInt(5, tdim);
+//			preparedStatement.setString(6,movie.getOriginalName());
+//			preparedStatement.setDate(7, movie.getReleaseDate());
+//			preparedStatement.setDate(8, movie.getTimeEnd());
+//			preparedStatement.executeUpdate();                     
 
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 			if(rs.next())															//Henter nøglen fra det forrige statement. Er der ikke lavet en ny nøgle returneres false 
@@ -85,6 +92,71 @@ public class SQLMovieSave extends SQL{
 			closeConnectionSave(); 
 		} 
 		return movie;
+	}
+	
+	public void updateMovie(Movie movie)
+	{
+		openConnection();
+		
+		try
+		{
+			preparedStatement = connection.prepareStatement(updateMovie); 
+						
+			setStatement(movie);
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i opdatering i film"); //boundary TODO fix
+		}
+		finally
+		{  
+			closeConnectionSave(); 
+		} 
+	}
+	
+	public void deleteMovie(int movieID)
+	{
+		openConnection();
+		try 
+		{                     
+			statement.executeUpdate(deleteMovie+movieID);      
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i sletning af film"); //boundary TODO fix
+			e.printStackTrace();
+		}
+		finally
+		{   
+			closeConnectionLoad();      
+		} 
+	}
+	
+	private void setStatement(Movie movie)
+	{
+		try
+		{
+		preparedStatement.setString(1, movie.getMovieName());				
+		preparedStatement.setInt(2,movie.getLength());
+		preparedStatement.setInt(3, movie.getGenre().getGenreID());
+		preparedStatement.setInt(4,movie.getInstructedBy().getDirectorID());
+
+		int tdim = 0;
+		if(movie.getIsIn3D())
+		{
+			tdim = 1;
+		}
+
+		preparedStatement.setInt(5, tdim);
+		preparedStatement.setString(6,movie.getOriginalName());
+		preparedStatement.setDate(7, movie.getReleaseDate());
+		preparedStatement.setDate(8, movie.getTimeEnd());
+		preparedStatement.executeUpdate();      
+		}
+		catch (Exception e)
+		{
+			
+		}
 	}
 
 	public int getGenreID(Movie movie){

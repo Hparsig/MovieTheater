@@ -85,6 +85,24 @@ public class EmployeeController {
 			saveEmployee(person);
 		}
 	}
+	
+	public void deleteEmployee(boolean isAdmin)
+	{
+		searchEmployees(isAdmin);
+		int choose = searchEmployee.delete(person.getfName() + " " + person.getlName());
+			if(choose == 0 && person instanceof Employee)
+			{
+				try
+				{
+					save.deleteEmployee(((Employee)person).getEmployeeNo());
+				} 
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+	}
 	/**
 	 * @author Jesper
 	 * @param searchEmployee
@@ -221,18 +239,17 @@ public class EmployeeController {
 		}
 		else
 		{
-			System.out.println("opdaterer");
-			//			save.updateEmployee(person);
+			save.updateEmployee(person);
 		}
 	}
 
-	public void deleteEmployee(int choose,Person person) throws SQLException
-	{
-		if(choose==0 && person instanceof Employee)
-		{
-			save.deleteEmployee(((Employee)person).getEmployeeNo());
-		}
-	}
+//	public void deleteEmployee(int choose,Person person) throws SQLException
+//	{
+//		if(choose==0 && person instanceof Employee)
+//		{
+//			save.deleteEmployee(((Employee)person).getEmployeeNo());
+//		}
+//	}
 
 
 }

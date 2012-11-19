@@ -305,7 +305,7 @@ public class MainWindow extends JFrame
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						choise = DELETESHOW;
+						choise = CREATEMANAGER;
 						latch.countDown();
 					}
 				});
@@ -317,7 +317,7 @@ public class MainWindow extends JFrame
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						choise = DELETESHOW;
+						choise = EDITMANAGER;
 						latch.countDown();
 					}
 				});
@@ -329,7 +329,7 @@ public class MainWindow extends JFrame
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						choise = DELETESHOW;
+						choise = DELETEMANAGER;
 						latch.countDown();
 					}
 				});

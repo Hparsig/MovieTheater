@@ -75,6 +75,10 @@ public class Movie {
 	/**
 	 * @return String movieName, the name of the movie. 
 	 */
+	public int getMovieID()
+	{
+		return movieID;
+	}
 	public String getMovieName()
 	{
 		return title;

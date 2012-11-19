@@ -11,7 +11,7 @@ public class SQLEmployeeSave extends SQL {
 	private static final String createEmployee = "INSERT INTO employees(fName, lName, titelID, road, houseNo, postCode, phone, pW, username) VALUES(?,?,?,?,?,?,?,?,?)";
 	private static final String updateEmployee = "UPDATE employees SET fName = ?, lName  = ?, titelID = ?, road = ?, houseNo = ?, postCode = ?, pW = ?, username = ? WHERE empNo=?";
 	private static final String deleteEmployee = "DELETE FROM employees WHERE empNo=";
-
+	
 	/**
 	 * Constructor
 	 */
@@ -79,7 +79,7 @@ public class SQLEmployeeSave extends SQL {
 	 * @return void
 	 * @throws SQLException 
 	 */
-	public void editEmployee(Person person)
+	public void updateEmployee(Person person)
 	{
 		openConnection();
 		
@@ -149,8 +149,7 @@ public class SQLEmployeeSave extends SQL {
 		}
 		finally
 		{   
-
-			closeConnectionSave();      
+			closeConnectionLoad();      
 		} 
 	}  
 
