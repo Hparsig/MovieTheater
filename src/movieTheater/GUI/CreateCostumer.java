@@ -17,6 +17,7 @@ import movieTheater.Persons.Costumer;
 import movieTheater.main.City;
 import movieTheater.main.CostumerController;
 
+@SuppressWarnings("serial")
 public class CreateCostumer extends JFrame {
 
 	private JPanel contentPane;
@@ -27,7 +28,7 @@ public class CreateCostumer extends JFrame {
 	private JTextField txtHouseNo;
 	private JTextField txtUserName;
 	private JTextField txtPW;
-	private JComboBox cbxCitys;
+	private JComboBox<Object> cbxCitys;
 	JPanel panel;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 
@@ -159,7 +160,7 @@ public class CreateCostumer extends JFrame {
 		txtPW.setText(person.getPW());
 		panel.add(txtPW);
 
-		cbxCitys = new JComboBox(CostumerController.postcodeArray.toArray());
+		cbxCitys = new JComboBox<Object>(CostumerController.postcodeArray.toArray());
 		cbxCitys.setBounds(90, 106, 117, 22);
 		panel.add(cbxCitys);
 

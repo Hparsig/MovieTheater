@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.util.concurrent.CountDownLatch;
 import java.awt.Font;
 
+@SuppressWarnings("serial")
 public class CreateActor extends JFrame
 {
 

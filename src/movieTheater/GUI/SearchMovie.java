@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import movieTheater.Movie.Movie;
 import movieTheater.main.MovieController;
 
+@SuppressWarnings("serial")
 public class SearchMovie extends JFrame
 {
 

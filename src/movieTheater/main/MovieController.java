@@ -13,7 +13,6 @@ import movieTheater.Movie.Actor;
 import movieTheater.Movie.Director;
 import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
-import movieTheater.Movie.MoviePerson;
 import movieTheater.SQL.SQLMovieLoad;
 import movieTheater.SQL.SQLMovieSave;
 
@@ -39,6 +38,7 @@ public class MovieController
 		newActors = new ArrayList<Actor>();
 		newDirectors = new ArrayList<Director>();
 		newGenres = new ArrayList<Genre>(); 
+		movies = new ArrayList<Movie>();
 	}
 
 	public void setMovie()
@@ -54,7 +54,6 @@ public class MovieController
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (createMovie.areChangesMade())
@@ -74,7 +73,6 @@ public class MovieController
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		movie = searchMovie.getMovie();
@@ -89,7 +87,6 @@ public class MovieController
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (createMovie.areChangesMade())
@@ -109,7 +106,6 @@ public class MovieController
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		movie = searchMovie.getMovie();
@@ -226,7 +222,6 @@ public class MovieController
 		} 
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

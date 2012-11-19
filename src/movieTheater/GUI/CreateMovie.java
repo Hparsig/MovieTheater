@@ -33,6 +33,7 @@ import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
 import movieTheater.main.MovieController;
 
+@SuppressWarnings("serial")
 public class CreateMovie extends JFrame {
 
 	private JPanel contentPane;
@@ -55,7 +56,7 @@ public class CreateMovie extends JFrame {
 	private JButton btnCreateMovie;
 	private JLabel lblOpretFilm;
 	private MaskFormatter maskFormatDate;
-	private MaskFormatter maskFormatLength;
+//	private MaskFormatter maskFormatLength;
 	private SimpleDateFormat dateFormat;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 	private Date premierDate;
@@ -106,11 +107,10 @@ public class CreateMovie extends JFrame {
 		try
 		{
 			maskFormatDate = new MaskFormatter("##-##-####");
-			maskFormatLength = new MaskFormatter("###");
+//			maskFormatLength = new MaskFormatter("###");
 		} 
 		catch (ParseException e1)
 		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -165,7 +165,7 @@ public class CreateMovie extends JFrame {
 		}
 		panel.add(ftfPremier);
 
-		ftfPlayingTime = new JFormattedTextField(maskFormatLength);
+		ftfPlayingTime = new JFormattedTextField();
 		ftfPlayingTime.setBounds(112, 178, 142, 20);
 		if (movie.getLength() != 0)
 		{
@@ -338,17 +338,17 @@ public class CreateMovie extends JFrame {
 			panel_2.repaint();
 		}
 
-		comboBoxGenres = new JComboBox(MovieController.genres.toArray());
+		comboBoxGenres = new JComboBox<Genre>((Genre[]) MovieController.genres.toArray());
 		comboBoxGenres.setBounds(112, 209, 142, 20);
 		comboBoxGenres.setSelectedItem(movie.getGenre());
 		panel.add(comboBoxGenres);
 
-		comboBoxDirectors = new JComboBox(MovieController.directors.toArray());
+		comboBoxDirectors = new JComboBox<Director>((Director[]) MovieController.directors.toArray());
 		comboBoxDirectors.setBounds(112, 116, 142, 20);
 		comboBoxDirectors.setSelectedItem(movie.getInstructedBy());
 		panel.add(comboBoxDirectors);
 
-		comboBoxActors = new JComboBox(MovieController.actors.toArray());
+		comboBoxActors = new JComboBox<Actor>((Actor[]) MovieController.actors.toArray());
 		comboBoxActors.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 

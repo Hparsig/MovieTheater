@@ -8,7 +8,6 @@ import movieTheater.GUI.SearchEmployee;
 import movieTheater.Persons.Admin;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
-import movieTheater.Persons.Person;
 import movieTheater.Persons.SalesPerson;
 import movieTheater.SQL.SQLEmployeeLoad;
 import movieTheater.SQL.SQLEmployeeSave;

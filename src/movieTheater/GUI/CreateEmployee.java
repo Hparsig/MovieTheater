@@ -2,39 +2,44 @@ package movieTheater.GUI;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import movieTheater.Persons.Employee;
 import movieTheater.main.City;
 import movieTheater.main.EmployeeController;
 import movieTheater.main.Title;
 
+@SuppressWarnings("serial")
 public class CreateEmployee extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtPhone;
+	private JTextField ftfPhone;
 	private JTextField txtRoad;
 	private JTextField txtLName;
 	private JTextField txtfName;
 	private JTextField txtHouseNo;
 	private JTextField txtUserName;
 	private JTextField txtPW;
-	private JComboBox cbxCitys;
-	private JComboBox cbxTitles;
+	private JComboBox<Object> cbxCitys;
+	private JComboBox<Object> cbxTitles;
 	JPanel panel;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 	private int titleID;
 	private Employee person;
 	private boolean areChangesMade;
+	private MaskFormatter maskFormatPhone;
 
 	/**
 	 * @author Jesper
@@ -53,6 +58,16 @@ public class CreateEmployee extends JFrame {
 		this.person = person;
 		areChangesMade = false;
 
+		try
+		{
+			maskFormatPhone = new MaskFormatter("########");
+//			maskFormatLength = new MaskFormatter("###");
+		} 
+		catch (ParseException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -71,7 +86,7 @@ public class CreateEmployee extends JFrame {
 				{
 					person.setfName(txtfName.getText());
 					person.setlName(txtLName.getText());
-					person.setPhone(Integer.parseInt(txtPhone.getText()));
+					person.setPhone(Integer.parseInt(ftfPhone.getText()));
 					person.setRoad(txtRoad.getText());
 					person.setHouseNo(txtHouseNo.getText());
 					person.setUserName(txtUserName.getText());
@@ -127,14 +142,14 @@ public class CreateEmployee extends JFrame {
 		lblVej.setBounds(242, 10, 75, 16);
 		panel.add(lblVej);
 
-		txtPhone = new JTextField();
-		txtPhone.setColumns(10);
-		txtPhone.setBounds(91, 77, 116, 22);
+		ftfPhone = new JFormattedTextField(maskFormatPhone);
+		ftfPhone.setColumns(10);
+		ftfPhone.setBounds(91, 77, 116, 22);
 		if(person.getPhone() != 0)
 		{
-			txtPhone.setText(person.getPhone()+"");
+			ftfPhone.setText(person.getPhone()+"");
 		}
-		panel.add(txtPhone);
+		panel.add(ftfPhone);
 
 		txtRoad = new JTextField();
 		txtRoad.setColumns(10);
@@ -176,13 +191,13 @@ public class CreateEmployee extends JFrame {
 		lblRolle.setBounds(12, 203, 56, 16);
 		panel.add(lblRolle);
 
-		cbxCitys = new JComboBox(EmployeeController.postcodeArray.toArray());
+		cbxCitys = new JComboBox<Object>(EmployeeController.postcodeArray.toArray());
 		cbxCitys.setBounds(90, 106, 117, 22);
 		panel.add(cbxCitys);
 
 		if (isAdmin)
 		{
-			cbxTitles = new JComboBox(EmployeeController.titleArray.toArray());
+			cbxTitles = new JComboBox<Object>(EmployeeController.titleArray.toArray());
 			cbxTitles.setBounds(91, 200, 116, 22);
 			panel.add(cbxTitles);
 		}
