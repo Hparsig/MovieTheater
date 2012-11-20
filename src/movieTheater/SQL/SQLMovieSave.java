@@ -80,7 +80,7 @@ public class SQLMovieSave extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i save af film"); //boundary TODO fix
+			System.out.println("fejl i save af film"); 
 			e.printStackTrace();
 		}
 		finally
@@ -102,7 +102,7 @@ public class SQLMovieSave extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i opdatering i film"); //boundary TODO fix
+			System.out.println("fejl i opdatering i film");
 		}
 		finally
 		{  
@@ -119,7 +119,7 @@ public class SQLMovieSave extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i sletning af film"); //boundary TODO fix
+			System.out.println("fejl i sletning af film");
 			e.printStackTrace();
 		}
 		finally
@@ -170,7 +170,7 @@ public class SQLMovieSave extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i søgning af genre ID"); //boundary TODO fix
+			System.out.println("fejl i søgning af genre ID");
 			e.printStackTrace();
 		}
 		finally
@@ -225,7 +225,7 @@ public class SQLMovieSave extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i save cast list"); //boundary TODO fix
+			System.out.println("fejl i save cast list");
 			e.printStackTrace();
 		}
 		finally
@@ -254,7 +254,7 @@ public class SQLMovieSave extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i save af genre"); //boundary TODO fix
+			System.out.println("fejl i save af genre");
 			e.printStackTrace();
 		}
 		finally
@@ -279,7 +279,7 @@ public class SQLMovieSave extends SQL{
 //		}
 //		catch (Exception e)
 //		{
-//			System.out.println("fejl i save af genre"); //boundary TODO fix
+//			System.out.println("fejl i save af genre");
 //			e.printStackTrace();
 //		}
 //		finally
@@ -311,7 +311,7 @@ public class SQLMovieSave extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i save af skuespiller"); //boundary TODO fix
+			System.out.println("fejl i save af skuespiller");
 			e.printStackTrace();
 		}
 		finally
@@ -343,7 +343,7 @@ public class SQLMovieSave extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i save af instruktører"); //boundary TODO fix
+			System.out.println("fejl i save af instruktører");
 			e.printStackTrace();
 		}
 		finally

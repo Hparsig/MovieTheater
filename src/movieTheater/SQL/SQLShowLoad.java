@@ -5,14 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import movieTheater.Movie.Actor;
-import movieTheater.Movie.Director;
-import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
-import movieTheater.Movie.Rating;
-import movieTheater.Movie.Cast;
 import movieTheater.Show.HallBooking;
 import movieTheater.Show.Seat;
 import movieTheater.Show.Show;
@@ -23,24 +17,19 @@ public class SQLShowLoad extends SQL{
 	
 	private ArrayList<Show> showArray;
 	private static final String queryAllShows = "SELECT * from Shows";
-	private static final String queryMoviesByID = "SELECT * from Movies WHERE movieID =";
 	private static final String queryShowByMovieID = "SELECT * FROM Shows where movieID =";
 	private static final String queryShowByShowID = "SELECT * FROM Shows where showID =";
 	private static final String queryShowByHallNo = "SELECT * FROM Shows where hallNo =";
-	private static final String queryDirectorByID = "SELECT * FROM Directors where directID =";
-	private static final String queryRatings = "SELECT * FROM Reviews where movieID =";
-	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
-	private static final String queryCast = "SELECT c.*, a.* FROM casts c, actors a WHERE c.movieID =";
-	private static final String queryCastTwo = " AND c.actorID = a.actorID";
 	private static final String queryBooking = "SELECT * FROM SeatBookings WHERE showID=";
 	private static final String queryLoadShowByDate = "SELECT s.*,m.title FROM shows s, movies m  WHERE DATE(s.timeS) = '";
 	private static final String queryLoadShowsByTitle = "AND s.movieID = m.movieID AND m.title LIKE '%";
-	private Movie movie;
+	private SQLMovieLoad loadMovie;
 		
 	public SQLShowLoad(){
 		showArray = new ArrayList<Show>();
 		statement = null;
 		connection = null;
+		loadMovie = new SQLMovieLoad();
 	
 	}
 	/**
@@ -63,7 +52,7 @@ public class SQLShowLoad extends SQL{
 				int movieID = resultSet.getInt("movieID");
 				int priceCategory = 1; //FIXME mangler at lave priceCategory i databasen. 
 				
-				loadMovie(movieID);
+				Movie movie = loadMovie.LoadMovieByID(movieID).get(0);
 				HallBooking hallBooking = loadBooking(showID,hallNo,timeS, timeE);
 				showArray.add(new Show(showID, movie,hallBooking,priceCategory));
 				
@@ -71,7 +60,7 @@ public class SQLShowLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i set show"); //boundary TODO fix
+			System.out.println("fejl i set show");
 			e.printStackTrace();
 		}
 		return showArray;	
@@ -90,13 +79,11 @@ public class SQLShowLoad extends SQL{
 		finally{
 			closeConnectionLoad();
 		}
-		
-		
-		
 		return showArray;
 	}
 	
-	public ArrayList<Show> loadShowFromID(int showID){
+	public ArrayList<Show> loadShowFromID(int showID)
+	{
 		openConnection();
 		ResultSet resultSet = null;
 		
@@ -131,7 +118,8 @@ public class SQLShowLoad extends SQL{
 		return showArray;
 	}
 	
-	public ArrayList<Show> loadAllShows() throws SQLException{
+	public ArrayList<Show> loadAllShows()
+	{
 		ResultSet resultSet = null;
 		openConnection();
 		try {
@@ -152,7 +140,8 @@ public class SQLShowLoad extends SQL{
 	 * @return ArrayList<Show> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Show> loadShowsByDateAndTitle(Date date, String title) throws SQLException{
+	public ArrayList<Show> loadShowsByDateAndTitle(Date date, String title)
+	{
 		ResultSet resultSet = null;
 		openConnection();
 		
@@ -172,233 +161,6 @@ public class SQLShowLoad extends SQL{
 		}
 		return showArray;
 	}
-	
-	/**
-	 * 
-	 * @param String title
-	 * @return ArrayList<Film> 
-	 * @throws SQLException
-	 */
-	public Movie loadMovie(int movieID) throws SQLException {
-
-		ResultSet resultSet = null;
-		movie = null;
-		openConnection();
-
-		try
-		{
-			resultSet = statement.executeQuery((queryMoviesByID+movieID));
-			setMovie(resultSet);			
-		}
-		catch (Exception e)
-		{
-			System.out.println("fejl i load movie by ID"); //boundary TODO fix
-			e.printStackTrace();
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return movie;
-	}
-
-	/**
-	 * 
-	 * @param resultSet
-	 * @return ArrayList<Film> dataFilmArray
-	 */
-	public Movie setMovie(ResultSet resultSet)
-	{
-		movie = null;
-		HashMap<Actor, String> castHash = new HashMap<Actor, String>();
-		Cast cast;
-		ArrayList<Rating> ratings = new ArrayList<Rating>();
-		boolean isThreeDim = false;
-
-		try
-		{
-			while (resultSet.next())
-			{
-				isThreeDim = false;
-
-				int movieID = resultSet.getInt("movieID");
-				String title = resultSet.getString("title"); 		  
-				int length = resultSet.getInt("length");
-				int genreID = resultSet.getInt("genreID");
-				int directID = resultSet.getInt("directID");	
-				int threeDim = resultSet.getInt("threeDim");		
-				String orgTitel = resultSet.getString("orgTitel"); 	
-				Date premier = resultSet.getDate("premier");
-				Date endDay = resultSet.getDate("endDay");
-				
-				Genre genre = LoadGenre(genreID);
-				Director director = LoadDirector(directID);
-				castHash = LoadCast(movieID);
-				ratings = LoadRatings(movieID);
-
-
-				if(threeDim == 1)
-				{
-					isThreeDim = true;
-				}
-				cast = new Cast(castHash);
-				
-				movie = new Movie(movieID,title, director, length, genre, premier, endDay, orgTitel, isThreeDim, cast, ratings);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.out.println("fejl i set movie"); //boundary TODO fix
-		}
-		return movie;	
-	}
-	/**
-	 * 
-	 * @param directID
-	 * @return Director
-	 * @throws SQLException
-	 */
-	public Director LoadDirector(int directID) throws SQLException
-	{
-		Director director = null;
-		ResultSet resultSet = null;
-		openConnection();
-
-		try
-		{
-			resultSet = statement.executeQuery(queryDirectorByID+directID);
-
-			while(resultSet.next())
-			{
-				String dirFirstName = resultSet.getString("fName") ;
-				String dirLastName = resultSet.getString("lName");
-				int dirGender = resultSet.getInt("gender");
-				String dirDescription = resultSet.getString("descript");
-
-				director = new Director(dirFirstName, dirLastName, dirGender, dirDescription);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.out.println("fejl i load director"); //boundary TODO fix
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return director;
-	}
-	
-	/**
-	 * 
-	 * @param genreID
-	 * @return String genreName
-	 * @throws SQLException
-	 */
-	public Genre LoadGenre(int genreID) throws SQLException 
-	{
-		Genre genre;
-		String genreName = "";
-		ResultSet resultSet = null;
-
-		try
-		{
-			openConnection();
-			resultSet = statement.executeQuery((queryGenre+genreID));
-
-			while(resultSet.next())
-			{
-				genreName = resultSet.getString("genre");
-			}
-		}
-		catch (Exception e)
-		{
-			System.out.println("fejl i load genre"); //boundary TODO fix
-		}
-		finally
-		{
-			genre = new Genre(genreID, genreName);
-			closeConnectionLoad();
-		}
-		return genre;
-	}
-	
-	/**
-	 * 
-	 * @param filmID
-	 * @return ArrayList<Rating>
-	 * @throws SQLException
-	 */
-	public ArrayList<Rating> LoadRatings(int filmID) throws SQLException {
-		ArrayList<Rating> ratings = new ArrayList<Rating>();
-		ResultSet resultSet = null;
-
-		try
-		{
-			openConnection();
-			resultSet = statement.executeQuery(queryRatings+filmID);
-
-			while (resultSet.next())
-			{
-				int stars = resultSet.getInt("stars");
-				String review = resultSet.getString("review");
-				int costNo = resultSet.getInt("costNo");
-
-				ratings.add(new Rating(stars, review, costNo));
-			}
-		}
-		catch (Exception e)
-		{
-			System.out.println("fejl i load ratings"); //boundary TODO fix
-			e.printStackTrace();
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return ratings;
-	}
-	
-
-	public HashMap<Actor, String> LoadCast(int filmID) throws SQLException 
-	{
-		openConnection();
-		Actor actor;
-		HashMap<Actor, String> cast = new HashMap<Actor, String>(); //FIXME undersøg om hashmap og map virker sammen
-		ResultSet resultSet = null;
-
-		try
-		{
-			resultSet = statement.executeQuery(queryCast+filmID+queryCastTwo);
-			
-		
-			while (resultSet.next())
-			{
-				int actorID = resultSet.getInt("actorID");
-				String rolename = resultSet.getString("roleName");
-				String firstName = resultSet.getString("fName");
-				String lastName = resultSet.getString("lName");
-				int gender = resultSet.getInt("gender");
-				String description = resultSet.getString("descript");
-				actor = new Actor(firstName, lastName, gender, description, actorID);
-				cast.put(actor, rolename);
-			}	
-		}
-		catch (Exception e)
-		{
-			System.out.println("fejl i load cast"); //boundary TODO fix
-			e.printStackTrace();
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return cast;
-	}
-		
-		
 	
 	public HallBooking loadBooking(int showID,int hallNo, Timestamp sTime, Timestamp eTime){
 		
@@ -446,7 +208,7 @@ public class SQLShowLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af booking efter showID"); //boundary TODO fix
+			System.out.println("fejl i load af booking efter showID");
 			e.printStackTrace();
 		}
 		finally
