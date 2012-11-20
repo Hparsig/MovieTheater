@@ -1,11 +1,10 @@
 package movieTheater.SQL;
 
-import java.util.Date;
-import java.sql.SQLException;
+import movieTheater.Show.Show;
 
 public class SQLShowSave extends SQL {
 	
-	private static final String createShow = "INSERT INTO shows (hallNo,timeS,timeE,movieID) values(?,?,?,?)";
+	private static final String createShow = "INSERT INTO shows (hallNo,timeS,timeE,movieID,priceCategory) values(?,?,?,?,?)";
 	
 	public SQLShowSave(){
 		
@@ -15,24 +14,27 @@ public class SQLShowSave extends SQL {
 		
 	}
 	
-	public int createShow(int hallNo, Date timeS, Date timeE, int movieID) throws SQLException{
+	public void createShow(Show show)
+	{
 		
 		openConnection();
-		preparedStatement = connection.prepareStatement(createShow);
-		int rows=0;
+		
+		
 		try{
+			preparedStatement = connection.prepareStatement(createShow);
 			
-			preparedStatement.setInt(1, hallNo);
-			preparedStatement.setDate(2, (java.sql.Date) timeS);
-			preparedStatement.setDate(3, (java.sql.Date) timeE);
-			preparedStatement.setInt(4, movieID);
+			preparedStatement.setInt(1, show.getHallBooking().getHalleNo());
+			preparedStatement.setTimestamp(2, show.getHallBooking().getTimeStart());
+			preparedStatement.setTimestamp(3, show.getHallBooking().getTimeEnd());
+			preparedStatement.setInt(4, show.getMovie().getMovieID());
+			preparedStatement.setDouble(5, show.getPriceCategory());
 			
-			rows = preparedStatement.executeUpdate();         
+			preparedStatement.executeUpdate();         
 		}catch (Exception e){
 		 	   System.out.println("fejl i save af forestilling");
+		 	   e.printStackTrace();
 		}finally{
 			closeConnectionSave();
 		}
-		return rows;
 	}
 }

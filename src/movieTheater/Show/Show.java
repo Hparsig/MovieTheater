@@ -29,6 +29,12 @@ public class Show {
 		priceCategory = 0;
 		
 	}
+	public Show(Movie movie, HallBooking hallBooking, double priceCategory)
+	{
+		this.movie = movie;
+		this.hallBooking = hallBooking;
+		this.priceCategory = priceCategory;
+	}
 	public int getShowID()
 	{
 		return showID;

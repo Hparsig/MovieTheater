@@ -23,7 +23,7 @@ public class TestCreateMovie {
 		actors.put(actor2, "Dame rolle");
 		
 		Cast cast = new Cast(actors);
-				
+			Genre genre = null;	
 		ArrayList<Rating> ratings = new ArrayList<Rating>();
 		
 		Director director= new Director("FornavnDirector","LastNameDirector",1, "Stor instruktør",1);
@@ -31,10 +31,9 @@ public class TestCreateMovie {
 		Date dateS = new Date(112,10,30);
 		Date dateE = new Date(112,11,30);
 		
-		//String movieName, Director directedBy, int length, String genre, Date releaseDate, Date timeEnd,
-		//String originalName, boolean is3D, Cast cast 	
-		
-		Movie movie = new Movie("TestMovie",director,400,"action",dateS,dateE, "Orginal titel3", true,cast);
+		Rating rating = null;
+	
+		Movie movie = new Movie(1,"TestMovie",director,400,genre,dateS,dateE, "Orginal titel3", true,cast,ratings);
 		
 		SQLMovieSave movieSave = new SQLMovieSave();
 		movieSave.saveMovie(movie);

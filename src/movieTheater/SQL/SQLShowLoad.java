@@ -50,7 +50,7 @@ public class SQLShowLoad extends SQL{
 				Timestamp timeS = resultSet.getTimestamp("timeS");
 				Timestamp timeE = resultSet.getTimestamp("timeE");
 				int movieID = resultSet.getInt("movieID");
-				int priceCategory = 1; //FIXME mangler at lave priceCategory i databasen. 
+				double priceCategory =  resultSet.getDouble("priceCategory");
 				
 				Movie movie = loadMovie.LoadMovieByID(movieID).get(0);
 				HallBooking hallBooking = loadBooking(showID,hallNo,timeS, timeE);
@@ -100,7 +100,8 @@ public class SQLShowLoad extends SQL{
 		return showArray;
 	}
 	
-	public ArrayList<Show> loadShowFromHallNo(int hallNo) throws SQLException{
+	public ArrayList<Show> loadShowFromHallNo(int hallNo)
+	{
 		openConnection();
 		ResultSet resultSet = null;
 		
