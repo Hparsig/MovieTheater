@@ -85,7 +85,7 @@ public class SQLEmployeeLoad extends SQL{
 	 * @return ArrayList<Employee> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username, int empID, boolean isAdmin) throws SQLException 
+	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username, int empID, boolean isAdmin) 
 	{
 		ResultSet resultSet = null;
 		openConnection();
@@ -113,7 +113,8 @@ public class SQLEmployeeLoad extends SQL{
 	 * @return ArrayList<Employee> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username, boolean isAdmin) throws SQLException {
+	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username, boolean isAdmin)
+	{
 
 		ResultSet resultSet = null;
 		openConnection();
