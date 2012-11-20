@@ -59,8 +59,28 @@ public class ShowController {
 			//Get the date and title from the GUI
 			String title = searchShow.getTitel();
 			Date date = searchShow.getSqlDate();
-			//Genereates the show array
-			getShows(title,date);
+			java.util.Date date1= new java.util.Date();
+			Date dateNow = new Date(date1.getTime());
+			boolean dateOk = true;
+			
+			//check the date
+			if(date!=null)
+			{
+				if(date.before(dateNow))	
+				{
+					dateOk = false;
+				}
+			}
+			
+			if(dateOk==false)
+			{
+				searchShow.showErrorWrongDate();
+			}
+			else
+			{
+				//Genereates the show array
+				getShows(title,date);
+			}
 		
 			//writes the shows to the screen
 			for(int i=0; i < shows.size(); i++){
@@ -73,7 +93,6 @@ public class ShowController {
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//get the selected item and close the window
@@ -94,14 +113,13 @@ public class ShowController {
 	}
 	
 	
-	//Følgende skal måske placeres i et funktionslag??
 	/**
 	 * @author Jesper
 	 * @param String titel - titel of the movie
 	 * @param Date date - date of the show
-	 * @return ArrayList<Show>  
+	 * @return void  
 	 */
-	public ArrayList<Show> getShows(String titel, Date date)
+	public void getShows(String titel, Date date)
 	{
 		shows.clear();
 		try
@@ -112,7 +130,6 @@ public class ShowController {
 		{
 			e.printStackTrace();
 		}
-		return shows;
 	}
 	
 	public ArrayList<Show> getShows()

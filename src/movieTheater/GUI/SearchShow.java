@@ -106,17 +106,16 @@ public class SearchShow extends JFrame{
 				{
 					date = dateFormat.parse(txtDato.getText());
 					sqlDate = new java.sql.Date(date.getTime());
-					title = txtTitel.getText();
-					ok();
+
 				}catch(java.text.ParseException ee)
 				{
-					
-					JOptionPane.showMessageDialog(new JFrame(), "Dato er ikke udfyldt korrekt");
-					
-				}catch(Exception ee)
-				{
-					ee.printStackTrace();
+					sqlDate = null;
 				}
+				
+				title = txtTitel.getText();
+				ok();
+				txtTitel.setText("");
+				txtDato.setText("");
 			}
 		});
 		
@@ -188,6 +187,10 @@ public class SearchShow extends JFrame{
 		return selected;
 	}
 	
+	public void showErrorWrongDate()
+	{
+		JOptionPane.showMessageDialog(new JFrame(), "Der kan ikke søges på gamle forestillinger"); 
+	}
 
 	
 }

@@ -103,7 +103,6 @@ public class CreateEmployee extends JFrame {
 				catch(Exception e)
 				{
 					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt"); 
-					e.printStackTrace();
 				}
 			}
 		});

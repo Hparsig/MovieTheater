@@ -21,8 +21,9 @@ public class SQLShowLoad extends SQL{
 	private static final String queryShowByShowID = "SELECT * FROM Shows where showID =";
 	private static final String queryShowByHallNo = "SELECT * FROM Shows where hallNo =";
 	private static final String queryBooking = "SELECT * FROM SeatBookings WHERE showID=";
-	private static final String queryLoadShowByDate = "SELECT s.*,m.title FROM shows s, movies m  WHERE DATE(s.timeS) = '";
+	private static final String queryLoadShowByDate = "SELECT s.* FROM shows s, movies m  WHERE s.timeS>now() AND DATE(s.timeS) = '";
 	private static final String queryLoadShowsByTitle = "AND s.movieID = m.movieID AND m.title LIKE '%";
+	private static final String queryLoadByTitle = "SELECT s.* FROM shows s, movies m  WHERE s.timeS>now() AND s.movieID = m.movieID AND m.title LIKE '%";
 	private SQLMovieLoad loadMovie;
 		
 	public SQLShowLoad(){
@@ -145,10 +146,16 @@ public class SQLShowLoad extends SQL{
 	{
 		ResultSet resultSet = null;
 		openConnection();
-		
 		try 
 		{
-			resultSet = statement.executeQuery(queryLoadShowByDate+date+"' "+queryLoadShowsByTitle+title+"%'");
+			if(date==null)
+			{
+				resultSet  =statement.executeQuery(queryLoadByTitle+title+"%'");
+			}
+			else
+			{
+				resultSet = statement.executeQuery(queryLoadShowByDate+date+"' "+queryLoadShowsByTitle+title+"%'");
+			}
 			setShow(resultSet);
 		} 
 		catch (SQLException e) 

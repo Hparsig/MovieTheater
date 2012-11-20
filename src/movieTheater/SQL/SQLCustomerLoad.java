@@ -12,7 +12,7 @@ public class SQLCustomerLoad extends SQL{
 	private static final String queryCustomerByPhone = "SELECT * FROM costumers WHERE phone =";
 	private static final String fnameQuery = " AND fName LIKE '%";
 	private static final String lnameQuery = "%' AND lName LIKE '%";
-	private static final String queryCustomerByFAndLName = "SELECT * FROM costumers WHERE fName =? AND lName = ?";
+	private static final String queryCustomerByFAndLName = "SELECT * FROM costumers WHERE fName LIKE '%";
 	
 	public SQLCustomerLoad()
 	{
@@ -110,19 +110,13 @@ public class SQLCustomerLoad extends SQL{
 		{
 			if(phone!=0)
 			{
-				resultSet = statement.executeQuery(queryCustomerByPhone+phone+fnameQuery+fName+lnameQuery+lName+"%'"); 
-				setCustomer(resultSet);	
+				resultSet = statement.executeQuery(queryCustomerByPhone+phone+fnameQuery+fName+lnameQuery+lName+"%'"); 	
 			}
 			else
 			{
-				preparedStatement = connection.prepareStatement(queryCustomerByFAndLName); 
-
-				preparedStatement.setString(1, fName);
-				preparedStatement.setString(2, lName);
-
-				resultSet  = preparedStatement.executeQuery();    
-				setCustomer(resultSet);	
+				resultSet = statement.executeQuery(queryCustomerByFAndLName+fName+lnameQuery+lName+"%'"); 
 			}
+			setCustomer(resultSet);	
 
 		}
 		catch (Exception e)

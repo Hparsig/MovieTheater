@@ -1,15 +1,16 @@
 package movieTheater.GUI;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.concurrent.CountDownLatch;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class NewOrderAreYouCostumer extends JFrame {
 
@@ -26,7 +27,7 @@ public class NewOrderAreYouCostumer extends JFrame {
 	 */
 	public NewOrderAreYouCostumer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 168, 189);
+		setBounds(100, 100, 176, 222);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -43,7 +44,7 @@ public class NewOrderAreYouCostumer extends JFrame {
 				latch.countDown();
 			}
 		});
-		btnJa.setBounds(12, 13, 97, 25);
+		btnJa.setBounds(12, 60, 97, 25);
 		panel.add(btnJa);
 		
 		JButton btnNej = new JButton("Nej");
@@ -53,7 +54,7 @@ public class NewOrderAreYouCostumer extends JFrame {
 				latch.countDown();
 			}
 		});
-		btnNej.setBounds(12, 45, 97, 25);
+		btnNej.setBounds(12, 98, 97, 25);
 		panel.add(btnNej);
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -63,12 +64,16 @@ public class NewOrderAreYouCostumer extends JFrame {
 				latch.countDown();
 			}
 		});
-		btnCancel.setBounds(12, 83, 97, 25);
+		btnCancel.setBounds(12, 136, 97, 25);
 		panel.add(btnCancel);
+		
+		JLabel lblErDuEn = new JLabel("Er du medlem");
+		lblErDuEn.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblErDuEn.setBounds(12, 13, 136, 34);
+		panel.add(lblErDuEn);
 	}
 	public int getChoise()
 	{
 		return choise;
 	}
-
 }
