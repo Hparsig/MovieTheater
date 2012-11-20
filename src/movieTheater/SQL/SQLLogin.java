@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import movieTheater.Persons.Admin;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
-import movieTheater.Persons.Person;
 import movieTheater.Persons.SalesPerson;
 
 public class SQLLogin extends SQL {
@@ -30,13 +29,15 @@ public class SQLLogin extends SQL {
 	 * @return Employee
 	 * @throws SQLException
 	 */
-	public Employee checkEmployee(String username, String password) throws SQLException {
+	public Employee checkEmployee(String username, String password)
+	{
 		openConnection();
-		preparedStatement = connection.prepareStatement(employeeLogin); 
+		 
 		ResultSet resultSet = null;
 
 		try
 		{
+			preparedStatement = connection.prepareStatement(employeeLogin);
 			preparedStatement.setString(1, password);
 			preparedStatement.setString(2, username);
 
@@ -45,7 +46,7 @@ public class SQLLogin extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i login af medarbejder"); //boundary TODO fix
+			System.out.println("fejl i login af medarbejder"); 
 			e.printStackTrace();
 		}
 		finally
@@ -83,7 +84,7 @@ public class SQLLogin extends SQL {
 				if (titel == 3)
 				{
 					employeeArray.add(new Admin(fName, lName, phone, road, houseNo, postCode, city, userName, 
-							pW));
+							pW,employeeNo));
 				}
 				else
 				{
@@ -94,7 +95,7 @@ public class SQLLogin extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i set medarbejder"); //boundary TODO fix
+			System.out.println("fejl i set medarbejder"); 
 			e.printStackTrace();
 
 		}

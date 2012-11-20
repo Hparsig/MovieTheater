@@ -32,7 +32,7 @@ public class SQLLoadTitel extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("Fejl i load af titler"); //boundary TODO fix
+			System.out.println("Fejl i load af titler"); 
 			e.printStackTrace();
 		}
 		finally

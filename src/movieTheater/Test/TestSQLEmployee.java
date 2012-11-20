@@ -33,7 +33,7 @@ public class TestSQLEmployee {
 	{
 		try
 		{
-			employees = employeeLoad.LoadEmployee(i);	
+			employees = employeeLoad.LoadEmployee(i,true);	
 
 			for(Employee currentEmployee: employees)
 			{
@@ -51,16 +51,14 @@ public class TestSQLEmployee {
 
 	public void testEmployeeSave()
 	{
-		try {
+
 			Manager m = new Manager(Generator(8, true), Generator(8, false), Integer.parseInt(Generator(8, false)), Generator(2, true), Generator(8, true), 
 					Integer.parseInt(Generator(4, false)), Generator(8, true), Generator(8, true), Generator(8, true));
 			SalesPerson s = new SalesPerson(Generator(8, true), Generator(8, false), Integer.parseInt(Generator(8, false)), Generator(2, true), Generator(8, true),
 					Integer.parseInt(Generator(4, false)), Generator(8, true), Generator(8, true), Generator(8, true));
 			employeeSave.createEmployee(m);
 			employeeSave.createEmployee(s);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+
 	}
 
 	// String/int generator til brugerdata. Ascii == true til strings, og ascii == false til int. Huske at parse! 

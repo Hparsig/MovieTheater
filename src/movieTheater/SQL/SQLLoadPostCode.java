@@ -31,8 +31,7 @@ public class SQLLoadPostCode extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af post numre"); //boundary TODO fix
-			e.printStackTrace();
+			System.out.println("fejl i load af post numre"); 			e.printStackTrace();
 		}
 		finally
 		{

@@ -61,7 +61,7 @@ public class SQLEmployeeSave extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i save af medarbejder"); //boundary TODO fix
+			System.out.println("fejl i save af medarbejder");
 			e.printStackTrace();
 		}
 		finally
@@ -117,7 +117,7 @@ public class SQLEmployeeSave extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i ændring af medarbejder"); //boundary TODO fix
+			System.out.println("fejl i ændring af medarbejder"); 
 		}
 		finally
 		{  
@@ -134,7 +134,7 @@ public class SQLEmployeeSave extends SQL {
 	 * @return int rows
 	 * @throws SQLException 
 	 */
-	public void deleteEmployee(int emNum) throws SQLException 
+	public void deleteEmployee(int emNum)
 	{
 		openConnection();
 		try 
@@ -144,7 +144,7 @@ public class SQLEmployeeSave extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i sletning af medarbejder"); //boundary TODO fix
+			System.out.println("fejl i sletning af medarbejder"); 
 			e.printStackTrace();
 		}
 		finally

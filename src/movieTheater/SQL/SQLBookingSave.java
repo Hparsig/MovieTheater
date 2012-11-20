@@ -1,9 +1,6 @@
 package movieTheater.SQL;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Map;
 
 import movieTheater.Persons.Costumer;
 import movieTheater.Show.Booking;
@@ -25,7 +22,7 @@ public class SQLBookingSave extends SQL {
    /**
     * @author Jesper
     * @param booking
-    * save the new booking to the database, so we get the booking id. 
+    * save the new booking to the database, an returns the booking id
     */
 	public int createNewBooking(Booking booking)
 	{
@@ -33,7 +30,7 @@ public class SQLBookingSave extends SQL {
 		openConnection();
        try
        {
-    	   preparedStatement = connection.prepareStatement(queryInsertToBooking,Statement.RETURN_GENERATED_KEYS); // create statement object
+    	   preparedStatement = connection.prepareStatement(queryInsertToBooking,Statement.RETURN_GENERATED_KEYS); 
     	   Costumer costumer = booking.getCostumer();
     	   if(costumer!=null)
 	   	   {
@@ -45,7 +42,7 @@ public class SQLBookingSave extends SQL {
 	   	   }
 	   	   preparedStatement.setInt(2, 0);
 	   	   preparedStatement.setInt(3, booking.getShow().getShowID());
-	   	   preparedStatement.setInt(4, 1); //TODO gemme det rigtie employee nummer
+	   	   preparedStatement.setInt(4, booking.getEmployee().getEmployeeNo()); 
 	   	   int pickedUp = 0;
 	   	   if(booking.getPickedUp()==true)
 	   	   {
@@ -63,7 +60,7 @@ public class SQLBookingSave extends SQL {
        }
        catch (Exception e)
        {
-    	   System.out.println("Fejl i save at ny booking"); //boundary TODO fix
+    	   System.out.println("Fejl i save at ny booking"); 
     	   e.printStackTrace();
        }
        finally
@@ -87,7 +84,7 @@ public class SQLBookingSave extends SQL {
 
 		try
 		{
-			preparedStatement = connection.prepareStatement(queryInserSeatBookings); // create statement object
+			preparedStatement = connection.prepareStatement(queryInserSeatBookings);
 
 			preparedStatement.setInt(1, booking.getShow().getShowID());
 			preparedStatement.setInt(2, seat.getSeatNo());
@@ -98,7 +95,7 @@ public class SQLBookingSave extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("Fejl i save af seat booking"); //boundary TODO fix
+			System.out.println("Fejl i save af seat booking");
 			e.printStackTrace();
 		}
 		finally
@@ -110,7 +107,7 @@ public class SQLBookingSave extends SQL {
 	/**
 	 * @author Jesper
 	 * @param booking
-	 * Update the excisting booking so it now payd.
+	 * Update the excisting booking so its now payd and pickedUp.
 	 */
 	public void updateBooking(Booking booking)
 	{
@@ -119,9 +116,15 @@ public class SQLBookingSave extends SQL {
        try
        {
     	  
-    	   preparedStatement = connection.prepareStatement(queryUpdateBookings); // create statement object
-	   	   preparedStatement.setInt(1, 1); //The booking are now paid..
-	   	   int pickedUp = 0;
+    	   preparedStatement = connection.prepareStatement(queryUpdateBookings);
+	   	   int payd = 0;
+    	   if(booking.getPayment()!=null)
+	   	   {
+	   		  payd = 1;
+	   	   }
+    	   preparedStatement.setInt(1, payd); 
+    	   
+    	   int pickedUp = 0;
 	   	   if(booking.getPickedUp()==true)
 	   	   {
 	   		   pickedUp = 1;
@@ -132,7 +135,7 @@ public class SQLBookingSave extends SQL {
        }
        catch (Exception e)
        {
-    	   System.out.println("Fejl i save af ny booking"); //boundary TODO fix
+    	   System.out.println("Fejl i save af ny booking");
     	   e.printStackTrace();
        }
        finally
@@ -145,7 +148,7 @@ public class SQLBookingSave extends SQL {
 	/**
 	 * @author Jesper
 	 * @param booking
-	 * create a new payment in the databse.
+	 * create a new payment in the database.
 	 */
 	public void createPayment(Booking booking)
 	{
@@ -154,16 +157,16 @@ public class SQLBookingSave extends SQL {
        try
        {
     	  
-    	   preparedStatement = connection.prepareStatement(queryCreatePayment); // create statement object
+    	   preparedStatement = connection.prepareStatement(queryCreatePayment); 
     	   preparedStatement.setInt(1, booking.getBookingNo());
     	   preparedStatement.setDouble(2,booking.getPayment().getAmount()); 
 	   	   preparedStatement.setInt(3, booking.getPayment().getPaymentMethod());
 	   	   preparedStatement.executeUpdate();                     
        }
-       //querysetPicked
+       
        catch (Exception e)
        {
-    	   System.out.println("Fejl i save af ny payment"); //boundary TODO fix
+    	   System.out.println("Fejl i save af ny payment");
     	   e.printStackTrace();
        }
        finally
@@ -182,7 +185,7 @@ public class SQLBookingSave extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("Fejl i sletning af booking"); //boundary TODO fix
+			System.out.println("Fejl i sletning af booking");
 			e.printStackTrace();
 		}
 		finally

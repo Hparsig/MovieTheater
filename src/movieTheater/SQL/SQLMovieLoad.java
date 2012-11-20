@@ -1,16 +1,16 @@
 package movieTheater.SQL;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.sql.*;
 
 import movieTheater.Movie.Actor;
+import movieTheater.Movie.Cast;
 import movieTheater.Movie.Director;
 import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
 import movieTheater.Movie.Rating;
-import movieTheater.Movie.Cast;
-import movieTheater.Persons.Employee;
-import movieTheater.main.Title;
 /**
  * 
  * @author Henrik
@@ -53,11 +53,8 @@ public class SQLMovieLoad extends SQL{
 	 * @return ArrayList<Film> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Movie> LoadMovie(int genreID) throws SQLException {
-		//
-		//		ArrayList<Actor> cast = new ArrayList<Actor>();
-		//		ArrayList<Rating> ratings = new ArrayList<Rating>();
-		//		boolean isThreeDim = false;
+	public ArrayList<Movie> LoadMovie(int genreID)
+	{
 		ResultSet resultSet = null;
 		openConnection();
 
@@ -68,7 +65,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load movie by genre"); //boundary TODO fix
+			System.out.println("fejl i load movie by genre"); 
 		}
 		finally
 		{
@@ -82,11 +79,8 @@ public class SQLMovieLoad extends SQL{
 	 * @return ArrayList<Film> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Movie> LoadMovie(String title) throws SQLException {
-		//
-		//				ArrayList<Actor> cast = new ArrayList<Actor>();
-		//				ArrayList<Rating> ratings = new ArrayList<Rating>();
-		//				boolean isThreeDim = false;
+	public ArrayList<Movie> LoadMovie(String title)
+	{
 		ResultSet resultSet = null;
 		openConnection();
 
@@ -97,7 +91,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load movie by title"); //boundary TODO fix
+			System.out.println("fejl i load movie by title"); 
 		}
 		finally
 		{
@@ -106,8 +100,8 @@ public class SQLMovieLoad extends SQL{
 		return dataFilmArray;
 	}
 
-	public ArrayList<Movie> LoadMovie() throws SQLException{
-		ArrayList<Movie> movies = new ArrayList<Movie>();
+	public ArrayList<Movie> LoadMovie()
+	{
 		ResultSet resultSet = null;
 		openConnection();
 		
@@ -172,7 +166,7 @@ public class SQLMovieLoad extends SQL{
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("fejl i set movie"); //boundary TODO fix
+			System.out.println("fejl i set movie"); 
 		}
 		return dataFilmArray;	
 	}
@@ -182,7 +176,7 @@ public class SQLMovieLoad extends SQL{
 	 * @return Director
 	 * @throws SQLException
 	 */
-	public Director LoadDirector(int directID) throws SQLException
+	public Director LoadDirector(int directID) 
 	{
 		Director director = null;
 		ResultSet resultSet = null;
@@ -205,7 +199,7 @@ public class SQLMovieLoad extends SQL{
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("fejl i load director"); //boundary TODO fix
+			System.out.println("fejl i load director"); 
 		}
 		finally
 		{
@@ -213,7 +207,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		return director;
 	}
-	public ArrayList<Director> LoadDirector() throws SQLException
+	public ArrayList<Director> LoadDirector()
 	{
 		ArrayList<Director> directors = new ArrayList<Director>();
 		ResultSet resultSet = null;
@@ -237,7 +231,7 @@ public class SQLMovieLoad extends SQL{
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("fejl i load director"); //boundary TODO fix
+			System.out.println("fejl i load director"); 
 		}
 		finally
 		{
@@ -246,7 +240,7 @@ public class SQLMovieLoad extends SQL{
 		return directors;
 	}
 
-	public ArrayList<Director> LoadDirector(String lName) throws SQLException
+	public ArrayList<Director> LoadDirector(String lName) 
 	{
 		ArrayList<Director> directors = new ArrayList<Director>();
 		ResultSet resultSet = null;
@@ -269,7 +263,7 @@ public class SQLMovieLoad extends SQL{
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("fejl i load director via lName"); //boundary TODO fix
+			System.out.println("fejl i load director via lName"); 
 		}
 		finally
 		{
@@ -283,7 +277,7 @@ public class SQLMovieLoad extends SQL{
 	 * @return String genreName
 	 * @throws SQLException
 	 */
-	public Genre LoadGenre(int genreID) throws SQLException 
+	public Genre LoadGenre(int genreID)  
 	{
 		Genre genre;
 		String genreName = "";
@@ -301,7 +295,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load genre"); //boundary TODO fix
+			System.out.println("fejl i load genre"); 
 		}
 		finally
 		{
@@ -311,7 +305,7 @@ public class SQLMovieLoad extends SQL{
 		return genre;
 	}
 	
-	public ArrayList<Genre> LoadGenres() throws SQLException 
+	public ArrayList<Genre> LoadGenres()
 	{
 		ArrayList<Genre> genres = new ArrayList<Genre>();
 		ResultSet resultSet = null;
@@ -329,7 +323,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("Fejl i load af genre"); //boundary TODO fix
+			System.out.println("Fejl i load af genre"); 
 			e.printStackTrace();
 		}
 		finally
@@ -339,7 +333,7 @@ public class SQLMovieLoad extends SQL{
 		return genres;
 
 	}
-	public ArrayList<String> LoadGenresString() throws SQLException 
+	public ArrayList<String> LoadGenresString() 
 	{
 		ArrayList<String> genres = new ArrayList<String>();
 		ResultSet resultSet = null;
@@ -355,7 +349,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("Fejl i load af genre"); //boundary TODO fix
+			System.out.println("Fejl i load af genre"); 
 			e.printStackTrace();
 		}
 		finally
@@ -371,7 +365,8 @@ public class SQLMovieLoad extends SQL{
 	 * @return ArrayList<Rating>
 	 * @throws SQLException
 	 */
-	public ArrayList<Rating> LoadRatings(int filmID) throws SQLException {
+	public ArrayList<Rating> LoadRatings(int filmID)
+	{
 		ArrayList<Rating> ratings = new ArrayList<Rating>();
 		ResultSet resultSet = null;
 
@@ -391,7 +386,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load ratings"); //boundary TODO fix
+			System.out.println("fejl i load ratings"); 
 		}
 		finally
 		{
@@ -405,7 +400,7 @@ public class SQLMovieLoad extends SQL{
 	 * @return ArrayList<Actor> cast
 	 * @throws SQLException
 	 */
-	public ArrayList<Actor> LoadActors() throws SQLException
+	public ArrayList<Actor> LoadActors()
 	{
 		ArrayList<Actor> actors = new ArrayList<Actor>();
 		ResultSet resultSet = null;
@@ -437,11 +432,11 @@ public class SQLMovieLoad extends SQL{
 
 	}
 
-	public HashMap<Actor, String> LoadCast(int filmID) throws SQLException 
+	public HashMap<Actor, String> LoadCast(int filmID) 
 	{
 		openConnection();
 		Actor actor;
-		HashMap<Actor, String> cast = new HashMap<Actor, String>(); //FIXME undersøg om hashmap og map virker sammen
+		HashMap<Actor, String> cast = new HashMap<Actor, String>(); 
 		ResultSet resultSet = null;
 
 		try
@@ -463,7 +458,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load cast"); //boundary TODO fix
+			System.out.println("fejl i load cast"); 
 			e.printStackTrace();
 		}
 		finally
@@ -472,7 +467,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		return cast;
 	}
-	public ArrayList<Movie> searchMovie(String title, String orgTitle, String actorFName, String directorFName) throws SQLException 
+	public ArrayList<Movie> searchMovie(String title, String orgTitle, String actorFName, String directorFName) 
 	{
 		ResultSet resultSet = null;
 		openConnection();
@@ -485,7 +480,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i søgning af film"); //boundary TODO fix
+			System.out.println("fejl i søgning af film"); 
 			e.printStackTrace();
 		}
 		finally
@@ -501,7 +496,8 @@ public class SQLMovieLoad extends SQL{
 	 * @return ArrayList<Film> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Movie> LoadMovieView() throws SQLException {
+	public ArrayList<Movie> LoadMovieView()
+	{
 		ResultSet resultSet = null;
 		openConnection();
 
@@ -512,7 +508,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load movie view"); //boundary TODO fix
+			System.out.println("fejl i load movie view");
 		}
 		finally
 		{

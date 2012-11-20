@@ -89,18 +89,11 @@ public class EmployeeController {
 	{
 		searchEmployees(isAdmin);
 		int choose = searchEmployee.delete(person.getfName() + " " + person.getlName());
-			if(choose == 0 && person instanceof Employee)
-			{
-				try
-				{
-					save.deleteEmployee(((Employee)person).getEmployeeNo());
-				} 
-				catch (SQLException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+		
+		if(choose == 0 && person instanceof Employee)
+		{
+				save.deleteEmployee(((Employee)person).getEmployeeNo());	
+		}
 	}
 	/**
 	 * @author Jesper
@@ -121,7 +114,6 @@ public class EmployeeController {
 		} 
 		catch (InterruptedException e2)
 		{
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		String fName = searchEmployee.getName();		//FIXME kun Admin må søge på managers
@@ -158,7 +150,6 @@ public class EmployeeController {
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		person = persons.get(searchEmployee.getChoosen());
@@ -205,7 +196,7 @@ public class EmployeeController {
 	}
 
 
-	//Følgende skal måske i et funtionalitetslag??
+	
 	public void saveEmployee(Employee person)
 	{
 		System.out.println(titleID);
@@ -241,14 +232,4 @@ public class EmployeeController {
 			save.updateEmployee(person);
 		}
 	}
-
-//	public void deleteEmployee(int choose,Person person) throws SQLException
-//	{
-//		if(choose==0 && person instanceof Employee)
-//		{
-//			save.deleteEmployee(((Employee)person).getEmployeeNo());
-//		}
-//	}
-
-
 }

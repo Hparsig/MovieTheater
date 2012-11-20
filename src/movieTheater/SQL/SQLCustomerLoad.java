@@ -1,15 +1,13 @@
 package movieTheater.SQL;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.sql.*;
+
 import movieTheater.Persons.Costumer;
-import movieTheater.Persons.Manager;
-import movieTheater.Persons.Person;
 
 public class SQLCustomerLoad extends SQL{
 	private ArrayList<Costumer> customerArray;	
 	private static final String queryCustomer = "SELECT * FROM costumers where costNo =";
-	private static final String queryCustomerByFirstName = "SELECT * FROM costumers where fName LIKE '%";
 	private static final String queryGetCity = "SELECT city FROM postcode WHERE postCode =";
 	private static final String queryCustomerByPhone = "SELECT * FROM costumers WHERE phone =";
 	private static final String fnameQuery = " AND fName LIKE '%";
@@ -47,13 +45,14 @@ public class SQLCustomerLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error loading customer"); //boundary TODO fix
+			System.out.println("Error loading customer"); 
 			e.printStackTrace();
 		}
 		return customerArray;	
 	}
 
-	public ArrayList<Costumer> LoadCustomer(int custNo) throws SQLException {
+	public ArrayList<Costumer> LoadCustomer(int custNo)
+	{
 
 		ResultSet resultSet = null;
 		openConnection();
@@ -65,7 +64,7 @@ public class SQLCustomerLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error loading customer by customer-number"); //boundary TODO fix
+			System.out.println("Error loading customer by customer-number");
 			e.printStackTrace();
 		}
 		finally
@@ -75,26 +74,6 @@ public class SQLCustomerLoad extends SQL{
 		return customerArray;
 	}
 
-	public ArrayList<Costumer> LoadCustomer(String fname) throws SQLException {
-		ResultSet resultSet = null;
-		openConnection();
-
-		try
-		{
-			resultSet = statement.executeQuery(queryCustomerByFirstName+fname+"%'");
-			setCustomer(resultSet);			
-		}
-		catch (Exception e)
-		{
-			System.out.println("Error loading customer by first name"); //boundary TODO fix
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return customerArray;
-	}
-	
 	public String getCity(int postNr){
 		
 		ResultSet resultSet = null;
@@ -112,7 +91,7 @@ public class SQLCustomerLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("Fejl i load af city"); //boundary TODO fix
+			System.out.println("Fejl i load af city"); 
 			e.printStackTrace();
 		}
 		finally
@@ -148,7 +127,7 @@ public class SQLCustomerLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af kunde"); //boundary TODO fix
+			System.out.println("fejl i load af kunde"); 
 			e.printStackTrace();
 		}
 		finally

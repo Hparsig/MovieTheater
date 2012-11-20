@@ -1,7 +1,6 @@
 package movieTheater.SQL;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import movieTheater.Persons.Employee;
 import movieTheater.Show.Booking;
 import movieTheater.Show.Payment;
 import movieTheater.Show.Seat;
-import movieTheater.Show.SeatBookings;
 import movieTheater.Show.Show;
 
 public class SQLBookingLoad extends SQL {
@@ -36,6 +34,12 @@ public class SQLBookingLoad extends SQL {
 		loadCustomer = new SQLCustomerLoad();
 	
 	}
+	/**
+	 * @author Jesper
+	 * @param bookingID
+	 * @return Booking booking
+	 * load booking from bookingID
+	 */
 	public Booking getBooking(int bookingID)
 	{
 		Booking booking=null;
@@ -83,7 +87,7 @@ public class SQLBookingLoad extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af senest booking"); //boundary TODO fix
+			System.out.println("fejl i load af senest booking"); 
 			e.printStackTrace();
 		}
 		finally
@@ -92,7 +96,12 @@ public class SQLBookingLoad extends SQL {
 		}
 		return booking;
 	}
-	
+	/**
+	 * @author Jesper
+	 * @param costumer
+	 * @return ArrayList<Booking> bookings
+	 * load bookings from cotumer number
+	 */
 	public ArrayList<Booking> getBookings(Costumer costumer)
 	{
 		bookings.clear();
@@ -131,7 +140,7 @@ public class SQLBookingLoad extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af senest booking"); //boundary TODO fix
+			System.out.println("fejl i load af senest booking"); 
 			e.printStackTrace();
 		}
 		finally
@@ -141,7 +150,12 @@ public class SQLBookingLoad extends SQL {
 		return bookings;
 	}
 	
-	
+	/**
+	 * @author Jesper
+	 * @param booking
+	 * @return Payment payment
+	 * load the payment
+	 */
 	public Payment getPayment(Booking booking)
 	{
 		Payment payment = null;
@@ -162,7 +176,7 @@ public class SQLBookingLoad extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af senest booking"); //boundary TODO fix
+			System.out.println("fejl i load af senest booking"); 
 			e.printStackTrace();
 		}
 		finally
@@ -191,7 +205,7 @@ public class SQLBookingLoad extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af senest booking"); //boundary TODO fix
+			System.out.println("fejl i load af senest booking"); 
 			e.printStackTrace();
 		}
 		finally

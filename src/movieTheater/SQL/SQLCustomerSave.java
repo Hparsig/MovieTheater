@@ -1,8 +1,6 @@
 package movieTheater.SQL;
 
 
-import java.sql.SQLException;
-
 import movieTheater.Persons.Costumer;
 
 public class SQLCustomerSave extends SQL {
@@ -39,7 +37,7 @@ public class SQLCustomerSave extends SQL {
        }
        catch (Exception e)
        {
-    	   System.out.println("An error occured while saving user information"); //boundary TODO fix
+    	   System.out.println("An error occured while saving user information");
     	   e.printStackTrace();
        }
        finally
@@ -48,31 +46,41 @@ public class SQLCustomerSave extends SQL {
        } 
 	}  
 	
-	public void editCustomer(Costumer customer) throws SQLException 
+	public void editCustomer(Costumer customer)
 	{
 		openConnection();
-		preparedStatement = connection.prepareStatement(updateCustomer); 
-	   	preparedStatement.setString(1, customer.getfName());
-	   	preparedStatement.setString(2, customer.getlName());
-	   	preparedStatement.setString(3, customer.getRoad());
-	   	preparedStatement.setString(4, customer.getHouseNo());  
-	   	preparedStatement.setInt(5, customer.getPostCode());
-	   	preparedStatement.setInt(6, customer.getPhone());
-	   	preparedStatement.setString(7, customer.getUserName());
-	   	preparedStatement.setString(8,customer.getPW());
-	   	preparedStatement.setInt(9,customer.getCostumerNo());
-	   	preparedStatement.executeUpdate();                     
-        
-    	   closeConnectionSave();      
+		try
+		{
+			preparedStatement = connection.prepareStatement(updateCustomer); 
+			preparedStatement.setString(1, customer.getfName());
+			preparedStatement.setString(2, customer.getlName());
+			preparedStatement.setString(3, customer.getRoad());
+			preparedStatement.setString(4, customer.getHouseNo());  
+			preparedStatement.setInt(5, customer.getPostCode());
+			preparedStatement.setInt(6, customer.getPhone());
+			preparedStatement.setString(7, customer.getUserName());
+			preparedStatement.setString(8,customer.getPW());
+			preparedStatement.setInt(9,customer.getCostumerNo());
+	   	
+			preparedStatement.executeUpdate();                     
+		}
+		catch(Exception e)
+		{
+			System.out.println("fejl i ændring af kunde");
+			e.printStackTrace();
+		}
+		finally
+		{
+    	   closeConnectionSave();
+		}
 	}
 	
 	/**
 	 * @author Jesper
 	 * delete one customer
 	 * @param Customer customer
-	 * @throws SQLException 
 	 */
-	public void deleteEmployee(Costumer customer) throws SQLException 
+	public void deleteEmployee(Costumer customer)  
 	{
 		openConnection();
 		try 
@@ -82,7 +90,7 @@ public class SQLCustomerSave extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i sletning af kunde"); //boundary TODO fix
+			System.out.println("fejl i sletning af kunde"); 
 			e.printStackTrace();
 		}
 		finally

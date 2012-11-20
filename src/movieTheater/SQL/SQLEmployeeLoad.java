@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import movieTheater.Persons.Admin;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
-import movieTheater.Persons.Person;
 import movieTheater.Persons.SalesPerson;
 
 public class SQLEmployeeLoad extends SQL{
@@ -66,13 +65,13 @@ public class SQLEmployeeLoad extends SQL{
 				}
 				if (isAdmin && titel == 3)
 				{
-					employeeArray.add(new Admin(fName, lName, phone, road, houseNo, postCode, city, userName, pW));
+					employeeArray.add(new Admin(fName, lName, phone, road, houseNo, postCode, city, userName, pW,employeeNo));
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i set medarbejder"); //boundary TODO fix
+			System.out.println("fejl i set medarbejder"); 
 			e.printStackTrace();
 			
 		}
@@ -98,7 +97,8 @@ public class SQLEmployeeLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af medarbejdere 1"); //boundary TODO fix
+			System.out.println("fejl i load af medarbejdere 1"); 
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -125,7 +125,8 @@ public class SQLEmployeeLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af medarbejdere 2"); //boundary TODO fix
+			System.out.println("fejl i load af medarbejdere 2");
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -153,7 +154,7 @@ public class SQLEmployeeLoad extends SQL{
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af medarbejdere by id"); //boundary TODO fix
+			System.out.println("fejl i load af medarbejdere by id");
 		}
 		finally
 		{

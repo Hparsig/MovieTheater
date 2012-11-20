@@ -214,27 +214,15 @@ public class MovieController
 	}
 	private void loadAttributes()
 	{
-		try
-		{
 			actors = load.LoadActors();
 			directors = load.LoadDirector();
 			genres = load.LoadGenres();
-		} 
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
 	}
+	
 	public void loadMovies()
 	{
-		try
-		{
 			movies = load.LoadMovie();
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
+
 	}
 }
 

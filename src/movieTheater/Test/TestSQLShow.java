@@ -37,8 +37,8 @@ public class TestSQLShow{
 
 			for(Show currentShow: shows)
 			{
-				System.out.println(currentShow.getHallno() + " " + currentShow.getMovieID() + " " + currentShow.getShowID() + 
-						" " + currentShow.getTimeE() + " " + currentShow.getTimeS());	
+				System.out.println(currentShow.getHallBooking().getHalleNo() + " " + currentShow.getMovie().getMovieID() + " " + currentShow.getShowID() + 
+						" " + currentShow.getHallBooking().getTimeStart() + " " + currentShow.getHallBooking().getTimeEnd());	
 			}
 		}
 		catch (Exception e)

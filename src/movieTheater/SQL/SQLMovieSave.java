@@ -10,10 +10,6 @@ import movieTheater.Movie.Cast;
 import movieTheater.Movie.Director;
 import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
-import movieTheater.Persons.Admin;
-import movieTheater.Persons.Employee;
-import movieTheater.Persons.Manager;
-import movieTheater.Persons.Person;
 
 /**
  * 
