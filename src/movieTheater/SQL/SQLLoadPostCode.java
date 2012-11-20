@@ -2,7 +2,8 @@ package movieTheater.SQL;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import movieTheater.main.City;
+
+import movieTheater.Persons.City;
 
 public class SQLLoadPostCode extends SQL {
 	

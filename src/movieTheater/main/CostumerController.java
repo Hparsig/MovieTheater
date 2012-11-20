@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import movieTheater.GUI.CreateCostumer;
 import movieTheater.GUI.SearchCostumer;
+import movieTheater.Persons.City;
 import movieTheater.Persons.Costumer;
 import movieTheater.SQL.SQLCustomerLoad;
 import movieTheater.SQL.SQLCustomerSave;

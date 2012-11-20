@@ -16,10 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import movieTheater.Persons.City;
 import movieTheater.Persons.Employee;
-import movieTheater.main.City;
+import movieTheater.Persons.Title;
 import movieTheater.main.EmployeeController;
-import movieTheater.main.Title;
 
 @SuppressWarnings("serial")
 public class CreateEmployee extends JFrame {

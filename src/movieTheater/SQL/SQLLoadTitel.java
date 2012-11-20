@@ -2,7 +2,8 @@ package movieTheater.SQL;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import movieTheater.main.Title;
+
+import movieTheater.Persons.Title;
 
 public class SQLLoadTitel extends SQL {
 	

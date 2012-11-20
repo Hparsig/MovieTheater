@@ -1,6 +1,5 @@
 package movieTheater.main;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,13 +7,9 @@ import java.util.Map;
 import movieTheater.GUI.AvaliableSeats;
 import movieTheater.GUI.LoadBookingW;
 import movieTheater.GUI.Pay;
-import movieTheater.GUI.SearchShow;
 import movieTheater.Persons.Costumer;
-import movieTheater.Persons.Employee;
-import movieTheater.Persons.SalesPerson;
 import movieTheater.SQL.SQLBookingLoad;
 import movieTheater.SQL.SQLBookingSave;
-import movieTheater.SQL.SQLCustomerLoad;
 import movieTheater.Show.Booking;
 import movieTheater.Show.Payment;
 import movieTheater.Show.Seat;

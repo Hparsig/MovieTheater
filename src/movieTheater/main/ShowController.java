@@ -1,20 +1,12 @@
 package movieTheater.main;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
-
-import movieTheater.GUI.AvaliableSeats;
 import movieTheater.GUI.CreateShow;
 import movieTheater.GUI.SearchShow;
-import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLShowLoad;
 import movieTheater.SQL.SQLShowSave;
-import movieTheater.Show.Seat;
 import movieTheater.Show.Show;
 
 public class ShowController {

@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import movieTheater.Persons.City;
 import movieTheater.Persons.Costumer;
-import movieTheater.main.City;
 import movieTheater.main.CostumerController;
 
 @SuppressWarnings("serial")
