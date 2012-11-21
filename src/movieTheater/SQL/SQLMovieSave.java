@@ -28,7 +28,7 @@ public class SQLMovieSave extends SQL{
 	private static final String createDirector = "INSERT INTO directors(fName, lName, gender, descript) values (?,?,?,?)";
 	private static final String updateMovie = "UPDATE movies SET title = ?, length  = ?, genreID = ?, directID = ?, threeDim = ?, orgTitel = ?, premier = ?, endDay = ? WHERE movieID=?";
 	private static final String deleteMovie = "DELETE FROM movies WHERE movieID=";
-	
+
 
 	public SQLMovieSave()
 	{
@@ -55,22 +55,6 @@ public class SQLMovieSave extends SQL{
 			preparedStatement = connection.prepareStatement(createMovie, Statement.RETURN_GENERATED_KEYS); 
 
 			setStatement(movie);
-//			preparedStatement.setString(1, movie.getMovieName());				
-//			preparedStatement.setInt(2,movie.getLength());
-//			preparedStatement.setInt(3, movie.getGenre().getGenreID());
-//			preparedStatement.setInt(4,movie.getInstructedBy().getDirectorID());
-//
-//			int tdim = 0;
-//			if(movie.getIsIn3D())
-//			{
-//				tdim = 1;
-//			}
-//
-//			preparedStatement.setInt(5, tdim);
-//			preparedStatement.setString(6,movie.getOriginalName());
-//			preparedStatement.setDate(7, movie.getReleaseDate());
-//			preparedStatement.setDate(8, movie.getTimeEnd());
-//			preparedStatement.executeUpdate();                     
 
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 			if(rs.next())															//Henter nøglen fra det forrige statement. Er der ikke lavet en ny nøgle returneres false 
@@ -85,19 +69,19 @@ public class SQLMovieSave extends SQL{
 		}
 		finally
 		{  
-			closeConnectionSave(); 
+			closeConnectionPreparedStatement(); 
 		} 
 		return movie;
 	}
-	
+
 	public void updateMovie(Movie movie)
 	{
 		openConnection();
-		
+
 		try
 		{
 			preparedStatement = connection.prepareStatement(updateMovie); 
-						
+
 			setStatement(movie);
 		}
 		catch (Exception e)
@@ -106,10 +90,10 @@ public class SQLMovieSave extends SQL{
 		}
 		finally
 		{  
-			closeConnectionSave(); 
+			closeConnectionPreparedStatement(); 
 		} 
 	}
-	
+
 	public void deleteMovie(int movieID)
 	{
 		openConnection();
@@ -127,31 +111,31 @@ public class SQLMovieSave extends SQL{
 			closeConnectionLoad();      
 		} 
 	}
-	
+
 	private void setStatement(Movie movie)
 	{
 		try
 		{
-		preparedStatement.setString(1, movie.getMovieName());				
-		preparedStatement.setInt(2,movie.getLength());
-		preparedStatement.setInt(3, movie.getGenre().getGenreID());
-		preparedStatement.setInt(4,movie.getInstructedBy().getDirectorID());
+			preparedStatement.setString(1, movie.getTitle());				
+			preparedStatement.setInt(2,movie.getLength());
+			preparedStatement.setInt(3, movie.getGenre().getGenreID());
+			preparedStatement.setInt(4,movie.getDirector().getDirectorID());
 
-		int tdim = 0;
-		if(movie.getIsIn3D())
-		{
-			tdim = 1;
-		}
+			int tdim = 0;
+			if(movie.getIs3D())
+			{
+				tdim = 1;
+			}
 
-		preparedStatement.setInt(5, tdim);
-		preparedStatement.setString(6,movie.getOriginalName());
-		preparedStatement.setDate(7, movie.getReleaseDate());
-		preparedStatement.setDate(8, movie.getTimeEnd());
-		preparedStatement.executeUpdate();      
+			preparedStatement.setInt(5, tdim);
+			preparedStatement.setString(6,movie.getOriginalTitle());
+			preparedStatement.setDate(7, movie.getReleaseDate());
+			preparedStatement.setDate(8, movie.getTimeEnd());
+			preparedStatement.executeUpdate();      
 		}
 		catch (Exception e)
 		{
-			
+			e.printStackTrace();
 		}
 	}
 
@@ -188,7 +172,7 @@ public class SQLMovieSave extends SQL{
 		preparedStatement = null;
 		openConnection();
 		int movieID=0;
-		String title = movie.getOriginalName();
+		String title = movie.getOriginalTitle();
 		Cast cast = movie.getCast();
 		Map<Actor, String> castMap = cast.getCast();
 
@@ -205,16 +189,6 @@ public class SQLMovieSave extends SQL{
 			{	
 				int actorID = entry.getKey().getActorID();
 				String roleName = entry.getValue();
-				//				String name = (entry.getKey().getFName() + " " + entry.getKey().getLName() + " ");
-				//				String role = entry.getValue();
-
-				//				castString.add("\n" + role+ ":" + name);
-				//			}
-				//			for (int i=0; i < movie.getCast().;i++)
-				//			{
-				//				
-				//				int actorID = movie.getCast().get(i).getActor().getActorID();
-				//				String roleName = movie.getCast().get(i).getRolename();
 				preparedStatement = connection.prepareStatement(createCastList); 
 
 				preparedStatement.setInt(1,movieID);				
@@ -230,13 +204,13 @@ public class SQLMovieSave extends SQL{
 		}
 		finally
 		{
-			closeConnectionSave();
+			closeConnectionPreparedStatement();
 		}
 	}
 	public Genre saveGenre(Genre genre)
 	{
 		openConnection();
-		
+
 		try
 		{
 
@@ -259,35 +233,10 @@ public class SQLMovieSave extends SQL{
 		}
 		finally
 		{  
-			closeConnectionSave(); 
+			closeConnectionPreparedStatement(); 
 		} 
 		return genre;
 	}
-//	public int saveGenre(String genreName)
-//	{
-//		openConnection();
-//
-//		int rows=0;
-//		try
-//		{
-//
-//			preparedStatement = connection.prepareStatement(createGenre); 
-//			preparedStatement.setString(1, genreName);				
-//
-//			rows = preparedStatement.executeUpdate();                     
-//
-//		}
-//		catch (Exception e)
-//		{
-//			System.out.println("fejl i save af genre");
-//			e.printStackTrace();
-//		}
-//		finally
-//		{  
-//			closeConnectionSave(); 
-//		} 
-//		return rows;
-//	}
 	public Actor saveActor(Actor actor)
 	{
 		openConnection();
@@ -316,11 +265,11 @@ public class SQLMovieSave extends SQL{
 		}
 		finally
 		{  
-			closeConnectionSave(); 
+			closeConnectionPreparedStatement(); 
 		} 
 		return actor;
 	}
-	
+
 	public Director saveDirector(Director director)
 	{
 		openConnection();
@@ -348,7 +297,7 @@ public class SQLMovieSave extends SQL{
 		}
 		finally
 		{  
-			closeConnectionSave(); 
+			closeConnectionPreparedStatement(); 
 		} 
 		return director;
 	}

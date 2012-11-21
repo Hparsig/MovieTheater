@@ -42,7 +42,7 @@ public class SQLCustomerSave extends SQL {
        }
        finally
        {  
-    	   closeConnectionSave();      
+    	   closeConnectionPreparedStatement();      
        } 
 	}  
 	
@@ -71,7 +71,7 @@ public class SQLCustomerSave extends SQL {
 		}
 		finally
 		{
-    	   closeConnectionSave();
+    	   closeConnectionPreparedStatement();
 		}
 	}
 	
@@ -96,7 +96,7 @@ public class SQLCustomerSave extends SQL {
 		finally
 		{   
 
-			closeConnectionSave();      
+			closeConnectionPreparedStatement();      
 		} 
 	}  
 }

@@ -46,6 +46,11 @@ public class ShowController {
 		{
 			e.printStackTrace();
 		}
+		if (createShow.areChangesMade())
+		{
+			createShow();
+		}		
+		createShow.dispose();
 	}
 	/**
 	 * @author Jesper
@@ -154,6 +159,12 @@ public class ShowController {
 			e.printStackTrace();
 		}
 		return shows;
+	}
+	public void createShow() {
+		// TODO Auto-generated method stub
+		createShow.getShow();
+		showSave.createShow(show);
+		
 	}
 	
 		

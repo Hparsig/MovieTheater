@@ -24,8 +24,8 @@ public class SQLShowSave extends SQL {
 			preparedStatement = connection.prepareStatement(createShow);
 			
 			preparedStatement.setInt(1, show.getHallBooking().getHalleNo());
-			preparedStatement.setTimestamp(2, show.getHallBooking().getTimeStart());
-			preparedStatement.setTimestamp(3, show.getHallBooking().getTimeEnd());
+			preparedStatement.setString(2, show.getHallBooking().getTimeStart());
+			preparedStatement.setString(3, show.getHallBooking().getTimeEnd());
 			preparedStatement.setInt(4, show.getMovie().getMovieID());
 			preparedStatement.setDouble(5, show.getPriceCategory());
 			
@@ -34,7 +34,7 @@ public class SQLShowSave extends SQL {
 		 	   System.out.println("fejl i save af forestilling");
 		 	   e.printStackTrace();
 		}finally{
-			closeConnectionSave();
+			closeConnectionPreparedStatement();
 		}
 	}
 }

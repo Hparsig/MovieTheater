@@ -57,6 +57,15 @@ public class Show {
 	
 	public String toString()
 	{
-		return "Film: "+movie.getMovieName()+", Start tid: "+ hallBooking.getTimeStart().toLocaleString()+", Sal: "+hallBooking.getHalleNo();
+		return "Film: "+movie.getTitle()+", Start tid: "+ hallBooking.getTimeStart()+", Sal: "+hallBooking.getHalleNo();
+	}
+	public void setMovie(Movie movie) {
+		this.movie = movie;
+	}
+	public void setHallBooking(HallBooking hallBooking) {
+		this.hallBooking = hallBooking;
+	}
+	public void setPrice(double price) {
+		this.priceCategory = price;
 	}
 }

@@ -16,7 +16,11 @@ import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLMovieLoad;
 import movieTheater.SQL.SQLMovieSave;
 
-
+/**
+ * 
+ * @author Henrik
+ *
+ */
 public class MovieController 
 {
 	private SQLMovieLoad load;
@@ -31,6 +35,9 @@ public class MovieController
 	public static ArrayList<Genre> genres;
 	public static ArrayList<Genre> newGenres;
 
+	/**
+	 * 
+	 */
 	public MovieController()
 	{
 		load = new SQLMovieLoad();
@@ -40,7 +47,9 @@ public class MovieController
 		newGenres = new ArrayList<Genre>(); 
 		movies = new ArrayList<Movie>();
 	}
-
+	/**
+	 * Getting parameters from GUI, creates an Movie object and saves its data in the database. 
+	 */
 	public void setMovie()
 	{
 		movie = new Movie();
@@ -63,6 +72,9 @@ public class MovieController
 		createMovie.dispose();
 	}
 
+	/**
+	 * searches via GUI for the movie to edit. Gets new parameters via GUI, alter the Movie object and saves its data in the database. 
+	 */
 	public void EditMovie()
 	{
 		SearchMovie searchMovie = new SearchMovie(this);
@@ -96,6 +108,9 @@ public class MovieController
 		createMovie.dispose();
 	}
 
+	/**
+	 * 	 searches via GUI for the movie to delete. Ask whether the user i sure and then deletes the data in the database. 
+	 */
 	public void deleteMovie()
 	{
 		SearchMovie searchMovie = new SearchMovie(this);
@@ -109,14 +124,22 @@ public class MovieController
 			e.printStackTrace();
 		}
 		movie = searchMovie.getMovie();
-		int result = JOptionPane.showConfirmDialog((Component) null, "Er du sikker på du vil slette "+movie.getMovieName(),"Advarsel", JOptionPane.OK_CANCEL_OPTION);
-		
+		int result = JOptionPane.showConfirmDialog((Component) null, "Er du sikker på du vil slette "+movie.getTitle(),"Advarsel", JOptionPane.OK_CANCEL_OPTION);
+
 		if (result == 0)
 		{
 			save.deleteMovie(movie.getMovieID());
 		}
 	}
-	
+	/**
+	 * Searches for movies in the database that have some of the parameters attached. Movie objects are created accordingly and placed in an ArrayList 
+	 * @param title
+	 * @param orgTitle
+	 * @param actorFName
+	 * @param directorFName
+	 * @return ArrayList<Movie>
+	 * @throws SQLException
+	 */
 	public ArrayList<Movie> searchMovie(String title, String orgTitle, String actorFName, String directorFName)throws SQLException
 	{
 		movies.clear();
@@ -129,8 +152,8 @@ public class MovieController
 			e.getStackTrace();
 		}
 		return movies;
-
 	}
+
 	private void checkAndSaveMovie()
 	{
 
@@ -149,7 +172,7 @@ public class MovieController
 		//Checks whether movie Genre or Director are new, if so they are replaced with the saved ones, who has gotten an ID. 
 		for (Director currentDirector: newDirectors)
 		{
-			if (currentDirector.equals(movie.getInstructedBy()))
+			if (currentDirector.equals(movie.getDirector()))
 				movie.setDirector(currentDirector);
 		}
 		for (Genre currentGenre: newGenres)
@@ -157,14 +180,14 @@ public class MovieController
 			if (currentGenre.equals(movie.getGenre()))
 				movie.setGenre(currentGenre);
 		}
-		
+
 		if (movie.getMovieID() != 0)
 		{
 			save.updateMovie(movie);
 		}
 		else
 		{
-		movie = save.saveMovie(movie); // returns with a created movieID. 
+			movie = save.saveMovie(movie); // returns with a created movieID. 
 		}
 
 		for(Map.Entry<Actor, String> entry : movie.getCast().getCast().entrySet())
@@ -214,15 +237,14 @@ public class MovieController
 	}
 	private void loadAttributes()
 	{
-			actors = load.LoadActors();
-			directors = load.LoadDirector();
-			genres = load.LoadGenres();
+		actors = load.LoadActors();
+		directors = load.LoadDirector();
+		genres = load.LoadGenres();
 	}
-	
+
 	public void loadMovies()
 	{
-			movies = load.LoadMovie();
-
+		movies = load.LoadMovie();
 	}
 }
 

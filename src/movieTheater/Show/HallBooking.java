@@ -8,6 +8,8 @@ import java.util.HashMap;
 public class HallBooking {
 
 	private int hallNo;
+	private String start;
+	private String end;
 	private ArrayList<ArrayList<Seat>> seatBooking;
 	private Timestamp timeStart;
 	private Timestamp timeEnd;
@@ -20,17 +22,25 @@ public class HallBooking {
 		this.timeEnd = timeEnd;
 	}
 	
+	public HallBooking(int hallNo, String start, String end){
+		this.hallNo = hallNo;
+//		this.timeStart = timeStart;
+//		this.timeEnd = timeEnd;
+		this.start = start;
+		this.end = end;
+	}
+	
 	public int getHalleNo()
 	{
 		return hallNo;
 	}
-	public Timestamp getTimeStart()
+	public String getTimeStart()
 	{
-		return timeStart;
+		return start;
 	}
-	public Timestamp getTimeEnd()
+	public String getTimeEnd()
 	{
-		return timeEnd;
+		return end;
 	}
 	public ArrayList<ArrayList<Seat>> getSeats(){
 		return seatBooking;

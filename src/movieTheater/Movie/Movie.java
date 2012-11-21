@@ -48,14 +48,38 @@ public class Movie {
 		is3D = false;
 		cast = null;
 		ratings = null; 
-	
 	}
-
+	/**
+	 * this constructor is to be used when creating a new Movie. 
+	 * @param movieName
+	 * @param directedBy
+	 * @param length
+	 * @param genre
+	 * @param releaseDate
+	 * @param timeEnd
+	 * @param originalName
+	 * @param is3D
+	 * @param cast
+	 */
 	public Movie(String movieName, Director directedBy, int length, Genre genre, Date releaseDate, Date timeEnd,
 			String originalName, boolean is3D, Cast cast)
 	{
 		this(0, movieName, directedBy, length, genre, releaseDate, timeEnd, originalName, is3D, cast, null); //Kalder 2. konstruktør
 	}
+	/**
+	 * This constructor is to be used when loading Movies from the database. 
+	 * @param movieID
+	 * @param movieName
+	 * @param directedBy
+	 * @param length
+	 * @param genre
+	 * @param releaseDate
+	 * @param timeEnd
+	 * @param originalName
+	 * @param is3D
+	 * @param cast
+	 * @param ratings
+	 */
 	public Movie(int movieID,String movieName, Director directedBy, int length, Genre genre, Date releaseDate, Date timeEnd,
 			String originalName, boolean is3D, Cast cast, 
 			ArrayList<Rating> ratings)
@@ -79,11 +103,11 @@ public class Movie {
 	{
 		return movieID;
 	}
-	public String getMovieName()
+	public String getTitle()
 	{
 		return title;
 	}
-	public Director getInstructedBy()
+	public Director getDirector()
 	{
 		return director;
 	}
@@ -106,11 +130,11 @@ public class Movie {
 	{
 		return timeEnd;
 	}
-	public String getOriginalName()
+	public String getOriginalTitle()
 	{
 		return originalTitle;
 	}
-	public boolean getIsIn3D()
+	public boolean getIs3D()
 	{
 		return is3D;
 	}
@@ -125,7 +149,7 @@ public class Movie {
 	public Rating getRating(int userID)
 	{
 		Rating chosenRating = null;
-		
+
 		for (Rating currentRating: ratings)
 		{
 			if (userID == currentRating.getUserID())
@@ -213,10 +237,9 @@ public class Movie {
 	{
 		this.ratings = ratings;
 	}
-	
+
 	public String toString()
 	{
 		return (title + " - " + genre);
 	}
-	
 }

@@ -10,13 +10,15 @@ public class SQLLoadPostCode extends SQL {
 	private ArrayList<City> citys;
 	private static final String getAllCitys = "SELECT * FROM postcode";
 	
-	public SQLLoadPostCode() {
+	public SQLLoadPostCode() 
+	{
 		citys = new ArrayList<City>();
 		statement = null;
 		connection = null;
 	}
 	
-	public ArrayList<City> getCitys(){
+	public ArrayList<City> getCitys()
+	{
 		ResultSet resultSet = null;
 		openConnection();
 
@@ -32,7 +34,8 @@ public class SQLLoadPostCode extends SQL {
 		}
 		catch (Exception e)
 		{
-			System.out.println("fejl i load af post numre"); 			e.printStackTrace();
+			System.out.println("fejl i load af post numre"); 			
+			e.printStackTrace();
 		}
 		finally
 		{
