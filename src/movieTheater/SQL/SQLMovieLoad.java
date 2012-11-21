@@ -26,7 +26,6 @@ public class SQLMovieLoad extends SQL{
 	private static final String queryActor = "SELECT * FROM Actors ORDER BY lName ASC";
 	private static final String queryDirectorByID = "SELECT * FROM Directors where directID =";
 	private static final String queryDirector = "SELECT * FROM Directors ORDER BY lName ASC";
-	private static final String queryDirectorBylName = "SELECT * FROM Directors where lName LIKE '";
 	private static final String queryRatings = "SELECT * FROM Reviews where movieID =";
 	private static final String queryGenre = "SELECT * FROM Genres where genreID=";
 	private static final String queryAllGenre = "SELECT * FROM genres";
@@ -36,12 +35,12 @@ public class SQLMovieLoad extends SQL{
 	private static final String queryMoviesByOrgTitle = " AND orgTitel LIKE '%";
 	private static final String queryViewMovies = "SELECT * FROM movieWithNoShow";
 	private static final String queryByID = "SELECT * FROM Movies WHERE movieID=";
-//	private static final String queryMovieByDirectorsFName = " AND username LIKE '%";
-//	private static final String queryMoviesByeDirectorLName = " AND empNo =";
+	//	private static final String queryMovieByDirectorsFName = " AND username LIKE '%";
+	//	private static final String queryMoviesByeDirectorLName = " AND empNo =";
 
-/**
- * 	public SQLMovieLoad()
- */
+	/**
+	 * 	public SQLMovieLoad()
+	 */
 	{
 		dataFilmArray = new ArrayList<Movie>();
 		statement = null;
@@ -50,6 +49,7 @@ public class SQLMovieLoad extends SQL{
 
 	/**
 	 * Search movies using genre as parameter
+	 * @author Henrik
 	 * @param int genreID
 	 * @return ArrayList<Film> 
 	 * @throws SQLException
@@ -100,6 +100,12 @@ public class SQLMovieLoad extends SQL{
 		}
 		return dataFilmArray;
 	}
+	/**
+	 * loads a specifik movie, creates an Movie object and places this in an ArrayList. 
+	 * @author Henrik
+	 * @param movieID
+	 * @return ArrayList<Movie>
+	 */
 	public ArrayList<Movie> LoadMovieByID(int movieID)
 	{
 		ResultSet resultSet = null;
@@ -121,11 +127,16 @@ public class SQLMovieLoad extends SQL{
 		return dataFilmArray;
 	}
 
+	/**
+	 * Loads all movies in the database and creates Movie objects. 
+	 * @author Henrik
+	 * @return ArrayList<Movie>
+	 */
 	public ArrayList<Movie> LoadMovie()
 	{
 		ResultSet resultSet = null;
 		openConnection();
-		
+
 		try
 		{
 			resultSet = statement.executeQuery(queryAllMovies);
@@ -144,11 +155,11 @@ public class SQLMovieLoad extends SQL{
 	/**
 	 * 
 	 * @param resultSet
-	 * @return ArrayList<Film> dataFilmArray
+	 * @return ArrayList<Film> 
 	 */
 	public ArrayList<Movie> setMovie(ResultSet resultSet)
 	{
-		
+
 		dataFilmArray.clear();
 		HashMap<Actor, String> castHash = new HashMap<Actor, String>();
 		Cast cast;
@@ -192,7 +203,7 @@ public class SQLMovieLoad extends SQL{
 		return dataFilmArray;	
 	}
 	/**
-	 * 
+	 * Loads data concerning a specific director via directID and creates an Director object.  
 	 * @param directID
 	 * @return Director
 	 * @throws SQLException
@@ -228,6 +239,11 @@ public class SQLMovieLoad extends SQL{
 		}
 		return director;
 	}
+	/**
+	 * Loads all directors from the database, creates Director objects and places these in an ArrayList. 
+	 * @author Henrik
+	 * @return ArrayList<Director>
+	 */
 	public ArrayList<Director> LoadDirector()
 	{
 		ArrayList<Director> directors = new ArrayList<Director>();
@@ -260,42 +276,10 @@ public class SQLMovieLoad extends SQL{
 		}
 		return directors;
 	}
-
-	public ArrayList<Director> LoadDirector(String lName) 
-	{
-		ArrayList<Director> directors = new ArrayList<Director>();
-		ResultSet resultSet = null;
-		openConnection();
-
-		try
-		{
-			resultSet = statement.executeQuery(queryDirectorBylName+lName+"'");
-
-			while(resultSet.next())
-			{
-				String dirFirstName = resultSet.getString("fName") ;
-				String dirLastName = resultSet.getString("lName");
-				int dirGender = resultSet.getInt("gender");
-				String dirDescription = resultSet.getString("descript");
-
-				directors.add(new Director(dirFirstName, dirLastName, dirGender, dirDescription));
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.out.println("fejl i load director via lName"); 
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return directors;
-	}
 	/**
-	 * 
+	 * Loads data from database using genreID and creates an object of the type Genre. 
 	 * @param genreID
-	 * @return String genreName
+	 * @return Genre
 	 * @throws SQLException
 	 */
 	public Genre LoadGenre(int genreID)  
@@ -325,7 +309,11 @@ public class SQLMovieLoad extends SQL{
 		}
 		return genre;
 	}
-	
+	/**
+	 * Loads all genres in the database and creates objects accordingly. These are stored in an arraylist.
+	 * @author Henrik
+	 * @return ArrayList<Genre>
+	 */
 	public ArrayList<Genre> LoadGenres()
 	{
 		ArrayList<Genre> genres = new ArrayList<Genre>();
@@ -340,32 +328,6 @@ public class SQLMovieLoad extends SQL{
 				String genreName = resultSet.getString("genre");
 				int genreID = resultSet.getInt("genreID");
 				genres.add(new Genre(genreID,genreName));
-			}			
-		}
-		catch (Exception e)
-		{
-			System.out.println("Fejl i load af genre"); 
-			e.printStackTrace();
-		}
-		finally
-		{
-			closeConnectionLoad();
-		}
-		return genres;
-
-	}
-	public ArrayList<String> LoadGenresString() 
-	{
-		ArrayList<String> genres = new ArrayList<String>();
-		ResultSet resultSet = null;
-		openConnection();
-
-		try
-		{
-			resultSet = statement.executeQuery(queryAllGenre);
-			while (resultSet.next())
-			{
-				genres.add(resultSet.getString("genre"));
 			}			
 		}
 		catch (Exception e)
@@ -463,8 +425,8 @@ public class SQLMovieLoad extends SQL{
 		try
 		{
 			resultSet = statement.executeQuery(queryCast+filmID+queryCastTwo);
-			
-		
+
+
 			while (resultSet.next())
 			{
 				int actorID = resultSet.getInt("actorID");
@@ -510,7 +472,7 @@ public class SQLMovieLoad extends SQL{
 		}
 		return dataFilmArray;
 	}
-	
+
 	/**
 	 * Search movies using genre as parameter
 	 * @param int genreID

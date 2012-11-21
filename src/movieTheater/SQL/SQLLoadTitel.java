@@ -10,7 +10,8 @@ public class SQLLoadTitel extends SQL {
 	private ArrayList<Title> titel;
 	private static final String getAllTitels = "SELECT * FROM titel";
 	
-	public SQLLoadTitel() {
+	public SQLLoadTitel() 
+	{
 		titel = new ArrayList<Title>();
 		statement = null;
 		connection = null;

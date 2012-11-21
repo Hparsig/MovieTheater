@@ -65,7 +65,7 @@ public class SQLBookingSave extends SQL {
        }
        finally
        {  
-    	   closeConnectionSave();      
+    	   closeConnectionPreparedStatement();      
        } 
        return bookingID;
 	}  
@@ -100,7 +100,7 @@ public class SQLBookingSave extends SQL {
 		}
 		finally
 		{  
-			closeConnectionSave();      
+			closeConnectionPreparedStatement();      
 		}  
 	}
 	
@@ -140,7 +140,7 @@ public class SQLBookingSave extends SQL {
        }
        finally
        {  
-    	   closeConnectionSave();      
+    	   closeConnectionPreparedStatement();      
        } 
        createPayment(booking);
 	}  
@@ -171,7 +171,7 @@ public class SQLBookingSave extends SQL {
        }
        finally
        {  
-    	   closeConnectionSave();      
+    	   closeConnectionPreparedStatement();      
        } 
 	}  
 	

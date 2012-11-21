@@ -128,7 +128,7 @@ public class Booking {
 	
 	public String toString()
 	{
-		return "Film: "+show.getMovie().getMovieName()+", Dato: "+ show.getHallBooking().getTimeStart()+", Sal: "+show.getHallBooking().getHalleNo();
+		return "Film: "+show.getMovie().getTitle()+", Dato: "+ show.getHallBooking().getTimeStart()+", Sal: "+show.getHallBooking().getHalleNo();
 	}
 	
 }

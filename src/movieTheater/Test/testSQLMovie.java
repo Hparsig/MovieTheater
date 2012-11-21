@@ -96,8 +96,8 @@ public class testSQLMovie {
 
 		for(Movie currentFilm : movies)
 		{
-			System.out.println("\n" + currentFilm.getMovieName() + " " + currentFilm.getLength() + " " 
-					+ currentFilm.getInstructedBy().getFName() + " " + currentFilm.getInstructedBy().getLName() + " " +
+			System.out.println("\n" + currentFilm.getTitle() + " " + currentFilm.getLength() + " " 
+					+ currentFilm.getDirector().getFName() + " " + currentFilm.getDirector().getLName() + " " +
 					currentFilm.getReleaseDate());
 
 			System.out.println();

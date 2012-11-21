@@ -1,5 +1,9 @@
 package movieTheater.Movie;
-
+/**
+ * 
+ * @author Henrik
+ *
+ */
 public abstract class MoviePerson {
 
 	protected String fName;
@@ -47,8 +51,8 @@ public abstract class MoviePerson {
 	{
 		this.fName = description;
 	}
-	
-	public String toString(){
+	public String toString()
+	{
 		return fName+" "+lName;
 	}
 }

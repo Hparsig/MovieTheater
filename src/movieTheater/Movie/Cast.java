@@ -2,21 +2,28 @@ package movieTheater.Movie;
 
 import java.util.ArrayList;
 import java.util.Map;
-
+/**
+ * 
+ * @author Henrik
+ *
+ */
 public class Cast {
 
-
 	private Map<Actor, String> cast;
-	
+	/**
+	 * 
+	 * @param Map<Actor, String> cast
+	 */
 	public Cast(Map<Actor, String> cast)
 	{
 		this.cast = cast;
 	}
+
 	public Map<Actor, String> getCast()
 	{
 		return cast;
 	}
-	
+
 	public ArrayList<String> getActorNames()
 	{
 		ArrayList<String> castString = new ArrayList<String>();
@@ -25,10 +32,9 @@ public class Cast {
 		{
 			String name = (entry.getKey().getFName() + " " + entry.getKey().getLName() + " ");
 			String role = entry.getValue();
-			
+
 			castString.add("\n" + role+ ":" + name);
 		}
 		return castString;
 	}
-	
 }

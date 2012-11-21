@@ -6,38 +6,54 @@ import movieTheater.Persons.Admin;
 import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
 import movieTheater.Show.Show;
-
+/**
+ * Main controller orchestring the entire system. 
+ * @author Outline by Henrik
+ *
+ */
 public class MainController
 {
-	private ShowController showController;
-	private MovieController movieController;
+	private CostumerController costumerController;
+	private EmployeeController employeeController;
 	private LoginController loginController;
+	private MovieController movieController;
+	private ShowController showController;
 	private int userChoice;
 	public static Employee loggedOn;
 	private boolean menuOn;
 	private boolean programOn;
 	private boolean isAdmin;
 
-
+	/**
+	 * 
+	 */
 	public MainController()
 	{
 		loginController = new LoginController();
 		menuOn = true;
 		programOn = true;
 	}
-
+	/**
+	 * @author Henrik
+	 * The method called from main.
+	 * Starts an login session. 
+	 * If acces is granted the main menu turn on.  
+	 */
 	public void run()
 	{
-		while (programOn)
+		while (programOn)		// the program is on as long as the dosn't close the login window. 
 		{
 			loggedOn = loginController.employeeLogin();
 			isAdmin = (loggedOn instanceof Admin);
-			runMenu();
+			runMainMenu();
 		}
 	}
-	public void runMenu()
+	/**
+	 * @author outline by Henrik
+	 */
+	public void runMainMenu()
 	{
-		while (menuOn)
+		while (menuOn)			// the menu is on, as long as the user dosn't log out. 
 		{
 			MainWindow mainWindow = new MainWindow();
 			mainWindow.runMainWindow(); 
@@ -49,17 +65,16 @@ public class MainController
 			} 
 			catch (InterruptedException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			userChoice = mainWindow.getChoise();
+			userChoice = mainWindow.getChoise();		// the int userChoise comes from the mainWindow. 
 			mainWindow.dispose();
 
 
 			switch(userChoice)
 			{
-			case MainWindow.NEWORDER:
+			case MainWindow.NEWORDER:					// int = 1
 			{
 				NewOrderAreYouCostumer areYouCostumer = new NewOrderAreYouCostumer();
 				areYouCostumer.setVisible(true);
@@ -69,19 +84,18 @@ public class MainController
 				} 
 				catch (InterruptedException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				int choise = areYouCostumer.getChoise();
 				areYouCostumer.dispose();
-				
+
 				if(choise!=-1)//-1 = cancel 
 				{
 					if(choise==1)//the costumer is a member
 					{
 						CostumerController cosController = new CostumerController();
 						Costumer costumer = cosController.showSearchCostumer();
-					
+
 						if(costumer!=null) //if costumer==null, the user has cancelled the order
 						{
 							ShowController showController = new ShowController();
@@ -93,7 +107,7 @@ public class MainController
 							}
 						}
 					}
-					else //the costumer is not af member
+					else //the costumer is not a member
 					{
 						ShowController showController = new ShowController();
 						Show show = showController.showSearchShow();
@@ -109,8 +123,8 @@ public class MainController
 			}
 			case MainWindow.GETORDER:
 			{
-				CostumerController cosController = new CostumerController();
-				Costumer costumer = cosController.showSearchCostumer();
+				costumerController = new CostumerController();
+				Costumer costumer = costumerController.showSearchCostumer();
 				if(costumer!=null)
 				{
 					BookingController bookingCon = new BookingController();
@@ -120,45 +134,45 @@ public class MainController
 			}
 			case MainWindow.CREATECOSTUMER:
 			{
-				CostumerController cosController = new CostumerController();
-				cosController.setCostumer(null);
+				costumerController = new CostumerController();
+				costumerController.setCostumer(null);
 				break;
 			}
 			case MainWindow.EDITCOSTUMER:
 			{
-				CostumerController cosController = new CostumerController();
-				Costumer costumer = cosController.showSearchCostumer();
+				costumerController = new CostumerController();
+				Costumer costumer = costumerController.showSearchCostumer();
 				if(costumer!=null)
 				{
-					cosController.setCostumer(costumer);
+					costumerController.setCostumer(costumer);
 				}
 				break;
 			}
 			case MainWindow.DELETECOSTUMER:
 			{
-				CostumerController cosController = new CostumerController();
-				Costumer costumer = cosController.showSearchCostumer();
+				costumerController = new CostumerController();
+				Costumer costumer = costumerController.showSearchCostumer();
 				if(costumer!=null)
 				{
-					cosController.deleteCostumer(costumer);
+					costumerController.deleteCostumer(costumer);
 				}
 				break;
 			}
 			case MainWindow.CREATEEMPLOYEE:
 			{	
-				EmployeeController employeeController = new EmployeeController();
+				employeeController = new EmployeeController();
 				employeeController.setEmployee(false);
 				break;
 			}
 			case MainWindow.EDITEMPLOYEE:
 			{
-				EmployeeController employeeController = new EmployeeController();
+				employeeController = new EmployeeController();
 				employeeController.editEmployee(false);
 				break;
 			}
 			case MainWindow.DELETEEMPLOYEE:
 			{
-				EmployeeController employeeController = new EmployeeController();
+				employeeController = new EmployeeController();
 				employeeController.deleteEmployee(false);
 				break;
 			}
@@ -182,7 +196,6 @@ public class MainController
 			}
 			case MainWindow.CREATESHOW:
 			{
-				
 				movieController = new MovieController();
 				movieController.loadMovies();
 				showController = new ShowController();
@@ -191,12 +204,10 @@ public class MainController
 			}
 			case MainWindow.EDITSHOW:
 			{
-				System.out.println("Rediger forestilling");
 				break;
 			}
 			case MainWindow.DELETESHOW:
 			{
-				System.out.println("Slet forestilling");
 				break;
 			}
 			case MainWindow.LOGOFF:
@@ -208,19 +219,19 @@ public class MainController
 			}
 			case MainWindow.CREATEMANAGER:
 			{
-				EmployeeController employeeController = new EmployeeController();
+				employeeController = new EmployeeController();
 				employeeController.setEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.EDITMANAGER:
 			{
-				EmployeeController employeeController = new EmployeeController();
+				employeeController = new EmployeeController();
 				employeeController.editEmployee(isAdmin);
 				break;
 			}
 			case MainWindow.DELETEMANAGER:
 			{
-				EmployeeController employeeController = new EmployeeController();
+				employeeController = new EmployeeController();
 				employeeController.deleteEmployee(isAdmin);
 				break;
 			}

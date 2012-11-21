@@ -83,7 +83,7 @@ public class CreateMovie extends JFrame {
 	{
 		this.movie = movie;
 		
-		if(movie.getInstructedBy() == null)
+		if(movie.getDirector() == null)
 		{	
 			setTitle("Opret film");
 		}
@@ -94,7 +94,7 @@ public class CreateMovie extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		areChangesMade = false;
 
-		if(movie.getInstructedBy() != null)
+		if(movie.getDirector() != null)
 		{	
 			castMap = (HashMap<Actor, String>) movie.getCast().getCast();
 		}
@@ -128,13 +128,13 @@ public class CreateMovie extends JFrame {
 		tfTitel = new JTextField();
 		tfTitel.setBounds(112, 53, 142, 20);
 		panel.add(tfTitel);
-		tfTitel.setText(movie.getMovieName());
+		tfTitel.setText(movie.getTitle());
 		tfTitel.setColumns(10);
 
 		tfOriginalTitel = new JTextField();
 		tfOriginalTitel.setColumns(10);
 		tfOriginalTitel.setBounds(112, 84, 142, 20);
-		tfOriginalTitel.setText(movie.getOriginalName());
+		tfOriginalTitel.setText(movie.getOriginalTitle());
 		panel.add(tfOriginalTitel);
 
 		lblTitel = new JLabel("Titel");
@@ -244,7 +244,7 @@ public class CreateMovie extends JFrame {
 		panel.add(btnAbort);
 
 
-		if(movie.getInstructedBy() == null)
+		if(movie.getDirector() == null)
 		{	
 			btnCreateMovie = new JButton("Opret film");
 		}
@@ -298,7 +298,7 @@ public class CreateMovie extends JFrame {
 		btnCreateMovie.setBounds(579, 236, 100, 23);
 		panel.add(btnCreateMovie);
 
-		if(movie.getInstructedBy() == null)
+		if(movie.getDirector() == null)
 		{	
 			lblOpretFilm = new JLabel("Opret film");
 		}
@@ -345,7 +345,7 @@ public class CreateMovie extends JFrame {
 
 		comboBoxDirectors = new JComboBox<Director>((Director[]) MovieController.directors.toArray());
 		comboBoxDirectors.setBounds(112, 116, 142, 20);
-		comboBoxDirectors.setSelectedItem(movie.getInstructedBy());
+		comboBoxDirectors.setSelectedItem(movie.getDirector());
 		panel.add(comboBoxDirectors);
 
 		comboBoxActors = new JComboBox<Actor>((Actor[]) MovieController.actors.toArray());

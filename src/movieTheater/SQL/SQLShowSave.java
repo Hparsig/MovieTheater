@@ -34,7 +34,7 @@ public class SQLShowSave extends SQL {
 		 	   System.out.println("fejl i save af forestilling");
 		 	   e.printStackTrace();
 		}finally{
-			closeConnectionSave();
+			closeConnectionPreparedStatement();
 		}
 	}
 }

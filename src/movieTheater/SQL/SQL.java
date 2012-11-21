@@ -24,7 +24,7 @@ public abstract class SQL {
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("fejl i openConnection"); //boundary TODO fix
+			System.out.println("fejl i openConnection"); 
 		}
 	}
 	//*********************************************************************************************
@@ -39,10 +39,10 @@ public abstract class SQL {
 		}
 		catch (SQLException e)
 		{
-			System.out.println("fejl i closeConnection");//TODO håndter catch
+			System.out.println("fejl i closeConnection");
 		}
 	}
-	protected void closeConnectionSave()
+	protected void closeConnectionPreparedStatement()
 	{
 		try
 		{
@@ -52,7 +52,7 @@ public abstract class SQL {
 		}
 		catch (SQLException e)
 		{
-			System.out.println("fejl i closeConnection");//TODO håndter catch
+			System.out.println("fejl i closeConnection");
 		}
 	}
 }

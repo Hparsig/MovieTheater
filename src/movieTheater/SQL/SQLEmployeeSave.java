@@ -66,7 +66,7 @@ public class SQLEmployeeSave extends SQL {
 		finally
 		{  
 
-			closeConnectionSave(); 
+			closeConnectionPreparedStatement(); 
 			
 		} 
 	}  
@@ -117,7 +117,7 @@ public class SQLEmployeeSave extends SQL {
 		finally
 		{  
 
-			closeConnectionSave(); 
+			closeConnectionPreparedStatement(); 
 			
 		} 
 	}  
