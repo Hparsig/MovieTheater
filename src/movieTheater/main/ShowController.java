@@ -1,6 +1,8 @@
 package movieTheater.main;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import movieTheater.GUI.CreateShow;
@@ -16,6 +18,7 @@ public class ShowController {
 	private SQLShowSave showSave;
 	private Show show;
 	private CreateShow createShow;
+	private SimpleDateFormat dateFormat;
 	
 
 	public ShowController()
@@ -59,18 +62,26 @@ public class ShowController {
 			//Get the date and title from the GUI
 			String title = searchShow.getTitel();
 			Date date = searchShow.getSqlDate();
+			System.out.println("clear: "+ date +"   "+ date.getTime());
+			
+
+
+
+			long millisInDay = 60 * 60 * 24 * 1000;
+			long currentTime = new java.util.Date().getTime();
+			long dateOnly = (currentTime / millisInDay) * millisInDay;
+					
+
+
 			java.util.Date date1= new java.util.Date();
 			Date dateNow = new Date(date1.getTime());
-			boolean dateOk = true;
+	
 			
-			//check the date
-			if(date!=null)
-			{
-				if(date.before(dateNow))	
-				{
-					dateOk = false;
-				}
-			}
+			System.out.println(dateNow.getTime());
+			System.out.println((date.getTime()-dateNow.getTime()));
+			System.out.println(date);
+			System.out.println(dateNow);
+			boolean dateOk = true;
 			
 			if(dateOk==false)
 			{
