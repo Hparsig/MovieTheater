@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import movieTheater.GUI.CreateShow;
 import movieTheater.GUI.SearchShow;
@@ -67,26 +68,29 @@ public class ShowController {
 			//Get the date and title from the GUI
 			String title = searchShow.getTitel();
 			Date date = searchShow.getSqlDate();
-			System.out.println("clear: "+ date +"   "+ date.getTime());
 			
-
-
-
-			long millisInDay = 60 * 60 * 24 * 1000;
-			long currentTime = new java.util.Date().getTime();
-			long dateOnly = (currentTime / millisInDay) * millisInDay;
-					
-
-
-			java.util.Date date1= new java.util.Date();
-			Date dateNow = new Date(date1.getTime());
-	
-			
-			System.out.println(dateNow.getTime());
-			System.out.println((date.getTime()-dateNow.getTime()));
-			System.out.println(date);
-			System.out.println(dateNow);
 			boolean dateOk = true;
+			
+			if(date!=null)
+			{
+				//convert the date
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+
+				//creates the date today
+				Calendar currentcal = Calendar.getInstance();
+				currentcal.set(Calendar.HOUR, 0);
+				currentcal.set(Calendar.MINUTE, 0);
+				currentcal.set(Calendar.SECOND, 0);
+				currentcal.set(Calendar.MILLISECOND, 0);
+
+
+
+				if(cal.before(currentcal))
+				{
+					dateOk = false;
+				} 
+			}
 			
 			if(dateOk==false)
 			{
@@ -98,9 +102,16 @@ public class ShowController {
 				getShows(title,date);
 			}
 		
-			//writes the shows to the screen
-			for(int i=0; i < shows.size(); i++){
-				searchShow.addShowList(shows.get(i).toString());
+			if(shows.size()==0)
+			{
+				searchShow.addShowList("Ingen shows opfylder kriterierne");
+			}
+			else
+			{
+				//writes the shows to the screen
+				for(int i=0; i < shows.size(); i++){
+					searchShow.addShowList(shows.get(i).toString());
+				}
 			}
 		}		
 		try

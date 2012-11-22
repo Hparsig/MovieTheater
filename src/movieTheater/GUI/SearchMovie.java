@@ -134,6 +134,13 @@ public class SearchMovie extends JFrame
 		panel.add(btnSearch);
 
 		JButton btnAbort = new JButton("Tilbage");
+		btnAbort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				latch.countDown();
+				movie = null;
+				SearchMovie.this.dispose();
+			}
+		});
 		btnAbort.setBounds(0, 268, 97, 25);
 		panel.add(btnAbort);
 

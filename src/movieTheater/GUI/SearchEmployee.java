@@ -25,7 +25,7 @@ public class SearchEmployee extends JFrame {
 	private JTextField textEfternavn;
 	private JTextField textBrugernavn;
 	private JTextField textMedarbejderNr;
-	private int choosen;
+	private int choosen=-1;
 	private String fName;
 	private String lName;
 	private String userName;
@@ -112,7 +112,7 @@ public class SearchEmployee extends JFrame {
 					empNo =  textMedarbejderNr.getText();
 					
 					latchSearch.countDown();
-//					ok();
+
 				}
 				catch(Exception e)
 				{
@@ -127,8 +127,9 @@ public class SearchEmployee extends JFrame {
 		JButton btnTilbage = new JButton("Tilbage");
 		btnTilbage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				latchChoose.countDown();
 				latchSearch.countDown();
-				SearchEmployee.this.dispose();
+				
 			}
 		});
 		btnTilbage.setBounds(0, 268, 97, 25);

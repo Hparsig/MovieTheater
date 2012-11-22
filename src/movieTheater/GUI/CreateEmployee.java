@@ -61,11 +61,11 @@ public class CreateEmployee extends JFrame {
 		try
 		{
 			maskFormatPhone = new MaskFormatter("########");
-//			maskFormatLength = new MaskFormatter("###");
+
 		} 
 		catch (ParseException e1)
 		{
-			// TODO Auto-generated catch block
+		
 			e1.printStackTrace();
 		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -203,7 +203,7 @@ public class CreateEmployee extends JFrame {
 		else
 		{
 			JLabel lblSalesPerson = new JLabel("Kassemedarbejder");
-			lblSalesPerson.setBounds(91, 200, 56, 16);
+			lblSalesPerson.setBounds(91, 200, 116, 16);
 			panel.add(lblSalesPerson);
 			titleID = 2;
 		}

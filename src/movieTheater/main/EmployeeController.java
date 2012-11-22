@@ -80,21 +80,28 @@ public class EmployeeController {
 	public void editEmployee(boolean isAdmin)
 	{
 		searchEmployees(isAdmin);
-		showEditEmployee(isAdmin);
-		if (createEmployee.areChangesMade())
+		if(person!=null)
 		{
-			saveEmployee(person);
+			showEditEmployee(isAdmin);
+		
+			if (createEmployee.areChangesMade())
+			{
+				saveEmployee(person);
+			}
 		}
 	}
 	
 	public void deleteEmployee(boolean isAdmin)
 	{
 		searchEmployees(isAdmin);
-		int choose = searchEmployee.delete(person.getfName() + " " + person.getlName());
-		
-		if(choose == 0 && person instanceof Employee)
+		if(person!=null)
 		{
-				save.deleteEmployee(((Employee)person).getEmployeeNo());	
+			int choose = searchEmployee.delete(person.getfName() + " " + person.getlName());
+		
+			if(choose == 0 && person instanceof Employee)
+			{
+				save.deleteEmployee(person.getEmployeeNo());	
+			}
 		}
 	}
 	/**
@@ -130,18 +137,9 @@ public class EmployeeController {
 		}
 		catch(java.lang.NumberFormatException e)
 		{
-			try
-			{
 				persons = load.LoadEmployee(fName, lName, username, isAdmin);
-			}
-			catch(Exception e1)
-			{
+		}
 
-			}
-		}
-		catch(Exception e)
-		{	
-		}
 		try
 		{
 			for (Employee person : persons)
@@ -154,7 +152,14 @@ public class EmployeeController {
 		{
 			e.printStackTrace();
 		}	
-		person = persons.get(searchEmployee.getChoosen());
+		if(searchEmployee.getChoosen()!=-1)
+		{	
+			person = persons.get(searchEmployee.getChoosen());
+		}
+		else
+		{
+			person = null;
+		}
 		searchEmployee.dispose();
 	}
 

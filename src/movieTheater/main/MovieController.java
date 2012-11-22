@@ -88,24 +88,26 @@ public class MovieController
 			e.printStackTrace();
 		}
 		movie = searchMovie.getMovie();
-		loadAttributes();
-		createMovie = new CreateMovie(movie);
-		createMovie.setVisible(true);
-		searchMovie.dispose();
-
-		try
+		if(movie!=null)
 		{
-			createMovie.latch.await();
-		} 
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
+			loadAttributes();
+			createMovie = new CreateMovie(movie);
+			createMovie.setVisible(true);
+			try
+			{
+				createMovie.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			if (createMovie.areChangesMade())
+			{
+				checkAndSaveMovie();
+			}
+			createMovie.dispose();
 		}
-		if (createMovie.areChangesMade())
-		{
-			checkAndSaveMovie();
-		}
-		createMovie.dispose();
+		
 	}
 
 	/**
@@ -123,12 +125,16 @@ public class MovieController
 		{
 			e.printStackTrace();
 		}
+		
 		movie = searchMovie.getMovie();
-		int result = JOptionPane.showConfirmDialog((Component) null, "Er du sikker på du vil slette "+movie.getTitle(),"Advarsel", JOptionPane.OK_CANCEL_OPTION);
-
-		if (result == 0)
+		if(movie!=null)
 		{
-			save.deleteMovie(movie.getMovieID());
+			int result = JOptionPane.showConfirmDialog((Component) null, "Er du sikker på du vil slette "+movie.getTitle(),"Advarsel", JOptionPane.OK_CANCEL_OPTION);
+
+			if (result == 0)
+			{
+				save.deleteMovie(movie.getMovieID());
+			}
 		}
 	}
 	/**
