@@ -88,7 +88,7 @@ public class BookingController
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		int close = avaliableSeats.getClose();
@@ -126,7 +126,6 @@ public class BookingController
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -171,32 +170,38 @@ public class BookingController
 			}
 
 			String payM = checkoutWindow.getAmount();
-			try
+			double received = 0;
+			if(checkoutWindow.getCancel()!=-1)
 			{
-				double received = Double.parseDouble(payM);
-				change  = received-amount;
-
-				if(change<0)
+				try
 				{
-					checkoutWindow.showAmountError();
+					received = Double.parseDouble(payM);
 				}
-				else
+				catch(Exception e)
 				{
-					checkoutWindow.setChange(change);
-
-					Payment payment = new Payment(amount,paymentMethod);
-					currentBooking.setSeatsPayed();
-					currentBooking.pickedUp();
-					currentBooking.setPayed(payment);
-					saveBooking.updateBooking(currentBooking);
-					checkoutWindow.setAmountok();
+					checkoutWindow.showError();
 				}
 			}
-			catch(Exception e)
+			change  = received-amount;
+
+			if(change<0 && checkoutWindow.getCancel()!=-1)
 			{
-				checkoutWindow.showError();
+				checkoutWindow.showAmountError();
 			}
+			else
+			{
+				checkoutWindow.setChange(change);
+
+				Payment payment = new Payment(amount,paymentMethod);
+				currentBooking.setSeatsPayed();
+				currentBooking.pickedUp();
+				currentBooking.setPayed(payment);
+				saveBooking.updateBooking(currentBooking);
+				checkoutWindow.setAmountok();
+			}
+			
 		}
+		
 		try
 		{
 			checkoutWindow.latch.await();
@@ -243,7 +248,6 @@ public class BookingController
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//get the selected item and close the window

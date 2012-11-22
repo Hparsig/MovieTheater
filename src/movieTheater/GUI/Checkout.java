@@ -26,8 +26,8 @@ public class Checkout extends JFrame {
 	private String amount;
 	private int cancel = 0;
 	private boolean amountOk = false;
-	public final CountDownLatch amountReturn = new CountDownLatch(1); //venter på brugerens input.
-	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input.
+	public CountDownLatch amountReturn = new CountDownLatch(1); //venter på brugerens input.
+	public CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input.
 	
 	
 	public Checkout() {
@@ -77,6 +77,7 @@ public class Checkout extends JFrame {
 				if(btnAnnuler.getText().equals("Annuler"))
 				{
 					cancel = -1;
+					amountOk = true;
 				}
 			}
 		});
@@ -108,13 +109,13 @@ public class Checkout extends JFrame {
 	public void showAmountError()
 	{
 		JOptionPane.showMessageDialog(new JFrame(), "Beløb er for småt");
-		
-		
+		amountReturn = new CountDownLatch(1); 
 	}
 	
 	public void showError()
 	{
 		JOptionPane.showMessageDialog(new JFrame(), "Beløb er ugyldigt format"); 
+		latch = new CountDownLatch(1);
 	}
 
 }
