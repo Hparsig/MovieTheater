@@ -338,17 +338,17 @@ public class CreateMovie extends JFrame {
 			panel_2.repaint();
 		}
 
-		comboBoxGenres = new JComboBox<Genre>((Genre[]) MovieController.genres.toArray());
+		comboBoxGenres = new JComboBox(MovieController.genres.toArray());
 		comboBoxGenres.setBounds(112, 209, 142, 20);
 		comboBoxGenres.setSelectedItem(movie.getGenre());
 		panel.add(comboBoxGenres);
 
-		comboBoxDirectors = new JComboBox<Director>((Director[]) MovieController.directors.toArray());
+		comboBoxDirectors = new JComboBox(MovieController.directors.toArray());
 		comboBoxDirectors.setBounds(112, 116, 142, 20);
 		comboBoxDirectors.setSelectedItem(movie.getDirector());
 		panel.add(comboBoxDirectors);
 
-		comboBoxActors = new JComboBox<Actor>((Actor[]) MovieController.actors.toArray());
+		comboBoxActors = new JComboBox(MovieController.actors.toArray());
 		comboBoxActors.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 

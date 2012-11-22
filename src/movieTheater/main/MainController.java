@@ -103,7 +103,7 @@ public class MainController
 							if(show!=null)
 							{
 								BookingController bookingCon = new BookingController();
-								bookingCon.showNewBookings(show,costumer);
+								bookingCon.newBooking(show,costumer);
 							}
 						}
 					}
@@ -114,7 +114,7 @@ public class MainController
 						if(show!=null)
 						{
 							BookingController bookingCon = new BookingController();
-							bookingCon.showNewBookings(show,null);
+							bookingCon.newBooking(show,null);
 						}
 					}
 				}

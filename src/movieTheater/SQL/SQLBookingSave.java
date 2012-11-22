@@ -175,7 +175,7 @@ public class SQLBookingSave extends SQL {
        } 
 	}  
 	
-	public void delteBooking(Booking booking) {
+	public void deleteBooking(Booking booking) {
 
 		openConnection();
 		int bookID = booking.getBookingNo();
