@@ -57,7 +57,7 @@ public class ShowController {
 	 * @param SearchShow searchShow
 	 * show the window searchShow
 	 */
-	public Show showSearchShow()
+	public Show searchShow()
 	{
 		SearchShow searchShow = new SearchShow();
 		searchShow.setVisible(true);
@@ -135,12 +135,12 @@ public class ShowController {
 	 * @param Date date - date of the show
 	 * @return void  
 	 */
-	public void getShows(String titel, Date date)
+	private void getShows(String titel, Date date)
 	{
 		shows.clear();
 		try
 		{
-			shows = showLoad.loadShowsByDateAndTitle(date, titel);			
+			shows = showLoad.loadShows(date, titel);			
 		}
 		catch(Exception e)
 		{

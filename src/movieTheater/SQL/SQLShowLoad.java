@@ -142,7 +142,7 @@ public class SQLShowLoad extends SQL{
 	 * @return ArrayList<Show> 
 	 * @throws SQLException
 	 */
-	public ArrayList<Show> loadShowsByDateAndTitle(Date date, String title)
+	public ArrayList<Show> loadShows(Date date, String title)
 	{
 		ResultSet resultSet = null;
 		openConnection();

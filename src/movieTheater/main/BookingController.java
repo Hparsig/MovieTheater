@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import movieTheater.GUI.AvaliableSeats;
+import movieTheater.GUI.AvailableSeats;
 import movieTheater.GUI.LoadBookingW;
 import movieTheater.GUI.Pay;
 import movieTheater.Persons.Costumer;
@@ -39,17 +39,16 @@ public class BookingController
 	 */
 	public void showNewBookings(Show show, Costumer costumer)
 	{
-
+		currentBooking = new Booking(show,null,costumer,MainController.loggedOn,false);
 		//create new booking object
-		int bookingID = saveBooking.createNewBooking(new Booking(show,null,costumer,MainController.loggedOn,false)); 		
-		//load the new booking
-		currentBooking = loadBooking.getBooking(bookingID);
+		int bookingNo = saveBooking.createNewBooking(currentBooking); 		
+		currentBooking.setBookingNo(bookingNo);
 		
 		//Create the hashMap
 		av = show.getHallBooking().getAvailableSeats();
 		
 		//open the new window avaliable seats
-		AvaliableSeats avaliableSeats = new AvaliableSeats();
+		AvailableSeats avaliableSeats = new AvailableSeats();
 		avaliableSeats.setVisible(true);
 		
 		while(avaliableSeats.getClose()==0)
