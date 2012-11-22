@@ -23,6 +23,8 @@ public class BookingController
 	public static double amount;
 	private SQLBookingSave saveBooking;
 	private SQLBookingLoad loadBooking;
+	private AvailableSeats avaliableSeats;
+	private Show show;
 	
 	private Booking currentBooking;
 	
@@ -39,6 +41,7 @@ public class BookingController
 	 */
 	public void showNewBookings(Show show, Costumer costumer)
 	{
+		this.show = show;
 		currentBooking = new Booking(show,null,costumer,MainController.loggedOn,false);
 		//create new booking object
 		int bookingNo = saveBooking.createNewBooking(currentBooking); 		
@@ -48,7 +51,7 @@ public class BookingController
 		av = show.getHallBooking().getAvailableSeats();
 		
 		//open the new window avaliable seats
-		AvailableSeats avaliableSeats = new AvailableSeats();
+		avaliableSeats = new AvailableSeats();
 		avaliableSeats.setVisible(true);
 		
 		while(avaliableSeats.getClose()==0)
@@ -56,26 +59,14 @@ public class BookingController
 			int row = avaliableSeats.getRow()-1;
 			int seat = avaliableSeats.getSeat();
 			
-			int ok = -1; //-1 = seat and row combination doesent excist
+			boolean succes = false; //= seat and row combination doesent excist
 			
 			if(av.containsKey(row)) 
 			{
-				for(int i=0; i < av.get(row).size(); i++)
-				{
-					if(av.get(row).get(i).getSeatNo()==seat)
-					{
-						ok = 0; 
-						av.get(row).get(i).setReservation(); //sætter sædet til reserveret
-						bookings.put(av.get(row).get(i), row); //puttet i ordre mappet
-						avaliableSeats.addOrders(); //adder ordren til skærmen
-						saveBooking.saveSeatBookings(row, av.get(row).get(i), currentBooking); //gemmer bookingen til databasen
-						av = show.getHallBooking().getAvailableSeats(); //henter en ny lise med sæder
-						avaliableSeats.setSeat(); //udskriver den nye lise til skærmen
-					}
-				}
+				succes = putInMap(row, seat);
 			}
 			//Write error to the screen
-			if(ok!=0 && avaliableSeats.getClose()==0)
+			if(!succes && avaliableSeats.getClose()==0)
 			{
 				avaliableSeats.showError();
 			}
@@ -100,7 +91,7 @@ public class BookingController
 		}
 		else //the user cancel the booking
 		{
-			saveBooking.delteBooking(currentBooking);
+			saveBooking.deleteBooking(currentBooking);
 		}
 	}
 	
@@ -134,7 +125,7 @@ public class BookingController
 		{
 			case -1://cancel the booking and payment
 			{
-				saveBooking.delteBooking(currentBooking);
+				saveBooking.deleteBooking(currentBooking);
 				break;
 			}
 			case 0: //pay with cash
@@ -208,6 +199,24 @@ public class BookingController
 				//TODO udskrift af billet. 
 			}
 		}
+	}
+	private boolean putInMap(int row, int seat)
+	{
+		boolean succes = false;
+		for(int i=0; i < av.get(row).size(); i++)
+		{
+			if(av.get(row).get(i).getSeatNo()==seat)
+			{
+				succes = true; 
+				av.get(row).get(i).setReservation(); //sætter sædet til reserveret
+				bookings.put(av.get(row).get(i), row); //puttet i ordre mappet
+				avaliableSeats.addOrders(); //adder ordren til skærmen
+				saveBooking.saveSeatBookings(row, av.get(row).get(i), currentBooking); //gemmer bookingen til databasen
+				av = show.getHallBooking().getAvailableSeats(); //henter en ny lise med sæder
+				avaliableSeats.setSeat(); //udskriver den nye lise til skærmen
+			}
+		}
+		return succes;
 	}
 	
 }
