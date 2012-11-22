@@ -27,7 +27,7 @@ public class LoginEmployee extends JFrame {
 	private String username;
 	private String password;
 	private LoginController loginController;
-	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
+	public  CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 
 	/**
 	 * Create the frame.
@@ -65,26 +65,10 @@ public class LoginEmployee extends JFrame {
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				try
-//				{
+
 					username = usernameField.getText();
 					password = passwordField.getText();
 					latch.countDown();
-					//loginController.employeeLogin(password, username);
-					
-//				}
-//				catch(IndexOutOfBoundsException outOf){
-//					JOptionPane.showMessageDialog(new JFrame(), "Brugeren findes ikke");
-//				}
-//				catch(SQLException sql)
-//				{
-//					JOptionPane.showMessageDialog(new JFrame(), "Fejl i load til databasen, prøv venligst igen");  
-//				}	
-//				catch(Exception t)
-//				{
-//					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
-//				}		
-				
 			}
 		});
 		btnNewButton.setBounds(227, 94, 97, 25);
@@ -102,6 +86,10 @@ public class LoginEmployee extends JFrame {
 	public String getPassword()
 	{
 		return password;
+	}
+	public void setLatch()
+	{
+		latch = new CountDownLatch(1);
 	}
 	
 }

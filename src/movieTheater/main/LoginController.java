@@ -15,37 +15,49 @@ public class LoginController {
 		sqlLogin = new SQLLogin();
 	}
 
+/**
+ * @author Jesper
+ * @return Employee currentEmployee
+ * returns the user that logins
+ */
 	public Employee employeeLogin()
 	{
 		employee = null;
 		LoginEmployee login = new LoginEmployee();
 		login.setVisible(true);
-		try
+		boolean doUserExcist = false;
+		while(!doUserExcist)
 		{
-			login.latch.await();
-		} 
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}	
-		String username = login.getUsername();
-		String password = login.getPassword();
+			try
+			{
+				login.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}	
+			String username = login.getUsername();
+			String password = login.getPassword();
 
-		try 
-		{
-			employee = sqlLogin.checkEmployee(username, password);
+			try 
+			{
+				employee = sqlLogin.checkEmployee(username, password);
+				doUserExcist = true;
+			}
+			catch(IndexOutOfBoundsException outOf)
+			{
+				JOptionPane.showMessageDialog(new JFrame(), "Brugeren findes ikke");
+				login.setLatch();
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
+				login.setLatch();
+			}	
+			
 		}
-		catch(IndexOutOfBoundsException outOf)
-		{
-			JOptionPane.showMessageDialog(new JFrame(), "Brugeren findes ikke");
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
-		}		
-
-		System.out.println("logget ind");
-
+		login.dispose();
+		System.out.println(employee.getfName());
 		return employee;
 	}
 

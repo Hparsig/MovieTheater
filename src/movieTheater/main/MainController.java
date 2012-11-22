@@ -44,6 +44,7 @@ public class MainController
 		while (programOn)		// the program is on as long as the dosn't close the login window. 
 		{
 			loggedOn = loginController.employeeLogin();
+			System.out.println(loggedOn.getfName());
 			isAdmin = (loggedOn instanceof Admin);
 			runMainMenu();
 		}
