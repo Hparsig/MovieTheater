@@ -101,7 +101,7 @@ public class Pay extends JFrame {
 		btnStopBetaling.setBounds(10, 181, 119, 25);
 		panel.add(btnStopBetaling);
 	}
-	public int getPaymentMethode()
+	public int getPaymentMethod()
 	{
 		return paymentMethode;
 	}

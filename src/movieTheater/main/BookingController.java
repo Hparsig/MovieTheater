@@ -41,7 +41,7 @@ public class BookingController
 	 * @param show
 	 * show the window avaliableseats
 	 */
-	public void showNewBookings(Show show, Costumer costumer)
+	public void newBooking(Show show, Costumer costumer)
 	{
 		this.show = show;
 		currentBooking = new Booking(show,null,costumer,MainController.loggedOn,false);
@@ -119,9 +119,8 @@ public class BookingController
 		{
 			e.printStackTrace();
 		}
-		
-		
-		int paymentMethod = payWindow.getPaymentMethode();
+				
+		int paymentMethod = payWindow.getPaymentMethod();
 		switch(paymentMethod)
 		{
 			case -1://cancel the booking and payment
@@ -131,19 +130,19 @@ public class BookingController
 			}
 			case 0: //pay with cash
 			{
-				showCheckout(0);
+				checkout(0);
 				break;
 			}
 			case 1: //pay with creditcard
 			{
-				showCheckout(1);
+				checkout(1);
 				break;
 			}
 		}
 		payWindow.dispose();
 	}
 	
-	public void showCheckout(int paymentMethod)
+	public void checkout(int payMethod)
 	{
 		//open the checkout window
 		Checkout checkoutWindow  = new Checkout();
@@ -183,14 +182,13 @@ public class BookingController
 			{
 				checkoutWindow.setChange(change);
 
-				Payment payment = new Payment(amount,paymentMethod);
+				Payment payment = new Payment(amount,payMethod);
 				currentBooking.setSeatsPayed();
 				currentBooking.pickedUp();
 				currentBooking.setPayed(payment);
 				saveBooking.updateBooking(currentBooking);
 				checkoutWindow.setAmountok();
 			}
-			
 		}
 		
 		try
@@ -204,7 +202,7 @@ public class BookingController
 		
 		if(checkoutWindow.getCancel()==-1)
 		{
-			saveBooking.delteBooking(currentBooking);
+			saveBooking.deleteBooking(currentBooking);
 		}
 		checkoutWindow.dispose();
 	}
