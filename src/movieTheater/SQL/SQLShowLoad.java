@@ -211,6 +211,7 @@ public class SQLShowLoad extends SQL{
 			
 				seats.get(rowID).get(seatNr-1).setReservation();
 			}
+			
 			hallBooking = new HallBooking(hallNo,seats,sTime,eTime);
 						
 		}
