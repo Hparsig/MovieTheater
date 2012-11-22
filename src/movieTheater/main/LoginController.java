@@ -57,7 +57,6 @@ public class LoginController {
 			
 		}
 		login.dispose();
-		System.out.println(employee.getfName());
 		return employee;
 	}
 

@@ -30,7 +30,7 @@ public class MainController
 	public MainController()
 	{
 		loginController = new LoginController();
-		menuOn = true;
+		
 		programOn = true;
 	}
 	/**
@@ -44,8 +44,8 @@ public class MainController
 		while (programOn)		// the program is on as long as the dosn't close the login window. 
 		{
 			loggedOn = loginController.employeeLogin();
-			System.out.println(loggedOn.getfName());
 			isAdmin = (loggedOn instanceof Admin);
+			menuOn = true;
 			runMainMenu();
 		}
 	}
@@ -54,6 +54,7 @@ public class MainController
 	 */
 	public void runMainMenu()
 	{
+	
 		while (menuOn)			// the menu is on, as long as the user dosn't log out. 
 		{
 			MainWindow mainWindow = new MainWindow();
