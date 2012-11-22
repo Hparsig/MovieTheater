@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 
-public class NewOrderAreYouCostumer extends JFrame {
+public class CustomerCheck extends JFrame {
 
 	private JPanel contentPane;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input.
@@ -25,7 +25,7 @@ public class NewOrderAreYouCostumer extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public NewOrderAreYouCostumer() {
+	public CustomerCheck() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 176, 222);
 		contentPane = new JPanel();

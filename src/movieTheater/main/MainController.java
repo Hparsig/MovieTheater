@@ -1,7 +1,7 @@
 package movieTheater.main;
 
 import movieTheater.GUI.MainWindow;
-import movieTheater.GUI.NewOrderAreYouCostumer;
+import movieTheater.GUI.CustomerCheck;
 import movieTheater.Persons.Admin;
 import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
@@ -76,18 +76,18 @@ public class MainController
 			{
 			case MainWindow.NEWORDER:					// int = 1
 			{
-				NewOrderAreYouCostumer areYouCostumer = new NewOrderAreYouCostumer();
-				areYouCostumer.setVisible(true);
+				CustomerCheck customerCheck = new CustomerCheck();
+				customerCheck.setVisible(true);
 				try
 				{
-					areYouCostumer.latch.await();
+					customerCheck.latch.await();
 				} 
 				catch (InterruptedException e)
 				{
 					e.printStackTrace();
 				}
-				int choise = areYouCostumer.getChoise();
-				areYouCostumer.dispose();
+				int choise = customerCheck.getChoise();
+				customerCheck.dispose();
 
 				if(choise!=-1)//-1 = cancel 
 				{
@@ -99,7 +99,7 @@ public class MainController
 						if(costumer!=null) //if costumer==null, the user has cancelled the order
 						{
 							ShowController showController = new ShowController();
-							Show show = showController.showSearchShow();
+							Show show = showController.searchShow();
 							if(show!=null)
 							{
 								BookingController bookingCon = new BookingController();
@@ -110,7 +110,7 @@ public class MainController
 					else //the costumer is not a member
 					{
 						ShowController showController = new ShowController();
-						Show show = showController.showSearchShow();
+						Show show = showController.searchShow();
 						if(show!=null)
 						{
 							BookingController bookingCon = new BookingController();

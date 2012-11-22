@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 
-public class AvaliableSeats extends JFrame {
+public class AvailableSeats extends JFrame {
 
 	private JPanel contentPane;
 	private List seats;
@@ -37,7 +37,7 @@ public class AvaliableSeats extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AvaliableSeats() {
+	public AvailableSeats() {
 		
 		lock = new Object();
 		
