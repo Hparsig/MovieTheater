@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import movieTheater.GUI.AvailableSeats;
+import movieTheater.GUI.Checkout;
 import movieTheater.GUI.LoadBookingW;
 import movieTheater.GUI.Pay;
 import movieTheater.Persons.Costumer;
@@ -21,6 +22,7 @@ public class BookingController
 	public static Map<Integer,ArrayList<Seat>> av;
 	public static Map<Seat,Integer> bookings;
 	public static double amount;
+	public static double change;
 	private SQLBookingSave saveBooking;
 	private SQLBookingLoad loadBooking;
 	private AvailableSeats avaliableSeats;
@@ -77,7 +79,7 @@ public class BookingController
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		int close = avaliableSeats.getClose();
@@ -115,11 +117,10 @@ public class BookingController
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		Payment payment;
+		
 		int paymentMethod = payWindow.getPaymentMethode();
 		switch(paymentMethod)
 		{
@@ -130,24 +131,82 @@ public class BookingController
 			}
 			case 0: //pay with cash
 			{
-				payment = new Payment(amount,0);
-				currentBooking.setSeatsPayed();
-				currentBooking.setPayed(payment);
-				currentBooking.pickedUp();
-				saveBooking.updateBooking(currentBooking);
+				showCheckout(0);
 				break;
 			}
 			case 1: //pay with creditcard
 			{
-				payment = new Payment(amount,1);
-				currentBooking.setSeatsPayed();
-				currentBooking.pickedUp();
-				currentBooking.setPayed(payment);
-				saveBooking.updateBooking(currentBooking);
+				showCheckout(1);
 				break;
 			}
 		}
 		payWindow.dispose();
+	}
+	
+	public void showCheckout(int paymentMethod)
+	{
+		//open the checkout window
+		Checkout checkoutWindow  = new Checkout();
+		checkoutWindow.setVisible(true);
+		
+		while(checkoutWindow.getAmountok()==false)
+		{
+			try
+			{
+				checkoutWindow.amountReturn.await();
+			} 
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+
+			String payM = checkoutWindow.getAmount();
+			double received = 0;
+			if(checkoutWindow.getCancel()!=-1)
+			{
+				try
+				{
+					received = Double.parseDouble(payM);
+				}
+				catch(Exception e)
+				{
+					checkoutWindow.showError();
+				}
+			}
+			change  = received-amount;
+
+			if(change<0 && checkoutWindow.getCancel()!=-1)
+			{
+				checkoutWindow.showAmountError();
+			}
+			else
+			{
+				checkoutWindow.setChange(change);
+
+				Payment payment = new Payment(amount,paymentMethod);
+				currentBooking.setSeatsPayed();
+				currentBooking.pickedUp();
+				currentBooking.setPayed(payment);
+				saveBooking.updateBooking(currentBooking);
+				checkoutWindow.setAmountok();
+			}
+			
+		}
+		
+		try
+		{
+			checkoutWindow.latch.await();
+		} 
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		if(checkoutWindow.getCancel()==-1)
+		{
+			saveBooking.delteBooking(currentBooking);
+		}
+		checkoutWindow.dispose();
 	}
 	
 	
@@ -180,7 +239,6 @@ public class BookingController
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//get the selected item and close the window

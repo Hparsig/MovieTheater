@@ -45,6 +45,15 @@ public class HallBooking {
 	public ArrayList<ArrayList<Seat>> getSeats(){
 		return seatBooking;
 	}
+	
+	public Timestamp getStart()
+	{
+		return timeStart;
+	}
+	public Timestamp getEndTime()
+	{
+		return timeEnd;
+	}
 	/**
 	 * @author Jesper
 	 * @return avaiable seats to the show

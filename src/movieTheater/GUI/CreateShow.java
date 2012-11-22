@@ -1,8 +1,6 @@
 package movieTheater.GUI;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +8,13 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.concurrent.CountDownLatch;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
@@ -24,11 +22,6 @@ import movieTheater.Movie.Movie;
 import movieTheater.Show.HallBooking;
 import movieTheater.Show.Show;
 import movieTheater.main.MovieController;
-import movieTheater.main.ShowController;
-
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFormattedTextField;
 
 public class CreateShow extends JFrame{
 	private JPanel contentPane;
@@ -45,7 +38,6 @@ public class CreateShow extends JFrame{
 	private Timestamp timeEnd;
 	private Movie movie;
 	private Show show;
-	private ShowController showController;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input.
 	
 	
@@ -63,7 +55,7 @@ public class CreateShow extends JFrame{
 		}
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 269, 337);
+		setBounds(100, 100, 326, 386);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -74,7 +66,7 @@ public class CreateShow extends JFrame{
 		panel.setLayout(null);
 		
 		final JComboBox comboBoxFilm = new JComboBox(MovieController.movies.toArray());
-		comboBoxFilm.setBounds(107, 86, 117, 20);
+		comboBoxFilm.setBounds(107, 86, 162, 20);
 		panel.add(comboBoxFilm);
 		comboBoxFilm.setSelectedItem(movie);
 //		if(this.movie == null){
@@ -99,7 +91,7 @@ public class CreateShow extends JFrame{
 		comboBoxPris.setModel(new DefaultComboBoxModel(new String[] {"1", "1.5", "2"}));
 		comboBoxPris.setToolTipText("1 - Normal, 1.5 Medium, 2 - Peak");
 		comboBoxPris.setMaximumRowCount(3);
-		comboBoxPris.setBounds(107, 224, 117, 20);
+		comboBoxPris.setBounds(197, 224, 72, 20);
 		panel.add(comboBoxPris);
 		
 		JLabel lblVlgPris = new JLabel("V\u00E6lg pris");
@@ -122,15 +114,16 @@ public class CreateShow extends JFrame{
 		panel.add(lblOpretForestilling);
 		
 		formattedTextFieldStart = new JFormattedTextField(showStart);
-		formattedTextFieldStart.setBounds(107, 136, 117, 20);
+		formattedTextFieldStart.setBounds(159, 136, 110, 20);
 		panel.add(formattedTextFieldStart);
 		
 		formattedTextFieldSlut = new JFormattedTextField(showEnd);
-		formattedTextFieldSlut.setBounds(107, 165, 117, 20);
+		formattedTextFieldSlut.setBounds(159, 165, 110, 20);
 		panel.add(formattedTextFieldSlut);
 		
 		JLabel lblDatoFormat = new JLabel("Dato format: YYYY-MM-DD HH:MM:SS");
-		lblDatoFormat.setBounds(10, 114, 214, 14);
+		lblDatoFormat.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblDatoFormat.setBounds(10, 114, 259, 14);
 		panel.add(lblDatoFormat);
 		
 		JLabel lblSlutTid = new JLabel("Slut tid");
@@ -138,12 +131,12 @@ public class CreateShow extends JFrame{
 		panel.add(lblSlutTid);
 		
 		JLabel lblVlgSal = new JLabel("V\u00E6lg sal");
-		lblVlgSal.setBounds(10, 189, 46, 14);
+		lblVlgSal.setBounds(10, 189, 72, 14);
 		panel.add(lblVlgSal);
 		
 		comboBoxSal = new JComboBox();
 		comboBoxSal.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3"}));
-		comboBoxSal.setBounds(154, 193, 70, 20);
+		comboBoxSal.setBounds(197, 198, 72, 20);
 		panel.add(comboBoxSal);
 		
 		JButton btnOpret = new JButton("Opret");

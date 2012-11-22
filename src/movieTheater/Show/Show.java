@@ -57,7 +57,7 @@ public class Show {
 	
 	public String toString()
 	{
-		return "Film: "+movie.getTitle()+", Start tid: "+ hallBooking.getTimeStart()+", Sal: "+hallBooking.getHalleNo();
+		return "Film: "+movie.getTitle()+", Start tid: "+ hallBooking.getStart()+", Sal: "+hallBooking.getHalleNo();
 	}
 	public void setMovie(Movie movie) {
 		this.movie = movie;

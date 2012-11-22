@@ -18,7 +18,6 @@ public class ShowController {
 	private SQLShowSave showSave;
 	private Show show;
 	private CreateShow createShow;
-	private SimpleDateFormat dateFormat;
 	
 
 	public ShowController()
@@ -52,6 +51,7 @@ public class ShowController {
 		}		
 		createShow.dispose();
 	}
+	
 	/**
 	 * @author Jesper
 	 * @param SearchShow searchShow

@@ -2,79 +2,122 @@ package movieTheater.GUI;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import movieTheater.main.BookingController;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.concurrent.CountDownLatch;
+
 import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.border.EmptyBorder;
 
 public class Checkout extends JFrame {
 	
-	private JTextField textField;
-	double whatever = 0;
+	private JPanel contentPane;
+	private JPanel panel;
+	
+	private JTextField textAmount;
+	private JLabel price;
+	private JLabel jChange;
+	private JButton btnAnnuler;
+	private String amount;
+	private int cancel = 0;
+	private boolean amountOk = false;
+	public CountDownLatch amountReturn = new CountDownLatch(1); //venter på brugerens input.
+	public CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input.
+	
 	
 	public Checkout() {
-		setTitle("Checkout");
 		
-		final JLabel sum = new JLabel("To pay: "+ whatever);
-		sum.setBounds(10, 73, 86, 20);
-		
-		
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 306, 180);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+
+		panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		textField = new JTextField();
-		textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				whatever = BookingController.amount - Integer.parseInt(textField.getText());
-				sum.setText("To pay: " + whatever);
-				sum.validate();
-				sum.repaint();
-				System.out.println("Hlæsjdkf");
+		jChange = new JLabel();
+		jChange.setBounds(10, 75, 86, 20);
+		
+	
+		textAmount = new JTextField();	
+		textAmount.setBounds(10, 42, 86, 20);
+		panel.add(textAmount);
+		textAmount.setColumns(10);
+			
+		price = new JLabel(""+BookingController.amount);
+		price.setBounds(10, 11, 86, 20);
+		panel.add(price);
+		panel.add(jChange);
+		
+		JButton btnBetal = new JButton("Betal");
+		btnBetal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				amount = textAmount.getText();
+				amountReturn.countDown();
+				
+				btnAnnuler.setText("Afslut");
 			}
 		});
+		btnBetal.setBounds(108, 40, 97, 25);
+		panel.add(btnBetal);
 		
-		textField.setBounds(10, 42, 86, 20);
-		panel.add(textField);
-		textField.setColumns(10);
-		
-		JLabel amount = new JLabel(""+BookingController.amount);
-		amount.setBounds(10, 11, 86, 20);
-		panel.add(amount);
-		panel.add(sum);
-
+		btnAnnuler = new JButton("Annuler");
+		btnAnnuler.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				amountReturn.countDown();
+				latch.countDown();
+				if(btnAnnuler.getText().equals("Annuler"))
+				{
+					cancel = -1;
+					amountOk = true;
+				}
+			}
+		});
+		btnAnnuler.setBounds(108, 75, 97, 25);
+		panel.add(btnAnnuler);
 		
 	}
+	
+	public String getAmount()
+	{
+		return amount;
+	}
+	public void setChange(double change)
+	{
+		jChange.setText("Change: "+change);
+	}
+	public int getCancel()
+	{
+		return cancel;
+	}
+	public void setAmountok()
+	{
+		amountOk = true;
+	}
+	public boolean getAmountok()
+	{
+		return amountOk;
+	}
+	public void showAmountError()
+	{
+		JOptionPane.showMessageDialog(new JFrame(), "Beløb er for småt");
+		amountReturn = new CountDownLatch(1); 
+	}
+	
+	public void showError()
+	{
+		JOptionPane.showMessageDialog(new JFrame(), "Beløb er ugyldigt format"); 
+		latch = new CountDownLatch(1);
+	}
+
 }
 
-//textField.addKeyListener(new KeyListener() {
-//	
-//
-//	@Override
-//	public void keyPressed(KeyEvent arg0) {
-//		// TODO Auto-generated method stub
-//		System.out.println(arg0.getKeyCode());
-//		if(arg0.getKeyCode() == 10){
-//		whatever = BookingController.amount - Integer.parseInt(textField.getText());
-//		sum.setText("To pay: " + whatever);
-//		sum.validate();
-//		sum.repaint();
-//		System.out.println("Hlæsjdkf");
-//		}
-//	}
-//
-//	@Override
-//	public void keyReleased(KeyEvent arg0) {
-//		// TODO Auto-generated method stub
-//		System.out.println("Released");
-//	}
-//
-//	@Override
-//	public void keyTyped(KeyEvent arg0) {
-//		// TODO Auto-generated method stub
-//		System.out.println("typed!");
-//	}
-//});
 
