@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,7 +36,7 @@ import movieTheater.Movie.Movie;
 import movieTheater.main.MovieController;
 
 @SuppressWarnings("serial")
-public class CreateMovie extends JFrame {
+public class CreateMovie extends JFrame implements WindowListener{
 
 	private JPanel contentPane;
 	private JPanel panel;
@@ -91,7 +93,9 @@ public class CreateMovie extends JFrame {
 		{
 			setTitle("Rediger film");
 		}
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(this);
+		
 		areChangesMade = false;
 
 		if(movie.getDirector() != null)
@@ -446,5 +450,37 @@ public class CreateMovie extends JFrame {
 	public void setCastMap()
 	{
 
+	}
+	@Override
+	public void windowActivated(WindowEvent e)
+	{
+	}
+	@Override
+	public void windowClosed(WindowEvent e)
+	{
+	}
+	@Override
+	public void windowClosing(WindowEvent e)
+	{
+		//FIXME spørg om brugeren er sikker. 
+		movie = null;
+		areChangesMade = false;
+		latch.countDown();
+	}
+	@Override
+	public void windowDeactivated(WindowEvent e)
+	{
+	}
+	@Override
+	public void windowDeiconified(WindowEvent e)
+	{
+	}
+	@Override
+	public void windowIconified(WindowEvent e)
+	{
+	}
+	@Override
+	public void windowOpened(WindowEvent e)
+	{
 	}
 }

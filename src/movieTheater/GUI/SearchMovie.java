@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
@@ -19,7 +21,7 @@ import movieTheater.Movie.Movie;
 import movieTheater.main.MovieController;
 
 @SuppressWarnings("serial")
-public class SearchMovie extends JFrame
+public class SearchMovie extends JFrame implements WindowListener
 {
 
 	private JPanel contentPane;
@@ -41,7 +43,8 @@ public class SearchMovie extends JFrame
 	 */
 	public SearchMovie(final MovieController movieController) 
 	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(this);
 		setBounds(100, 100, 522, 359);
 		
 		contentPane = new JPanel();
@@ -136,9 +139,9 @@ public class SearchMovie extends JFrame
 		JButton btnAbort = new JButton("Tilbage");
 		btnAbort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				latch.countDown();
 				movie = null;
 				SearchMovie.this.dispose();
+				latch.countDown();
 			}
 		});
 		btnAbort.setBounds(0, 268, 97, 25);
@@ -153,6 +156,44 @@ public class SearchMovie extends JFrame
 	public Movie getMovie()
 	{
 		return movie;
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e)
+	{
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e)
+	{
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e)
+	{
+		movie = null;
+		SearchMovie.this.dispose();		
+		latch.countDown();
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e)
+	{
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e)
+	{
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e)
+	{
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e)
+	{
 	}
 	
 }
