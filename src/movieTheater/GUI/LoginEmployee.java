@@ -1,25 +1,25 @@
 package movieTheater.GUI;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.concurrent.CountDownLatch;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.border.EmptyBorder;
 
 import movieTheater.main.LoginController;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.sql.SQLException;
-import java.util.concurrent.CountDownLatch;
-
-public class LoginEmployee extends JFrame {
+@SuppressWarnings("serial")
+public class LoginEmployee extends JFrame 
+{
 
 	private JPanel contentPane;
 	private JTextField usernameField;
@@ -32,7 +32,8 @@ public class LoginEmployee extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public LoginEmployee() {
+	public LoginEmployee() 
+	{
 		loginController = new LoginController();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 357, 176);
@@ -59,6 +60,19 @@ public class LoginEmployee extends JFrame {
 		usernameField.setColumns(10);
 		
 		passwordField = new JPasswordField();
+		passwordField.getActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false));
+		//		passwordField.addKeyListener(new KeyAdapter() {
+//			KeyEvent event = new KeyEvent()
+//			@Override
+//			public void keyPressed(KeyEvent event) {
+//				int choise = 99;
+//				choise = event.VK_ENTER;
+//				if (choise==10)
+//				{
+//					System.out.println(choise);
+//				}
+//			}
+//		});
 		passwordField.setBounds(110, 61, 116, 22);
 		panel.add(passwordField);
 		
