@@ -58,7 +58,6 @@ public class CreateMovie extends JFrame implements WindowListener{
 	private JButton btnCreateMovie;
 	private JLabel lblOpretFilm;
 	private MaskFormatter maskFormatDate;
-//	private MaskFormatter maskFormatLength;
 	private SimpleDateFormat dateFormat;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 	private Date premierDate;
@@ -111,7 +110,6 @@ public class CreateMovie extends JFrame implements WindowListener{
 		try
 		{
 			maskFormatDate = new MaskFormatter("##-##-####");
-//			maskFormatLength = new MaskFormatter("###");
 		} 
 		catch (ParseException e1)
 		{

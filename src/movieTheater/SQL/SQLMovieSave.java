@@ -114,6 +114,7 @@ public class SQLMovieSave extends SQL{
 
 	private void setStatement(Movie movie)
 	{
+		int movieID = movie.getMovieID();
 		try
 		{
 			preparedStatement.setString(1, movie.getTitle());				
@@ -131,6 +132,10 @@ public class SQLMovieSave extends SQL{
 			preparedStatement.setString(6,movie.getOriginalTitle());
 			preparedStatement.setDate(7, movie.getReleaseDate());
 			preparedStatement.setDate(8, movie.getTimeEnd());
+			if (movieID != 0)
+			{
+				preparedStatement.setInt(9, movieID);
+			}
 			preparedStatement.executeUpdate();      
 		}
 		catch (Exception e)

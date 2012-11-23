@@ -107,7 +107,7 @@ public class MovieController
 			}
 			createMovie.dispose();
 		}
-		
+
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class MovieController
 		{
 			e.printStackTrace();
 		}
-		
+
 		movie = searchMovie.getMovie();
 		if(movie!=null)
 		{
@@ -196,19 +196,21 @@ public class MovieController
 			movie = save.saveMovie(movie); // returns with a created movieID. 
 		}
 
-		for(Map.Entry<Actor, String> entry : movie.getCast().getCast().entrySet())
+		if (movie.getCast() != null)
 		{
-			Actor currentActor = entry.getKey();
-
-			for (Actor currentNewActor : newActors)
+			for(Map.Entry<Actor, String> entry : movie.getCast().getCast().entrySet())
 			{
-				if (currentActor.equals(currentNewActor))
-					currentActor = currentNewActor;
-			}
-		}
+				Actor currentActor = entry.getKey();
 
-		save.saveCastList(movie);
-		//TODO valider data før det gemmes
+				for (Actor currentNewActor : newActors)
+				{
+					if (currentActor.equals(currentNewActor))
+						currentActor = currentNewActor;
+				}
+			}
+			save.saveCastList(movie);
+			//TODO valider data før det gemmes
+		}
 	}
 
 	private void saveNewActors()
