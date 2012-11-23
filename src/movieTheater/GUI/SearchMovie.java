@@ -64,6 +64,7 @@ public class SearchMovie extends JFrame implements WindowListener
 			{
 				int choosen = movieList.getSelectedIndex();
 				movie = movies.get(choosen); 
+				SearchMovie.this.dispose();
 				latch.countDown();
 			}
 		});
