@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JButton;
@@ -20,7 +22,8 @@ import movieTheater.main.MainController;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
-public class MainWindow extends JFrame 
+@SuppressWarnings("serial")
+public class MainWindow extends JFrame implements WindowListener
 {
 	private JPanel contentPane;
 	private JPanel panel;
@@ -63,6 +66,7 @@ public class MainWindow extends JFrame
 	public static final int CREATEMANAGER = 16;
 	public static final int EDITMANAGER = 17;
 	public static final int DELETEMANAGER = 18;
+	public static final int EXIT = 19;
 	private JLabel lblLoggedOn;
 	private JButton btnCreateManager;
 	private JButton btnEditManager;
@@ -73,7 +77,8 @@ public class MainWindow extends JFrame
 	 */
 	public MainWindow() 
 	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(this);
 	}
 	public void runMainWindow()
 	{
@@ -82,6 +87,7 @@ public class MainWindow extends JFrame
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
 
 		panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
@@ -344,6 +350,42 @@ public class MainWindow extends JFrame
 	public int getChoise()
 	{
 		return choise;
+	}
+	@Override
+	public void windowActivated(WindowEvent e)
+	{
+		
+	}
+	@Override
+	public void windowClosed(WindowEvent e)
+	{
+		
+	}
+	@Override
+	public void windowClosing(WindowEvent e)
+	{
+		choise = EXIT;
+		latch.countDown();		
+	}
+	@Override
+	public void windowDeactivated(WindowEvent e)
+	{
+		
+	}
+	@Override
+	public void windowDeiconified(WindowEvent e)
+	{
+		
+	}
+	@Override
+	public void windowIconified(WindowEvent e)
+	{
+			
+	}
+	@Override
+	public void windowOpened(WindowEvent e)
+	{
+		
 	}	
 }
 

@@ -243,6 +243,13 @@ public class MainController
 				employeeController.deleteEmployee(isAdmin);
 				break;
 			}
+			case MainWindow.EXIT:
+			{
+				loggedOn = null;
+				menuOn = false;
+				programOn = false;
+				mainWindow.dispose();
+			}
 			}
 		} 
 	}

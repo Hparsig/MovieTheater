@@ -28,7 +28,6 @@ public class LoginController {
 		boolean doUserExcist = false;
 		boolean isExitChosen = false;
 
-		//		while(!doUserExcist)
 		do
 		{
 			try
@@ -42,6 +41,7 @@ public class LoginController {
 			isExitChosen = login.getIsExitChosen();
 			String username = login.getUsername();
 			String password = login.getPassword();
+
 			if(!isExitChosen)
 			{
 				try 
@@ -66,5 +66,4 @@ public class LoginController {
 		login.dispose();
 		return employee;
 	}
-
 }
