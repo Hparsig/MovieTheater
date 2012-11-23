@@ -15,18 +15,21 @@ public class LoginController {
 		sqlLogin = new SQLLogin();
 	}
 
-/**
- * @author Jesper
- * @return Employee currentEmployee
- * returns the user that logins
- */
+	/**
+	 * @author Jesper
+	 * @return Employee currentEmployee
+	 * returns the user that logins
+	 */
 	public Employee employeeLogin()
 	{
 		employee = null;
 		LoginEmployee login = new LoginEmployee();
 		login.setVisible(true);
 		boolean doUserExcist = false;
-		while(!doUserExcist)
+		boolean isExitChosen = false;
+
+		//		while(!doUserExcist)
+		do
 		{
 			try
 			{
@@ -35,30 +38,33 @@ public class LoginController {
 			catch (InterruptedException e)
 			{
 				e.printStackTrace();
-			}	
+			}
+			isExitChosen = login.getIsExitChosen();
 			String username = login.getUsername();
 			String password = login.getPassword();
-
-			try 
+			if(!isExitChosen)
 			{
-				employee = sqlLogin.checkEmployee(username, password);
-				doUserExcist = true;
+				try 
+				{
+					employee = sqlLogin.checkEmployee(username, password);
+					doUserExcist = true;
+				}
+				catch(IndexOutOfBoundsException outOf)
+				{
+					JOptionPane.showMessageDialog(new JFrame(), "Brugeren findes ikke");
+					login.setLatch();
+				}
+				catch(Exception e)
+				{
+					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
+					login.setLatch();
+				}	
 			}
-			catch(IndexOutOfBoundsException outOf)
-			{
-				JOptionPane.showMessageDialog(new JFrame(), "Brugeren findes ikke");
-				login.setLatch();
-			}
-			catch(Exception e)
-			{
-				JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
-				login.setLatch();
-			}	
-			
 		}
+		while(!doUserExcist && !isExitChosen);
+
 		login.dispose();
 		return employee;
 	}
-
 
 }

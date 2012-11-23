@@ -30,7 +30,6 @@ public class MainController
 	public MainController()
 	{
 		loginController = new LoginController();
-		
 		programOn = true;
 	}
 	/**
@@ -44,9 +43,16 @@ public class MainController
 		while (programOn)		// the program is on as long as the dosn't close the login window. 
 		{
 			loggedOn = loginController.employeeLogin();
+			if (loggedOn == null)
+			{
+				programOn = false;
+			}
+			else
+			{
 			isAdmin = (loggedOn instanceof Admin);
 			menuOn = true;
 			runMainMenu();
+			}
 		}
 	}
 	/**
