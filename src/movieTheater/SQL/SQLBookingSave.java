@@ -1,5 +1,6 @@
 package movieTheater.SQL;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import movieTheater.Persons.Costumer;
@@ -77,9 +78,9 @@ public class SQLBookingSave extends SQL {
 	 * @param booking
 	 * save the seatBookings, while they are being selected by the user. 
 	 */
-	public void saveSeatBookings(int row, Seat seat, Booking booking)
+	public boolean saveSeatBookings(int row, Seat seat, Booking booking)
 	{
-
+		boolean saveOk = true;
 		openConnection();
 
 		try
@@ -90,18 +91,19 @@ public class SQLBookingSave extends SQL {
 			preparedStatement.setInt(2, seat.getSeatNo());
 			preparedStatement.setInt(3, row);
 			preparedStatement.setInt(4, booking.getBookingNo());
-			preparedStatement.executeUpdate();                     
+			preparedStatement.executeUpdate();        
+			
 
 		}
 		catch (Exception e)
 		{
-			System.out.println("Fejl i save af seat booking");
-			e.printStackTrace();
+			saveOk = false;
 		}
 		finally
 		{  
 			closeConnectionPreparedStatement();      
 		}  
+		return saveOk;
 	}
 	
 	/**

@@ -142,6 +142,11 @@ public class BookingController
 		payWindow.dispose();
 	}
 	
+	/**
+	 * @author Jesper og Martin
+	 * @param int payMethod
+	 * Show the checkout window
+	 */
 	public void checkout(int payMethod)
 	{
 		//open the checkout window
@@ -259,19 +264,31 @@ public class BookingController
 	private boolean putInMap(int row, int seat)
 	{
 		boolean succes = false;
-		for(int i=0; i < av.get(row).size(); i++)
-		{
-			if(av.get(row).get(i).getSeatNo()==seat)
+		boolean saveOk = false;
+
+			for(int i=0; i < av.get(row).size(); i++)
 			{
-				succes = true; 
-				av.get(row).get(i).setReservation(); //sætter sædet til reserveret
-				bookings.put(av.get(row).get(i), row); //puttet i ordre mappet
-				avaliableSeats.addOrders(); //adder ordren til skærmen
-				saveBooking.saveSeatBookings(row, av.get(row).get(i), currentBooking); //gemmer bookingen til databasen
-				av = show.getHallBooking().getAvailableSeats(); //henter en ny lise med sæder
-				avaliableSeats.setSeat(); //udskriver den nye lise til skærmen
+				if(av.get(row).get(i).getSeatNo()==seat)
+				{
+					succes = true; 
+					av.get(row).get(i).setReservation(); //sætter sædet til reserveret
+					saveOk = saveBooking.saveSeatBookings(row, av.get(row).get(i), currentBooking); //gemmer bookingen til databasen
+					
+					if(saveOk)
+					{
+						bookings.put(av.get(row).get(i), row); //putter i ordre mappet
+						avaliableSeats.addOrders(); //adder ordren til skærmen
+					}
+					else
+					{
+						avaliableSeats.alreadyBooked();
+					}
+					av = show.getHallBooking().getAvailableSeats(); //henter en ny liste med sæder
+					avaliableSeats.setSeat(); //udskriver den nye lise til skærmen
+				}
 			}
-		}
+		
+
 		return succes;
 	}
 	

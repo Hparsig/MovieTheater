@@ -165,6 +165,10 @@ public class AvailableSeats extends JFrame {
 	{
 		JOptionPane.showMessageDialog(new JFrame(), "kombination af sæde og række findes ikke"); 
 	}
+	public void alreadyBooked()
+	{
+		JOptionPane.showMessageDialog(new JFrame(), "Sædet er desværre allerede booket"); 
+	}
 	public void setSeat()
 	{
 		seats.removeAll();

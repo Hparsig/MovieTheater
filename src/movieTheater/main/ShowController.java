@@ -83,8 +83,7 @@ public class ShowController {
 				currentcal.set(Calendar.MINUTE, 0);
 				currentcal.set(Calendar.SECOND, 0);
 				currentcal.set(Calendar.MILLISECOND, 0);
-
-
+				currentcal.set(Calendar.AM_PM, 0);
 
 				if(cal.before(currentcal))
 				{
@@ -92,7 +91,7 @@ public class ShowController {
 				} 
 			}
 			
-			if(dateOk==false)
+			if(!dateOk)
 			{
 				searchShow.showErrorWrongDate();
 			}
