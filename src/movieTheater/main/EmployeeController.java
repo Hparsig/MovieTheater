@@ -125,7 +125,7 @@ public class EmployeeController {
 		{
 			e2.printStackTrace();
 		}
-		String fName = searchEmployee.getName();		//FIXME kun Admin må søge på managers
+		String fName = searchEmployee.getName();		
 		String lName = searchEmployee.getLastname();
 		String username = searchEmployee.getUsername();
 		String employeeID = searchEmployee.getEmpNo();

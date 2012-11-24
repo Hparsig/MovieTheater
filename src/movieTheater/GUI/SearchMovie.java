@@ -138,8 +138,10 @@ public class SearchMovie extends JFrame implements WindowListener
 		panel.add(btnSearch);
 
 		JButton btnAbort = new JButton("Tilbage");
-		btnAbort.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnAbort.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
 				movie = null;
 				SearchMovie.this.dispose();
 				latch.countDown();

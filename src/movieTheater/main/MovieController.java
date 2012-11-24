@@ -3,8 +3,10 @@ package movieTheater.main;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import movieTheater.GUI.CreateMovie;
@@ -34,6 +36,7 @@ public class MovieController
 	public static ArrayList<Director> newDirectors;
 	public static ArrayList<Genre> genres;
 	public static ArrayList<Genre> newGenres;
+	public static Map<Actor, String> addToCast;
 
 	/**
 	 * 
@@ -45,6 +48,7 @@ public class MovieController
 		newActors = new ArrayList<Actor>();
 		newDirectors = new ArrayList<Director>();
 		newGenres = new ArrayList<Genre>(); 
+		addToCast = new HashMap<Actor, String>();
 		movies = new ArrayList<Movie>();
 	}
 	/**
@@ -52,7 +56,7 @@ public class MovieController
 	 */
 	public void setMovie()
 	{
-		movie = new Movie();
+		movie = new Movie();					//creates new movie, so movieID is == 0;
 		loadAttributes();
 		createMovie = new CreateMovie(movie);
 		createMovie.setVisible(true);
@@ -187,29 +191,22 @@ public class MovieController
 				movie.setGenre(currentGenre);
 		}
 
-		if (movie.getMovieID() != 0)
+		if (movie.getMovieID() != 0)				//Movie being edited
 		{
 			save.updateMovie(movie);
-		}
-		else
-		{
-			movie = save.saveMovie(movie); // returns with a created movieID. 
-		}
-
-		if (movie.getCast() != null)
-		{
-			for(Map.Entry<Actor, String> entry : movie.getCast().getCast().entrySet())
+			if(!addToCast.isEmpty())
 			{
-				Actor currentActor = entry.getKey();
-
-				for (Actor currentNewActor : newActors)
+				for (Actor actor: addToCast.keySet())
 				{
-					if (currentActor.equals(currentNewActor))
-						currentActor = currentNewActor;
-				}
+					//FIXME løb map igennem og tjek for dubletter. 						
+				}	
+			save.saveCastList(addToCast, movie.getMovieID());
 			}
-			save.saveCastList(movie);
-			//TODO valider data før det gemmes
+		}
+		else										//New movie being created
+		{
+			movie = save.saveMovie(movie); 			// returns with a created movieID. 
+			save.saveCastList(movie.getCast().getCast(), movie.getMovieID());
 		}
 	}
 

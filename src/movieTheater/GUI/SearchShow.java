@@ -73,7 +73,6 @@ public class SearchShow extends JFrame{
 		} 
 		catch (ParseException e1)
 		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		dateFormat = new SimpleDateFormat("dd-MM-yyyy");

@@ -141,7 +141,6 @@ public class CostumerController {
 		} 
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		int close = searchCostumer.getClose();

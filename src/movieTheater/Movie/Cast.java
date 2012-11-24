@@ -1,6 +1,7 @@
 package movieTheater.Movie;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 /**
  * 
@@ -10,6 +11,13 @@ import java.util.Map;
 public class Cast {
 
 	private Map<Actor, String> cast;
+	/**
+	 * 
+	 */
+	public Cast()
+	{
+		cast = new HashMap<Actor, String>();
+	}
 	/**
 	 * 
 	 * @param Map<Actor, String> cast
@@ -36,5 +44,9 @@ public class Cast {
 			castString.add("\n" + role+ ":" + name);
 		}
 		return castString;
+	}
+	public void putActor(Actor selectedActor, String roleName)
+	{
+		cast.put(selectedActor, roleName);
 	}
 }

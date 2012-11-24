@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.BoxLayout;
@@ -69,7 +70,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 	private JComboBox<Actor> comboBoxActors;
 	private Director director;
 	private Cast cast;
-	private HashMap<Actor, String> castMap;
+//	private HashMap<Actor, String> castMap;
 	private JButton btnAddDirector;
 	private JButton btnAddGenre;
 	private JPanel panel_1;
@@ -83,30 +84,23 @@ public class CreateMovie extends JFrame implements WindowListener{
 	public CreateMovie(final Movie movie) 
 	{
 		this.movie = movie;
-		
-		if(movie.getDirector() == null)
-		{	
-			setTitle("Opret film");
-		}
-		else
-		{
-			setTitle("Rediger film");
-		}
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(this);
 		
-		areChangesMade = false;
-
-		if(movie.getDirector() != null)
+		if(movie.getMovieID() == 0)			//Meaning an new "empty" movie. 
 		{	
-			castMap = (HashMap<Actor, String>) movie.getCast().getCast();
+			setTitle("Opret film");
+			cast = new Cast();
 		}
-		else
+		else								//A loaded movie which is beeing editet. 
 		{
-			castMap = new HashMap<Actor, String>();
-			cast = new Cast(castMap);
+			setTitle("Rediger film");		
+//			castMap = new HashMap<Actor, String>();
+			cast = movie.getCast();
 		}
-
+	
+		areChangesMade = false;
+	
 		try
 		{
 			maskFormatDate = new MaskFormatter("##-##-####");
@@ -260,7 +254,6 @@ public class CreateMovie extends JFrame implements WindowListener{
 			{
 				try
 				{	
-
 					premierDate = dateFormat.parse(ftfPremier.getText());
 					offDate = dateFormat.parse(ftfOffday.getText());
 					playingTime = Integer.parseInt(ftfPlayingTime.getText());
@@ -326,18 +319,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 
 		if (movie.getCast() != null)
 		{
-			panel_1.removeAll();
-			panel_2.removeAll();
-
-			for (Actor actor: castMap.keySet())
-			{
-				panel_1.add(new JLabel(actor.getLName() + ", " + actor.getFName()));
-				panel_2.add(new JLabel(castMap.get(actor)));
-			}	
-			panel_1.validate();
-			panel_1.repaint();
-			panel_2.validate();
-			panel_2.repaint();
+			setPanels();
 		}
 
 		comboBoxGenres = new JComboBox(MovieController.genres.toArray());
@@ -361,19 +343,10 @@ public class CreateMovie extends JFrame implements WindowListener{
 				String roleName = JOptionPane.showInputDialog(comboBoxActors, actorName + " spiller" , "Tilføj til rolleliste", JOptionPane.DEFAULT_OPTION);
 				if (roleName != null)
 				{
-					castMap.put(selectedActor, roleName);
-					panel_1.removeAll();
-					panel_2.removeAll();
-
-					for (Actor actor: castMap.keySet())
-					{
-						panel_1.add(new JLabel(actor.getLName() + ", " + actor.getFName()));
-						panel_2.add(new JLabel(castMap.get(actor)));
-					}	
-					panel_1.validate();
-					panel_1.repaint();
-					panel_2.validate();
-					panel_2.repaint();
+					
+					cast.putActor(selectedActor, roleName);
+					MovieController.addToCast.put(selectedActor, roleName);
+					setPanels();
 				}
 			} 
 		});
@@ -403,11 +376,9 @@ public class CreateMovie extends JFrame implements WindowListener{
 					@Override
 					public void componentMoved(ComponentEvent arg0)
 					{	}
-
 					@Override
 					public void componentResized(ComponentEvent arg0)
 					{	}
-
 					@Override
 					public void componentShown(ComponentEvent arg0)
 					{	}
@@ -437,6 +408,24 @@ public class CreateMovie extends JFrame implements WindowListener{
 		btnAddGenre.setBounds(549, 115, 130, 23);
 		panel.add(btnAddGenre);
 	}
+
+	private void setPanels()
+	{
+		panel_1.removeAll();
+		panel_2.removeAll();
+
+		Map<Actor, String> castMap = cast.getCast();
+		for (Actor actor: castMap.keySet())
+		{
+			panel_1.add(new JLabel(actor.getLName() + ", " + actor.getFName()));
+			panel_2.add(new JLabel(castMap.get(actor)));
+		}	
+		panel_1.validate();
+		panel_1.repaint();
+		panel_2.validate();
+		panel_2.repaint();
+	}
+	
 	public Movie getMovie()
 	{
 		return movie;
