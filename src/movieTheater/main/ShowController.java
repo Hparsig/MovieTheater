@@ -33,7 +33,6 @@ public class ShowController {
 	 */
 	public void setShow() {
 		//System.out.println("setshow()");
-		// TODO Auto-generated method stub
 		show = new Show();
 		createShow = new CreateShow(show);
 		createShow.setVisible(true);
@@ -170,8 +169,8 @@ public class ShowController {
 		}
 		return shows;
 	}
-	public void createShow() {
-		// TODO Auto-generated method stub
+	public void createShow() 
+	{
 		createShow.getShow();
 		showSave.createShow(show);
 		

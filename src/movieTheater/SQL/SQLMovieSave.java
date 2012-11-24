@@ -75,7 +75,7 @@ public class SQLMovieSave extends SQL{
 	}
 
 	public void updateMovie(Movie movie)
-	{
+	{ 
 		openConnection();
 
 		try
@@ -170,26 +170,13 @@ public class SQLMovieSave extends SQL{
 		return genreID;
 
 	}
-
-	public void saveCastList(Movie movie)
+	public void saveCastList(Map<Actor, String> castMap, int movieID)
 	{
-		ResultSet resultSet = null;
 		preparedStatement = null;
 		openConnection();
-		int movieID=0;
-		String title = movie.getOriginalTitle();
-		Cast cast = movie.getCast();
-		Map<Actor, String> castMap = cast.getCast();
 
 		try
 		{
-			resultSet = statement.executeQuery(getMovieID+title+"'");
-
-			while(resultSet.next())
-			{
-				movieID = resultSet.getInt("movieID");
-			}
-
 			for(Map.Entry<Actor, String> entry : castMap.entrySet())
 			{	
 				int actorID = entry.getKey().getActorID();
@@ -212,6 +199,7 @@ public class SQLMovieSave extends SQL{
 			closeConnectionPreparedStatement();
 		}
 	}
+
 	public Genre saveGenre(Genre genre)
 	{
 		openConnection();
