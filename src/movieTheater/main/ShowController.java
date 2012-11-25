@@ -1,6 +1,7 @@
 package movieTheater.main;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import movieTheater.GUI.CreateShow;
 import movieTheater.GUI.SearchShow;
 import movieTheater.SQL.SQLShowLoad;
 import movieTheater.SQL.SQLShowSave;
+import movieTheater.Show.HallBooking;
 import movieTheater.Show.Show;
 
 public class ShowController {
@@ -29,26 +31,57 @@ public class ShowController {
 
 	}
 	/**
-	 * @author Brian
+	 * @author Brian og Jesper
 	 */
 	public void setShow() {
-		//System.out.println("setshow()");
+
 		show = new Show();
 		createShow = new CreateShow(show);
 		createShow.setVisible(true);
-		
-		try
+
+		while(!createShow.getDataOk())
 		{
-			createShow.latch.await();
+			try
+			{
+				createShow.latch.await();
+			}
+			catch(InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+
+			if (createShow.areChangesMade())
+			{
+
+				int hall = createShow.getHall();	//get the hall number
+				long time = createShow.getTime(); // get the hh:mm in long
+				java.util.Date dateT = createShow.getDate(); //get the date
+
+				boolean dateOk = checkDate(dateT.getTime()); //checking the date
+				if(dateOk)
+				{
+					show = createShow.getShow(); //getting the show
+					Calendar cal = Calendar.getInstance(); 
+					cal.setTimeInMillis((time+dateT.getTime())); //setting up the calendar to the show start
+					cal.add(Calendar.HOUR, 1); //adding on our, to get the correct format
+
+					Timestamp start = new Timestamp(cal.getTimeInMillis()); //creating time start timestamp
+
+					cal.add(Calendar.MINUTE, show.getMovie().getLength()); //adding the length of the movie
+					Timestamp end = new Timestamp(cal.getTimeInMillis());	//creating the end timetamp
+
+					HallBooking hallBooking = new HallBooking(hall, start, end); //creating the hallbooking object
+					show.setHallBooking(hallBooking);	//adding the hallbooking to the show
+					createShow.setDataOk(); //setting dataOk = true
+					showSave.createShow(show);	//save the show to the database. 
+				}
+				else
+				{
+					createShow.showErrorWrongDate();
+					createShow.createLatch();
+				}
+			}
 		}
-		catch(InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		if (createShow.areChangesMade())
-		{
-			createShow();
-		}		
 		createShow.dispose();
 	}
 	
@@ -72,22 +105,7 @@ public class ShowController {
 			
 			if(date!=null)
 			{
-				//convert the date
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(date);
-
-				//creates the date today
-				Calendar currentcal = Calendar.getInstance();
-				currentcal.set(Calendar.HOUR, 0);
-				currentcal.set(Calendar.MINUTE, 0);
-				currentcal.set(Calendar.SECOND, 0);
-				currentcal.set(Calendar.MILLISECOND, 0);
-				currentcal.set(Calendar.AM_PM, 0);
-
-				if(cal.before(currentcal))
-				{
-					dateOk = false;
-				} 
+				dateOk = checkDate(date.getTime());
 			}
 			
 			if(!dateOk)
@@ -169,12 +187,37 @@ public class ShowController {
 		}
 		return shows;
 	}
-	public void createShow() 
+	
+	
+	/**
+	 * @author Jesper
+	 * @param time
+	 * tjekker om den givne dato er før eller efter i dag. Returnere true hvis den er efter
+	 * @return boolean dateOk
+	 */
+	public boolean checkDate(long time)
 	{
-		createShow.getShow();
-		showSave.createShow(show);
+		boolean dateOk = true;
+		//convert the date
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(time);
+
+		//creates the date today
+		Calendar currentcal = Calendar.getInstance();
+		currentcal.set(Calendar.HOUR, 0);
+		currentcal.set(Calendar.MINUTE, 0);
+		currentcal.set(Calendar.SECOND, 0);
+		currentcal.set(Calendar.MILLISECOND, 0);
+		currentcal.set(Calendar.AM_PM, 0);
+
+		if(cal.before(currentcal))
+		{
+			dateOk = false;
+		} 
 		
+		return dateOk;
 	}
+	
 	
 		
 	
