@@ -3,10 +3,10 @@ package movieTheater.main;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import movieTheater.GUI.CreateMovie;
@@ -176,6 +176,20 @@ public class MovieController
 			createMovie.dispose();
 			showPanel();
 		}
+		// Checks whether timeEnd is after current time
+		Date currentTime = new Date();
+		if (movie.getTimeEnd().before(currentTime))
+		{
+			int result = JOptionPane.showConfirmDialog((Component) null, 
+					"Udløbsdato er overskredet. Vil du ændre datoen",
+					"Advarsel", 
+					JOptionPane.YES_NO_OPTION);
+			if (result == JOptionPane.YES_OPTION)
+			{
+				createMovie.dispose();
+				showPanel();
+			}
+		}
 		// Checks whether a director is selected
 		if (movie.getDirector() == null)
 		{
@@ -186,7 +200,7 @@ public class MovieController
 			createMovie.dispose();
 			showPanel();
 		}
-		// Checks wheter a gerne is selected
+		// Checks whether a genre is selected
 		if (movie.getGenre() == null)
 		{
 			JOptionPane.showMessageDialog(null,
@@ -196,6 +210,7 @@ public class MovieController
 			createMovie.dispose();
 			showPanel();
 		}
+		//TODO Check whether the movie is like any saved one. 
 		//
 		for (Director currentNewDirector : newDirectors) //check om der er gengangere og fjern dem. 
 		{
@@ -219,7 +234,7 @@ public class MovieController
 			}
 		}
 
-		//FIXME kontrol af om der er doubletter bland skuespillere. 
+		//TODO kontrol af om der er doubletter bland skuespillere. 
 		saveNewActors();									//Saves the created actors and adds actorID
 
 		for (Genre currentNewGenre : newGenres) //check om der er gengangere og fjern dem. 
