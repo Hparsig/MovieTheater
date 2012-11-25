@@ -2,6 +2,7 @@ package movieTheater.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -91,6 +92,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		this.movie = movie;
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(this);
+		areChangesMade = false;
 
 		if(movie.getMovieID() == 0)			//Meaning an new "empty" movie. 
 		{	
@@ -233,8 +235,9 @@ public class CreateMovie extends JFrame implements WindowListener{
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				areChangesMade = false;
 				latch.countDown();
-				CreateMovie.this.dispose();
+				//				CreateMovie.this.dispose();
 			} 
 		});
 		btnAbort.setBackground(Color.RED);
@@ -253,7 +256,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		btnCreateMovie.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
-			{
+			{//FIXME læg parse over i controller og valider alt der
 				java.sql.Date sqlDatePremier = null;
 				java.sql.Date sqlDateEnd = null;
 				try
@@ -450,18 +453,39 @@ public class CreateMovie extends JFrame implements WindowListener{
 	{
 		return areChangesMade;
 	}
-	public void setCastMap()
+	public void showMessage(String text)
 	{
-
+		JOptionPane.showMessageDialog(null,
+				text,
+				"Advarsel",
+				JOptionPane.PLAIN_MESSAGE);
 	}
+	public int showYesNoDialog(String text)
+	{
+		int choise = JOptionPane.showConfirmDialog((Component) null, 
+				text,
+				"Advarsel", 
+				JOptionPane.YES_NO_OPTION);
+
+		return choise;
+	}
+	public int showOKCancelDialog(String text)
+	{
+		int choise = JOptionPane.showConfirmDialog((Component) null, 
+				text,
+				"Advarsel", 
+				JOptionPane.OK_CANCEL_OPTION);
+
+		return choise;
+	}
+	public void setCastMap()
+	{	}
 	@Override
 	public void windowActivated(WindowEvent e)
-	{
-	}
+	{	}
 	@Override
 	public void windowClosed(WindowEvent e)
-	{
-	}
+	{	}
 	@Override
 	public void windowClosing(WindowEvent e)
 	{
@@ -472,18 +496,14 @@ public class CreateMovie extends JFrame implements WindowListener{
 	}
 	@Override
 	public void windowDeactivated(WindowEvent e)
-	{
-	}
+	{ }
 	@Override
 	public void windowDeiconified(WindowEvent e)
-	{
-	}
+	{ }
 	@Override
 	public void windowIconified(WindowEvent e)
-	{
-	}
+	{ }
 	@Override
 	public void windowOpened(WindowEvent e)
-	{
-	}
+	{ }
 }

@@ -1,13 +1,10 @@
 package movieTheater.main;
 
-import java.awt.Component;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.JOptionPane;
 
 import movieTheater.GUI.CreateMovie;
 import movieTheater.GUI.SearchMovie;
@@ -82,7 +79,6 @@ public class MovieController
 			loadAttributes();
 			showPanel();
 		}
-
 	}
 
 	private void showPanel()
@@ -97,11 +93,14 @@ public class MovieController
 		{
 			e.printStackTrace();
 		}
-		if (createMovie.areChangesMade())
+		if (createMovie.areChangesMade()) //FIXME returværdi skal oprettes. 
 		{
 			checkAndSaveMovie();
 		}
-		createMovie.dispose();
+		else
+		{
+			createMovie.dispose();
+		}
 	}
 
 	/**
@@ -123,9 +122,9 @@ public class MovieController
 		movie = searchMovie.getMovie();
 		if(movie!=null)
 		{
-			int result = JOptionPane.showConfirmDialog((Component) null, "Er du sikker på du vil slette "+movie.getTitle(),"Advarsel", JOptionPane.OK_CANCEL_OPTION);
+			int choise = createMovie.showOKCancelDialog("Er du sikker på du vil slette "+movie.getTitle());	
 
-			if (result == 0)
+			if (choise == 0)
 			{
 				save.deleteMovie(movie.getMovieID());
 			}
@@ -156,59 +155,44 @@ public class MovieController
 
 	private void checkAndSaveMovie()
 	{
+		boolean isReadyForSave = true;
+
 		// Checks whether a title is selected
 		if (movie.getTitle().isEmpty() || movie.getTitle() == null)
-		{
-			JOptionPane.showMessageDialog(null,
-					"Der skal indtastes en title",
-					"Advarsel",
-					JOptionPane.PLAIN_MESSAGE);
-			createMovie.dispose();
-			showPanel();
+		{// TODO vis JOptionPane i CreateMovie. 
+			createMovie.showMessage("Der skal indtastes en title");
+			isReadyForSave = false;
 		}
 		// Checks whether premier date is before TimeEnd. 
-		if (movie.getReleaseDate().after(movie.getTimeEnd()))
+		if (movie.getReleaseDate() != null && movie.getTimeEnd() != null)
 		{
-			JOptionPane.showMessageDialog(null,
-					"Udløbsdato skal ligge efter premierdato",
-					"Advarsel",
-					JOptionPane.PLAIN_MESSAGE);
-			createMovie.dispose();
-			showPanel();
-		}
-		// Checks whether timeEnd is after current time
-		Date currentTime = new Date();
-		if (movie.getTimeEnd().before(currentTime))
-		{
-			int result = JOptionPane.showConfirmDialog((Component) null, 
-					"Udløbsdato er overskredet. Vil du ændre datoen",
-					"Advarsel", 
-					JOptionPane.YES_NO_OPTION);
-			if (result == JOptionPane.YES_OPTION)
+			if (movie.getReleaseDate().after(movie.getTimeEnd()))
 			{
-				createMovie.dispose();
-				showPanel();
+				createMovie.showMessage("Udløbsdato skal ligge efter premierdato");
+				isReadyForSave = false;
+			}
+			// Checks whether timeEnd is after current time
+			Date currentTime = new Date();
+			if (movie.getTimeEnd().before(currentTime))
+			{
+				int choise = createMovie.showYesNoDialog("Udløbsdato er overskredet. Vil du ændre datoen");
+				if (choise == 0)
+				{
+					isReadyForSave = false;
+				}
 			}
 		}
 		// Checks whether a director is selected
 		if (movie.getDirector() == null)
 		{
-			JOptionPane.showMessageDialog(null,
-					"Der skal vælges en instruktør",
-					"Advarsel",
-					JOptionPane.PLAIN_MESSAGE);
-			createMovie.dispose();
-			showPanel();
+			createMovie.showMessage("Der skal vælges en instruktør");
+			isReadyForSave = false;
 		}
 		// Checks whether a genre is selected
 		if (movie.getGenre() == null)
 		{
-			JOptionPane.showMessageDialog(null,
-					"Der skal vælges en genre",
-					"Advarsel",
-					JOptionPane.PLAIN_MESSAGE);
-			createMovie.dispose();
-			showPanel();
+			createMovie.showMessage("Der skal vælges en genre");
+			isReadyForSave = false;
 		}
 		//TODO Check whether the movie is like any saved one. 
 		//
@@ -218,10 +202,7 @@ public class MovieController
 			{
 				if (currentNewDirector.equals(currentDirector) && currentDirector.getDirectorID() != 0)
 				{
-					JOptionPane.showMessageDialog(null,
-							"Den oprettede instruktør findes allerede.",
-							"Advarsel",
-							JOptionPane.PLAIN_MESSAGE);
+					createMovie.showMessage("Den oprettede instruktør findes allerede.");
 					if (movie.getDirector().equals(currentDirector))
 					{
 						movie.setDirector(currentDirector);			//Changes movies director to the one allready in the database. 
@@ -241,55 +222,52 @@ public class MovieController
 		{
 			for (Genre currentGenre : genres)
 			{
-				if (currentNewGenre.equals(currentGenre))
+				if (currentNewGenre.equals(currentGenre) && currentGenre.getGenreID() != 0)
 				{
-					JOptionPane.showMessageDialog(null,
-							"Genren findes allerede og erstattes.",
-							"Advarsel",
-							JOptionPane.PLAIN_MESSAGE);
-					//FIXME advarslen kommer to gange. 
+					createMovie.showMessage("Genren findes allerede og erstattes.");
+
 					if (movie.getGenre().equals(currentGenre))
 					{
 						movie.setGenre(currentGenre);			//Changes movies genre to the one allready in the database. 
 					}
 				}
-				else
-				{	//FIXME kontrol, gemmer flere gange pt. 
+				if (!currentNewGenre.equals(currentGenre) && currentGenre.getGenreID() == 0)
+				{	
 					save.saveGenre(currentNewGenre);
 				}
 			}
 		}
 
 		movie = createMovie.getMovie();
-
-		for (Genre currentGenre: newGenres)
+		if (isReadyForSave)
 		{
-			if (currentGenre.equals(movie.getGenre()))
-				movie.setGenre(currentGenre);
-		}
-
-		if (movie.getMovieID() != 0)				//Movie being edited
-		{
-			save.updateMovie(movie);
-			if(!addToCast.isEmpty())
+			if (movie.getMovieID() != 0)				//Movie being edited
 			{
-				for (Actor actor: addToCast.keySet())
+				save.updateMovie(movie);
+				if(!addToCast.isEmpty())
 				{
-					//FIXME løb map igennem og tjek for dubletter. 						
-				}	
-				save.saveCastList(addToCast, movie.getMovieID());
+					for (Actor actor: addToCast.keySet())
+					{
+						//FIXME løb map igennem og tjek for dubletter. 						
+					}	
+					save.saveCastList(addToCast, movie.getMovieID());
+				}
 			}
-		}
-		else										//New movie being created
-		{
-			movie = save.saveMovie(movie); 			// returns with a created movieID. 
-			if (!movie.getCast().getCast().isEmpty())
+			else										//New movie being created
 			{
-				save.saveCastList(movie.getCast().getCast(), movie.getMovieID());
+				movie = save.saveMovie(movie); 			// returns with a created movieID. 
+				if (!movie.getCast().getCast().isEmpty())
+				{
+					save.saveCastList(movie.getCast().getCast(), movie.getMovieID());
+				}
 			}
+			createMovie.dispose();
+		}
+		else
+		{
+			//FIXME Skal have vinduet op igen, dvs. sætte latch op til e
 		}
 	}
-
 	private void saveNewActors()
 	{
 		if (!newActors.isEmpty())

@@ -27,10 +27,8 @@ public class SQLMovieSave extends SQL{
 	private static final String updateMovie = "UPDATE movies SET title = ?, length  = ?, genreID = ?, directID = ?, threeDim = ?, orgTitel = ?, premier = ?, endDay = ? WHERE movieID=?";
 	private static final String deleteMovie = "DELETE FROM movies WHERE movieID=";
 
-
 	public SQLMovieSave()
 	{
-
 		statement = null;
 		connection = null;
 		preparedStatement = null;
