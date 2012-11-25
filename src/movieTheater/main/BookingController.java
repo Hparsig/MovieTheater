@@ -261,6 +261,13 @@ public class BookingController
 			}
 		}
 	}
+	/**
+	 * @author Jesper
+	 * @param row
+	 * @param seat
+	 * adding the selected seat to the booking hashmap
+	 * @return boolean succes
+	 */
 	private boolean putInMap(int row, int seat)
 	{
 		boolean succes = false;

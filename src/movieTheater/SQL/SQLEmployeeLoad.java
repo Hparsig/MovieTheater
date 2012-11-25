@@ -7,6 +7,7 @@ import movieTheater.Persons.Admin;
 import movieTheater.Persons.Employee;
 import movieTheater.Persons.Manager;
 import movieTheater.Persons.SalesPerson;
+import movieTheater.main.MainController;
 
 public class SQLEmployeeLoad extends SQL{
 	private ArrayList<Employee> employeeArray;	
@@ -53,19 +54,22 @@ public class SQLEmployeeLoad extends SQL{
 				String userName = resultSet.getString("username");
 				String city = resultSet.getString("city");
 				
-				if (isAdmin && titel == 1)
+				if(MainController.loggedOn.getEmployeeNo()!=employeeNo)
 				{
-				employeeArray.add(new Manager(fName, lName, phone, road, houseNo, postCode, city, userName, 
-						pW, employeeNo));
-				}
-				if (titel == 2)
-				{
-					employeeArray.add(new SalesPerson(fName, lName, phone, road, houseNo, postCode, city, userName, 
-							pW, employeeNo));
-				}
-				if (isAdmin && titel == 3)
-				{
-					employeeArray.add(new Admin(fName, lName, phone, road, houseNo, postCode, city, userName, pW,employeeNo));
+					if (isAdmin && titel == 1)
+					{
+						employeeArray.add(new Manager(fName, lName, phone, road, houseNo, postCode, city, userName, 
+								pW, employeeNo));
+					}
+					if (titel == 2)
+					{
+						employeeArray.add(new SalesPerson(fName, lName, phone, road, houseNo, postCode, city, userName, 
+								pW, employeeNo));
+					}
+					if (isAdmin && titel == 3)
+					{
+						employeeArray.add(new Admin(fName, lName, phone, road, houseNo, postCode, city, userName, pW,employeeNo));
+					}
 				}
 			}
 		}
@@ -83,7 +87,6 @@ public class SQLEmployeeLoad extends SQL{
 	 * Search employees using employee number
 	 * @param int emNum
 	 * @return ArrayList<Employee> 
-	 * @throws SQLException
 	 */
 	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username, int empID, boolean isAdmin) 
 	{
@@ -111,7 +114,6 @@ public class SQLEmployeeLoad extends SQL{
 	 * Search employees using employee number
 	 * @param int emNum
 	 * @return ArrayList<Employee> 
-	 * @throws SQLException
 	 */
 	public ArrayList<Employee> LoadEmployee(String fName, String lName, String username, boolean isAdmin)
 	{
@@ -141,7 +143,6 @@ public class SQLEmployeeLoad extends SQL{
 	 * Search employees using employee number
 	 * @param int emNum
 	 * @return ArrayList<Employee> 
-	 * @throws SQLException
 	 */
 	public ArrayList<Employee> LoadEmployee(int empNo, boolean isAdmin)  
 	{
