@@ -3,10 +3,10 @@ package movieTheater.main;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import movieTheater.GUI.CreateMovie;
@@ -58,22 +58,7 @@ public class MovieController
 	{
 		movie = new Movie();					//creates new movie, so movieID is == 0;
 		loadAttributes();
-		createMovie = new CreateMovie(movie);
-		createMovie.setVisible(true);
-
-		try
-		{
-			createMovie.latch.await();
-		} 
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		if (createMovie.areChangesMade())
-		{
-			checkAndSaveMovie();
-		}		
-		createMovie.dispose();
+		showPanel();
 	}
 
 	/**
@@ -95,23 +80,28 @@ public class MovieController
 		if(movie!=null)
 		{
 			loadAttributes();
-			createMovie = new CreateMovie(movie);
-			createMovie.setVisible(true);
-			try
-			{
-				createMovie.latch.await();
-			} 
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-			if (createMovie.areChangesMade())
-			{
-				checkAndSaveMovie();
-			}
-			createMovie.dispose();
+			showPanel();
 		}
 
+	}
+
+	private void showPanel()
+	{
+		createMovie = new CreateMovie(movie);
+		createMovie.setVisible(true);
+		try
+		{
+			createMovie.latch.await();
+		} 
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		if (createMovie.areChangesMade())
+		{
+			checkAndSaveMovie();
+		}
+		createMovie.dispose();
 	}
 
 	/**
@@ -166,25 +156,112 @@ public class MovieController
 
 	private void checkAndSaveMovie()
 	{
-
-		for (Director currentDirector : newDirectors)
+		// Checks whether a title is selected
+		if (movie.getTitle().isEmpty() || movie.getTitle() == null)
 		{
-			//check om der er gengangere
+			JOptionPane.showMessageDialog(null,
+					"Der skal indtastes en title",
+					"Advarsel",
+					JOptionPane.PLAIN_MESSAGE);
+			createMovie.dispose();
+			showPanel();
 		}
-		saveNewDirectors();									//Saves the created directors and adds directorID
+		// Checks whether premier date is before TimeEnd. 
+		if (movie.getReleaseDate().after(movie.getTimeEnd()))
+		{
+			JOptionPane.showMessageDialog(null,
+					"Udløbsdato skal ligge efter premierdato",
+					"Advarsel",
+					JOptionPane.PLAIN_MESSAGE);
+			createMovie.dispose();
+			showPanel();
+		}
+		// Checks whether timeEnd is after current time
+		Date currentTime = new Date();
+		if (movie.getTimeEnd().before(currentTime))
+		{
+			int result = JOptionPane.showConfirmDialog((Component) null, 
+					"Udløbsdato er overskredet. Vil du ændre datoen",
+					"Advarsel", 
+					JOptionPane.YES_NO_OPTION);
+			if (result == JOptionPane.YES_OPTION)
+			{
+				createMovie.dispose();
+				showPanel();
+			}
+		}
+		// Checks whether a director is selected
+		if (movie.getDirector() == null)
+		{
+			JOptionPane.showMessageDialog(null,
+					"Der skal vælges en instruktør",
+					"Advarsel",
+					JOptionPane.PLAIN_MESSAGE);
+			createMovie.dispose();
+			showPanel();
+		}
+		// Checks whether a genre is selected
+		if (movie.getGenre() == null)
+		{
+			JOptionPane.showMessageDialog(null,
+					"Der skal vælges en genre",
+					"Advarsel",
+					JOptionPane.PLAIN_MESSAGE);
+			createMovie.dispose();
+			showPanel();
+		}
+		//TODO Check whether the movie is like any saved one. 
+		//
+		for (Director currentNewDirector : newDirectors) //check om der er gengangere og fjern dem. 
+		{
+			for (Director currentDirector : directors)
+			{
+				if (currentNewDirector.equals(currentDirector) && currentDirector.getDirectorID() != 0)
+				{
+					JOptionPane.showMessageDialog(null,
+							"Den oprettede instruktør findes allerede.",
+							"Advarsel",
+							JOptionPane.PLAIN_MESSAGE);
+					if (movie.getDirector().equals(currentDirector))
+					{
+						movie.setDirector(currentDirector);			//Changes movies director to the one allready in the database. 
+					}
+				}
+				if (!currentNewDirector.equals(currentDirector) && currentDirector.getDirectorID() == 0)
+				{   
+					save.saveDirector(currentNewDirector);
+				}
+			}
+		}
 
+		//TODO kontrol af om der er doubletter bland skuespillere. 
 		saveNewActors();									//Saves the created actors and adds actorID
 
-		saveNewGenres();									//Saves the created genres and adds genreID
+		for (Genre currentNewGenre : newGenres) //check om der er gengangere og fjern dem. 
+		{
+			for (Genre currentGenre : genres)
+			{
+				if (currentNewGenre.equals(currentGenre))
+				{
+					JOptionPane.showMessageDialog(null,
+							"Genren findes allerede og erstattes.",
+							"Advarsel",
+							JOptionPane.PLAIN_MESSAGE);
+					//FIXME advarslen kommer to gange. 
+					if (movie.getGenre().equals(currentGenre))
+					{
+						movie.setGenre(currentGenre);			//Changes movies genre to the one allready in the database. 
+					}
+				}
+				else
+				{	//FIXME kontrol, gemmer flere gange pt. 
+					save.saveGenre(currentNewGenre);
+				}
+			}
+		}
 
 		movie = createMovie.getMovie();
 
-		//Checks whether movie Genre or Director are new, if so they are replaced with the saved ones, who has gotten an ID. 
-		for (Director currentDirector: newDirectors)
-		{
-			if (currentDirector.equals(movie.getDirector()))
-				movie.setDirector(currentDirector);
-		}
 		for (Genre currentGenre: newGenres)
 		{
 			if (currentGenre.equals(movie.getGenre()))
@@ -200,13 +277,16 @@ public class MovieController
 				{
 					//FIXME løb map igennem og tjek for dubletter. 						
 				}	
-			save.saveCastList(addToCast, movie.getMovieID());
+				save.saveCastList(addToCast, movie.getMovieID());
 			}
 		}
 		else										//New movie being created
 		{
 			movie = save.saveMovie(movie); 			// returns with a created movieID. 
-			save.saveCastList(movie.getCast().getCast(), movie.getMovieID());
+			if (!movie.getCast().getCast().isEmpty())
+			{
+				save.saveCastList(movie.getCast().getCast(), movie.getMovieID());
+			}
 		}
 	}
 
@@ -217,26 +297,6 @@ public class MovieController
 			for (Actor currentActor : newActors)
 			{
 				currentActor = save.saveActor(currentActor);
-			}
-		}
-	}
-	private void saveNewDirectors()
-	{
-		if (!newDirectors.isEmpty())
-		{
-			for (Director currentDirector : newDirectors)
-			{
-				currentDirector = save.saveDirector(currentDirector);
-			}
-		}
-	}
-	private void saveNewGenres()
-	{
-		if (!newGenres.isEmpty())
-		{
-			for (Genre currentGenre : newGenres)
-			{
-				currentGenre = save.saveGenre(currentGenre);
 			}
 		}
 	}
