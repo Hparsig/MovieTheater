@@ -70,7 +70,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 	private JComboBox<Actor> comboBoxActors;
 	private Director director;
 	private Cast cast;
-//	private HashMap<Actor, String> castMap;
+	//	private HashMap<Actor, String> castMap;
 	private JButton btnAddDirector;
 	private JButton btnAddGenre;
 	private JPanel panel_1;
@@ -86,7 +86,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		this.movie = movie;
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(this);
-		
+
 		if(movie.getMovieID() == 0)			//Meaning an new "empty" movie. 
 		{	
 			setTitle("Opret film");
@@ -95,12 +95,12 @@ public class CreateMovie extends JFrame implements WindowListener{
 		else								//A loaded movie which is beeing editet. 
 		{
 			setTitle("Rediger film");		
-//			castMap = new HashMap<Actor, String>();
+			//			castMap = new HashMap<Actor, String>();
 			cast = movie.getCast();
 		}
-	
+
 		areChangesMade = false;
-	
+
 		try
 		{
 			maskFormatDate = new MaskFormatter("##-##-####");
@@ -208,11 +208,9 @@ public class CreateMovie extends JFrame implements WindowListener{
 					@Override
 					public void componentMoved(ComponentEvent arg0)
 					{	}
-
 					@Override
 					public void componentResized(ComponentEvent arg0)
 					{	}
-
 					@Override
 					public void componentShown(ComponentEvent arg0)
 					{	}
@@ -252,42 +250,56 @@ public class CreateMovie extends JFrame implements WindowListener{
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				java.sql.Date sqlDatePremier = null;
+				java.sql.Date sqlDateEnd = null;
 				try
 				{	
 					premierDate = dateFormat.parse(ftfPremier.getText());
-					offDate = dateFormat.parse(ftfOffday.getText());
-					playingTime = Integer.parseInt(ftfPlayingTime.getText());
-
-					java.sql.Date sqlDatePremier = new java.sql.Date(premierDate.getTime());	
-					java.sql.Date sqlDateEnd = new java.sql.Date(offDate.getTime());
-
-					if (comboBoxGenres.getSelectedItem() instanceof Genre)
-					{
-						genre = (Genre)comboBoxGenres.getSelectedItem();
-					}
-					if (comboBoxDirectors.getSelectedItem() instanceof Director)
-					{
-						director = (Director)comboBoxDirectors.getSelectedItem();
-					}
-
-					movie.setTitle(tfTitel.getText());
-					movie.setOriginalTitle(tfOriginalTitel.getText());
-					movie.setReleaseDate(sqlDatePremier);
-					movie.setTimeEnd(sqlDateEnd);
-					movie.setLength(playingTime);
-					movie.setDirector(director);
-					movie.setGenre(genre);
-					movie.setCast(cast);
-					movie.setIs3D(tglbtnNewToggleButton.isSelected());
-
-					areChangesMade = true;
-					latch.countDown();
-				} 
-				catch (ParseException e1)
-				{
-					e1.printStackTrace();
+					offDate = dateFormat.parse(ftfOffday.getText());	
+					sqlDatePremier = new java.sql.Date(premierDate.getTime());	
+					sqlDateEnd = new java.sql.Date(offDate.getTime());
 				}
-			}
+				catch (ParseException e6)
+				{
+					JOptionPane.showMessageDialog(null,
+							"Datofelter skal udfyldes",
+							"Advarsel",
+							JOptionPane.PLAIN_MESSAGE);					
+				}
+				try
+				{
+					playingTime = Integer.parseInt(ftfPlayingTime.getText());
+				}
+				catch (NumberFormatException e7)
+				{
+					JOptionPane.showMessageDialog(null,
+							"Spilletid udfyldes med antal minutter",
+							"Advarsel",
+							JOptionPane.PLAIN_MESSAGE);				
+				}
+				if (comboBoxGenres.getSelectedItem() instanceof Genre)
+				{
+					genre = (Genre)comboBoxGenres.getSelectedItem();
+				}
+				if (comboBoxDirectors.getSelectedItem() instanceof Director)
+				{
+					director = (Director)comboBoxDirectors.getSelectedItem();
+				}
+
+				movie.setTitle(tfTitel.getText());
+				movie.setOriginalTitle(tfOriginalTitel.getText());
+				movie.setReleaseDate(sqlDatePremier);
+				movie.setTimeEnd(sqlDateEnd);
+				movie.setLength(playingTime);
+				movie.setDirector(director);
+				movie.setGenre(genre);
+				movie.setCast(cast);
+				movie.setIs3D(tglbtnNewToggleButton.isSelected());
+
+				areChangesMade = true;
+				latch.countDown();
+			} 
+
 		});
 		btnCreateMovie.setBackground(Color.GREEN);
 		btnCreateMovie.setBounds(579, 236, 100, 23);
@@ -343,7 +355,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 				String roleName = JOptionPane.showInputDialog(comboBoxActors, actorName + " spiller" , "Tilføj til rolleliste", JOptionPane.DEFAULT_OPTION);
 				if (roleName != null)
 				{
-					
+
 					cast.putActor(selectedActor, roleName);
 					MovieController.addToCast.put(selectedActor, roleName);
 					setPanels();
@@ -425,7 +437,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		panel_2.validate();
 		panel_2.repaint();
 	}
-	
+
 	public Movie getMovie()
 	{
 		return movie;
