@@ -17,8 +17,6 @@ import movieTheater.Movie.Rating;
  *
  */
 public class SQLMovieLoad extends SQL{
-	//Henrik Parsig
-
 	private ArrayList<Movie> dataFilmArray;
 	private static final String queryAllMovies = "SELECT * From Movies";
 	private static final String queryMovies = "SELECT * FROM Movies where genreID =";

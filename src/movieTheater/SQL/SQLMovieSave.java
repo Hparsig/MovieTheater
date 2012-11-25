@@ -6,7 +6,6 @@ import java.sql.Statement;
 import java.util.Map;
 
 import movieTheater.Movie.Actor;
-import movieTheater.Movie.Cast;
 import movieTheater.Movie.Director;
 import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
@@ -22,7 +21,6 @@ public class SQLMovieSave extends SQL{
 	private static final String createMovie = "INSERT INTO movies(title,length,genreID,directID,threeDim,orgTitel,premier,endDay) values(?,?,?,?,?,?,?,?)";
 	private static final String findGenreID = "SELECT genreID FROM genres WHERE genre='";
 	private static final String createCastList = "INSERT INTO casts(movieID,actorID,roleName) values(?,?,?)";
-	private static final String getMovieID = "SELECT movieID FROM movies WHERE orgTitel LIKE '";
 	private static final String createGenre = "INSERT INTO genres(genre) values(?)";
 	private static final String createActor = "INSERT INTO actors(fName, lName, gender, descript) values (?,?,?,?)";
 	private static final String createDirector = "INSERT INTO directors(fName, lName, gender, descript) values (?,?,?,?)";

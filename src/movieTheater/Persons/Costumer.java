@@ -1,5 +1,10 @@
 package movieTheater.Persons;
 
+/**
+ * 
+ * @author Henrik & Christoffer
+ *
+ */
 public class Costumer extends Person 
 {
 	private int costumerNo;

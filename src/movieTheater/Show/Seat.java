@@ -1,6 +1,10 @@
 package movieTheater.Show;
 
-
+/**
+ * 
+ * @author Henrik
+ *
+ */
 public class Seat {
 
 	private int seatNo;

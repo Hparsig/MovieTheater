@@ -170,7 +170,10 @@ public class SearchEmployee extends JFrame {
 
 	public int delete(String name)
 	{
-		int result = JOptionPane.showConfirmDialog((Component) null, "Er du sikker på du vil slette "+name,"Advarsel", JOptionPane.OK_CANCEL_OPTION);
+		int result = JOptionPane.showConfirmDialog((Component) null, 
+				"Er du sikker på du vil slette "+name,
+				"Advarsel", 
+				JOptionPane.OK_CANCEL_OPTION);
 		return result;
 	}
 }

@@ -1,5 +1,11 @@
 package movieTheater.Persons;
 
+/**
+ * 
+ * @author Henrik & Christoffer
+ *
+ */
+
 public abstract class Person {
 	protected String fName;
 	protected String lName;

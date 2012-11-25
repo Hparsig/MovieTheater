@@ -1,5 +1,10 @@
 package movieTheater.Persons;
 
+/**
+ * 
+ * @author Henrik & Christoffer
+ *
+ */
 public class SalesPerson extends Employee
 {
 	public SalesPerson()

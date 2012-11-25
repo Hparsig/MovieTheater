@@ -16,6 +16,11 @@ import movieTheater.SQL.SQLEmployeeSave;
 import movieTheater.SQL.SQLLoadPostCode;
 import movieTheater.SQL.SQLLoadTitel;
 
+/**
+ * 
+ * @author Jesper and Henrik
+ *
+ */
 public class EmployeeController {
 
 	private SQLEmployeeLoad load;

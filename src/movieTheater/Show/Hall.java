@@ -4,7 +4,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * 
+ * @author Henrik
+ *
+ */
 public class Hall {
 
 	private int hallNo;

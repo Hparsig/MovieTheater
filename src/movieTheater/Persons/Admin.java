@@ -1,5 +1,10 @@
 package movieTheater.Persons;
 
+/**
+ * 
+ * @author Henrik & Christoffer
+ *
+ */
 public class Admin extends Employee 
 {
 

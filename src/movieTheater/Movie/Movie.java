@@ -10,7 +10,8 @@ import java.util.ArrayList;
  *
  */
 
-public class Movie {
+public class Movie 
+{
 	private int movieID;
 	private String title;
 	private Director director;
@@ -237,7 +238,18 @@ public class Movie {
 	{
 		this.ratings = ratings;
 	}
-
+	
+	public boolean isEqual(Movie compareTo)
+	{
+		boolean isEqual = false;
+		
+		if (compareTo.getMovieID() == this.movieID)
+			isEqual = true;
+		if (compareTo.title == this.title && compareTo.director == this.director && compareTo.genre == this.genre)
+			isEqual = true;
+		
+		return isEqual; 
+	}
 	public String toString()
 	{
 		return (title + " - " + genre);

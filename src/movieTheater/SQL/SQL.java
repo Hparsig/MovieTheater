@@ -2,6 +2,11 @@ package movieTheater.SQL;
 
 import java.sql.*;
 
+/**
+ * 
+ * @author Henrik
+ *
+ */
 public abstract class SQL {
 
 	private static final String forName = "com.mysql.jdbc.Driver";
@@ -9,9 +14,9 @@ public abstract class SQL {
 	Statement statement ;
 	Connection connection;
 	PreparedStatement preparedStatement;
-	//*********************************************************************************************
-	// Metode der bruges af de ovenstående metoder, til at åbne en forbindelse til databasen.
-	//*********************************************************************************************
+	/**
+	 * Opens connection to the database. 
+	 */
 	protected void openConnection()
 	{
 		try
@@ -27,9 +32,9 @@ public abstract class SQL {
 			System.out.println("fejl i openConnection"); 
 		}
 	}
-	//*********************************************************************************************
-	// Metode der bruges af de ovenstående metoder, til at lukke forbindelsen til databasen. 
-	//*********************************************************************************************
+	/**
+	 * closes connection
+	 */
 	protected void closeConnectionLoad()
 	{
 		try
@@ -42,6 +47,9 @@ public abstract class SQL {
 			System.out.println("fejl i closeConnection");
 		}
 	}
+	/**
+	 * closes connections that have used a prepared statement. 
+	 */
 	protected void closeConnectionPreparedStatement()
 	{
 		try

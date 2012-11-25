@@ -20,6 +20,11 @@ import javax.swing.border.EmptyBorder;
 import movieTheater.Movie.Movie;
 import movieTheater.main.MovieController;
 
+/**
+ * GUI used to search for movies. 
+ * @author Henrik
+ *
+ */
 @SuppressWarnings("serial")
 public class SearchMovie extends JFrame implements WindowListener
 {

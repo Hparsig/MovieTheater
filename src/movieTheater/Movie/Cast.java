@@ -8,7 +8,8 @@ import java.util.Map;
  * @author Henrik
  *
  */
-public class Cast {
+public class Cast 
+{
 
 	private Map<Actor, String> cast;
 	/**

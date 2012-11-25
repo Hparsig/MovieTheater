@@ -1,5 +1,10 @@
 package movieTheater.Persons;
 
+/**
+ * 
+ * @author Henrik & Christoffer
+ *
+ */
 public abstract class Employee extends Person
 {
 	protected int employeeNo;

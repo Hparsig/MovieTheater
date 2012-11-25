@@ -36,6 +36,11 @@ import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
 import movieTheater.main.MovieController;
 
+/**
+ * GUI used to create or edit a movie. 
+ * @author Henrik
+ *
+ */
 @SuppressWarnings("serial")
 public class CreateMovie extends JFrame implements WindowListener{
 
@@ -95,7 +100,6 @@ public class CreateMovie extends JFrame implements WindowListener{
 		else								//A loaded movie which is beeing editet. 
 		{
 			setTitle("Rediger film");		
-			//			castMap = new HashMap<Actor, String>();
 			cast = movie.getCast();
 		}
 
