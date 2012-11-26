@@ -13,7 +13,6 @@ import java.awt.event.WindowListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -65,10 +64,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 	private JButton btnCreateMovie;
 	private JLabel lblOpretFilm;
 	private MaskFormatter maskFormatDate;
-	private SimpleDateFormat dateFormat;
 	public final CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
-	private Date premierDate;
-	private Date offDate;
 	private int playingTime; 
 	private Genre genre;
 	private JComboBox<Genre> comboBoxGenres;
@@ -83,6 +79,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 	private JPanel panel_2;
 	boolean areChangesMade;
 	private Movie movie;
+	private boolean isCancelChosen;
 
 	/**
 	 * Create the frame.
@@ -93,6 +90,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(this);
 		areChangesMade = false;
+		isCancelChosen = false;
 
 		if(movie.getMovieID() == 0)			//Meaning an new "empty" movie. 
 		{	
@@ -115,7 +113,6 @@ public class CreateMovie extends JFrame implements WindowListener{
 		{
 			e1.printStackTrace();
 		}
-		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 		setBounds(100, 100, 715, 319);
 		contentPane = new JPanel();
@@ -236,8 +233,8 @@ public class CreateMovie extends JFrame implements WindowListener{
 			public void actionPerformed(ActionEvent e) 
 			{
 				areChangesMade = false;
+				isCancelChosen = true;
 				latch.countDown();
-				//				CreateMovie.this.dispose();
 			} 
 		});
 		btnAbort.setBackground(Color.RED);
@@ -256,34 +253,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		btnCreateMovie.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
-			{//FIXME læg parse over i controller og valider alt der
-				java.sql.Date sqlDatePremier = null;
-				java.sql.Date sqlDateEnd = null;
-				try
-				{	
-					premierDate = dateFormat.parse(ftfPremier.getText());
-					offDate = dateFormat.parse(ftfOffday.getText());	
-					sqlDatePremier = new java.sql.Date(premierDate.getTime());	
-					sqlDateEnd = new java.sql.Date(offDate.getTime());
-				}
-				catch (ParseException e6)
-				{
-					JOptionPane.showMessageDialog(null,
-							"Datofelter skal udfyldes",
-							"Advarsel",
-							JOptionPane.PLAIN_MESSAGE);					
-				}
-				try
-				{
-					playingTime = Integer.parseInt(ftfPlayingTime.getText());
-				}
-				catch (NumberFormatException e7)
-				{
-					JOptionPane.showMessageDialog(null,
-							"Spilletid udfyldes med antal minutter",
-							"Advarsel",
-							JOptionPane.PLAIN_MESSAGE);				
-				}
+			{
 				if (comboBoxGenres.getSelectedItem() instanceof Genre)
 				{
 					genre = (Genre)comboBoxGenres.getSelectedItem();
@@ -295,8 +265,6 @@ public class CreateMovie extends JFrame implements WindowListener{
 
 				movie.setTitle(tfTitel.getText());
 				movie.setOriginalTitle(tfOriginalTitel.getText());
-				movie.setReleaseDate(sqlDatePremier);
-				movie.setTimeEnd(sqlDateEnd);
 				movie.setLength(playingTime);
 				movie.setDirector(director);
 				movie.setGenre(genre);
@@ -449,9 +417,25 @@ public class CreateMovie extends JFrame implements WindowListener{
 	{
 		return movie;
 	}
+	public String getPremierDate()
+	{
+		return ftfPremier.getText();
+	}
+	public String getOffDate()
+	{
+		return ftfOffday.getText();
+	}
+	public String getPlayingTime()
+	{
+		return ftfPlayingTime.getText(); 
+	}
 	public boolean areChangesMade()
 	{
 		return areChangesMade;
+	}
+	public boolean isCancelChosen()
+	{
+		return isCancelChosen;
 	}
 	public void showMessage(String text)
 	{

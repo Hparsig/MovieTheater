@@ -1,10 +1,14 @@
 package movieTheater.main;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.JOptionPane;
 
 import movieTheater.GUI.CreateMovie;
 import movieTheater.GUI.SearchMovie;
@@ -34,6 +38,7 @@ public class MovieController
 	public static ArrayList<Genre> genres;
 	public static ArrayList<Genre> newGenres;
 	public static Map<Actor, String> addToCast;
+	private boolean isNotReadyForSave;
 
 	/**
 	 * 
@@ -47,6 +52,7 @@ public class MovieController
 		newGenres = new ArrayList<Genre>(); 
 		addToCast = new HashMap<Actor, String>();
 		movies = new ArrayList<Movie>();
+		isNotReadyForSave = false;
 	}
 	/**
 	 * Getting parameters from GUI, creates an Movie object and saves its data in the database. 
@@ -83,24 +89,33 @@ public class MovieController
 
 	private void showPanel()
 	{
-		createMovie = new CreateMovie(movie);
-		createMovie.setVisible(true);
-		try
+		do
 		{
-			createMovie.latch.await();
-		} 
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
+			createMovie = new CreateMovie(movie);
+			createMovie.setVisible(true);
+			try
+			{
+				createMovie.latch.await();
+			} 
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			if (createMovie.areChangesMade() && !createMovie.isCancelChosen()) //FIXME returværdi skal oprettes. 
+			{
+				checkAndSaveMovie();
+			}
+			else if (createMovie.isCancelChosen())
+			{
+				isNotReadyForSave = false;
+				createMovie.dispose();
+			}
+			else
+			{
+				createMovie.dispose();
+			}
 		}
-		if (createMovie.areChangesMade()) //FIXME returværdi skal oprettes. 
-		{
-			checkAndSaveMovie();
-		}
-		else
-		{
-			createMovie.dispose();
-		}
+		while(isNotReadyForSave);
 	}
 
 	/**
@@ -155,13 +170,43 @@ public class MovieController
 
 	private void checkAndSaveMovie()
 	{
-		boolean isReadyForSave = true;
+		java.sql.Date sqlDatePremier = null;
+		java.sql.Date sqlDateEnd = null;
+		int playingTime = 0;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		
+		try
+		{	
+			Date premierDate = dateFormat.parse(createMovie.getPremierDate());
+			Date offDate = dateFormat.parse(createMovie.getOffDate());	
+			sqlDatePremier = new java.sql.Date(premierDate.getTime());	
+			sqlDateEnd = new java.sql.Date(offDate.getTime());
+			movie.setReleaseDate(sqlDatePremier);
+			movie.setTimeEnd(sqlDateEnd);
+		}
+		catch (ParseException e6)
+		{
+			createMovie.showMessage("Datofelter skal udfyldes");					
+			isNotReadyForSave = true;
+		}
+		
+		try
+		{
+			playingTime = Integer.parseInt(createMovie.getPlayingTime());
+			movie.setLength(playingTime);
+		}
+		catch (NumberFormatException e7)
+		{
+			createMovie.showMessage("Spilletid udfyldes med antal minutter");				
+			isNotReadyForSave = true;
+		}
+
 
 		// Checks whether a title is selected
 		if (movie.getTitle().isEmpty() || movie.getTitle() == null)
-		{// TODO vis JOptionPane i CreateMovie. 
+		{
 			createMovie.showMessage("Der skal indtastes en title");
-			isReadyForSave = false;
+			isNotReadyForSave = true;
 		}
 		// Checks whether premier date is before TimeEnd. 
 		if (movie.getReleaseDate() != null && movie.getTimeEnd() != null)
@@ -169,7 +214,7 @@ public class MovieController
 			if (movie.getReleaseDate().after(movie.getTimeEnd()))
 			{
 				createMovie.showMessage("Udløbsdato skal ligge efter premierdato");
-				isReadyForSave = false;
+				isNotReadyForSave = true;
 			}
 			// Checks whether timeEnd is after current time
 			Date currentTime = new Date();
@@ -178,7 +223,7 @@ public class MovieController
 				int choise = createMovie.showYesNoDialog("Udløbsdato er overskredet. Vil du ændre datoen");
 				if (choise == 0)
 				{
-					isReadyForSave = false;
+					isNotReadyForSave = true;
 				}
 			}
 		}
@@ -186,13 +231,13 @@ public class MovieController
 		if (movie.getDirector() == null)
 		{
 			createMovie.showMessage("Der skal vælges en instruktør");
-			isReadyForSave = false;
+			isNotReadyForSave = true;
 		}
 		// Checks whether a genre is selected
 		if (movie.getGenre() == null)
 		{
 			createMovie.showMessage("Der skal vælges en genre");
-			isReadyForSave = false;
+			isNotReadyForSave = true;
 		}
 		//TODO Check whether the movie is like any saved one. 
 		//
@@ -238,8 +283,8 @@ public class MovieController
 			}
 		}
 
-		movie = createMovie.getMovie();
-		if (isReadyForSave)
+		//		movie = createMovie.getMovie();
+		if(!isNotReadyForSave)	//= is Ready For Save
 		{
 			if (movie.getMovieID() != 0)				//Movie being edited
 			{
@@ -261,13 +306,10 @@ public class MovieController
 					save.saveCastList(movie.getCast().getCast(), movie.getMovieID());
 				}
 			}
-			createMovie.dispose();
 		}
-		else
-		{
-			//FIXME Skal have vinduet op igen, dvs. sætte latch op til e
-		}
+		createMovie.dispose();
 	}
+
 	private void saveNewActors()
 	{
 		if (!newActors.isEmpty())
