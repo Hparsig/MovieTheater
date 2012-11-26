@@ -12,17 +12,18 @@ import java.util.ArrayList;
 
 public class Movie 
 {
-	private int movieID;
-	private String title;
 	private Director director;
-	private int length;
 	private Genre genre;
-	private Date releaseDate;
-	private Date timeEnd;
-	private String originalTitle;
-	private boolean is3D;
 	private Cast cast;
 	private ArrayList<Rating> ratings;
+	private Date releaseDate;
+	private Date timeEnd;
+	private int movieID;
+	private int length;
+	private String title;
+	private String originalTitle;
+	private boolean is3D;
+
 
 	/**
 	 * 

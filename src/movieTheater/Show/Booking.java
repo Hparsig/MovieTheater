@@ -7,14 +7,15 @@ import movieTheater.Persons.Employee;
 import movieTheater.main.HallData;
 
 
-public class Booking {
+public class Booking 
+{
 
 	private Show show;
-	private Map<Seat,Integer> seatBookings;
-	private int bookingNo;
 	private Payment payment;
 	private Costumer costumer;
 	private Employee employee;
+	private Map<Seat,Integer> seatBookings;
+	private int bookingNo;
 	private boolean pickedUp;
 
 	public Booking(int bookingNo,Show show, Map<Seat,Integer> seatBookings,Costumer costumer, Employee employee,boolean pickedUp)

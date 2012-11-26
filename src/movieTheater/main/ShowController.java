@@ -28,13 +28,12 @@ public class ShowController {
 		shows = new ArrayList<Show>();
 		showLoad = new SQLShowLoad();
 		showSave = new SQLShowSave();
-
 	}
 	/**
 	 * @author Brian og Jesper
 	 */
-	public void setShow() {
-
+	public void setShow() 
+	{
 		show = new Show();
 		createShow = new CreateShow(show);
 		createShow.setVisible(true);
@@ -174,20 +173,7 @@ public class ShowController {
 			e.printStackTrace();
 		}
 	}
-	
-	public ArrayList<Show> getShows()
-	{
-		shows.clear();
-		try
-		{
-			showLoad.loadAllShows();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		return shows;
-	}
-	
+
 	
 	/**
 	 * @author Jesper
@@ -195,7 +181,7 @@ public class ShowController {
 	 * tjekker om den givne dato er før eller efter i dag. Returnere true hvis den er efter
 	 * @return boolean dateOk
 	 */
-	public boolean checkDate(long time)
+	private boolean checkDate(long time)
 	{
 		boolean dateOk = true;
 		//convert the date

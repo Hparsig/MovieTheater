@@ -174,7 +174,7 @@ public class MovieController
 		java.sql.Date sqlDateEnd = null;
 		int playingTime = 0;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		
+
 		try
 		{	
 			Date premierDate = dateFormat.parse(createMovie.getPremierDate());
@@ -189,7 +189,7 @@ public class MovieController
 			createMovie.showMessage("Datofelter skal udfyldes");					
 			isNotReadyForSave = true;
 		}
-		
+
 		try
 		{
 			playingTime = Integer.parseInt(createMovie.getPlayingTime());
@@ -243,18 +243,31 @@ public class MovieController
 		//
 		for (Director currentNewDirector : newDirectors) //check om der er gengangere og fjern dem. 
 		{
+			boolean isToBeSaved = false;
+
 			for (Director currentDirector : directors)
 			{
 				if (currentNewDirector.equals(currentDirector) && currentDirector.getDirectorID() != 0)
 				{
-					createMovie.showMessage("Den oprettede instruktør findes allerede.");
+					createMovie.showMessage("Den oprettede instruktør findes allerede og erstattes.");
 					if (movie.getDirector().equals(currentDirector))
 					{
 						movie.setDirector(currentDirector);			//Changes movies director to the one allready in the database. 
 					}
 				}
-				if (!currentNewDirector.equals(currentDirector) && currentDirector.getDirectorID() == 0)
+				if (!currentNewDirector.equals(currentDirector) && currentNewDirector.getDirectorID() == 0)
 				{   
+					isToBeSaved = true;
+				}
+			}
+			if (isToBeSaved)
+			{
+				if (movie.getDirector().equals(currentNewDirector))
+				{
+					movie.setDirector(save.saveDirector(currentNewDirector));
+				}
+				else
+				{
 					save.saveDirector(currentNewDirector);
 				}
 			}
@@ -265,19 +278,31 @@ public class MovieController
 
 		for (Genre currentNewGenre : newGenres) //check om der er gengangere og fjern dem. 
 		{
+			boolean isToBeSaved = false;
+
 			for (Genre currentGenre : genres)
 			{
 				if (currentNewGenre.equals(currentGenre) && currentGenre.getGenreID() != 0)
 				{
-					createMovie.showMessage("Genren findes allerede og erstattes.");
-
+					createMovie.showMessage("Den oprettede gerne finde allerede og erstattes.");
 					if (movie.getGenre().equals(currentGenre))
 					{
-						movie.setGenre(currentGenre);			//Changes movies genre to the one allready in the database. 
+						movie.setGenre(currentGenre);			//Changes movies director to the one allready in the database. 
 					}
 				}
-				if (!currentNewGenre.equals(currentGenre) && currentGenre.getGenreID() == 0)
-				{	
+				if (!currentNewGenre.equals(currentGenre) && currentNewGenre.getGenreID() == 0)
+				{   
+					isToBeSaved = true;
+				}
+			}
+			if (isToBeSaved)
+			{
+				if (movie.getGenre().equals(currentNewGenre))
+				{
+					movie.setGenre(save.saveGenre(currentNewGenre));
+				}
+				else
+				{
 					save.saveGenre(currentNewGenre);
 				}
 			}

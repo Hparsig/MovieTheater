@@ -1,8 +1,9 @@
 package movieTheater.Show;
 import movieTheater.Movie.Movie;
 
-public class Show {
-	
+public class Show 
+{
+
 	private HallBooking hallBooking;
 	private Movie movie;
 	private int showID;
@@ -22,7 +23,8 @@ public class Show {
 		this.hallBooking = hallBooking;
 		this.priceCategory = priceCategory;
 	}
-	public Show(){
+	public Show()
+	{
 		showID = 0;
 		movie = null;
 		hallBooking = null;
@@ -38,34 +40,33 @@ public class Show {
 	public int getShowID()
 	{
 		return showID;
-	}
-	
+	}	
 	public Movie getMovie()
 	{
 		return movie;
 	}
-
 	public HallBooking getHallBooking()
 	{
 		return hallBooking;
 	}
-	
 	public double getPriceCategory()
 	{
 		return priceCategory;
 	}
-	
+	public void setMovie(Movie movie) 
+	{
+		this.movie = movie;
+	}
+	public void setHallBooking(HallBooking hallBooking) 
+	{
+		this.hallBooking = hallBooking;
+	}
+	public void setPrice(double price) 
+	{
+		this.priceCategory = price;
+	}
 	public String toString()
 	{
 		return "Film: "+movie.getTitle()+", Start tid: "+ hallBooking.getStart()+", Sal: "+hallBooking.getHalleNo();
-	}
-	public void setMovie(Movie movie) {
-		this.movie = movie;
-	}
-	public void setHallBooking(HallBooking hallBooking) {
-		this.hallBooking = hallBooking;
-	}
-	public void setPrice(double price) {
-		this.priceCategory = price;
 	}
 }
