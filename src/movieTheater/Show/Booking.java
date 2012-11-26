@@ -1,12 +1,9 @@
 package movieTheater.Show;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
-import movieTheater.Persons.Person;
-import movieTheater.main.BookingController;
 import movieTheater.main.HallData;
 
 
@@ -128,7 +125,7 @@ public class Booking {
 	
 	public String toString()
 	{
-		return "Film: "+show.getMovie().getTitle()+", Dato: "+ show.getHallBooking().getTimeStart()+", Sal: "+show.getHallBooking().getHalleNo();
+		return "Film: "+show.getMovie().getTitle()+", Dato: "+ show.getHallBooking().getStart()+", Sal: "+show.getHallBooking().getHalleNo();
 	}
 	
 }

@@ -77,15 +77,7 @@ public class CreateShow extends JFrame{
 		comboBoxFilm.setBounds(107, 64, 162, 20);
 		panel.add(comboBoxFilm);
 		
-//		if(this.movie == null){
-		
-//		while(this.movie != null){
-//			int mov = (int) comboBoxFilm.getSelectedItem();
-//			JLabel pnlfilmlængdevrb = new JLabel(mov+"");
-//			pnlfilmlængdevrb.setBounds(107, 117, 46, 14);
-//			panel.add(pnlfilmlængdevrb);
-//			}
-//		}
+
 		JLabel lblVlgFillm = new JLabel("V\u00E6lg film");
 		lblVlgFillm.setBounds(10, 67, 72, 14);
 		panel.add(lblVlgFillm);
