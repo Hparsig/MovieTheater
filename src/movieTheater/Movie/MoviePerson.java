@@ -8,8 +8,8 @@ public abstract class MoviePerson {
 
 	protected String fName;
 	protected String lName;
-	private int gender;
-	private String description;
+	protected String description;
+	protected int gender;
 
 	public MoviePerson(String fName, String LName, int gender, String description)
 	{

@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import movieTheater.Persons.City;
 import movieTheater.Persons.Costumer;
-import movieTheater.main.CostumerController;
+import movieTheater.main.CustomerController;
 
 @SuppressWarnings("serial")
 public class CreateCostumer extends JFrame {
@@ -160,7 +160,7 @@ public class CreateCostumer extends JFrame {
 		txtPW.setText(person.getPW());
 		panel.add(txtPW);
 
-		cbxCitys = new JComboBox<Object>(CostumerController.postcodeArray.toArray());
+		cbxCitys = new JComboBox<Object>(CustomerController.postCodeArray.toArray());
 		cbxCitys.setBounds(90, 106, 117, 22);
 		panel.add(cbxCitys);
 

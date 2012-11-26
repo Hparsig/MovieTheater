@@ -190,7 +190,7 @@ public class CreateEmployee extends JFrame {
 		lblRolle.setBounds(12, 203, 56, 16);
 		panel.add(lblRolle);
 
-		cbxCitys = new JComboBox<Object>(EmployeeController.postcodeArray.toArray());
+		cbxCitys = new JComboBox<Object>(EmployeeController.postCodeArray.toArray());
 		cbxCitys.setBounds(90, 106, 117, 22);
 		panel.add(cbxCitys);
 

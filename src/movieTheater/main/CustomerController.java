@@ -11,20 +11,20 @@ import movieTheater.SQL.SQLCustomerSave;
 import movieTheater.SQL.SQLLoadPostCode;
 
 
-public class CostumerController {
+public class CustomerController {
 
 	private SQLCustomerLoad loadCostumer;
 	private SQLCustomerSave saveCostumer;
 	private Costumer costumer;
-	private SQLLoadPostCode loadPostcode;
-	public static ArrayList<City> postcodeArray;
+	private SQLLoadPostCode loadPostCode;
+	public static ArrayList<City> postCodeArray;
 	
-	public CostumerController()
+	public CustomerController()
 	{
 		loadCostumer = new SQLCustomerLoad();
 		saveCostumer = new SQLCustomerSave();
-		loadPostcode = new SQLLoadPostCode();
-		postcodeArray = loadPostcode.getCitys();
+		loadPostCode = new SQLLoadPostCode();
+		postCodeArray = loadPostCode.getCitys();
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class CostumerController {
 		createCostumer.dispose();
 	}
 	
-	public void saveCostumer( Costumer costum)
+	public void saveCostumer(Costumer costum)
 	{
 		String name = costum.getfName();
 		String lastname = costum.getlName();

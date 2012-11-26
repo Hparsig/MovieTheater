@@ -9,7 +9,6 @@ public class HallController {
 	
 	private ArrayList<Hall> halls;
 
-
 	public HallController()
 	{
 		halls = new ArrayList<Hall>();

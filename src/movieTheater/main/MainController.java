@@ -13,13 +13,13 @@ import movieTheater.Show.Show;
  */
 public class MainController
 {
-	private CostumerController costumerController;
+	private CustomerController costumerController;
 	private EmployeeController employeeController;
 	private LoginController loginController;
 	private MovieController movieController;
 	private ShowController showController;
-	private int userChoice;
 	public static Employee loggedOn;
+	private int userChoice;
 	private boolean menuOn;
 	private boolean programOn;
 	private boolean isAdmin;
@@ -101,7 +101,7 @@ public class MainController
 				{
 					if(choise==1)//the costumer is a member
 					{
-						CostumerController cosController = new CostumerController();
+						CustomerController cosController = new CustomerController();
 						Costumer costumer = cosController.showSearchCostumer();
 
 						if(costumer!=null) //if costumer==null, the user has cancelled the order
@@ -131,7 +131,7 @@ public class MainController
 			}
 			case MainWindow.GETORDER:
 			{
-				costumerController = new CostumerController();
+				costumerController = new CustomerController();
 				Costumer costumer = costumerController.showSearchCostumer();
 				if(costumer!=null)
 				{
@@ -142,13 +142,13 @@ public class MainController
 			}
 			case MainWindow.CREATECOSTUMER:
 			{
-				costumerController = new CostumerController();
+				costumerController = new CustomerController();
 				costumerController.setCostumer(null);
 				break;
 			}
 			case MainWindow.EDITCOSTUMER:
 			{
-				costumerController = new CostumerController();
+				costumerController = new CustomerController();
 				Costumer costumer = costumerController.showSearchCostumer();
 				if(costumer!=null)
 				{
@@ -158,7 +158,7 @@ public class MainController
 			}
 			case MainWindow.DELETECOSTUMER:
 			{
-				costumerController = new CostumerController();
+				costumerController = new CustomerController();
 				Costumer costumer = costumerController.showSearchCostumer();
 				if(costumer!=null)
 				{

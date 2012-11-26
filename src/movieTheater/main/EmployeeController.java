@@ -29,7 +29,7 @@ public class EmployeeController {
 	private Employee person;
 	private SQLLoadPostCode loadPostcode;
 	private SQLLoadTitel loadTitle;
-	public static ArrayList<City> postcodeArray;
+	public static ArrayList<City> postCodeArray;
 	public static ArrayList<Title> titleArray;
 	private CreateEmployee createEmployee;
 	private SearchEmployee searchEmployee;
@@ -50,7 +50,7 @@ public class EmployeeController {
 		loadPostcode = new SQLLoadPostCode();
 
 		titleArray = loadTitle.getTitels();
-		postcodeArray = loadPostcode.getCitys();
+		postCodeArray = loadPostcode.getCitys();
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class EmployeeController {
 	 * @throws SQLException
 	 * open the window search employee
 	 */
-	public void searchEmployees(boolean isAdmin)
+	private void searchEmployees(boolean isAdmin)
 	{
 		searchEmployee = new SearchEmployee();
 		persons.clear();	
@@ -187,9 +187,9 @@ public class EmployeeController {
 			createEmployee.setTitle(indexTitle);
 		}
 		int indexPostcode = 0;
-		for(int i=0; i < postcodeArray.size(); i++)
+		for(int i=0; i < postCodeArray.size(); i++)
 		{
-			if(postcodeArray.get(i).getPostcode()==person.getPostCode())
+			if(postCodeArray.get(i).getPostcode()==person.getPostCode())
 			{
 				indexPostcode = i;
 			}
