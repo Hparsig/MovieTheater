@@ -11,16 +11,15 @@ public class SQLShowLoadTest {
 	
 	public void test(String name, Date dato){
 		SQLShowLoad load = new SQLShowLoad();
-		ShowController con = new ShowController();
-		con.getShows(name, dato);
-		//try
-		//{
-			//ArrayList<Show> shows = load.loadShowsByDateAndTitle(dato, name);
-			//for(int i = 0; i < shows.size(); i++){
-				//HashMapshows.get(i).getHallBooking().getAvailableSeats();
-			//}
-		//}catch(Exception e){
-			//e.printStackTrace();
-		//}
+		load.loadShows(null, "sky");
+		try
+		{
+			ArrayList<Show> shows = load.loadShows(null, "sky");
+			for(int i = 0; i < shows.size(); i++){
+				shows.get(i).getMovie();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

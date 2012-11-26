@@ -42,7 +42,7 @@ public class TestSQLShow{
 			for(Show currentShow: shows)
 			{
 				System.out.println(currentShow.getHallBooking().getHalleNo() + " " + currentShow.getMovie().getMovieID() + " " + currentShow.getShowID() + 
-						" " + currentShow.getHallBooking().getTimeStart() + " " + currentShow.getHallBooking().getTimeEnd()+"  "+currentShow.getPriceCategory());	
+						" " + currentShow.getHallBooking().getStart() + " " + currentShow.getHallBooking().getEndTime()+"  "+currentShow.getPriceCategory());	
 			}
 		}
 		catch (Exception e)

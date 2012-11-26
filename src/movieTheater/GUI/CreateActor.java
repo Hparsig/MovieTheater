@@ -45,26 +45,6 @@ public class CreateActor extends JFrame
 	public final CountDownLatch latchActor = new CountDownLatch(1); //venter på brugerens input. 
 	private JLabel lblOpretSkuespiller;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args)
-	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-					CreateActor frame = new CreateActor();
-					frame.setVisible(true);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
