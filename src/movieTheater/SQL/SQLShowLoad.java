@@ -10,7 +10,7 @@ import movieTheater.Movie.Movie;
 import movieTheater.Show.HallBooking;
 import movieTheater.Show.Seat;
 import movieTheater.Show.Show;
-import movieTheater.main.HallData;
+import movieTheater.main.TheaterData;
 
 public class SQLShowLoad extends SQL{
 	
@@ -181,14 +181,14 @@ public class SQLShowLoad extends SQL{
 		
 		if(hallNo==1)
 		{
-			seatsPrRow = HallData.seatsPrRowHall1;
+			seatsPrRow = TheaterData.seatsPrRowHall1;
 		}
 		else if(hallNo==2)
 		{
-			seatsPrRow = HallData.seatsPrRowHall2;
+			seatsPrRow = TheaterData.seatsPrRowHall2;
 		}
 		else{
-			seatsPrRow = HallData.seatsPrRowHall3;
+			seatsPrRow = TheaterData.seatsPrRowHall3;
 		}
 		for(int i = 0; i < seatsPrRow.length; i++)						//iterates over one row at the time
 		{

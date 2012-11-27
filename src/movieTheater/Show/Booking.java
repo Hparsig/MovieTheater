@@ -4,7 +4,7 @@ import java.util.Map;
 
 import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
-import movieTheater.main.HallData;
+import movieTheater.main.TheaterData;
 
 
 public class Booking 
@@ -93,7 +93,7 @@ public class Booking
 		
 		for (Map.Entry<Seat, Integer> entry : seatBookings.entrySet())
 		{
-			price = price + ( HallData.MAINPRICE * showCategory * entry.getKey().getCatagory());
+			price = price + ( TheaterData.MAINPRICE * showCategory * entry.getKey().getCatagory());
 			
 		}
 		return price;

@@ -12,9 +12,9 @@ public class HallController {
 	public HallController()
 	{
 		halls = new ArrayList<Hall>();
-		halls.add(new Hall(1, HallData.seatsPrRowHall1));
-		halls.add(new Hall(2, HallData.seatsPrRowHall2));
-		halls.add(new Hall(2, HallData.seatsPrRowHall3));
+		halls.add(new Hall(1, TheaterData.seatsPrRowHall1));
+		halls.add(new Hall(2, TheaterData.seatsPrRowHall2));
+		halls.add(new Hall(2, TheaterData.seatsPrRowHall3));
 	}
 	/**
 	 * 
