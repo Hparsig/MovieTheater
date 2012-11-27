@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import movieTheater.GUI.CreateShow;
+import movieTheater.GUI.DeleteShow;
 import movieTheater.GUI.SearchShow;
 import movieTheater.SQL.SQLShowLoad;
 import movieTheater.SQL.SQLShowSave;
@@ -14,11 +15,12 @@ import movieTheater.Show.Show;
 
 public class ShowController {
 	
-	private ArrayList<Show> shows;
+	public static ArrayList<Show> shows;
 	private SQLShowLoad showLoad;
 	private SQLShowSave showSave;
 	private Show show;
 	private CreateShow createShow;
+	private DeleteShow deleteShow;
 	
 
 	public ShowController()
@@ -200,6 +202,28 @@ public class ShowController {
 		} 
 		
 		return dateOk;
+	}
+	public void deleteShow() {
+		
+		deleteShow = new DeleteShow();
+		deleteShow.setVisible(true);
+		try
+		{ 
+			deleteShow.latch.await();
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		if(deleteShow.getAreChangesMade()){
+			show = deleteShow.getShow();
+			showSave.deleteShow(show.getShowID());
+		}
+		
+	}
+	public void loadShows() {
+		shows = showLoad.loadAllShows();
+		
 	}
 	
 	

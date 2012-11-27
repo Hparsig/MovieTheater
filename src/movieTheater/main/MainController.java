@@ -217,6 +217,9 @@ public class MainController
 			}
 			case MainWindow.DELETESHOW:
 			{
+				showController = new ShowController();
+				showController.loadShows();
+				showController.deleteShow();
 				break;
 			}
 			case MainWindow.LOGOFF:
