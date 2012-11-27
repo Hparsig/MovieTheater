@@ -9,6 +9,7 @@ import java.util.concurrent.CountDownLatch;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -124,5 +125,8 @@ public class LoginEmployee extends JFrame
 	{
 		return isExitChosen;
 	}
-
+	public void showDiaglog(String text)
+	{
+		JOptionPane.showMessageDialog(new JFrame(), text);
+	}
 }

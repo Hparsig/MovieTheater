@@ -51,12 +51,12 @@ public class LoginController {
 				}
 				catch(IndexOutOfBoundsException outOf)
 				{
-					JOptionPane.showMessageDialog(new JFrame(), "Brugeren findes ikke");
+					login.showDiaglog("Forkert kombination af bruger og password");
 					login.setLatch();
 				}
 				catch(Exception e)
 				{
-					JOptionPane.showMessageDialog(new JFrame(), "Alle felterne skal udfyldes korrekt");  
+					login.showDiaglog("Alle felterne skal udfyldes korrekt");  
 					login.setLatch();
 				}	
 			}
