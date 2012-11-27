@@ -17,7 +17,7 @@ public class Title {
 		return titelName;
 	}
 	public String toString(){
-		return titelID+" "+titelName;
+		return titelName;
 	}
 
 }
