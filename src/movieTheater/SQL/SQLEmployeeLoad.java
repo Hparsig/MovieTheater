@@ -1,6 +1,5 @@
 package movieTheater.SQL;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import movieTheater.Persons.Admin;

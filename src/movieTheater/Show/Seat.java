@@ -54,10 +54,19 @@ public class Seat {
 	{
 		return catagoryFactor;
 	}
+	public void setBudget()
+	{
+		catagoryFactor = BUDGET;
+	}
+	
 	
 	public void setSeatStatus(int seatStatus)
 	{
 		this.seatStatus = seatStatus;
+	}
+	public void setLuxurious()
+	{
+		catagoryFactor = LUXURIOUS;
 	}
 	public String toString()
 	{
