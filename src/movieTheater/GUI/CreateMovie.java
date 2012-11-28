@@ -409,7 +409,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		lblRatingStars = new JLabel("Ingen");
 		lblRatingStars.setBounds(471, 240, 64, 14);
 		panel.add(lblRatingStars);
-		int stars = movie.getStarsAvarage();
+		double stars = movie.getStarsAvarage();
 		if (stars != 0)
 		{
 			lblRatingStars.setText(""+stars);

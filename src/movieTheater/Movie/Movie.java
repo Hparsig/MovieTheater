@@ -2,6 +2,7 @@ package movieTheater.Movie;
 
 
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -173,16 +174,19 @@ public class Movie
 	{
 		ratings.add(rating);
 	}
-	public int getStarsAvarage()
+	public double getStarsAvarage()
 	{
-		int stars = 0;
-		if (!ratings.isEmpty())
+		double stars = 0;
+		if (ratings != null)
 		{
 			for(Rating i: ratings)
 			{
 				stars = stars + i.getStars();
 			}
 			stars = stars/ratings.size();
+			stars = stars * 100;
+			stars = Math.round(stars);
+			stars = stars / 100;
 		}
 		return stars;
 	}
@@ -253,15 +257,21 @@ public class Movie
 
 		return isEqual; 
 	}
+
 	public String getRatingsString()
 	{
 		String ratingsString = "";
-		for (Rating currentRating : ratings)
+		if (ratings != null)
 		{
-			ratingsString = ratingsString + currentRating.getReview() + "\n";
+			for (Rating currentRating : ratings)
+			{
+				ratingsString = ratingsString + "Vurdering = " + currentRating.getStars() + "\n" + currentRating.getReview() + "\n\n";
+			}
+			ratingsString = ratingsString + "\nSamlet vurdering = " + getStarsAvarage();
 		}
-	return ratingsString;	
+		return ratingsString;	
 	}
+
 	public String toString()
 	{
 		return (title + " - " + genre);
