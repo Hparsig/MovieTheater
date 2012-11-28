@@ -25,6 +25,7 @@ import movieTheater.Movie.Movie;
 import movieTheater.Show.Show;
 import movieTheater.main.MovieController;
 
+@SuppressWarnings("serial")
 public class CreateShow extends JFrame{
 	private JPanel contentPane;
 	private JFormattedTextField startDate;

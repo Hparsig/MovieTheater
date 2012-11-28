@@ -29,6 +29,10 @@ public class HallController {
 		// løbe igennem arrayet af halls og se om der er ledige sluts. 
 		return availableHalls;
 	}
-// test og mere test
+	
+	public Hall getHall(int hallNo)
+	{
+		return halls.get(hallNo);
+	}
 }
 

@@ -107,8 +107,9 @@ public class MainController
 						if(costumer!=null) //if costumer==null, the user has cancelled the order
 						{
 							ShowController showController = new ShowController();
+							
 							Show show = showController.searchShow();
-							if(show!=null)
+							if(show!=null) //show == null, the user has cancelled the order
 							{
 								BookingController bookingCon = new BookingController();
 								bookingCon.newBooking(show,costumer);
@@ -119,7 +120,7 @@ public class MainController
 					{
 						ShowController showController = new ShowController();
 						Show show = showController.searchShow();
-						if(show!=null)
+						if(show!=null) //show == null, the user has cancelled the order
 						{
 							BookingController bookingCon = new BookingController();
 							bookingCon.newBooking(show,null);
@@ -216,6 +217,9 @@ public class MainController
 			}
 			case MainWindow.DELETESHOW:
 			{
+				showController = new ShowController();
+				showController.loadShows();
+				showController.deleteShow();
 				break;
 			}
 			case MainWindow.LOGOFF:

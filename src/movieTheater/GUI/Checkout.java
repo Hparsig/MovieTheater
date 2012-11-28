@@ -1,24 +1,27 @@
 package movieTheater.GUI;
 
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import movieTheater.main.BookingController;
-import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.concurrent.CountDownLatch;
 
-import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import movieTheater.main.BookingController;
+
+@SuppressWarnings("serial")
 public class Checkout extends JFrame {
 	
 	private JPanel contentPane;
 	private JPanel panel;
-	
+	private JLabel ticketL;
 	private JTextField textAmount;
 	private JLabel price;
 	private JLabel jChange;
@@ -33,7 +36,7 @@ public class Checkout extends JFrame {
 	public Checkout() {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 306, 180);
+		setBounds(100, 100, 414, 291);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -84,6 +87,12 @@ public class Checkout extends JFrame {
 		btnAnnuler.setBounds(108, 75, 97, 25);
 		panel.add(btnAnnuler);
 		
+		ticketL = new JLabel("");
+		ticketL.setForeground(Color.BLUE);
+		ticketL.setBackground(Color.BLUE);
+		ticketL.setBounds(220, 44, 154, 181);
+		panel.add(ticketL);
+		
 	}
 	
 	public String getAmount()
@@ -117,7 +126,10 @@ public class Checkout extends JFrame {
 		JOptionPane.showMessageDialog(new JFrame(), "Beløb er ugyldigt format"); 
 		latch = new CountDownLatch(1);
 	}
-
+	public void addTicket(String text)
+	{
+		ticketL.setText(text);
+	}
 }
 
 

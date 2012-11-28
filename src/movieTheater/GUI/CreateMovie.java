@@ -11,8 +11,6 @@ import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -160,7 +158,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		ftfPremier.setBounds(112, 146, 142, 20);
 		if (movie.getReleaseDate() != null)
 		{
-			ftfPremier.setText(movie.getReleaseDate().toLocaleString());
+			ftfPremier.setText(movie.getReleaseDate().toString());
 		}
 		panel.add(ftfPremier);
 
@@ -184,7 +182,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		ftfOffday.setBounds(112, 239, 142, 20);
 		if (movie.getTimeEnd() != null)
 		{
-			ftfOffday.setText(movie.getTimeEnd().toLocaleString());
+			ftfOffday.setText(movie.getTimeEnd().toString());
 		}
 		panel.add(ftfOffday);
 

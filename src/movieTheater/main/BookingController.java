@@ -15,6 +15,7 @@ import movieTheater.Show.Booking;
 import movieTheater.Show.Payment;
 import movieTheater.Show.Seat;
 import movieTheater.Show.Show;
+import movieTheater.Show.Ticket;
 
 
 public class BookingController 
@@ -27,6 +28,7 @@ public class BookingController
 	private SQLBookingLoad loadBooking;
 	private AvailableSeats avaliableSeats;
 	private Show show;
+	private Ticket ticket;
 	
 	private Booking currentBooking;
 	
@@ -187,12 +189,17 @@ public class BookingController
 			{
 				checkoutWindow.setChange(change);
 
-				Payment payment = new Payment(amount,payMethod);
-				currentBooking.setSeatsPayed();
-				currentBooking.pickedUp();
-				currentBooking.setPayed(payment);
+				Payment payment = new Payment(amount,payMethod);//making new paymnet
+				currentBooking.setSeatsPayed(); //adding the payment to the booking
+				currentBooking.pickedUp(); //set the ticket to picked up
+				currentBooking.setPayed(payment); //sets the booking to payd
 				saveBooking.updateBooking(currentBooking);
 				checkoutWindow.setAmountok();
+				ticket = new Ticket(currentBooking);
+				System.out.println(ticket.toString());
+				checkoutWindow.addTicket(ticket.toString());
+				
+				
 			}
 		}
 		

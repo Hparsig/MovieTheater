@@ -3,6 +3,7 @@ package movieTheater.GUI;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.concurrent.CountDownLatch;
 
@@ -13,11 +14,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
 import movieTheater.main.LoginController;
-import java.awt.event.KeyAdapter;
 
 @SuppressWarnings("serial")
 public class LoginEmployee extends JFrame 
@@ -28,7 +27,6 @@ public class LoginEmployee extends JFrame
 	private JPasswordField passwordField;
 	private String username;
 	private String password;
-	private LoginController loginController;
 	private boolean isExitChosen;
 	public  CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input. 
 
@@ -38,7 +36,6 @@ public class LoginEmployee extends JFrame
 	public LoginEmployee() 
 	{
 		isExitChosen = false;
-		loginController = new LoginController();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 357, 176);
 		contentPane = new JPanel();

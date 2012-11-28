@@ -5,7 +5,7 @@ import movieTheater.Show.Show;
 public class SQLShowSave extends SQL {
 	
 	private static final String createShow = "INSERT INTO shows (hallNo,timeS,timeE,movieID,priceCategory) values(?,?,?,?,?)";
-	
+	private static final String deleteShow = "DELETE FROM shows WHERE showID=";
 	public SQLShowSave(){
 		
 		
@@ -39,5 +39,22 @@ public class SQLShowSave extends SQL {
 		{
 			closeConnectionPreparedStatement();
 		}
+	}
+	
+	public void deleteShow(int showID){
+		openConnection();
+		try 
+		{                     
+			statement.executeUpdate(deleteShow+showID);      
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i sletning af forestilling");
+			e.printStackTrace();
+		}
+		finally
+		{   
+			closeConnectionLoad();      
+		} 
 	}
 }

@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JOptionPane;
-
 import movieTheater.GUI.CreateMovie;
 import movieTheater.GUI.SearchMovie;
 import movieTheater.Movie.Actor;
@@ -101,7 +99,7 @@ public class MovieController
 			{
 				e.printStackTrace();
 			}
-			if (createMovie.areChangesMade() && !createMovie.isCancelChosen()) //FIXME returværdi skal oprettes. 
+			if (createMovie.areChangesMade() && !createMovie.isCancelChosen()) 
 			{
 				checkAndSaveMovie();
 			}
