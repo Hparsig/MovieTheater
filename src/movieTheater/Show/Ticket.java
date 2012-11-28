@@ -27,6 +27,6 @@ public class Ticket {
 				seats = seats+"Række: "+row+", sæde: "+seatNum+"\n";
 			}
 		
-		return "Dato: "+date+"\n"+titel+"\n Sal: "+hallNo+"\n"+seats;
+		return "Dato: "+date+"\n"+titel+"\nSal: "+hallNo+"\n"+seats;
 	}
 }

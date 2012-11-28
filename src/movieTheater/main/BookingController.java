@@ -196,7 +196,7 @@ public class BookingController
 				saveBooking.updateBooking(currentBooking);
 				checkoutWindow.setAmountok();
 				ticket = new Ticket(currentBooking);
-				System.out.println(ticket.toString());
+	
 				checkoutWindow.addTicket(ticket.toString());
 			}
 		}
