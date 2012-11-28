@@ -1,7 +1,4 @@
 package movieTheater.main;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import movieTheater.GUI.LoginEmployee;
 import movieTheater.Persons.Employee;
 import movieTheater.SQL.SQLLogin;

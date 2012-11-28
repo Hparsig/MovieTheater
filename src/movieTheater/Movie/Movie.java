@@ -176,12 +176,14 @@ public class Movie
 	public int getStarsAvarage()
 	{
 		int stars = 0;
-		for(Rating i: ratings)
+		if (!ratings.isEmpty())
 		{
-			stars = stars + i.getStars();
+			for(Rating i: ratings)
+			{
+				stars = stars + i.getStars();
+			}
+			stars = stars/ratings.size();
 		}
-		stars = stars/ratings.size();
-
 		return stars;
 	}
 
@@ -239,17 +241,26 @@ public class Movie
 	{
 		this.ratings = ratings;
 	}
-	
+
 	public boolean isEqual(Movie compareTo)
 	{
 		boolean isEqual = false;
-		
+
 		if (compareTo.getMovieID() == this.movieID)
 			isEqual = true;
 		if (compareTo.title == this.title && compareTo.director == this.director && compareTo.genre == this.genre)
 			isEqual = true;
-		
+
 		return isEqual; 
+	}
+	public String getRatingsString()
+	{
+		String ratingsString = "";
+		for (Rating currentRating : ratings)
+		{
+			ratingsString = ratingsString + currentRating.getReview() + "\n";
+		}
+	return ratingsString;	
 	}
 	public String toString()
 	{

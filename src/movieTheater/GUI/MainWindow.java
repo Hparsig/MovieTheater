@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import movieTheater.Persons.Admin;
 import movieTheater.Persons.Manager;
+import movieTheater.Persons.SalesPerson;
 import movieTheater.main.MainController;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
@@ -208,6 +209,22 @@ public class MainWindow extends JFrame implements WindowListener
 				latch.countDown();
 			}
 		});
+		
+		btnEditFilm = new JButton("Film");
+		if (MainController.loggedOn instanceof SalesPerson)
+		{
+			btnEditFilm.setText("søg/vis film");
+		}
+		btnEditFilm.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				choise = EDITMOVIE;
+				latch.countDown();
+			}
+		});
+		btnEditFilm.setBounds(287, 198, 114, 47);
+		panel.add(btnEditFilm);
 
 		if (MainController.loggedOn instanceof Manager || MainController.loggedOn instanceof Admin)
 		{
@@ -245,18 +262,6 @@ public class MainWindow extends JFrame implements WindowListener
 			});
 			btnEditEmployee.setBounds(287, 140, 114, 47);
 			panel.add(btnEditEmployee);
-
-			btnEditFilm = new JButton("Film");
-			btnEditFilm.addActionListener(new ActionListener() 
-			{
-				public void actionPerformed(ActionEvent e) 
-				{
-					choise = EDITMOVIE;
-					latch.countDown();
-				}
-			});
-			btnEditFilm.setBounds(287, 198, 114, 47);
-			panel.add(btnEditFilm);
 
 			btnNewShow = new JButton("Forestilling");
 			btnNewShow.addActionListener(new ActionListener() 

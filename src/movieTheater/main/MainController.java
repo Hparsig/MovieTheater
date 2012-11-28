@@ -5,6 +5,7 @@ import movieTheater.GUI.CustomerCheck;
 import movieTheater.Persons.Admin;
 import movieTheater.Persons.Costumer;
 import movieTheater.Persons.Employee;
+import movieTheater.Persons.SalesPerson;
 import movieTheater.Show.Show;
 /**
  * Main controller orchestring the entire system. 

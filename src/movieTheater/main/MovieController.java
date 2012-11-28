@@ -14,6 +14,7 @@ import movieTheater.Movie.Actor;
 import movieTheater.Movie.Director;
 import movieTheater.Movie.Genre;
 import movieTheater.Movie.Movie;
+import movieTheater.Persons.SalesPerson;
 import movieTheater.SQL.SQLMovieLoad;
 import movieTheater.SQL.SQLMovieSave;
 
@@ -37,7 +38,7 @@ public class MovieController
 	public static ArrayList<Genre> newGenres;
 	public static Map<Actor, String> addToCast;
 	private boolean isNotReadyForSave;
-
+	
 	/**
 	 * 
 	 */
@@ -69,6 +70,7 @@ public class MovieController
 	{
 		SearchMovie searchMovie = new SearchMovie(this);
 		searchMovie.setVisible(true);
+				
 		try
 		{
 			searchMovie.latch.await();
@@ -89,7 +91,7 @@ public class MovieController
 	{
 		do
 		{
-			createMovie = new CreateMovie(movie);
+			createMovie = new CreateMovie(movie, !(MainController.loggedOn instanceof SalesPerson));
 			createMovie.setVisible(true);
 			try
 			{
@@ -270,7 +272,7 @@ public class MovieController
 				}
 			}
 		}
-
+		
 		//TODO kontrol af om der er doubletter bland skuespillere. 
 		saveNewActors();									//Saves the created actors and adds actorID
 
@@ -306,7 +308,6 @@ public class MovieController
 			}
 		}
 
-		//		movie = createMovie.getMovie();
 		if(!isNotReadyForSave)	//= is Ready For Save
 		{
 			if (movie.getMovieID() != 0)				//Movie being edited
@@ -314,10 +315,6 @@ public class MovieController
 				save.updateMovie(movie);
 				if(!addToCast.isEmpty())
 				{
-					for (Actor actor: addToCast.keySet())
-					{
-						//FIXME løb map igennem og tjek for dubletter. 						
-					}	
 					save.saveCastList(addToCast, movie.getMovieID());
 				}
 			}

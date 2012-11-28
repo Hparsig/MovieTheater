@@ -35,7 +35,7 @@ import movieTheater.Movie.Movie;
 import movieTheater.main.MovieController;
 
 /**
- * GUI used to create or edit a movie. 
+ * GUI used to create, show or edit a movie. 
  * @author Henrik
  *
  */
@@ -70,19 +70,21 @@ public class CreateMovie extends JFrame implements WindowListener{
 	private JComboBox<Actor> comboBoxActors;
 	private Director director;
 	private Cast cast;
-	//	private HashMap<Actor, String> castMap;
 	private JButton btnAddDirector;
 	private JButton btnAddGenre;
 	private JPanel panel_1;
 	private JPanel panel_2;
-	boolean areChangesMade;
+	private boolean areChangesMade;
 	private Movie movie;
 	private boolean isCancelChosen;
+	private JLabel lblRating;
+	private JLabel lblRatingStars;
+	private JButton btnViewRatings;
 
 	/**
 	 * Create the frame.
 	 */
-	public CreateMovie(final Movie movie) 
+	public CreateMovie(final Movie movie, boolean isEditAllowed) 
 	{
 		this.movie = movie;
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -122,6 +124,19 @@ public class CreateMovie extends JFrame implements WindowListener{
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
+		lblOpretFilm = new JLabel("opret film");
+		if(movie.getMovieID() != 0)
+		{	
+			lblOpretFilm.setText("Rediger film");
+		}
+		if(!isEditAllowed)
+		{
+			lblOpretFilm.setText("Vis film");	
+		}
+		lblOpretFilm.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblOpretFilm.setBounds(28, 11, 158, 31);
+		panel.add(lblOpretFilm);
+		
 		tfTitel = new JTextField();
 		tfTitel.setBounds(112, 53, 142, 20);
 		panel.add(tfTitel);
@@ -156,6 +171,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 
 		ftfPremier = new JFormattedTextField(maskFormatDate);
 		ftfPremier.setBounds(112, 146, 142, 20);
+		//FIXME vil ikke vise datoerne, går ud fra at det er fordi den ikke laver dem om til rette format. 
 		if (movie.getReleaseDate() != null)
 		{
 			ftfPremier.setText(movie.getReleaseDate().toString());
@@ -186,46 +202,147 @@ public class CreateMovie extends JFrame implements WindowListener{
 		}
 		panel.add(ftfOffday);
 
-		btnAddActor = new JButton("Opret skuespiller");
-		btnAddActor.addActionListener(new ActionListener() 
+		if(isEditAllowed)
 		{
-			public void actionPerformed(ActionEvent e) 
+			btnAddActor = new JButton("Opret skuespiller");
+			btnAddActor.addActionListener(new ActionListener() 
 			{
-				final CreateActor createActor = new CreateActor();
-				createActor.setVisible(true);
-
-				createActor.addComponentListener(new ComponentListener()
+				public void actionPerformed(ActionEvent e) 
 				{
-					@Override
-					public void componentHidden(ComponentEvent arg0)
+					final CreateActor createActor = new CreateActor();
+					createActor.setVisible(true);
+
+					createActor.addComponentListener(new ComponentListener()
 					{
-						Actor actor = createActor.getActor();
-						MovieController.actors.add(actor);
-						MovieController.newActors.add(actor);
-						createActor.dispose();
-						comboBoxActors.addItem(actor);
-						comboBoxActors.setSelectedItem(actor);
-					}
-					@Override
-					public void componentMoved(ComponentEvent arg0)
-					{	}
-					@Override
-					public void componentResized(ComponentEvent arg0)
-					{	}
-					@Override
-					public void componentShown(ComponentEvent arg0)
-					{	}
-				});
+						@Override
+						public void componentHidden(ComponentEvent arg0)
+						{
+							Actor actor = createActor.getActor();
+							MovieController.actors.add(actor);
+							MovieController.newActors.add(actor);
+							createActor.dispose();
+							comboBoxActors.addItem(actor);
+							comboBoxActors.setSelectedItem(actor);
+						}
+						@Override
+						public void componentMoved(ComponentEvent arg0)
+						{	}
+						@Override
+						public void componentResized(ComponentEvent arg0)
+						{	}
+						@Override
+						public void componentShown(ComponentEvent arg0)
+						{	}
+					});
+				}
+			});
+			btnAddActor.setBounds(549, 52, 130, 23);
+			panel.add(btnAddActor);
+			
+			if(movie.getDirector() == null)
+			{	
+				btnCreateMovie = new JButton("Opret film");
 			}
-		});
-		btnAddActor.setBounds(549, 52, 130, 23);
-		panel.add(btnAddActor);
+			else
+			{
+				btnCreateMovie = new JButton("Gem");	
+			}		
+			btnCreateMovie.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent e) 
+				{
+					if (comboBoxGenres.getSelectedItem() instanceof Genre)
+					{
+						genre = (Genre)comboBoxGenres.getSelectedItem();
+					}
+					if (comboBoxDirectors.getSelectedItem() instanceof Director)
+					{
+						director = (Director)comboBoxDirectors.getSelectedItem();
+					}
+
+					movie.setTitle(tfTitel.getText());
+					movie.setOriginalTitle(tfOriginalTitel.getText());
+					movie.setLength(playingTime);
+					movie.setDirector(director);
+					movie.setGenre(genre);
+					movie.setCast(cast);
+					movie.setIs3D(tglbtnNewToggleButton.isSelected());
+
+					areChangesMade = true;
+					latch.countDown();
+				} 
+
+			});
+			btnCreateMovie.setBackground(Color.GREEN);
+			btnCreateMovie.setBounds(579, 236, 100, 23);
+			panel.add(btnCreateMovie);
+			
+			btnAddDirector = new JButton("Opret instrukt\u00F8r");
+			btnAddDirector.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent e) 
+				{
+					final CreateDirector createDirector = new CreateDirector();
+					createDirector.setVisible(true);
+
+					createDirector.addComponentListener(new ComponentListener()
+					{
+						@Override
+						public void componentHidden(ComponentEvent arg0)
+						{
+							Director director = createDirector.getDirector();
+							MovieController.directors.add(director);
+							MovieController.newDirectors.add(director);
+							createDirector.dispose();
+							comboBoxDirectors.addItem(director);
+							comboBoxDirectors.setSelectedItem(director);
+						}
+						@Override
+						public void componentMoved(ComponentEvent arg0)
+						{	}
+						@Override
+						public void componentResized(ComponentEvent arg0)
+						{	}
+						@Override
+						public void componentShown(ComponentEvent arg0)
+						{	}
+					});
+				}
+			});
+			btnAddDirector.setBounds(549, 83, 130, 23);
+			panel.add(btnAddDirector);
+			
+			btnAddGenre = new JButton("Opret genre");
+			btnAddGenre.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent e) 
+				{
+					String genreName = JOptionPane.showInputDialog(CreateMovie.this, "Genretekst" , "Opret ny genre", JOptionPane.DEFAULT_OPTION);
+					if (genreName != null)
+					{
+						Genre newGenre = new Genre(genreName);
+						MovieController.genres.add(newGenre);
+						MovieController.newGenres.add(newGenre);
+						comboBoxGenres.addItem(newGenre);
+						comboBoxGenres.setSelectedItem(newGenre);
+					}
+				}
+			});
+			btnAddGenre.setBounds(549, 115, 130, 23);
+			panel.add(btnAddGenre);
+		}
 
 		tglbtnNewToggleButton = new JToggleButton("3D");
 		tglbtnNewToggleButton.setBounds(289, 236, 121, 23);
 		panel.add(tglbtnNewToggleButton);
 
 		btnAbort = new JButton("Annuller");
+		btnAbort.setBackground(Color.RED);
+		if(!isEditAllowed)
+		{
+			btnAbort.setText("ok");
+			btnAbort.setBackground(Color.GREEN);
+		}
 		btnAbort.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -235,61 +352,9 @@ public class CreateMovie extends JFrame implements WindowListener{
 				latch.countDown();
 			} 
 		});
-		btnAbort.setBackground(Color.RED);
 		btnAbort.setBounds(579, 208, 100, 23);
 		panel.add(btnAbort);
-
-
-		if(movie.getDirector() == null)
-		{	
-			btnCreateMovie = new JButton("Opret film");
-		}
-		else
-		{
-			btnCreateMovie = new JButton("Gem");	
-		}		
-		btnCreateMovie.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				if (comboBoxGenres.getSelectedItem() instanceof Genre)
-				{
-					genre = (Genre)comboBoxGenres.getSelectedItem();
-				}
-				if (comboBoxDirectors.getSelectedItem() instanceof Director)
-				{
-					director = (Director)comboBoxDirectors.getSelectedItem();
-				}
-
-				movie.setTitle(tfTitel.getText());
-				movie.setOriginalTitle(tfOriginalTitel.getText());
-				movie.setLength(playingTime);
-				movie.setDirector(director);
-				movie.setGenre(genre);
-				movie.setCast(cast);
-				movie.setIs3D(tglbtnNewToggleButton.isSelected());
-
-				areChangesMade = true;
-				latch.countDown();
-			} 
-
-		});
-		btnCreateMovie.setBackground(Color.GREEN);
-		btnCreateMovie.setBounds(579, 236, 100, 23);
-		panel.add(btnCreateMovie);
-
-		if(movie.getDirector() == null)
-		{	
-			lblOpretFilm = new JLabel("Opret film");
-		}
-		else
-		{
-			lblOpretFilm = new JLabel("Rediger film");	
-		}
-		lblOpretFilm.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblOpretFilm.setBounds(28, 11, 158, 31);
-		panel.add(lblOpretFilm);
-
+		
 		panel_1 = new JPanel();
 		panel_1.setBounds(289, 84, 121, 142);
 		panel.add(panel_1);
@@ -306,7 +371,6 @@ public class CreateMovie extends JFrame implements WindowListener{
 		{
 			setPanels();
 		}
-
 		comboBoxGenres = new JComboBox(MovieController.genres.toArray());
 		comboBoxGenres.setBounds(112, 209, 142, 20);
 		comboBoxGenres.setSelectedItem(movie.getGenre());
@@ -338,25 +402,36 @@ public class CreateMovie extends JFrame implements WindowListener{
 		comboBoxActors.setBounds(289, 53, 125, 23);
 		panel.add(comboBoxActors);
 
-		btnAddDirector = new JButton("Opret instrukt\u00F8r");
-		btnAddDirector.addActionListener(new ActionListener() 
+		lblRating = new JLabel("Ratings:");
+		lblRating.setBounds(424, 240, 46, 14);
+		panel.add(lblRating);
+
+		lblRatingStars = new JLabel("Ingen");
+		lblRatingStars.setBounds(471, 240, 64, 14);
+		panel.add(lblRatingStars);
+		int stars = movie.getStarsAvarage();
+		if (stars != 0)
+		{
+			lblRatingStars.setText(""+stars);
+		}
+		
+		String ratingsString = "" + movie.getRatingsString();
+		if (!ratingsString.equals(""))
+		{
+		btnViewRatings = new JButton("se");
+		btnViewRatings.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				final CreateDirector createDirector = new CreateDirector();
-				createDirector.setVisible(true);
+				final ShowRatings showRatings = new ShowRatings(movie.getRatingsString());
+				showRatings.setVisible(true);
 
-				createDirector.addComponentListener(new ComponentListener()
+				showRatings.addComponentListener(new ComponentListener()
 				{
 					@Override
 					public void componentHidden(ComponentEvent arg0)
 					{
-						Director director = createDirector.getDirector();
-						MovieController.directors.add(director);
-						MovieController.newDirectors.add(director);
-						createDirector.dispose();
-						comboBoxDirectors.addItem(director);
-						comboBoxDirectors.setSelectedItem(director);
+						showRatings.dispose();
 					}
 					@Override
 					public void componentMoved(ComponentEvent arg0)
@@ -370,28 +445,9 @@ public class CreateMovie extends JFrame implements WindowListener{
 				});
 			}
 		});
-
-		btnAddDirector.setBounds(549, 83, 130, 23);
-		panel.add(btnAddDirector);
-
-		btnAddGenre = new JButton("Opret genre");
-		btnAddGenre.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				String genreName = JOptionPane.showInputDialog(CreateMovie.this, "Genretekst" , "Opret ny genre", JOptionPane.DEFAULT_OPTION);
-				if (genreName != null)
-				{
-					Genre newGenre = new Genre(genreName);
-					MovieController.genres.add(newGenre);
-					MovieController.newGenres.add(newGenre);
-					comboBoxGenres.addItem(newGenre);
-					comboBoxGenres.setSelectedItem(newGenre);
-				}
-			}
-		});
-		btnAddGenre.setBounds(549, 115, 130, 23);
-		panel.add(btnAddGenre);
+		btnViewRatings.setBounds(506, 236, 46, 23);
+		panel.add(btnViewRatings);
+		}
 	}
 
 	private void setPanels()
@@ -471,7 +527,6 @@ public class CreateMovie extends JFrame implements WindowListener{
 	@Override
 	public void windowClosing(WindowEvent e)
 	{
-		//FIXME spørg om brugeren er sikker. 
 		movie = null;
 		areChangesMade = false;
 		latch.countDown();
