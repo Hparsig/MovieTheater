@@ -209,18 +209,34 @@ public class MainController
 				movieController = new MovieController();
 				movieController.loadMovies();
 				showController = new ShowController();
-				showController.setShow();
+				Show show = new Show();
+				showController.setShow(show);
 				break;
 			}
 			case MainWindow.EDITSHOW:
 			{
+//				movieController = new MovieController();
+//				movieController.loadMovies();
+//				showController = new ShowController();
+//				Show show = showController.searchShow();
+//				
+//				if(show!=null) //show == null, the user has cancelled 
+//				{
+//					showController.setShow(show);
+//				}
+//				
 				break;
 			}
 			case MainWindow.DELETESHOW:
 			{
 				showController = new ShowController();
-				showController.loadShows();
-				showController.deleteShow();
+				
+				Show show = showController.searchShow();
+				if(show!=null) //show == null, the user has cancelled 
+				{
+					showController.deleteShow(show);
+				}
+				
 				break;
 			}
 			case MainWindow.LOGOFF:

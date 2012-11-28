@@ -28,8 +28,7 @@ public class Show
 		showID = 0;
 		movie = null;
 		hallBooking = null;
-		priceCategory = 0;
-		
+		priceCategory = 0;	
 	}
 	public Show(Movie movie, HallBooking hallBooking, double priceCategory)
 	{

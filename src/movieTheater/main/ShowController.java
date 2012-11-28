@@ -1,12 +1,14 @@
 package movieTheater.main;
 
+import java.awt.Component;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import javax.swing.JOptionPane;
+
 import movieTheater.GUI.CreateShow;
-import movieTheater.GUI.DeleteShow;
 import movieTheater.GUI.SearchShow;
 import movieTheater.SQL.SQLShowLoad;
 import movieTheater.SQL.SQLShowSave;
@@ -20,7 +22,7 @@ public class ShowController {
 	private SQLShowSave showSave;
 	private Show show;
 	private CreateShow createShow;
-	private DeleteShow deleteShow;
+
 	
 
 	public ShowController()
@@ -32,10 +34,10 @@ public class ShowController {
 	/**
 	 * @author Brian og Jesper
 	 */
-	public void setShow() 
+	public void setShow(Show newShow) 
 	{
-		show = new Show();
-		createShow = new CreateShow(show);
+		
+		createShow = new CreateShow(newShow);
 		createShow.setVisible(true);
 
 		while(!createShow.getDataOk())
@@ -203,25 +205,21 @@ public class ShowController {
 		
 		return dateOk;
 	}
-	public void deleteShow() {
+	
+	public void deleteShow(Show deleteShow) 
+	{
 		
-		deleteShow = new DeleteShow();
-		deleteShow.setVisible(true);
-		try
-		{ 
-			deleteShow.latch.await();
-		}
-		catch(InterruptedException e)
+
+		int choise = JOptionPane.showConfirmDialog((Component) null,"Er du sikker på du vil slette forestilling med "+deleteShow.getMovie().getOriginalTitle() , "Advarsel", JOptionPane.OK_CANCEL_OPTION);
+		
+		if (choise == 0)
 		{
-			e.printStackTrace();
-		}
-		if(deleteShow.getAreChangesMade()){
-			show = deleteShow.getShow();
-			showSave.deleteShow(show.getShowID());
-		}
-		
+			showSave.deleteShow(deleteShow.getShowID());
+		}	
 	}
-	public void loadShows() {
+	
+	public void loadShows() 
+	{
 		shows = showLoad.loadAllShows();
 		
 	}
