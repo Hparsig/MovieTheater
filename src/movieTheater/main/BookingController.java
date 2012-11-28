@@ -3,6 +3,7 @@ package movieTheater.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import movieTheater.GUI.AvailableSeats;
 import movieTheater.GUI.Checkout;
@@ -255,14 +256,30 @@ public class BookingController
 		if(selected!=-1)
 		{
 			currentBooking = currentbookings.get(selected);
+			bookings = currentBooking.getSeats();
 			if(currentBooking.getPayment()==null)//are not payd
 			{
-				bookings = currentBooking.getSeats();
 				ShowPayment();
 			}
 			else //the seats are already payd
 			{
-				//TODO udskrift af billet. 
+				ticket =  new Ticket(currentBooking);
+				Checkout checkoutWindow  = new Checkout();
+				checkoutWindow.setVisible(true);
+				
+				checkoutWindow.setButton();
+				checkoutWindow.addTicket(ticket.toString());
+				try
+				{
+					checkoutWindow.latch.await();
+				} 
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+				checkoutWindow.dispose();
+				
+				
 			}
 		}
 	}

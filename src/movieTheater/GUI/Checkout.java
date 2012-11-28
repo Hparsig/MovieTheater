@@ -35,6 +35,9 @@ public class Checkout extends JFrame {
 	public CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input.
 	
 	
+	/**
+	 * @author Jesper og Martin
+	 */
 	public Checkout() {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -134,6 +137,10 @@ public class Checkout extends JFrame {
 	public void addTicket(String text)
 	{
 		ticketL.setText(text);
+	}
+	public void setButton()
+	{
+		btnAnnuler.setText("Afslut");
 	}
 }
 
