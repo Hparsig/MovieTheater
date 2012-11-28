@@ -214,6 +214,11 @@ public class MainController
 			}
 			case MainWindow.EDITSHOW:
 			{
+				movieController = new MovieController();
+				movieController.loadMovies();
+				showController = new ShowController();
+				Show show = showController.searchShow();
+				showController.editShow(show);
 				break;
 			}
 			case MainWindow.DELETESHOW:

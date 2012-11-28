@@ -6,6 +6,7 @@ public class SQLShowSave extends SQL {
 	
 	private static final String createShow = "INSERT INTO shows (hallNo,timeS,timeE,movieID,priceCategory) values(?,?,?,?,?)";
 	private static final String deleteShow = "DELETE FROM shows WHERE showID=";
+	private static final String editShow = "UPDATE shows SET hallNo = ?, timeS = ?, timeE = ?, movieID = ?, priceCategory = ? WHERE showID = ?";
 	public SQLShowSave(){
 		
 		
@@ -45,7 +46,8 @@ public class SQLShowSave extends SQL {
 		openConnection();
 		try 
 		{                     
-			statement.executeUpdate(deleteShow+showID);      
+			statement.executeUpdate(deleteShow+showID);
+			
 		}
 		catch (Exception e)
 		{
@@ -56,5 +58,32 @@ public class SQLShowSave extends SQL {
 		{   
 			closeConnectionLoad();      
 		} 
+	}
+
+	public void editShow(Show show) {
+		openConnection();
+		try 
+		{                     
+			preparedStatement = connection.prepareStatement(editShow);
+			
+			preparedStatement.setInt(1, show.getHallBooking().getHalleNo());
+			preparedStatement.setTimestamp(2, show.getHallBooking().getStart());
+			preparedStatement.setTimestamp(3, show.getHallBooking().getEndTime());
+			preparedStatement.setInt(4, show.getMovie().getMovieID());
+			preparedStatement.setDouble(5, show.getPriceCategory());
+			preparedStatement.setInt(6, show.getShowID());
+			
+			preparedStatement.executeUpdate();
+		}
+		catch (Exception e)
+		{
+			System.out.println("fejl i opdatering af forestilling");
+			e.printStackTrace();
+		}
+		finally
+		{   
+			closeConnectionLoad();      
+		}
+		
 	}
 }
