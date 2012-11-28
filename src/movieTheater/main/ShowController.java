@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 import movieTheater.GUI.CreateShow;
 import movieTheater.GUI.DeleteShow;
+import movieTheater.GUI.EditShow;
 import movieTheater.GUI.SearchShow;
 import movieTheater.SQL.SQLShowLoad;
 import movieTheater.SQL.SQLShowSave;
@@ -21,6 +22,7 @@ public class ShowController {
 	private Show show;
 	private CreateShow createShow;
 	private DeleteShow deleteShow;
+	private EditShow editShow;
 	
 
 	public ShowController()
@@ -223,6 +225,47 @@ public class ShowController {
 	}
 	public void loadShows() {
 		shows = showLoad.loadAllShows();
+	}
+	
+	public void editShow(Show show) {
+		editShow = new EditShow(show);
+		editShow.setVisible(true);
+		
+		try
+			{
+				editShow.latch.await();
+			}
+		catch(InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			if(editShow.areChangesMade()){
+				int hall = editShow.getHall();
+				long time = editShow.getTime();
+				java.util.Date dateT = editShow.getDate();
+	
+				boolean dateOk = checkDate(dateT.getTime());
+				if(dateOk){
+					show = editShow.getShow();
+					Calendar cal = Calendar.getInstance(); 
+					cal.setTimeInMillis((time+dateT.getTime()));
+					cal.add(Calendar.HOUR, 1);
+		
+					Timestamp start = new Timestamp(cal.getTimeInMillis());
+		
+					cal.add(Calendar.MINUTE, show.getMovie().getLength()); 
+					Timestamp end = new Timestamp(cal.getTimeInMillis());	
+		
+					HallBooking hallBooking = new HallBooking(hall, start, end);
+					show.setHallBooking(hallBooking);
+					showSave.editShow(show);
+				}
+				else
+				{
+					editShow.showErrorWrongDate();
+					editShow.createLatch();
+				}
+		}
 		
 	}
 	
