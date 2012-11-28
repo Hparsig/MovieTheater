@@ -2,6 +2,7 @@ package movieTheater.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.CountDownLatch;
@@ -21,7 +22,7 @@ public class Checkout extends JFrame {
 	
 	private JPanel contentPane;
 	private JPanel panel;
-	private JLabel ticketL;
+	private TextArea ticketL;
 	private JTextField textAmount;
 	private JLabel price;
 	private JLabel jChange;
@@ -87,9 +88,9 @@ public class Checkout extends JFrame {
 		btnAnnuler.setBounds(108, 75, 97, 25);
 		panel.add(btnAnnuler);
 		
-		ticketL = new JLabel("");
-		ticketL.setForeground(Color.BLUE);
-		ticketL.setBackground(Color.BLUE);
+		ticketL = new TextArea("", 1, 1, TextArea.SCROLLBARS_NONE);
+//		ticketL.setForeground(Color.DARK_GRAY);
+//		ticketL.setBackground(Color.DARK_GRAY);
 		ticketL.setBounds(220, 44, 154, 181);
 		panel.add(ticketL);
 		

@@ -198,8 +198,6 @@ public class BookingController
 				ticket = new Ticket(currentBooking);
 				System.out.println(ticket.toString());
 				checkoutWindow.addTicket(ticket.toString());
-				
-				
 			}
 		}
 		
