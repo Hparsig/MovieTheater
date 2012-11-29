@@ -65,7 +65,7 @@ public class EditShow extends JFrame{
 		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		timeFormat = new SimpleDateFormat("hh:mm");
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 326, 386);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -107,6 +107,7 @@ public class EditShow extends JFrame{
 		btnAnnuller.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				latch.countDown();
+				EditShow.this.dispose();
 				dataOk = true;
 			}
 		});
@@ -171,10 +172,12 @@ public class EditShow extends JFrame{
 		panel.add(startTime);
 		
 }
-	public boolean areChangesMade(){
+	public boolean areChangesMade()
+	{
 		return areChangesMade;
 	}
-	public Show getShow(){
+	public Show getShow()
+	{
 		return show;
 	}
 	public Date getDate()

@@ -137,8 +137,7 @@ public class MovieController
 		movie = searchMovie.getMovie();
 		if(movie!=null)
 		{
-			int choise = createMovie.showOKCancelDialog("Er du sikker på du vil slette "+movie.getTitle());	
-
+			int choise = CreateMovie.showOKCancelDialog("Er du sikker på du vil slette "+movie.getTitle());	
 			if (choise == 0)
 			{
 				save.deleteMovie(movie.getMovieID());

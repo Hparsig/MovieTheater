@@ -11,6 +11,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -80,6 +81,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 	private JLabel lblRating;
 	private JLabel lblRatingStars;
 	private JButton btnViewRatings;
+	private SimpleDateFormat dateFormat;
 
 	/**
 	 * Create the frame.
@@ -91,6 +93,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		addWindowListener(this);
 		areChangesMade = false;
 		isCancelChosen = false;
+		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 		if(movie.getMovieID() == 0)			//Meaning an new "empty" movie. 
 		{	
@@ -171,10 +174,9 @@ public class CreateMovie extends JFrame implements WindowListener{
 
 		ftfPremier = new JFormattedTextField(maskFormatDate);
 		ftfPremier.setBounds(112, 146, 142, 20);
-		//FIXME vil ikke vise datoerne, går ud fra at det er fordi den ikke laver dem om til rette format. 
 		if (movie.getReleaseDate() != null)
 		{
-			ftfPremier.setText(movie.getReleaseDate().toString());
+			ftfPremier.setText(dateFormat.format(movie.getReleaseDate()));
 		}
 		panel.add(ftfPremier);
 
@@ -198,7 +200,7 @@ public class CreateMovie extends JFrame implements WindowListener{
 		ftfOffday.setBounds(112, 239, 142, 20);
 		if (movie.getTimeEnd() != null)
 		{
-			ftfOffday.setText(movie.getTimeEnd().toString());
+			ftfOffday.setText(dateFormat.format(movie.getTimeEnd()));
 		}
 		panel.add(ftfOffday);
 
@@ -507,7 +509,12 @@ public class CreateMovie extends JFrame implements WindowListener{
 
 		return choise;
 	}
-	public int showOKCancelDialog(String text)
+	/**
+	 * Shows an JOptionPane with the text send as parameter. 
+	 * @param text
+	 * @return int choise. 0 if yes i chosen. 
+	 */
+	public static int showOKCancelDialog(String text)
 	{
 		int choise = JOptionPane.showConfirmDialog((Component) null, 
 				text,
