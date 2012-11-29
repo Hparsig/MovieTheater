@@ -220,8 +220,10 @@ public class MainController
 				movieController.loadMovies();
 				showController = new ShowController();
 				Show show = showController.searchShow();
+				if(show != null)
+				{
 				showController.editShow(show);
-
+				}
 				break;
 			}
 			case MainWindow.DELETESHOW:
