@@ -1,5 +1,6 @@
 package movieTheater.Show;
 import movieTheater.Movie.Movie;
+import java.sql.Timestamp;
 
 public class Show 
 {
@@ -28,8 +29,7 @@ public class Show
 		showID = 0;
 		movie = null;
 		hallBooking = null;
-		priceCategory = 0;
-		
+		priceCategory = 0;	
 	}
 	public Show(Movie movie, HallBooking hallBooking, double priceCategory)
 	{
@@ -68,5 +68,8 @@ public class Show
 	public String toString()
 	{
 		return "Film: "+movie.getTitle()+", Start tid: "+ hallBooking.getStart()+", Sal: "+hallBooking.getHalleNo();
+	}
+	public Timestamp getStart() {
+		return this.hallBooking.getStart();
 	}
 }

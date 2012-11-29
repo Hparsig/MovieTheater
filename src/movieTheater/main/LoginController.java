@@ -13,7 +13,7 @@ public class LoginController {
 	}
 
 	/**
-	 * @author Jesper
+	 * @author Jesper + Christopher
 	 * @return Employee currentEmployee
 	 * returns the user that logins
 	 */

@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import movieTheater.main.BookingController;
+import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class Checkout extends JFrame {
@@ -34,10 +35,13 @@ public class Checkout extends JFrame {
 	public CountDownLatch latch = new CountDownLatch(1); //venter på brugerens input.
 	
 	
+	/**
+	 * @author Jesper og Martin
+	 */
 	public Checkout() {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 414, 291);
+		setBounds(100, 100, 407, 224);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -89,10 +93,13 @@ public class Checkout extends JFrame {
 		panel.add(btnAnnuler);
 		
 		ticketL = new TextArea("", 1, 1, TextArea.SCROLLBARS_NONE);
-//		ticketL.setForeground(Color.DARK_GRAY);
-//		ticketL.setBackground(Color.DARK_GRAY);
-		ticketL.setBounds(220, 44, 154, 181);
+		ticketL.setBounds(229, 42, 145, 123);
 		panel.add(ticketL);
+		
+		JLabel lblBillet = new JLabel("Billet");
+		lblBillet.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblBillet.setBounds(231, 15, 56, 25);
+		panel.add(lblBillet);
 		
 	}
 	
@@ -130,6 +137,10 @@ public class Checkout extends JFrame {
 	public void addTicket(String text)
 	{
 		ticketL.setText(text);
+	}
+	public void setButton()
+	{
+		btnAnnuler.setText("Afslut");
 	}
 }
 

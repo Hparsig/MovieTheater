@@ -268,7 +268,6 @@ public class MainWindow extends JFrame implements WindowListener
 			{
 				public void actionPerformed(ActionEvent e) 
 				{
-					System.out.println("tryk!");
 					choise = CREATESHOW;
 					latch.countDown();
 				}

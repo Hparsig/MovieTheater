@@ -37,6 +37,7 @@ public class AvailableSeats extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @author Jesper
 	 */
 	public AvailableSeats() {
 		
