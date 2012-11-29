@@ -1,9 +1,9 @@
 package movieTheater.Test;
 
 import java.util.ArrayList;
-import movieTheater.SQL.*;
-import movieTheater.Movie.Cast;
-import movieTheater.Persons.*;
+
+import movieTheater.Persons.Costumer;
+import movieTheater.SQL.SQLCustomerLoad;
 
 
 public class TestCustomerLoad {

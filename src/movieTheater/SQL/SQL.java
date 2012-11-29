@@ -23,7 +23,7 @@ public abstract class SQL {
 		{
 			Class.forName(forName);
 			connection = DriverManager.getConnection(
-					connectionPath, "root","");
+					connectionPath, "admin_MT","admin_pw");
 			statement = connection.createStatement();
 		}
 		catch (Exception e)

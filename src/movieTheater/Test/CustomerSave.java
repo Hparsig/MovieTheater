@@ -1,7 +1,7 @@
 package movieTheater.Test;
 
-import movieTheater.SQL.*;
-import movieTheater.Persons.*;
+import movieTheater.Persons.Costumer;
+import movieTheater.SQL.SQLCustomerSave;
 
 
 public class CustomerSave {
