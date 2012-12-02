@@ -109,7 +109,7 @@ public class Checkout extends JFrame {
 	}
 	public void setChange(double change)
 	{
-		jChange.setText("Change: "+change);
+		jChange.setText("retur: "+change);
 	}
 	public int getCancel()
 	{

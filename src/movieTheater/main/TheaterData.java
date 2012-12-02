@@ -9,6 +9,8 @@ public class TheaterData {
 	public static final double BUDGETSEATFACTOR = 1;
 	public static final double STANDARDSEATFACTOR = 1.5;
 	public static final double LUXURIOUSSEATFACTOR = 2;
+	public static final double VATADD = 0.25;
+	public static final double VATCALC = 0.2;
 
 	private TheaterData()
 	{

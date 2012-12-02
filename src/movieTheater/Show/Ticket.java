@@ -3,6 +3,8 @@ package movieTheater.Show;
 import java.sql.Timestamp;
 import java.util.Map;
 
+import movieTheater.main.TheaterData;
+
 public class Ticket {
 
 	Booking booking;
@@ -26,7 +28,8 @@ public class Ticket {
 				
 				seats = seats+"Række: "+row+", sæde: "+seatNum+"\n";
 			}
+			String amount = "Pris:\t\t" + booking.getPrice() + "\nHeraf moms:\t" + TheaterData.VATCALC*booking.getPrice();
 		
-		return "Dato: "+date+"\n"+titel+"\nSal: "+hallNo+"\n"+seats;
+		return "Dato: "+date+"\n"+titel+"\nSal: "+hallNo+"\n"+seats+"\n"+amount;
 	}
 }

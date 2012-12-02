@@ -104,8 +104,10 @@ public class EditShow extends JFrame{
 		panel.add(lblVlgPris);
 		
 		JButton btnAnnuller = new JButton("Annuller");
-		btnAnnuller.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnAnnuller.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
 				latch.countDown();
 				EditShow.this.dispose();
 				dataOk = true;
