@@ -1,7 +1,6 @@
 package movieTheater.Test;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;

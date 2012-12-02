@@ -1,9 +1,6 @@
 package movieTheater.Test;
 
-import java.sql.Date;
-import java.sql.SQLException;
 import java.util.ArrayList;
-
 
 import movieTheater.Movie.Movie;
 import movieTheater.SQL.SQLMovieLoad;

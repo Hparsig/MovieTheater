@@ -4,10 +4,14 @@ package movieTheater.Test;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-import movieTheater.SQL.*;
-import movieTheater.Movie.*;
+import movieTheater.Movie.Actor;
+import movieTheater.Movie.Cast;
+import movieTheater.Movie.Director;
+import movieTheater.Movie.Genre;
+import movieTheater.Movie.Movie;
+import movieTheater.Movie.Rating;
+import movieTheater.SQL.SQLMovieSave;
 
 public class TestCreateMovie {
 
@@ -31,7 +35,6 @@ public class TestCreateMovie {
 		Date dateS = new Date(112,10,30);
 		Date dateE = new Date(112,11,30);
 		
-		Rating rating = null;
 	
 		Movie movie = new Movie(1,"TestMovie",director,400,genre,dateS,dateE, "Orginal titel3", true,cast,ratings);
 		

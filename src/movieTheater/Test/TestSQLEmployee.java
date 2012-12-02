@@ -1,6 +1,5 @@
 package movieTheater.Test;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
